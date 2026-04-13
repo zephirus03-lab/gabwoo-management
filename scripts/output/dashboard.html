@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>갑우문화사 — 영업자 단가 적정성 감사 (초안)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Noto Sans KR', sans-serif; background: #f0f2f5; color: #333; }
+
+.banner {
+  background: #fff3cd; border-bottom: 2px solid #ffc107; padding: 10px 20px;
+  text-align: center; font-size: 13px; color: #856404;
+}
+
+header { background: #1a1a2e; color: white; padding: 24px 32px; }
+header h1 { font-size: 22px; font-weight: 700; }
+header p { font-size: 13px; opacity: 0.6; margin-top: 4px; }
+
+/* 탭 네비게이션 */
+.tabs {
+  display: flex; background: #16213e; padding: 0 32px;
+  border-bottom: 2px solid #0f3460;
+}
+.tab {
+  padding: 12px 24px; color: rgba(255,255,255,0.6); cursor: pointer;
+  font-size: 14px; font-weight: 500; border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+.tab:hover { color: white; }
+.tab.active { color: white; border-bottom-color: #4a6cf7; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* 요약 카드 */
+.summary-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px; padding: 20px 32px;
+}
+.summary-card {
+  background: white; border-radius: 10px; padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.summary-card .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.summary-card .value { font-size: 28px; font-weight: 800; margin-top: 4px; }
+.summary-card .sub { font-size: 12px; color: #999; margin-top: 2px; }
+
+/* 업무 패턴 테이블 */
+.section { padding: 0 32px 24px; }
+.section h2 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: #1a1a2e; }
+.section h3 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; color: #444; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+th { background: #f8f9fa; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e0e0e0; white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #fafbff; }
+.r { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* 막대 그래프 (인라인) */
+.bar-cell { position: relative; min-width: 120px; }
+.bar-bg { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 3px; opacity: 0.15; }
+.bar-fg { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 3px; opacity: 0.6; }
+
+/* 편차 색상 */
+.diff-good { color: #198754; font-weight: 600; }
+.diff-warn { color: #fd7e14; font-weight: 600; }
+.diff-bad { color: #dc3545; font-weight: 700; }
+.diff-discount { color: #4a6cf7; font-weight: 600; }
+.diff-discount-bad { color: #1a3bc7; font-weight: 700; }
+.diff-neutral { color: #6c757d; }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge-danger { background: #fde8e8; color: #dc3545; }
+.badge-warn { background: #fff3e0; color: #e65100; }
+.badge-ok { background: #e8f5e9; color: #2e7d32; }
+.badge-info { background: #e3f2fd; color: #1565c0; }
+
+/* 영업자 카드 */
+.sales-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.sales-card {
+  background: white; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.sales-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.sales-card-header {
+  padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+}
+.sales-card-name { font-size: 16px; font-weight: 700; }
+.sales-card-stats { display: flex; gap: 12px; }
+.sales-mini-stat { text-align: center; }
+.sales-mini-stat .n { font-size: 18px; font-weight: 700; }
+.sales-mini-stat .l { font-size: 10px; color: #888; }
+
+.sales-card-bar {
+  height: 6px; display: flex;
+}
+.bar-discount { background: #4a6cf7; }
+.bar-normal { background: #198754; }
+.bar-premium { background: #dc3545; }
+
+.sales-card-detail { padding: 0 20px 16px; display: none; }
+.sales-card.open .sales-card-detail { display: block; }
+
+/* 공정 비교 차트 */
+.process-grid {
+  display: grid; grid-template-columns: 1fr; gap: 16px;
+}
+.process-card {
+  background: white; border-radius: 10px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.dot-chart { margin-top: 12px; }
+.dot-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12px; }
+.dot-name { width: 160px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot-bar-area { flex: 1; position: relative; height: 20px; background: #f8f9fa; border-radius: 3px; }
+.dot-marker { position: absolute; width: 8px; height: 8px; border-radius: 50%; top: 6px; transform: translateX(-4px); }
+.dot-std-line { position: absolute; width: 2px; top: 0; bottom: 0; background: #dc3545; opacity: 0.6; }
+.dot-range { position: absolute; height: 4px; top: 8px; border-radius: 2px; opacity: 0.3; }
+.dot-info { width: 80px; font-size: 11px; color: #666; text-align: right; }
+
+/* 이상건 리스트 */
+.anomaly-row { border-left: 3px solid #dc3545; }
+.anomaly-row.positive { border-left-color: #dc3545; }
+.anomaly-row.negative { border-left-color: #4a6cf7; }
+
+footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
+
+/* 기준 설명 패널 */
+.criteria-panel {
+  background: white; margin: 20px 32px 0; border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+}
+.criteria-toggle {
+  padding: 14px 20px; cursor: pointer; user-select: none;
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 600; font-size: 14px; color: #1a1a2e;
+}
+.criteria-toggle:hover { background: #f8f9fa; }
+.criteria-toggle .arrow { transition: transform 0.2s; }
+.criteria-panel.open .criteria-toggle .arrow { transform: rotate(180deg); }
+.criteria-body { display: none; padding: 0 20px 20px; }
+.criteria-panel.open .criteria-body { display: block; }
+.criteria-body table { font-size: 13px; margin-bottom: 16px; }
+.criteria-body table th { background: #f0f4ff; }
+.criteria-body .note { font-size: 12px; color: #666; line-height: 1.7; }
+
+/* 전체 비율 도표 */
+.ratio-panel {
+  background: white; margin: 20px 32px 0; border-radius: 10px; padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.ratio-panel h2 { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+.ratio-row { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+.donut-wrap { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+.donut-wrap canvas { width: 180px; height: 180px; }
+.donut-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  text-align: center;
+}
+.donut-center .big { font-size: 28px; font-weight: 800; color: #1a1a2e; }
+.donut-center .small { font-size: 11px; color: #888; }
+.ratio-details { flex: 1; min-width: 280px; }
+.ratio-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ratio-item:last-child { border-bottom: none; }
+.ratio-color { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.ratio-label { font-weight: 600; font-size: 14px; min-width: 40px; }
+.ratio-bar-wrap { flex: 1; height: 24px; background: #f0f0f0; border-radius: 4px; overflow: hidden; position: relative; }
+.ratio-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.ratio-pct { font-size: 18px; font-weight: 700; min-width: 60px; text-align: right; }
+.ratio-count { font-size: 12px; color: #888; min-width: 70px; text-align: right; }
+
+@media (max-width: 768px) {
+  .summary-row { grid-template-columns: repeat(2, 1fr); }
+  .sales-cards { grid-template-columns: 1fr; }
+  header, .tabs, .section, .summary-row { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  ⚠️ <strong>초안(ERP 역산)</strong> — 영업자 확인 전. 실제 단가표와 대조가 필요합니다. 이 데이터를 정식 평가 자료로 사용하지 마세요.
+</div>
+
+<header>
+  <h1>영업자 대시보드</h1>
+  <p>ERP 견적 상세현황 (2025.06 ~ 2026.04) 기반 · 갑우문화사 · 매입(외주) 원가 대비 분석</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" data-tab="overview">전체 현황</div>
+  <div class="tab" data-tab="scorecards">영업자별 업무 패턴</div>
+  <div class="tab" data-tab="fairness">공정별 단가 비교</div>
+  <div class="tab" data-tab="anomalies">이상 건 목록</div>
+</div>
+
+<!-- ===== 탭 1: 전체 현황 ===== -->
+<div class="tab-content active" id="tab-overview">
+  <div class="ratio-panel">
+    <h2>전체 견적 단가 판정 비율</h2>
+    <div class="ratio-row">
+      <div class="donut-wrap"><canvas id="donutChart" width="180" height="180"></canvas>
+        <div class="donut-center"><div class="big" id="donutTotal">-</div><div class="small">분석 건수</div></div>
+      </div>
+      <div class="ratio-details" id="ratioDetails"></div>
+    </div>
+  </div>
+  <div class="summary-row" id="summaryRow"></div>
+  <div class="section">
+    <h2>영업자별 표준단가 대비 편차 랭킹</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">
+      편차(%) = (견적단가 - 매입원가) / 매입원가 × 100. 양수=마진 확보, 음수=원가 이하.<br>
+      이상비율 = 표준 대비 ±30% 초과 건의 비율. 20% 이상이면 ⚠️ 표시.
+    </p>
+    <table id="rankingTable"></table>
+  </div>
+</div>
+
+<!-- ===== 탭 2: 영업자별 업무 패턴 ===== -->
+<div class="tab-content" id="tab-scorecards">
+  <div class="summary-row">
+    <div class="summary-card">
+      <div class="label">읽는 법</div>
+      <div style="font-size:13px;margin-top:8px;color:#555;line-height:1.6;">
+        카드를 클릭하면 해당 영업자의 항목별 단가와 담당 거래처별 편차를 볼 수 있습니다.<br>
+        색상 막대: <span style="color:#4a6cf7;">■ 원가 이하</span> / <span style="color:#198754;">■ 원가 수준</span> / <span style="color:#dc3545;">■ 마진 확보</span> — 기준은 상단 "분석 기준" 패널 참조
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>영업자 카드 (클릭하면 상세 펼침)</h2>
+    <div class="sales-cards" id="salesCards"></div>
+  </div>
+</div>
+
+<!-- ===== 탭 3: 공정별 단가 비교 ===== -->
+<div class="tab-content" id="tab-fairness">
+  <div class="section" style="padding-top:20px;">
+    <h2>공정별 거래처 단가 분포</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:16px;">
+      같은 공정에 대해 거래처마다 얼마나 다른 단가가 적용되고 있는지 비교합니다.<br>
+      빨간 선 = 매입 원가. 파란 점 = 거래처 중앙값. 회색 바 = 최소~최대 범위.
+    </p>
+    <div class="process-grid" id="processGrid"></div>
+  </div>
+</div>
+
+<!-- ===== 탭 4: 이상 건 목록 ===== -->
+<div class="tab-content" id="tab-anomalies">
+  <div class="section" style="padding-top:20px;">
+    <h2 style="color:#dc3545;">할증 이상 건 — 표준 대비 +30% 초과 (상위 30건)</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">
+      매입 원가보다 크게 높은 마진이 붙은 건. 소량 건이면 정상이지만, 입력 오류 여부 확인 필요.
+      <span id="premiumTotal" style="font-weight:600;"></span>
+    </p>
+    <table id="premiumTable"></table>
+  </div>
+  <div class="section" style="padding-top:20px;">
+    <h2 style="color:#4a6cf7;">원가 이하 이상 건 — 매입 원가 대비 -30% 초과 (상위 30건)</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">
+      매입 원가보다 크게 낮은 단가로 견적한 건. 확실한 마진 손실 — 대량 특약인지, 입력 오류인지 확인 필요.
+      <span id="discountTotal" style="font-weight:600;"></span>
+    </p>
+    <table id="discountTable"></table>
+  </div>
+</div>
+
+<div class="criteria-panel" id="criteriaPanel" style="margin-bottom:0;border-radius:0;">
+  <div class="criteria-toggle" onclick="document.getElementById('criteriaPanel').classList.toggle('open')">
+    <span>📐 분석 기준 — 판정 근거 및 표준단가표 상세</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="criteria-body">
+    <h4 style="margin-bottom:8px;font-size:14px;">1. 비교 기준: 매입(외주) 단가표 — 실질 원가</h4>
+    <div class="note" style="margin-bottom:8px;background:#fff3cd;border-color:#ffc107;color:#856404;">
+      <strong>⚠️ 기준 변경 (2026-04-13):</strong> 출판사업부는 인쇄 외 전부 외주이므로, 외주 매입 단가를 원가 기준으로 사용합니다.<br>
+      편차(+)는 마진율, 편차(-)는 원가 이하 견적을 의미합니다.
+    </div>
+    <table>
+      <thead><tr><th>공정</th><th>매입 원가</th><th>산정 방식</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CTP (제판)</strong></td><td>5,000원/판</td><td>외주 매입 고정 단가</td></tr>
+        <tr><td><strong>인쇄 (본문)</strong></td><td>900 ~ 3,000원</td><td>부수(R) 구간별 변동 — 아래 표 참조 (국전 4도 기준)</td></tr>
+        <tr><td><strong>인쇄 (2종)</strong></td><td>900 ~ 3,000원</td><td>인쇄와 동일 구간 적용</td></tr>
+      </tbody>
+    </table>
+    <h4 style="margin:12px 0 8px;font-size:14px;">2. 인쇄 부수별 매입 원가 (국전 4도 기준)</h4>
+    <table>
+      <thead><tr><th>부수 구간</th><th>매입 원가</th><th>부수 구간</th><th>매입 원가</th></tr></thead>
+      <tbody>
+        <tr><td>1,000부</td><td>3,000원</td><td>6,000부</td><td>1,200원</td></tr>
+        <tr><td>2,000부</td><td>2,000원</td><td>7,000부</td><td>1,100원</td></tr>
+        <tr><td>3,000부</td><td>1,500원</td><td>8,000 ~ 10,000부</td><td>1,000원</td></tr>
+        <tr><td>4,000부</td><td>1,400원</td><td>100,000부 이상</td><td>900원</td></tr>
+        <tr><td>5,000부</td><td>1,300원</td><td colspan="2" style="color:#888;">출처: 매입(외주) 단가표(출판).numbers</td></tr>
+      </tbody>
+    </table>
+    <h4 style="margin:12px 0 8px;font-size:14px;">3. 판정 기준 (마진율 관점)</h4>
+    <table>
+      <thead><tr><th>판정</th><th>색상</th><th>기준</th><th>의미</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-info">원가 이하</span></td><td style="color:#4a6cf7;">■ 파랑</td><td>매입 원가 대비 <strong>-5% 이하</strong></td><td>원가보다 싸게 견적 — 마진 손실. 대량 특약이 아니면 확인 필요</td></tr>
+        <tr><td><span class="badge badge-ok">원가 수준</span></td><td style="color:#198754;">■ 초록</td><td>매입 원가 대비 <strong>±5% 이내</strong></td><td>원가와 거의 일치. 마진 거의 없음</td></tr>
+        <tr><td><span class="badge badge-warn">마진 확보</span></td><td style="color:#dc3545;">■ 빨강</td><td>매입 원가 대비 <strong>+5% 이상</strong></td><td>정상적인 마진 확보. 값이 클수록 높은 마진</td></tr>
+        <tr><td><span class="badge badge-danger">이상</span></td><td style="color:#dc3545;">■ 빨강 강조</td><td>매입 원가 대비 <strong>±30% 초과</strong></td><td>오입력이거나 특수 조건 건. 개별 확인 필요</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:12px;">
+      <strong>읽는 법 예시:</strong> 어떤 영업자의 CTP 견적 단가가 6,500원이면, 매입 원가 5,000원 대비 +30.0%이므로 <span class="badge badge-warn">마진 확보</span> (30% 마진).<br>
+      <strong>주의:</strong> 현재 분석 대상은 CTP·인쇄 등 매입 원가가 정의된 항목만 해당합니다. 후가공·제본·물류비는 매입 원가 데이터가 구조화되어 추후 추가 예정입니다.
+    </div>
+  </div>
+</div>
+
+<footer>
+  생성일: <span id="genDate">-</span> · 출처: ERP 견적 상세현황 · 초안(ERP 역산) — 영업자 확인 전
+</footer>
+
+<script>
+let DATA = null;
+
+async function loadData() {
+  try {
+    const resp = await fetch('./pricing_audit.json');
+    DATA = await resp.json();
+  } catch(e) {
+    document.getElementById('tab-overview').innerHTML = '<div style="padding:60px;text-align:center;color:#999;">pricing_audit.json을 같은 폴더에 두고 열어주세요.</div>';
+    return;
+  }
+  renderAll();
+}
+
+function renderAll() {
+  document.getElementById('genDate').textContent = DATA._meta.generated;
+  renderRatioChart();
+  renderSummary();
+  renderRanking();
+  renderSalesCards();
+  renderFairness();
+  renderAnomalies();
+}
+
+// --- 탭 전환 ---
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// --- 전체 비율 도표 ---
+function renderRatioChart() {
+  const cards = Object.values(DATA.scorecards);
+  const totalDiscount = cards.reduce((s, c) => s + c.discount_count, 0);
+  const totalNormal = cards.reduce((s, c) => s + c.normal_count, 0);
+  const totalPremium = cards.reduce((s, c) => s + c.premium_count, 0);
+  const total = totalDiscount + totalNormal + totalPremium;
+
+  const dPct = (totalDiscount / total * 100).toFixed(1);
+  const nPct = (totalNormal / total * 100).toFixed(1);
+  const pPct = (totalPremium / total * 100).toFixed(1);
+
+  document.getElementById('donutTotal').textContent = total.toLocaleString();
+
+  // 도넛 차트 (canvas)
+  const canvas = document.getElementById('donutChart');
+  const ctx = canvas.getContext('2d');
+  const cx = 90, cy = 90, r = 75, lineW = 22;
+  const segments = [
+    { pct: totalDiscount / total, color: '#4a6cf7' },
+    { pct: totalNormal / total, color: '#198754' },
+    { pct: totalPremium / total, color: '#dc3545' },
+  ];
+  let startAngle = -Math.PI / 2;
+  ctx.lineWidth = lineW;
+  segments.forEach(seg => {
+    const sweep = seg.pct * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - lineW / 2, startAngle, startAngle + sweep);
+    ctx.strokeStyle = seg.color;
+    ctx.stroke();
+    startAngle += sweep;
+  });
+
+  // 비율 막대
+  const items = [
+    { label: '할인', color: '#4a6cf7', count: totalDiscount, pct: dPct, desc: '표준 대비 -5% 이하 (표준보다 싸게 견적)' },
+    { label: '정상', color: '#198754', count: totalNormal, pct: nPct, desc: '표준 대비 ±5% 이내 (적정 수준)' },
+    { label: '할증', color: '#dc3545', count: totalPremium, pct: pPct, desc: '표준 대비 +5% 이상 (표준보다 비싸게 견적)' },
+  ];
+  let detailHtml = '';
+  items.forEach(it => {
+    detailHtml += `<div class="ratio-item">
+      <div class="ratio-color" style="background:${it.color}"></div>
+      <div class="ratio-label">${it.label}</div>
+      <div class="ratio-bar-wrap">
+        <div class="ratio-bar" style="width:${it.pct}%;background:${it.color};"></div>
+      </div>
+      <div class="ratio-pct" style="color:${it.color}">${it.pct}%</div>
+      <div class="ratio-count">${it.count.toLocaleString()}건</div>
+    </div>
+    <div style="font-size:11px;color:#999;padding:0 0 4px 26px;margin-top:-6px;">${it.desc}</div>`;
+  });
+  document.getElementById('ratioDetails').innerHTML = detailHtml;
+}
+
+// --- 요약 카드 ---
+function renderSummary() {
+  const cards = Object.values(DATA.scorecards);
+  const totalRows = cards.reduce((s, c) => s + c.total_rows, 0);
+  const totalAnomalies = cards.reduce((s, c) => s + c.anomaly_count, 0);
+  const avgDiff = cards.reduce((s, c) => s + c.avg_diff_pct * c.total_rows, 0) / totalRows;
+  const anomalyRate = totalAnomalies / totalRows * 100;
+
+  document.getElementById('summaryRow').innerHTML = `
+    <div class="summary-card"><div class="label">분석 대상</div><div class="value">${totalRows.toLocaleString()}</div><div class="sub">건 (영업담당+항목+단가 있는 행)</div></div>
+    <div class="summary-card"><div class="label">영업자 수</div><div class="value">${cards.length}</div><div class="sub">명</div></div>
+    <div class="summary-card"><div class="label">전체 평균편차</div><div class="value ${diffClass(avgDiff)}">${avgDiff > 0 ? '+' : ''}${avgDiff.toFixed(1)}%</div><div class="sub">표준단가 대비</div></div>
+    <div class="summary-card"><div class="label">이상 건 비율</div><div class="value ${anomalyRate > 20 ? 'diff-bad' : anomalyRate > 10 ? 'diff-warn' : 'diff-good'}">${anomalyRate.toFixed(1)}%</div><div class="sub">${totalAnomalies.toLocaleString()}건 (±30% 초과)</div></div>
+  `;
+}
+
+function diffClass(v) {
+  const abs = Math.abs(v);
+  if (abs <= 5) return 'diff-good';
+  if (v < -30) return 'diff-discount-bad';
+  if (v < -5) return 'diff-discount';
+  if (v > 30) return 'diff-bad';
+  return 'diff-warn';
+}
+
+// --- 랭킹 테이블 ---
+function renderRanking() {
+  const cards = Object.values(DATA.scorecards)
+    .filter(c => c.total_rows >= 1)
+    .sort((a, b) => b.anomaly_rate_pct - a.anomaly_rate_pct);
+
+  let html = `<thead><tr>
+    <th>순위</th><th>영업담당</th><th class="r">분석건수</th>
+    <th class="r">평균편차(%)</th><th class="r">이상건수</th><th class="r">이상비율</th>
+    <th>구성 (할인/정상/할증)</th><th>주력 거래처</th>
+  </tr></thead><tbody>`;
+
+  cards.forEach((c, i) => {
+    const total = c.discount_count + c.normal_count + c.premium_count;
+    const dPct = (c.discount_count / total * 100).toFixed(0);
+    const nPct = (c.normal_count / total * 100).toFixed(0);
+    const pPct = (c.premium_count / total * 100).toFixed(0);
+    const topClient = c.top_clients[0] ? c.top_clients[0].name : '-';
+    const badge = c.anomaly_rate_pct > 30 ? 'badge-danger' : c.anomaly_rate_pct > 20 ? 'badge-warn' : 'badge-ok';
+
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><strong>${c.name}</strong></td>
+      <td class="r">${c.total_rows.toLocaleString()}</td>
+      <td class="r ${diffClass(c.avg_diff_pct)}">${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%</td>
+      <td class="r">${c.anomaly_count.toLocaleString()}</td>
+      <td class="r"><span class="badge ${badge}">${c.anomaly_rate_pct}%</span></td>
+      <td>
+        <div style="display:flex;height:16px;border-radius:3px;overflow:hidden;min-width:120px;">
+          <div class="bar-discount" style="width:${dPct}%" title="할인 ${c.discount_count}건"></div>
+          <div class="bar-normal" style="width:${nPct}%" title="정상 ${c.normal_count}건"></div>
+          <div class="bar-premium" style="width:${pPct}%" title="할증 ${c.premium_count}건"></div>
+        </div>
+        <div style="font-size:10px;color:#888;margin-top:2px;">${dPct}% / ${nPct}% / ${pPct}%</div>
+      </td>
+      <td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${topClient}</td>
+    </tr>`;
+  });
+
+  html += '</tbody>';
+  document.getElementById('rankingTable').innerHTML = html;
+}
+
+// --- 영업자 카드 ---
+function renderSalesCards() {
+  const container = document.getElementById('salesCards');
+  const cards = Object.values(DATA.scorecards)
+    .filter(c => c.total_rows >= 1)
+    .sort((a, b) => b.total_rows - a.total_rows);
+
+  let html = '';
+  cards.forEach(c => {
+    const total = c.discount_count + c.normal_count + c.premium_count;
+    const dW = (c.discount_count / total * 100);
+    const nW = (c.normal_count / total * 100);
+    const pW = (c.premium_count / total * 100);
+    const badge = c.anomaly_rate_pct > 30 ? 'badge-danger' : c.anomaly_rate_pct > 20 ? 'badge-warn' : 'badge-ok';
+
+    let detailHtml = '<table style="font-size:12px;"><thead><tr><th>항목</th><th class="r">건수</th><th class="r">실제(중앙)</th><th class="r">표준</th><th class="r">편차</th></tr></thead><tbody>';
+    c.item_stats.forEach(item => {
+      detailHtml += `<tr>
+        <td>${item.item_name}</td>
+        <td class="r">${item.count}</td>
+        <td class="r">${Math.round(item.median_price).toLocaleString()}</td>
+        <td class="r">${Math.round(item.standard_price).toLocaleString()}</td>
+        <td class="r ${diffClass(item.avg_diff_pct)}">${item.avg_diff_pct > 0 ? '+' : ''}${item.avg_diff_pct}%</td>
+      </tr>`;
+    });
+    detailHtml += '</tbody></table>';
+
+    let clientsHtml = '<div style="margin-top:12px;"><strong style="font-size:12px;">담당 거래처:</strong><div style="margin-top:6px;">';
+    c.top_clients.forEach(cl => {
+      const clBadge = Math.abs(cl.avg_diff_pct) <= 5 ? 'badge-ok' : Math.abs(cl.avg_diff_pct) <= 30 ? 'badge-warn' : 'badge-danger';
+      clientsHtml += `<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px;">
+        <span>${cl.name}</span>
+        <span><span class="badge ${clBadge}">${cl.avg_diff_pct > 0 ? '+' : ''}${cl.avg_diff_pct}%</span> (${cl.count}건)</span>
+      </div>`;
+    });
+    clientsHtml += '</div></div>';
+
+    html += `<div class="sales-card" onclick="this.classList.toggle('open')">
+      <div class="sales-card-header">
+        <div>
+          <div class="sales-card-name">${c.name}</div>
+          <div style="font-size:12px;color:#888;margin-top:2px;">${c.total_rows.toLocaleString()}건 분석</div>
+        </div>
+        <div class="sales-card-stats">
+          <div class="sales-mini-stat">
+            <div class="n ${diffClass(c.avg_diff_pct)}">${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%</div>
+            <div class="l">평균편차</div>
+          </div>
+          <div class="sales-mini-stat">
+            <div class="n"><span class="badge ${badge}">${c.anomaly_rate_pct}%</span></div>
+            <div class="l">이상비율</div>
+          </div>
+        </div>
+      </div>
+      <div class="sales-card-bar">
+        <div class="bar-discount" style="width:${dW}%"></div>
+        <div class="bar-normal" style="width:${nW}%"></div>
+        <div class="bar-premium" style="width:${pW}%"></div>
+      </div>
+      <div class="sales-card-detail">
+        <div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.7;color:#444;border-left:3px solid #4a6cf7;">
+          <strong style="color:#1a1a2e;">📊 패턴 해석:</strong> ${c.pattern_analysis || '분석 데이터 없음'}
+        </div>
+        ${detailHtml}
+        ${clientsHtml}
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// --- 공정별 공정성 ---
+function renderFairness() {
+  const grid = document.getElementById('processGrid');
+  let html = '';
+
+  for (const [code, proc] of Object.entries(DATA.process_fairness)) {
+    const std = proc.standard_price;
+    const clients = proc.clients.filter(c => c.count >= 3).sort((a, b) => b.count - a.count).slice(0, 25);
+    if (clients.length === 0) continue;
+
+    const allPrices = clients.map(c => c.median);
+    const minP = Math.min(...clients.map(c => c.min), std * 0.3);
+    const maxP = Math.max(...clients.map(c => c.max), std * 2);
+    const range = maxP - minP || 1;
+
+    const toX = (v) => ((v - minP) / range * 100).toFixed(1);
+
+    let dotsHtml = '';
+    clients.forEach(c => {
+      const medianX = toX(c.median);
+      const minX = toX(c.min);
+      const maxX = toX(c.max);
+      const w = (parseFloat(maxX) - parseFloat(minX));
+      const isAnomaly = c.avg_diff_pct !== null && Math.abs(c.avg_diff_pct) > 30;
+      const color = c.avg_diff_pct === null ? '#888' :
+        Math.abs(c.avg_diff_pct) <= 5 ? '#198754' :
+        Math.abs(c.avg_diff_pct) <= 30 ? '#fd7e14' : '#dc3545';
+      const diffTxt = c.avg_diff_pct !== null ? `${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%` : '';
+
+      // 이상 건 사유 자동 생성
+      let anomalyNote = '';
+      if (isAnomaly) {
+        const dir = c.avg_diff_pct > 0 ? '높게' : '낮게';
+        const absDiff = Math.abs(c.avg_diff_pct);
+        if (absDiff > 100) {
+          anomalyNote = `단가 입력 단위 오류 가능성 (${Math.round(c.median).toLocaleString()}원 vs 표준 ${std.toLocaleString()}원). ERP 원본 확인 필요`;
+        } else if (c.avg_diff_pct < -30 && c.count > 20) {
+          anomalyNote = `대량 거래처 특별 할인 가능성 (${c.count}건). 계약 단가 확인 필요`;
+        } else if (c.avg_diff_pct > 30 && c.count <= 5) {
+          anomalyNote = `소량 건(${c.count}건) 할증. 소량 추가 비용이 반영된 것일 수 있음`;
+        } else if (c.avg_diff_pct > 30) {
+          anomalyNote = `표준 대비 ${absDiff.toFixed(0)}% ${dir} 적용 (${c.count}건). 거래 조건 또는 입력 오류 확인 필요`;
+        } else {
+          anomalyNote = `표준 대비 ${absDiff.toFixed(0)}% ${dir} 적용 (${c.count}건). 계약 단가 확인 필요`;
+        }
+      }
+
+      dotsHtml += `<div class="dot-row" style="${isAnomaly ? 'background:#fff5f5;border-radius:4px;padding:4px 0;' : ''}">
+        <div class="dot-name" title="${c.client} (${c.salesperson})">${isAnomaly ? '⚠️ ' : ''}${c.client}</div>
+        <div class="dot-bar-area">
+          <div class="dot-std-line" style="left:${toX(std)}%"></div>
+          <div class="dot-range" style="left:${minX}%;width:${w}%;background:${color};"></div>
+          <div class="dot-marker" style="left:${medianX}%;background:${color};"></div>
+        </div>
+        <div class="dot-info">${Math.round(c.median).toLocaleString()}원 <span style="color:${color}">${diffTxt}</span></div>
+      </div>${isAnomaly ? `<div style="font-size:11px;color:#b71c1c;padding:0 0 6px 172px;line-height:1.4;">→ ${anomalyNote} (담당: ${c.salesperson})</div>` : ''}`
+    });
+
+    html += `<div class="process-card">
+      <h3>${proc.name} (${code}) — 표준 ${std.toLocaleString()}원</h3>
+      <div style="font-size:12px;color:#888;">총 ${proc.total_rows.toLocaleString()}건, 전체 중앙값 ${Math.round(proc.overall_median).toLocaleString()}원</div>
+      <div style="font-size:11px;color:#aaa;margin-top:4px;">빨간 선 = 표준단가 | 점 = 거래처 중앙값 | 바 = 최소~최대</div>
+      <div class="dot-chart">${dotsHtml}</div>
+    </div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+// --- 이상 건 목록 ---
+function buildAnomalyTableHtml(list, borderColor) {
+  let html = `<thead><tr>
+    <th>견적번호</th><th>수주번호</th><th>영업담당</th><th>거래처</th><th>품명</th><th>항목</th>
+    <th class="r">실제단가</th><th class="r">표준단가</th>
+    <th class="r">편차(%)</th><th class="r">수량(R)</th><th>승인</th>
+  </tr></thead><tbody>`;
+  list.forEach(a => {
+    const dc = diffClass(a['편차(%)']);
+    html += `<tr style="border-left:3px solid ${borderColor};">
+      <td style="font-size:11px;white-space:nowrap;">${a['견적번호']}</td>
+      <td style="font-size:11px;white-space:nowrap;">${a['수주번호'] || '-'}</td>
+      <td><strong>${a['영업담당']}</strong></td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a['거래처']}">${a['거래처']}</td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a['품명'] || ''}">${a['품명'] || '-'}</td>
+      <td>${a['항목명']}</td>
+      <td class="r">${Math.round(a['단가']).toLocaleString()}</td>
+      <td class="r">${Math.round(a['표준단가']).toLocaleString()}</td>
+      <td class="r ${dc}">${a['편차(%)'] > 0 ? '+' : ''}${a['편차(%)'].toFixed(1)}%</td>
+      <td class="r">${a['수량R'] !== null ? a['수량R'].toLocaleString() : '-'}</td>
+      <td>${a['승인여부']}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  return html;
+}
+
+function renderAnomalies() {
+  const anomalies = DATA.anomalies;
+  document.getElementById('premiumTotal').textContent = `전체 ${anomalies.premium_total.toLocaleString()}건 중 상위 30건 표시`;
+  document.getElementById('discountTotal').textContent = `전체 ${anomalies.discount_total.toLocaleString()}건 중 상위 30건 표시`;
+  document.getElementById('premiumTable').innerHTML = buildAnomalyTableHtml(anomalies.premium, '#dc3545');
+  document.getElementById('discountTable').innerHTML = buildAnomalyTableHtml(anomalies.discount, '#4a6cf7');
+}
+
+loadData();
+</script>
+</body>
+</html>

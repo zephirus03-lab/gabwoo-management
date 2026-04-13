@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>갑우문화사 — 영업자 단가 적정성 감사 (초안)</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Noto Sans KR', sans-serif; background: #f0f2f5; color: #333; }
+
+.banner {
+  background: #fff3cd; border-bottom: 2px solid #ffc107; padding: 10px 20px;
+  text-align: center; font-size: 13px; color: #856404;
+}
+
+header { background: #1a1a2e; color: white; padding: 24px 32px; }
+header h1 { font-size: 22px; font-weight: 700; }
+header p { font-size: 13px; opacity: 0.6; margin-top: 4px; }
+
+/* 탭 네비게이션 */
+.tabs {
+  display: flex; background: #16213e; padding: 0 32px;
+  border-bottom: 2px solid #0f3460;
+}
+.tab {
+  padding: 12px 24px; color: rgba(255,255,255,0.6); cursor: pointer;
+  font-size: 14px; font-weight: 500; border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+}
+.tab:hover { color: white; }
+.tab.active { color: white; border-bottom-color: #4a6cf7; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* 요약 카드 */
+.summary-row {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px; padding: 20px 32px;
+}
+.summary-card {
+  background: white; border-radius: 10px; padding: 16px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.summary-card .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+.summary-card .value { font-size: 28px; font-weight: 800; margin-top: 4px; }
+.summary-card .sub { font-size: 12px; color: #999; margin-top: 2px; }
+
+/* 업무 패턴 테이블 */
+.section { padding: 0 32px 24px; }
+.section h2 { font-size: 17px; font-weight: 700; margin-bottom: 12px; color: #1a1a2e; }
+.section h3 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; color: #444; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+th { background: #f8f9fa; padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid #e0e0e0; white-space: nowrap; }
+td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+tr:hover td { background: #fafbff; }
+.r { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* 막대 그래프 (인라인) */
+.bar-cell { position: relative; min-width: 120px; }
+.bar-bg { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 3px; opacity: 0.15; }
+.bar-fg { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 3px; opacity: 0.6; }
+
+/* 편차 색상 */
+.diff-good { color: #198754; font-weight: 600; }
+.diff-warn { color: #fd7e14; font-weight: 600; }
+.diff-bad { color: #dc3545; font-weight: 700; }
+.diff-discount { color: #4a6cf7; font-weight: 600; }
+.diff-discount-bad { color: #1a3bc7; font-weight: 700; }
+.diff-neutral { color: #6c757d; }
+
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.badge-danger { background: #fde8e8; color: #dc3545; }
+.badge-warn { background: #fff3e0; color: #e65100; }
+.badge-ok { background: #e8f5e9; color: #2e7d32; }
+.badge-info { background: #e3f2fd; color: #1565c0; }
+
+/* 영업자 카드 */
+.sales-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.sales-card {
+  background: white; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.sales-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.sales-card-header {
+  padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+}
+.sales-card-name { font-size: 16px; font-weight: 700; }
+.sales-card-stats { display: flex; gap: 12px; }
+.sales-mini-stat { text-align: center; }
+.sales-mini-stat .n { font-size: 18px; font-weight: 700; }
+.sales-mini-stat .l { font-size: 10px; color: #888; }
+
+.sales-card-bar {
+  height: 6px; display: flex;
+}
+.bar-discount { background: #4a6cf7; }
+.bar-normal { background: #198754; }
+.bar-premium { background: #dc3545; }
+
+.sales-card-detail { padding: 0 20px 16px; display: none; }
+.sales-card.open .sales-card-detail { display: block; }
+
+/* 공정 비교 차트 */
+.process-grid {
+  display: grid; grid-template-columns: 1fr; gap: 16px;
+}
+.process-card {
+  background: white; border-radius: 10px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.dot-chart { margin-top: 12px; }
+.dot-row { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12px; }
+.dot-name { width: 160px; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dot-bar-area { flex: 1; position: relative; height: 20px; background: #f8f9fa; border-radius: 3px; }
+.dot-marker { position: absolute; width: 8px; height: 8px; border-radius: 50%; top: 6px; transform: translateX(-4px); }
+.dot-std-line { position: absolute; width: 2px; top: 0; bottom: 0; background: #dc3545; opacity: 0.6; }
+.dot-range { position: absolute; height: 4px; top: 8px; border-radius: 2px; opacity: 0.3; }
+.dot-info { width: 80px; font-size: 11px; color: #666; text-align: right; }
+
+/* 이상건 리스트 */
+.anomaly-row { border-left: 3px solid #dc3545; }
+.anomaly-row.positive { border-left-color: #dc3545; }
+.anomaly-row.negative { border-left-color: #4a6cf7; }
+
+footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
+
+/* 기준 설명 패널 */
+.criteria-panel {
+  background: white; margin: 20px 32px 0; border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+}
+.criteria-toggle {
+  padding: 14px 20px; cursor: pointer; user-select: none;
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 600; font-size: 14px; color: #1a1a2e;
+}
+.criteria-toggle:hover { background: #f8f9fa; }
+.criteria-toggle .arrow { transition: transform 0.2s; }
+.criteria-panel.open .criteria-toggle .arrow { transform: rotate(180deg); }
+.criteria-body { display: none; padding: 0 20px 20px; }
+.criteria-panel.open .criteria-body { display: block; }
+.criteria-body table { font-size: 13px; margin-bottom: 16px; }
+.criteria-body table th { background: #f0f4ff; }
+.criteria-body .note { font-size: 12px; color: #666; line-height: 1.7; }
+
+/* 전체 비율 도표 */
+.ratio-panel {
+  background: white; margin: 20px 32px 0; border-radius: 10px; padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.ratio-panel h2 { font-size: 17px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; }
+.ratio-row { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+.donut-wrap { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+.donut-wrap canvas { width: 180px; height: 180px; }
+.donut-center {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  text-align: center;
+}
+.donut-center .big { font-size: 28px; font-weight: 800; color: #1a1a2e; }
+.donut-center .small { font-size: 11px; color: #888; }
+.ratio-details { flex: 1; min-width: 280px; }
+.ratio-item {
+  display: flex; align-items: center; gap: 12px; padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ratio-item:last-child { border-bottom: none; }
+.ratio-color { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.ratio-label { font-weight: 600; font-size: 14px; min-width: 40px; }
+.ratio-bar-wrap { flex: 1; height: 24px; background: #f0f0f0; border-radius: 4px; overflow: hidden; position: relative; }
+.ratio-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.ratio-pct { font-size: 18px; font-weight: 700; min-width: 60px; text-align: right; }
+.ratio-count { font-size: 12px; color: #888; min-width: 70px; text-align: right; }
+
+@media (max-width: 768px) {
+  .summary-row { grid-template-columns: repeat(2, 1fr); }
+  .sales-cards { grid-template-columns: 1fr; }
+  header, .tabs, .section, .summary-row { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="banner">
+  ⚠️ <strong>초안(ERP 역산)</strong> — 영업자 확인 전. 실제 단가표와 대조가 필요합니다. 이 데이터를 정식 평가 자료로 사용하지 마세요.
+</div>
+
+<header>
+  <h1>영업자 대시보드</h1>
+  <p>ERP 견적 상세현황 (2025.06 ~ 2026.04) 기반 · 갑우문화사 · 매입(외주) 원가 대비 분석</p>
+</header>
+<div style="background:#16213e;padding:10px 32px;"><a href="index.html" style="display:inline-flex;align-items:center;gap:8px;padding:6px 16px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;">📊 경영 대시보드로 돌아가기</a></div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="overview">전체 현황</div>
+  <div class="tab" data-tab="scorecards">영업자별 업무 패턴</div>
+  <div class="tab" data-tab="fairness">공정별 단가 비교</div>
+  <div class="tab" data-tab="anomalies">이상 건 목록</div>
+</div>
+
+<!-- ===== 탭 1: 전체 현황 ===== -->
+<div class="tab-content active" id="tab-overview">
+  <div class="ratio-panel">
+    <h2>전체 견적 단가 판정 비율</h2>
+    <div class="ratio-row">
+      <div class="donut-wrap"><canvas id="donutChart" width="180" height="180"></canvas>
+        <div class="donut-center"><div class="big" id="donutTotal">-</div><div class="small">분석 건수</div></div>
+      </div>
+      <div class="ratio-details" id="ratioDetails"></div>
+    </div>
+  </div>
+  <div class="summary-row" id="summaryRow"></div>
+  <div class="section">
+    <h2>영업자별 표준단가 대비 편차 랭킹</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">
+      편차(%) = (견적단가 - 매입원가) / 매입원가 × 100. 양수=마진 확보, 음수=원가 이하.<br>
+      이상비율 = 표준 대비 ±30% 초과 건의 비율. 20% 이상이면 ⚠️ 표시.
+    </p>
+    <table id="rankingTable"></table>
+  </div>
+</div>
+
+<!-- ===== 탭 2: 영업자별 업무 패턴 ===== -->
+<div class="tab-content" id="tab-scorecards">
+  <div class="summary-row">
+    <div class="summary-card">
+      <div class="label">읽는 법</div>
+      <div style="font-size:13px;margin-top:8px;color:#555;line-height:1.6;">
+        카드를 클릭하면 해당 영업자의 항목별 단가와 담당 거래처별 편차를 볼 수 있습니다.<br>
+        색상 막대: <span style="color:#4a6cf7;">■ 원가 이하</span> / <span style="color:#198754;">■ 원가 수준</span> / <span style="color:#dc3545;">■ 마진 확보</span> — 기준은 상단 "분석 기준" 패널 참조
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>영업자 카드 (클릭하면 상세 펼침)</h2>
+    <div class="sales-cards" id="salesCards"></div>
+  </div>
+</div>
+
+<!-- ===== 탭 3: 공정별 단가 비교 ===== -->
+<div class="tab-content" id="tab-fairness">
+  <div class="section" style="padding-top:20px;">
+    <h2>공정별 거래처 단가 분포</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:16px;">
+      같은 공정에 대해 거래처마다 얼마나 다른 단가가 적용되고 있는지 비교합니다.<br>
+      빨간 선 = 매입 원가. 파란 점 = 거래처 중앙값. 회색 바 = 최소~최대 범위.
+    </p>
+    <div class="process-grid" id="processGrid"></div>
+  </div>
+</div>
+
+<!-- ===== 탭 4: 이상 건 목록 ===== -->
+<div class="tab-content" id="tab-anomalies">
+  <div class="section" style="padding-top:20px;">
+    <h2 style="color:#dc3545;">할증 이상 건 — 표준 대비 +30% 초과 (상위 30건)</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">
+      매입 원가보다 크게 높은 마진이 붙은 건. 소량 건이면 정상이지만, 입력 오류 여부 확인 필요.
+      <span id="premiumTotal" style="font-weight:600;"></span>
+    </p>
+    <table id="premiumTable"></table>
+  </div>
+  <div class="section" style="padding-top:20px;">
+    <h2 style="color:#4a6cf7;">원가 이하 이상 건 — 매입 원가 대비 -30% 초과 (상위 30건)</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:12px;">
+      매입 원가보다 크게 낮은 단가로 견적한 건. 확실한 마진 손실 — 대량 특약인지, 입력 오류인지 확인 필요.
+      <span id="discountTotal" style="font-weight:600;"></span>
+    </p>
+    <table id="discountTable"></table>
+  </div>
+</div>
+
+<div class="criteria-panel" id="criteriaPanel" style="margin-bottom:0;border-radius:0;">
+  <div class="criteria-toggle" onclick="document.getElementById('criteriaPanel').classList.toggle('open')">
+    <span>📐 분석 기준 — 판정 근거 및 표준단가표 상세</span>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="criteria-body">
+    <h4 style="margin-bottom:8px;font-size:14px;">1. 비교 기준: 매입(외주) 단가표 — 실질 원가</h4>
+    <div class="note" style="margin-bottom:8px;background:#fff3cd;border-color:#ffc107;color:#856404;">
+      <strong>⚠️ 기준 변경 (2026-04-13):</strong> 출판사업부는 인쇄 외 전부 외주이므로, 외주 매입 단가를 원가 기준으로 사용합니다.<br>
+      편차(+)는 마진율, 편차(-)는 원가 이하 견적을 의미합니다.
+    </div>
+    <table>
+      <thead><tr><th>공정</th><th>매입 원가</th><th>산정 방식</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CTP (제판)</strong></td><td>5,000원/판</td><td>외주 매입 고정 단가</td></tr>
+        <tr><td><strong>인쇄 (본문)</strong></td><td>900 ~ 3,000원</td><td>부수(R) 구간별 변동 — 아래 표 참조 (국전 4도 기준)</td></tr>
+        <tr><td><strong>인쇄 (2종)</strong></td><td>900 ~ 3,000원</td><td>인쇄와 동일 구간 적용</td></tr>
+      </tbody>
+    </table>
+    <h4 style="margin:12px 0 8px;font-size:14px;">2. 인쇄 부수별 매입 원가 (국전 4도 기준)</h4>
+    <table>
+      <thead><tr><th>부수 구간</th><th>매입 원가</th><th>부수 구간</th><th>매입 원가</th></tr></thead>
+      <tbody>
+        <tr><td>1,000부</td><td>3,000원</td><td>6,000부</td><td>1,200원</td></tr>
+        <tr><td>2,000부</td><td>2,000원</td><td>7,000부</td><td>1,100원</td></tr>
+        <tr><td>3,000부</td><td>1,500원</td><td>8,000 ~ 10,000부</td><td>1,000원</td></tr>
+        <tr><td>4,000부</td><td>1,400원</td><td>100,000부 이상</td><td>900원</td></tr>
+        <tr><td>5,000부</td><td>1,300원</td><td colspan="2" style="color:#888;">출처: 매입(외주) 단가표(출판).numbers</td></tr>
+      </tbody>
+    </table>
+    <h4 style="margin:12px 0 8px;font-size:14px;">3. 판정 기준 (마진율 관점)</h4>
+    <table>
+      <thead><tr><th>판정</th><th>색상</th><th>기준</th><th>의미</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-info">원가 이하</span></td><td style="color:#4a6cf7;">■ 파랑</td><td>매입 원가 대비 <strong>-5% 이하</strong></td><td>원가보다 싸게 견적 — 마진 손실. 대량 특약이 아니면 확인 필요</td></tr>
+        <tr><td><span class="badge badge-ok">원가 수준</span></td><td style="color:#198754;">■ 초록</td><td>매입 원가 대비 <strong>±5% 이내</strong></td><td>원가와 거의 일치. 마진 거의 없음</td></tr>
+        <tr><td><span class="badge badge-warn">마진 확보</span></td><td style="color:#dc3545;">■ 빨강</td><td>매입 원가 대비 <strong>+5% 이상</strong></td><td>정상적인 마진 확보. 값이 클수록 높은 마진</td></tr>
+        <tr><td><span class="badge badge-danger">이상</span></td><td style="color:#dc3545;">■ 빨강 강조</td><td>매입 원가 대비 <strong>±30% 초과</strong></td><td>오입력이거나 특수 조건 건. 개별 확인 필요</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:12px;">
+      <strong>읽는 법 예시:</strong> 어떤 영업자의 CTP 견적 단가가 6,500원이면, 매입 원가 5,000원 대비 +30.0%이므로 <span class="badge badge-warn">마진 확보</span> (30% 마진).<br>
+      <strong>주의:</strong> 현재 분석 대상은 CTP·인쇄 등 매입 원가가 정의된 항목만 해당합니다. 후가공·제본·물류비는 매입 원가 데이터가 구조화되어 추후 추가 예정입니다.
+    </div>
+  </div>
+</div>
+
+<footer>
+  생성일: <span id="genDate">-</span> · 출처: ERP 견적 상세현황 · 초안(ERP 역산) — 영업자 확인 전
+</footer>
+
+<script>
+let DATA = null;
+
+async function loadData() {
+  DATA = {"_meta": {"label": "초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.", "source": "견적서 상세현황_(20250601~20260410).xlsx", "generated": "2026-04-13 11:15", "analysis_scope": "영업담당 있고 + 항목 있고 + 단가 > 0인 행", "total_analyzed": 24722}, "scorecards": {"김영훈": {"name": "김영훈", "total_rows": 2821, "avg_diff_pct": 18.9, "median_diff_pct": 30.0, "anomaly_count": 709, "anomaly_rate_pct": 25.1, "discount_count": 559, "premium_count": 2244, "normal_count": 18, "top_clients": [{"name": "이투스에듀 주식회사 서초지점", "count": 2782, "avg_diff_pct": 18.5}, {"name": "주식회사코리아프린테크", "count": 26, "avg_diff_pct": 20.0}, {"name": "(주)엔에스", "count": 8, "avg_diff_pct": 90.0}, {"name": "(주)고담", "count": 4, "avg_diff_pct": 113.3}, {"name": "비춤 바인텍", "count": 1, "avg_diff_pct": 20.0}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 1707, "median_price": 6500.0, "standard_price": 5000.0, "avg_diff_pct": 30.5}, {"item_code": "303001", "item_name": "인쇄", "count": 752, "median_price": 2000.0, "standard_price": 3000.0, "avg_diff_pct": -16.3}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 362, "median_price": 3800.0, "standard_price": 3000.0, "avg_diff_pct": 36.9}], "pattern_analysis": "표준 대비 평균 +18.9% 소폭 높은 단가를 적용하고 있습니다. 견적의 80%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 25.1%로, 일부 거래처에서 표준과 크게 다른 단가가 적용되고 있습니다. 주력 거래처 '이투스에듀 주식회사 서초지점'에 집중된 영업 구조입니다 (2782건, 편차 +18.5%). 'CTP(제판)' 항목에서 표준 대비 30.5% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 36.9% 높게 적용 — 확인 필요."}, "김현식": {"name": "김현식", "total_rows": 672, "avg_diff_pct": 83.0, "median_diff_pct": 40.0, "anomaly_count": 559, "anomaly_rate_pct": 83.2, "discount_count": 30, "premium_count": 610, "normal_count": 32, "top_clients": [{"name": "(주)다락원", "count": 281, "avg_diff_pct": 79.7}, {"name": "주식회사 비즈니스북스", "count": 181, "avg_diff_pct": 76.5}, {"name": "서울음악출판사", "count": 43, "avg_diff_pct": 67.7}, {"name": "도서출판미래엠앤비", "count": 21, "avg_diff_pct": 54.8}, {"name": "주식회사 워터멜론컴퍼니", "count": 14, "avg_diff_pct": 76.4}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 342, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 61.6}, {"item_code": "303001", "item_name": "인쇄", "count": 206, "median_price": 4500.0, "standard_price": 3000.0, "avg_diff_pct": 62.1}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 124, "median_price": 8000.0, "standard_price": 3000.0, "avg_diff_pct": 176.7}], "pattern_analysis": "전체적으로 표준 대비 평균 +83.0% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 91%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 83.2%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: (주)다락원, 주식회사 비즈니스북스, 서울음악출판사 등 다수 거래처를 담당하고 있습니다. 'CTP(제판)' 항목에서 표준 대비 61.6% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 62.1% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 176.7% 높게 적용 — 확인 필요."}, "박정열": {"name": "박정열", "total_rows": 1178, "avg_diff_pct": 74.0, "median_diff_pct": 66.0, "anomaly_count": 941, "anomaly_rate_pct": 79.9, "discount_count": 173, "premium_count": 997, "normal_count": 8, "top_clients": [{"name": "(주)다락원", "count": 729, "avg_diff_pct": 76.7}, {"name": "주식회사 미래엔", "count": 97, "avg_diff_pct": 43.5}, {"name": "주식회사지원출판", "count": 51, "avg_diff_pct": 28.4}, {"name": "사단법인 아이코리아", "count": 42, "avg_diff_pct": 120.8}, {"name": "주식회사 아이뉴턴", "count": 40, "avg_diff_pct": 80.8}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 547, "median_price": 8000.0, "standard_price": 5000.0, "avg_diff_pct": 78.0}, {"item_code": "303001", "item_name": "인쇄", "count": 536, "median_price": 5000.0, "standard_price": 3000.0, "avg_diff_pct": 61.5}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 95, "median_price": 6000.0, "standard_price": 3000.0, "avg_diff_pct": 121.3}], "pattern_analysis": "전체적으로 표준 대비 평균 +74.0% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 85%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 79.9%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주력 거래처 '(주)다락원'에 집중된 영업 구조입니다 (729건, 편차 +76.7%). 'CTP(제판)' 항목에서 표준 대비 78.0% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 61.5% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 121.3% 높게 적용 — 확인 필요."}, "배용기": {"name": "배용기", "total_rows": 699, "avg_diff_pct": 32.1, "median_diff_pct": 40.0, "anomaly_count": 476, "anomaly_rate_pct": 68.1, "discount_count": 87, "premium_count": 579, "normal_count": 33, "top_clients": [{"name": "(주)에듀윌", "count": 664, "avg_diff_pct": 31.2}, {"name": "(주)해커스", "count": 12, "avg_diff_pct": 53.4}, {"name": "산업통상부", "count": 8, "avg_diff_pct": 1.7}, {"name": "(주)고담", "count": 6, "avg_diff_pct": 121.1}, {"name": "(주)해커스어학연구소", "count": 5, "avg_diff_pct": -2.7}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 345, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 40.0}, {"item_code": "303001", "item_name": "인쇄", "count": 222, "median_price": 3125.0, "standard_price": 3000.0, "avg_diff_pct": 8.4}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 132, "median_price": 3600.0, "standard_price": 3000.0, "avg_diff_pct": 51.2}], "pattern_analysis": "전체적으로 표준 대비 평균 +32.1% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 83%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 68.1%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주력 거래처 '(주)에듀윌'에 집중된 영업 구조입니다 (664건, 편차 +31.2%). 'CTP(제판)' 항목에서 표준 대비 40.0% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 51.2% 높게 적용 — 확인 필요."}, "성연광": {"name": "성연광", "total_rows": 2, "avg_diff_pct": 86.7, "median_diff_pct": 86.7, "anomaly_count": 2, "anomaly_rate_pct": 100.0, "discount_count": 0, "premium_count": 2, "normal_count": 0, "top_clients": [{"name": "주식회사 워터멜론컴퍼니", "count": 2, "avg_diff_pct": 86.7}], "item_stats": [{"item_code": "303001", "item_name": "인쇄", "count": 1, "median_price": 7000.0, "standard_price": 3000.0, "avg_diff_pct": 133.3}, {"item_code": "703002", "item_name": "CTP(제판)", "count": 1, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 40.0}], "pattern_analysis": "분석 건수가 10건 미만으로 패턴 판단이 어렵습니다."}, "유영선": {"name": "유영선", "total_rows": 2284, "avg_diff_pct": 67.5, "median_diff_pct": 40.0, "anomaly_count": 1516, "anomaly_rate_pct": 66.4, "discount_count": 117, "premium_count": 2122, "normal_count": 45, "top_clients": [{"name": "(주)코딩앤플레이", "count": 228, "avg_diff_pct": 81.5}, {"name": "(주)에듀토셀", "count": 224, "avg_diff_pct": 28.7}, {"name": "(주) 필통북스", "count": 210, "avg_diff_pct": 55.0}, {"name": "(주) 토이트론", "count": 188, "avg_diff_pct": 61.4}, {"name": "인브리프 커뮤니케이션 (INBRIEF Communication)", "count": 143, "avg_diff_pct": 94.3}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 1208, "median_price": 6500.0, "standard_price": 5000.0, "avg_diff_pct": 36.0}, {"item_code": "303001", "item_name": "인쇄", "count": 539, "median_price": 5000.0, "standard_price": 3000.0, "avg_diff_pct": 98.5}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 537, "median_price": 6000.0, "standard_price": 3000.0, "avg_diff_pct": 107.2}], "pattern_analysis": "전체적으로 표준 대비 평균 +67.5% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 93%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 66.4%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: (주)코딩앤플레이, (주)에듀토셀, (주) 필통북스 등 다수 거래처를 담당하고 있습니다. 'CTP(제판)' 항목에서 표준 대비 36.0% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 98.5% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 107.2% 높게 적용 — 확인 필요."}, "이동신": {"name": "이동신", "total_rows": 129, "avg_diff_pct": 58.3, "median_diff_pct": 60.0, "anomaly_count": 113, "anomaly_rate_pct": 87.6, "discount_count": 4, "premium_count": 122, "normal_count": 3, "top_clients": [{"name": "(주)지담디앤피", "count": 59, "avg_diff_pct": 58.6}, {"name": "(주)다락원", "count": 36, "avg_diff_pct": 62.2}, {"name": "주식회사 비즈니스북스", "count": 18, "avg_diff_pct": 76.1}, {"name": "(재) 새마을금고복지회", "count": 10, "avg_diff_pct": 2.7}, {"name": "(주)헥사인", "count": 6, "avg_diff_pct": 72.2}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 72, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 49.4}, {"item_code": "303001", "item_name": "인쇄", "count": 47, "median_price": 5000.0, "standard_price": 3000.0, "avg_diff_pct": 53.2}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 10, "median_price": 8000.0, "standard_price": 3000.0, "avg_diff_pct": 146.7}], "pattern_analysis": "전체적으로 표준 대비 평균 +58.3% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 95%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 87.6%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: (주)지담디앤피, (주)다락원, 주식회사 비즈니스북스 등 다수 거래처를 담당하고 있습니다. 'CTP(제판)' 항목에서 표준 대비 49.4% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 53.2% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 146.7% 높게 적용 — 확인 필요."}, "이의섭": {"name": "이의섭", "total_rows": 26, "avg_diff_pct": 77.8, "median_diff_pct": 58.4, "anomaly_count": 20, "anomaly_rate_pct": 76.9, "discount_count": 0, "premium_count": 25, "normal_count": 1, "top_clients": [{"name": "주식회사 워터멜론컴퍼니", "count": 16, "avg_diff_pct": 79.4}, {"name": "금강프린테크", "count": 4, "avg_diff_pct": 58.3}, {"name": "(주) 나노엔텍", "count": 3, "avg_diff_pct": 133.3}, {"name": "에이컴", "count": 3, "avg_diff_pct": 40.0}], "item_stats": [{"item_code": "303001", "item_name": "인쇄", "count": 13, "median_price": 7000.0, "standard_price": 3000.0, "avg_diff_pct": 105.6}, {"item_code": "703002", "item_name": "CTP(제판)", "count": 8, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 37.5}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 5, "median_price": 5000.0, "standard_price": 3000.0, "avg_diff_pct": 70.0}], "pattern_analysis": "전체적으로 표준 대비 평균 +77.8% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 96%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 76.9%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: 주식회사 워터멜론컴퍼니, 금강프린테크, (주) 나노엔텍 등 다수 거래처를 담당하고 있습니다. '인쇄' 항목에서 표준 대비 105.6% 높게 적용 — 확인 필요. 'CTP(제판)' 항목에서 표준 대비 37.5% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 70.0% 높게 적용 — 확인 필요."}, "이지현": {"name": "이지현", "total_rows": 62, "avg_diff_pct": 130.7, "median_diff_pct": 80.0, "anomaly_count": 62, "anomaly_rate_pct": 100.0, "discount_count": 0, "premium_count": 62, "normal_count": 0, "top_clients": [{"name": "교하도서관", "count": 40, "avg_diff_pct": 113.3}, {"name": "한국과학기술한림원", "count": 12, "avg_diff_pct": 220.0}, {"name": "(사)한국산업기술진흥협회", "count": 8, "avg_diff_pct": 96.7}, {"name": "서울보증보험(주)", "count": 2, "avg_diff_pct": 80.0}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 34, "median_price": 8000.0, "standard_price": 5000.0, "avg_diff_pct": 60.0}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 22, "median_price": 8000.0, "standard_price": 3000.0, "avg_diff_pct": 166.7}, {"item_code": "303001", "item_name": "인쇄", "count": 6, "median_price": 15000.0, "standard_price": 3000.0, "avg_diff_pct": 400.0}], "pattern_analysis": "전체적으로 표준 대비 평균 +130.7% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 100%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 100.0%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: 교하도서관, 한국과학기술한림원, (사)한국산업기술진흥협회 등 다수 거래처를 담당하고 있습니다. 'CTP(제판)' 항목에서 표준 대비 60.0% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 166.7% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 400.0% 높게 적용 — 확인 필요."}, "이휘영": {"name": "이휘영", "total_rows": 2, "avg_diff_pct": -50.0, "median_diff_pct": -50.0, "anomaly_count": 2, "anomaly_rate_pct": 100.0, "discount_count": 2, "premium_count": 0, "normal_count": 0, "top_clients": [{"name": "(주)프린트뱅크", "count": 2, "avg_diff_pct": -50.0}], "item_stats": [{"item_code": "303001", "item_name": "인쇄", "count": 2, "median_price": 1500.0, "standard_price": 3000.0, "avg_diff_pct": -50.0}], "pattern_analysis": "분석 건수가 10건 미만으로 패턴 판단이 어렵습니다."}, "장경업": {"name": "장경업", "total_rows": 675, "avg_diff_pct": 54.6, "median_diff_pct": 40.0, "anomaly_count": 585, "anomaly_rate_pct": 86.7, "discount_count": 57, "premium_count": 611, "normal_count": 7, "top_clients": [{"name": "예진씨앤피", "count": 104, "avg_diff_pct": 70.2}, {"name": "(주)바이풀디자인", "count": 88, "avg_diff_pct": 30.2}, {"name": "기문당", "count": 84, "avg_diff_pct": 51.8}, {"name": "주식회사 이오문화사", "count": 67, "avg_diff_pct": 88.8}, {"name": "(주)케이랩", "count": 53, "avg_diff_pct": 8.2}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 337, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 48.6}, {"item_code": "303001", "item_name": "인쇄", "count": 181, "median_price": 5000.0, "standard_price": 3000.0, "avg_diff_pct": 55.9}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 157, "median_price": 5000.0, "standard_price": 3000.0, "avg_diff_pct": 65.9}], "pattern_analysis": "전체적으로 표준 대비 평균 +54.6% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 91%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 86.7%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: 예진씨앤피, (주)바이풀디자인, 기문당 등 다수 거래처를 담당하고 있습니다. 'CTP(제판)' 항목에서 표준 대비 48.6% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 55.9% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 65.9% 높게 적용 — 확인 필요."}, "조기석": {"name": "조기석", "total_rows": 2579, "avg_diff_pct": 45.3, "median_diff_pct": 33.3, "anomaly_count": 1382, "anomaly_rate_pct": 53.6, "discount_count": 181, "premium_count": 2297, "normal_count": 101, "top_clients": [{"name": "헬로프린텍", "count": 957, "avg_diff_pct": 33.1}, {"name": "(주)브레이커 북스", "count": 300, "avg_diff_pct": 54.8}, {"name": "(주)스몰빅미디어", "count": 221, "avg_diff_pct": 64.5}, {"name": "투엘미디어", "count": 205, "avg_diff_pct": 37.2}, {"name": "(주) 상상아카데미", "count": 119, "avg_diff_pct": 63.9}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 1356, "median_price": 6500.0, "standard_price": 5000.0, "avg_diff_pct": 29.2}, {"item_code": "303001", "item_name": "인쇄", "count": 762, "median_price": 4000.0, "standard_price": 3000.0, "avg_diff_pct": 38.1}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 461, "median_price": 6000.0, "standard_price": 3000.0, "avg_diff_pct": 104.6}], "pattern_analysis": "전체적으로 표준 대비 평균 +45.3% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 89%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 53.6%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주요 거래처: 헬로프린텍, (주)브레이커 북스, (주)스몰빅미디어 등 다수 거래처를 담당하고 있습니다. '인쇄' 항목에서 표준 대비 38.1% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 104.6% 높게 적용 — 확인 필요."}, "한기훈": {"name": "한기훈", "total_rows": 197, "avg_diff_pct": 89.9, "median_diff_pct": 40.0, "anomaly_count": 166, "anomaly_rate_pct": 84.3, "discount_count": 6, "premium_count": 164, "normal_count": 27, "top_clients": [{"name": "주식회사 비즈니스북스", "count": 127, "avg_diff_pct": 84.6}, {"name": "(주)지담디앤피", "count": 18, "avg_diff_pct": 57.8}, {"name": "주식회사 미래엔", "count": 17, "avg_diff_pct": 95.6}, {"name": "(주)엑설런스코리아", "count": 16, "avg_diff_pct": 123.3}, {"name": "주식회사 헬스조선", "count": 12, "avg_diff_pct": 166.7}], "item_stats": [{"item_code": "703002", "item_name": "CTP(제판)", "count": 94, "median_price": 7000.0, "standard_price": 5000.0, "avg_diff_pct": 48.2}, {"item_code": "303001", "item_name": "인쇄", "count": 64, "median_price": 3100.0, "standard_price": 3000.0, "avg_diff_pct": 101.7}, {"item_code": "303002", "item_name": "인쇄(2종)", "count": 39, "median_price": 8000.0, "standard_price": 3000.0, "avg_diff_pct": 171.0}], "pattern_analysis": "전체적으로 표준 대비 평균 +89.9% 높은 단가를 적용하고 있습니다. 소량·특수 건이 많거나 단가 입력 방식을 확인할 필요가 있습니다. 견적의 83%가 할증 건으로, 소량·특수 건 비중이 높거나 ERP 단가 입력 단위를 확인할 필요가 있습니다. 이상 건 비율이 84.3%로 높습니다. 특수 조건 거래가 많거나, 단가 입력 오류 가능성을 점검할 필요가 있습니다. 주력 거래처 '주식회사 비즈니스북스'에 집중된 영업 구조입니다 (127건, 편차 +84.6%). 'CTP(제판)' 항목에서 표준 대비 48.2% 높게 적용 — 확인 필요. '인쇄' 항목에서 표준 대비 101.7% 높게 적용 — 확인 필요. '인쇄(2종)' 항목에서 표준 대비 171.0% 높게 적용 — 확인 필요."}, "홍문보": {"name": "홍문보", "total_rows": 2, "avg_diff_pct": 250.0, "median_diff_pct": 250.0, "anomaly_count": 2, "anomaly_rate_pct": 100.0, "discount_count": 0, "premium_count": 2, "normal_count": 0, "top_clients": [{"name": "만듦", "count": 2, "avg_diff_pct": 250.0}], "item_stats": [{"item_code": "303002", "item_name": "인쇄(2종)", "count": 1, "median_price": 15000.0, "standard_price": 3000.0, "avg_diff_pct": 400.0}, {"item_code": "703002", "item_name": "CTP(제판)", "count": 1, "median_price": 10000.0, "standard_price": 5000.0, "avg_diff_pct": 100.0}], "pattern_analysis": "분석 건수가 10건 미만으로 패턴 판단이 어렵습니다."}}, "process_fairness": {"703002": {"name": "CTP(제판)", "standard_price": 5000, "total_rows": 6052, "overall_median": 6500.0, "overall_std": 1404.0, "clients": [{"client": "이투스에듀 주식회사 서초지점", "salesperson": "김영훈", "count": 1674, "median": 6500.0, "mode": 6500.0, "min": 220.0, "max": 60000.0, "avg_diff_pct": 30.6}, {"client": "(주)다락원", "salesperson": "김현식", "count": 515, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 12000.0, "avg_diff_pct": 85.4}, {"client": "헬로프린텍", "salesperson": "조기석", "count": 488, "median": 6000.0, "mode": 6000.0, "min": 1500.0, "max": 10000.0, "avg_diff_pct": 19.6}, {"client": "(주)에듀윌", "salesperson": "배용기", "count": 328, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사 비즈니스북스", "salesperson": "김현식", "count": 166, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)에듀토셀", "salesperson": "유영선", "count": 153, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주)브레이커 북스", "salesperson": "조기석", "count": 150, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 33.3}, {"client": "(주)코딩앤플레이", "salesperson": "유영선", "count": 114, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)스몰빅미디어", "salesperson": "조기석", "count": 110, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주) 필통북스", "salesperson": "유영선", "count": 105, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 8000.0, "avg_diff_pct": 31.1}, {"client": "투엘미디어", "salesperson": "조기석", "count": 103, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 30.3}, {"client": "(주)에이치에스애드", "salesperson": "조기석", "count": 95, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "(주) 토이트론", "salesperson": "유영선", "count": 93, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 9000.0, "avg_diff_pct": 44.9}, {"client": "인브리프 커뮤니케이션 (INBRIEF Communication)", "salesperson": "유영선", "count": 72, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 30.7}, {"client": "주식회사 엠굿(mgood)", "salesperson": "유영선", "count": 63, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "(주) 상상아카데미", "salesperson": "조기석", "count": 59, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "에이콘출판(주)", "salesperson": "유영선", "count": 55, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "예진씨앤피", "salesperson": "장경업", "count": 52, "median": 9000.0, "mode": 9000.0, "min": 8000.0, "max": 9000.0, "avg_diff_pct": 79.2}, {"client": "(주)지담디앤피", "salesperson": "이동신", "count": 51, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 12000.0, "avg_diff_pct": 61.6}, {"client": "지구문화사", "salesperson": "유영선", "count": 49, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "그래서음악(SO MUSIC)", "salesperson": "조기석", "count": 46, "median": 7000.0, "mode": 7000.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 36.3}, {"client": "이비에스미디어(주)", "salesperson": "조기석", "count": 45, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 32.4}, {"client": "북펀딩", "salesperson": "유영선", "count": 42, "median": 7000.0, "mode": 7000.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 36.0}, {"client": "기문당", "salesperson": "장경업", "count": 42, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)바이풀디자인", "salesperson": "장경업", "count": 41, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "서울음악출판사", "salesperson": "김현식", "count": 40, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "더핑크퐁컴퍼니 주식회사", "salesperson": "유영선", "count": 40, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사 이오문화사", "salesperson": "장경업", "count": 33, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "자유아카데미", "salesperson": "조기석", "count": 32, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사 미래엔", "salesperson": "박정열", "count": 31, "median": 8300.0, "mode": 8300.0, "min": 8300.0, "max": 8500.0, "avg_diff_pct": 66.1}, {"client": "(주)객석컴퍼니", "salesperson": "유영선", "count": 30, "median": 7500.0, "mode": 7500.0, "min": 7500.0, "max": 7500.0, "avg_diff_pct": 50.0}, {"client": "주식회사 도서출판세진", "salesperson": "유영선", "count": 28, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "주식회사 미디어퍼페추얼", "salesperson": "유영선", "count": 28, "median": 7000.0, "mode": 7000.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 37.9}, {"client": "(주)케이랩", "salesperson": "장경업", "count": 28, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 8000.0, "avg_diff_pct": 37.5}, {"client": "주식회사지원출판", "salesperson": "박정열", "count": 27, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주) 게임문화", "salesperson": "유영선", "count": 26, "median": 6500.0, "mode": 6500.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 27.7}, {"client": "주식회사코리아프린테크", "salesperson": "김영훈", "count": 26, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "주식회사 원교재사", "salesperson": "유영선", "count": 25, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 32.0}, {"client": "(사)한국금융연수원", "salesperson": "유영선", "count": 25, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 31.6}, {"client": "(주) 학토재", "salesperson": "유영선", "count": 24, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "제이케이엠디자인 주식회사 (JKMDESIGN)", "salesperson": "유영선", "count": 23, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주) 청년의사", "salesperson": "조기석", "count": 23, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "도서출판 서돌", "salesperson": "유영선", "count": 22, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 31.8}, {"client": "동아에코팩주식회사", "salesperson": "조기석", "count": 22, "median": 7000.0, "mode": 7000.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 37.7}, {"client": "반달서재", "salesperson": "유영선", "count": 22, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 31.8}, {"client": "사단법인 아이코리아", "salesperson": "박정열", "count": 21, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)엑설런스코리아", "salesperson": "김현식", "count": 21, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "주식회사 아이뉴턴", "salesperson": "박정열", "count": 20, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "교하도서관", "salesperson": "이지현", "count": 20, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "나비소리", "salesperson": "장경업", "count": 20, "median": 7000.0, "mode": 7000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 36.5}, {"client": "(주)노머스", "salesperson": "유영선", "count": 19, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 12000.0, "avg_diff_pct": 60.0}, {"client": "김달진미술연구소", "salesperson": "유영선", "count": 19, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 10000.0, "avg_diff_pct": 62.1}, {"client": "디자인크레파스", "salesperson": "박정열", "count": 18, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주) 오픈하우스포퍼블리셔스", "salesperson": "조기석", "count": 17, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)호밀밭", "salesperson": "장경업", "count": 16, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(사)세계교회성장연구원", "salesperson": "조기석", "count": 16, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)지산컴퍼니", "salesperson": "장경업", "count": 15, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)광명비즈니스파주지점", "salesperson": "박정열", "count": 15, "median": 10000.0, "mode": 10000.0, "min": 8000.0, "max": 10000.0, "avg_diff_pct": 89.3}, {"client": "주식회사형민로드", "salesperson": "장경업", "count": 14, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "도서출판소동", "salesperson": "조기석", "count": 14, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "한국가이던스 주식회사", "salesperson": "유영선", "count": 14, "median": 8000.0, "mode": 8000.0, "min": 7000.0, "max": 8000.0, "avg_diff_pct": 57.1}, {"client": "주식회사 인투그래픽", "salesperson": "박정열", "count": 13, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "위고디자인(WEGO DESIGN)", "salesperson": "조기석", "count": 13, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "한국주산브레인셈교육회", "salesperson": "조기석", "count": 12, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "아라크네", "salesperson": "조기석", "count": 12, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "(주)퓨처미디어", "salesperson": "장경업", "count": 12, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "덕성기획", "salesperson": "조기석", "count": 12, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "도서출판미래엠앤비", "salesperson": "김현식", "count": 11, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "파고다북스", "salesperson": "유영선", "count": 11, "median": 7000.0, "mode": 7000.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 36.4}, {"client": "(주)열린", "salesperson": "유영선", "count": 11, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "미술과비평 주식회사", "salesperson": "장경업", "count": 11, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "다락방", "salesperson": "조기석", "count": 11, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "트래블고고(TRAVEL GOGO)", "salesperson": "유영선", "count": 10, "median": 7000.0, "mode": 7000.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 39.0}, {"client": "여해(汝諧)고전연구소", "salesperson": "조기석", "count": 10, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(재) 새마을금고복지회", "salesperson": "이동신", "count": 8, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "해피함피", "salesperson": "박정열", "count": 8, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "DANCING QUEEN", "salesperson": "유영선", "count": 8, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "주식회사 새터씨앤씨", "salesperson": "장경업", "count": 7, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사 헬스조선", "salesperson": "김현식", "count": 7, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "주식회사 워터멜론컴퍼니", "salesperson": "김현식", "count": 7, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "조이송아이콘뮤직 주식회사", "salesperson": "장경업", "count": 7, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사밴코아트", "salesperson": "장경업", "count": 7, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "그림책방", "salesperson": "장경업", "count": 7, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "(주)교원", "salesperson": "김현식", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "한국과학기술한림원", "salesperson": "이지현", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)디딤돌교육", "salesperson": "박정열", "count": 6, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "국제판촉물협회 (World gift)", "salesperson": "김현식", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)신망애출판사", "salesperson": "조기석", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)에이아이북스(Ai Books Co.,Ltd.)", "salesperson": "유영선", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주) 태림스코어", "salesperson": "장경업", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(사)한국산업기술진흥협회", "salesperson": "이지현", "count": 6, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 10000.0, "avg_diff_pct": 73.3}, {"client": "주식회사 네오(Neo Inc.)", "salesperson": "조기석", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "골든픽쳐", "salesperson": "유영선", "count": 6, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 33.3}, {"client": "금강프린테크", "salesperson": "김현식", "count": 6, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주)챔프스터디", "salesperson": "김현식", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)조선일보사", "salesperson": "박정열", "count": 6, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "디자인 나무", "salesperson": "장경업", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)해커스", "salesperson": "배용기", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)한결마케팅", "salesperson": "장경업", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "리베로시스템주식회사", "salesperson": "조기석", "count": 5, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "헤세의서재", "salesperson": "조기석", "count": 5, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)고담", "salesperson": "배용기", "count": 5, "median": 8000.0, "mode": 8000.0, "min": 7000.0, "max": 8000.0, "avg_diff_pct": 56.0}, {"client": "도서출판 한미의학", "salesperson": "김현식", "count": 5, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "B612북스", "salesperson": "조기석", "count": 5, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "중앙일보(주)", "salesperson": "박정열", "count": 5, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "군자출판사 (주)", "salesperson": "조기석", "count": 5, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주)클로버", "salesperson": "김현식", "count": 5, "median": 7000.0, "mode": 7000.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 36.0}, {"client": "주식회사에이콘온(Acorn-on Co.,Ltd)", "salesperson": "유영선", "count": 5, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "주식회사오즈하우스", "salesperson": "조기석", "count": 4, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주) 나노엔텍", "salesperson": "박정열", "count": 4, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "우리기획", "salesperson": "유영선", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사네스트", "salesperson": "박정열", "count": 4, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "주식회사두두스토리", "salesperson": "유영선", "count": 4, "median": 6750.0, "mode": 6500.0, "min": 6500.0, "max": 7000.0, "avg_diff_pct": 35.0}, {"client": "씨밀레북스", "salesperson": "장경업", "count": 4, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "(주)헥사인", "salesperson": "이동신", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 35.0}, {"client": "산업통상부", "salesperson": "배용기", "count": 4, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주)씨디커뮤니케이션", "salesperson": "유영선", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)엔에스", "salesperson": "김영훈", "count": 4, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "제일문화사", "salesperson": "유영선", "count": 3, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "조선아이에스(주)", "salesperson": "김현식", "count": 3, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "주식회사유디", "salesperson": "박정열", "count": 3, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "(사)대한출판문화협회", "salesperson": "김현식", "count": 3, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "레인북", "salesperson": "유영선", "count": 3, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "(주) 그레이트앤글로리", "salesperson": "유영선", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주) 트랑고", "salesperson": "유영선", "count": 3, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "에이컴", "salesperson": "이의섭", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "신원아트", "salesperson": "장경업", "count": 3, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주)피티엘", "salesperson": "김현식", "count": 3, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "(주)해커스어학연구소", "salesperson": "김현식", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 33.3}, {"client": "가가인쇄", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사 태양기획", "salesperson": "유영선", "count": 2, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "대구텍 유한회사", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "내일날씨", "salesperson": "배용기", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사메르크말코리아", "salesperson": "유영선", "count": 2, "median": 7500.0, "mode": 7500.0, "min": 7500.0, "max": 7500.0, "avg_diff_pct": 50.0}, {"client": "주식회사미유기획", "salesperson": "조기석", "count": 2, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "까치밥출판사", "salesperson": "박정열", "count": 2, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "주식회사와이앤리더스", "salesperson": "박정열", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "(주)프린피아", "salesperson": "한기훈", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "디자인페이지플러스주식회사", "salesperson": "박정열", "count": 2, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "(주)파고다아카데미", "salesperson": "유영선", "count": 2, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "(주)이강피엔씨", "salesperson": "유영선", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "(주)세연인터내셔널", "salesperson": "김현식", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "(주)개성홍삼", "salesperson": "김현식", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "한국브레인셈교육연구회", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "한국정기간행물협동조합", "salesperson": "박정열", "count": 2, "median": 7500.0, "mode": 7500.0, "min": 7500.0, "max": 7500.0, "avg_diff_pct": 50.0}, {"client": "주식회사 인사이트네트워크", "salesperson": "박정열", "count": 2, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "우시모북스", "salesperson": "조기석", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "마음지기", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "에듀연", "salesperson": "김현식", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "스킨큐어(주)_오산", "salesperson": "김현식", "count": 2, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "써니 아일랜드 (Sunny island)", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "어의운하", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "물고기하나아이", "salesperson": "유영선", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "서울보증보험(주)", "salesperson": "이지현", "count": 2, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 80.0}, {"client": "모노북스", "salesperson": "조기석", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "엠알피(MRP)", "salesperson": "조기석", "count": 2, "median": 6500.0, "mode": 6500.0, "min": 6500.0, "max": 6500.0, "avg_diff_pct": 30.0}, {"client": "맥미디어", "salesperson": "유영선", "count": 2, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "선일금고제작", "salesperson": "유영선", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "양구군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "파주시선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "(주)윈지코리아컨설팅", "salesperson": "장경업", "count": 1, "median": 12000.0, "mode": 12000.0, "min": 12000.0, "max": 12000.0, "avg_diff_pct": 140.0}, {"client": "(주) 키플러스", "salesperson": "조기석", "count": 1, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 60.0}, {"client": "(주)전송상사", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "옹진군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "인제군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "주식회사파인드아웃(FIND OUT Co.Ltd.)", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "동두천시선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "비춤 바인텍", "salesperson": "김영훈", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "부평구선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "강화군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "밝은미래", "salesperson": "김현식", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 20.0}, {"client": "계양구선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}, {"client": "김달진 미술 자료관", "salesperson": "유영선", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "주식회사 삼일씨앤피", "salesperson": "장경업", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "주식회사 세움티엔티", "salesperson": "조기석", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "주식회사더블유스피치커뮤니케이션", "salesperson": "장경업", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "원코리아", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 40.0}, {"client": "만듦", "salesperson": "홍문보", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 100.0}, {"client": "동구선거관리위원회", "salesperson": "김현식", "count": 1, "median": 6070.0, "mode": 6070.0, "min": 6070.0, "max": 6070.0, "avg_diff_pct": 21.4}]}, "303001": {"name": "인쇄", "standard_price": 1500, "total_rows": 3331, "overall_median": 3500.0, "overall_std": 4530.3, "clients": [{"client": "이투스에듀 주식회사 서초지점", "salesperson": "김영훈", "count": 748, "median": 2000.0, "mode": 2500.0, "min": 35.0, "max": 5400.0, "avg_diff_pct": -16.9}, {"client": "(주)다락원", "salesperson": "김현식", "count": 472, "median": 5000.0, "mode": 7000.0, "min": 2200.0, "max": 7000.0, "avg_diff_pct": 68.0}, {"client": "헬로프린텍", "salesperson": "조기석", "count": 309, "median": 3500.0, "mode": 5000.0, "min": 1500.0, "max": 6000.0, "avg_diff_pct": 28.3}, {"client": "(주)에듀윌", "salesperson": "배용기", "count": 214, "median": 3275.0, "mode": 3400.0, "min": 1200.0, "max": 20000.0, "avg_diff_pct": 8.2}, {"client": "(주)브레이커 북스", "salesperson": "조기석", "count": 136, "median": 6000.0, "mode": 4000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 75.7}, {"client": "주식회사 미래엔", "salesperson": "박정열", "count": 74, "median": 2600.0, "mode": 2000.0, "min": 1300.0, "max": 11100.0, "avg_diff_pct": 18.4}, {"client": "인브리프 커뮤니케이션 (INBRIEF Communication)", "salesperson": "유영선", "count": 69, "median": 7000.0, "mode": 7000.0, "min": 3000.0, "max": 140000.0, "avg_diff_pct": 158.1}, {"client": "(주)에듀토셀", "salesperson": "유영선", "count": 68, "median": 4000.0, "mode": 5000.0, "min": 1500.0, "max": 6000.0, "avg_diff_pct": 24.0}, {"client": "투엘미디어", "salesperson": "조기석", "count": 68, "median": 3000.0, "mode": 3000.0, "min": 1300.0, "max": 7000.0, "avg_diff_pct": 5.0}, {"client": "주식회사 비즈니스북스", "salesperson": "김현식", "count": 64, "median": 3100.0, "mode": 3100.0, "min": 2900.0, "max": 20000.0, "avg_diff_pct": 49.8}, {"client": "주식회사 엠굿(mgood)", "salesperson": "유영선", "count": 57, "median": 6000.0, "mode": 6000.0, "min": 3600.0, "max": 6000.0, "avg_diff_pct": 69.3}, {"client": "(주) 필통북스", "salesperson": "유영선", "count": 53, "median": 7000.0, "mode": 7000.0, "min": 1900.0, "max": 7000.0, "avg_diff_pct": 81.0}, {"client": "이비에스미디어(주)", "salesperson": "조기석", "count": 41, "median": 3000.0, "mode": 3000.0, "min": 1500.0, "max": 7000.0, "avg_diff_pct": 3.7}, {"client": "(주)지담디앤피", "salesperson": "이동신", "count": 39, "median": 5000.0, "mode": 5000.0, "min": 35.0, "max": 6000.0, "avg_diff_pct": 54.8}, {"client": "더핑크퐁컴퍼니 주식회사", "salesperson": "유영선", "count": 35, "median": 2900.0, "mode": 1700.0, "min": 1600.0, "max": 5000.0, "avg_diff_pct": -6.1}, {"client": "주식회사 이오문화사", "salesperson": "장경업", "count": 34, "median": 6500.0, "mode": 5000.0, "min": 5000.0, "max": 8000.0, "avg_diff_pct": 116.7}, {"client": "지구문화사", "salesperson": "유영선", "count": 28, "median": 7000.0, "mode": 7000.0, "min": 2200.0, "max": 7000.0, "avg_diff_pct": 92.5}, {"client": "서울음악출판사", "salesperson": "김현식", "count": 27, "median": 4300.0, "mode": 3500.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 47.5}, {"client": "(주) 상상아카데미", "salesperson": "조기석", "count": 25, "median": 3500.0, "mode": 3500.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 28.7}, {"client": "(주)케이랩", "salesperson": "장경업", "count": 24, "median": 2500.0, "mode": 2500.0, "min": 1300.0, "max": 5000.0, "avg_diff_pct": -28.5}, {"client": "그래서음악(SO MUSIC)", "salesperson": "조기석", "count": 24, "median": 3000.0, "mode": 3000.0, "min": 1450.0, "max": 7000.0, "avg_diff_pct": 13.8}, {"client": "(주)스몰빅미디어", "salesperson": "조기석", "count": 24, "median": 2200.0, "mode": 1900.0, "min": 1700.0, "max": 7000.0, "avg_diff_pct": -22.9}, {"client": "(주)바이풀디자인", "salesperson": "장경업", "count": 21, "median": 2300.0, "mode": 2300.0, "min": 1700.0, "max": 12000.0, "avg_diff_pct": -7.8}, {"client": "(주)엑설런스코리아", "salesperson": "김현식", "count": 20, "median": 8000.0, "mode": 8000.0, "min": 2800.0, "max": 8000.0, "avg_diff_pct": 136.0}, {"client": "주식회사 아이뉴턴", "salesperson": "박정열", "count": 20, "median": 5000.0, "mode": 4000.0, "min": 3500.0, "max": 10000.0, "avg_diff_pct": 101.7}, {"client": "북펀딩", "salesperson": "유영선", "count": 20, "median": 5000.0, "mode": 7000.0, "min": 2500.0, "max": 8500.0, "avg_diff_pct": 81.7}, {"client": "디자인크레파스", "salesperson": "박정열", "count": 18, "median": 3250.0, "mode": 6000.0, "min": 1500.0, "max": 6000.0, "avg_diff_pct": 22.2}, {"client": "주식회사 워터멜론컴퍼니", "salesperson": "김현식", "count": 17, "median": 7000.0, "mode": 7000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 94.1}, {"client": "(주)코딩앤플레이", "salesperson": "유영선", "count": 16, "median": 7000.0, "mode": 7000.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 118.7}, {"client": "자유아카데미", "salesperson": "조기석", "count": 16, "median": 7000.0, "mode": 7000.0, "min": 2000.0, "max": 7000.0, "avg_diff_pct": 84.4}, {"client": "주식회사 미디어퍼페추얼", "salesperson": "유영선", "count": 16, "median": 4000.0, "mode": 4000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 60.4}, {"client": "(주)디딤돌교육", "salesperson": "박정열", "count": 15, "median": 4000.0, "mode": 4000.0, "min": 3000.0, "max": 5000.0, "avg_diff_pct": 40.0}, {"client": "예진씨앤피", "salesperson": "장경업", "count": 15, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 8000.0, "avg_diff_pct": 77.8}, {"client": "(주)광명비즈니스파주지점", "salesperson": "박정열", "count": 15, "median": 6000.0, "mode": 5000.0, "min": 5000.0, "max": 8000.0, "avg_diff_pct": 111.1}, {"client": "기문당", "salesperson": "장경업", "count": 15, "median": 5000.0, "mode": 5000.0, "min": 4000.0, "max": 5000.0, "avg_diff_pct": 64.5}, {"client": "(주) 토이트론", "salesperson": "유영선", "count": 14, "median": 7000.0, "mode": 7000.0, "min": 2000.0, "max": 10000.0, "avg_diff_pct": 127.4}, {"client": "(주) 나노엔텍", "salesperson": "박정열", "count": 14, "median": 8000.0, "mode": 8000.0, "min": 7000.0, "max": 8000.0, "avg_diff_pct": 157.2}, {"client": "(주) 청년의사", "salesperson": "조기석", "count": 14, "median": 4750.0, "mode": 7000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 80.9}, {"client": "주식회사지원출판", "salesperson": "박정열", "count": 13, "median": 3000.0, "mode": 5000.0, "min": 2200.0, "max": 5000.0, "avg_diff_pct": 24.9}, {"client": "한국가이던스 주식회사", "salesperson": "유영선", "count": 13, "median": 3000.0, "mode": 2000.0, "min": 2000.0, "max": 7000.0, "avg_diff_pct": 6.1}, {"client": "주식회사 인투그래픽", "salesperson": "박정열", "count": 12, "median": 4000.0, "mode": 4000.0, "min": 2800.0, "max": 10000.0, "avg_diff_pct": 84.4}, {"client": "(주)지산컴퍼니", "salesperson": "장경업", "count": 12, "median": 2500.0, "mode": 2500.0, "min": 1500.0, "max": 5000.0, "avg_diff_pct": 12.5}, {"client": "반달서재", "salesperson": "유영선", "count": 12, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "한국주산브레인셈교육회", "salesperson": "조기석", "count": 12, "median": 3500.0, "mode": 3500.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 65.3}, {"client": "나비소리", "salesperson": "장경업", "count": 10, "median": 5000.0, "mode": 5000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 60.0}, {"client": "(주)노머스", "salesperson": "유영선", "count": 10, "median": 10000.0, "mode": 10000.0, "min": 5000.0, "max": 35000.0, "avg_diff_pct": 336.7}, {"client": "(주)퓨처미디어", "salesperson": "장경업", "count": 10, "median": 6000.0, "mode": 5000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 100.0}, {"client": "위고디자인(WEGO DESIGN)", "salesperson": "조기석", "count": 10, "median": 4250.0, "mode": 7000.0, "min": 2500.0, "max": 7000.0, "avg_diff_pct": 61.7}, {"client": "김달진미술연구소", "salesperson": "유영선", "count": 9, "median": 3000.0, "mode": 3000.0, "min": 3000.0, "max": 10000.0, "avg_diff_pct": 25.9}, {"client": "주식회사 도서출판세진", "salesperson": "유영선", "count": 9, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 10000.0, "avg_diff_pct": 203.7}, {"client": "미술과비평 주식회사", "salesperson": "장경업", "count": 9, "median": 4000.0, "mode": 4000.0, "min": 4000.0, "max": 5000.0, "avg_diff_pct": 44.4}, {"client": "(주) 게임문화", "salesperson": "유영선", "count": 9, "median": 4000.0, "mode": 4000.0, "min": 4000.0, "max": 10000.0, "avg_diff_pct": 55.5}, {"client": "도서출판 서돌", "salesperson": "유영선", "count": 8, "median": 3750.0, "mode": 3500.0, "min": 1800.0, "max": 6000.0, "avg_diff_pct": 53.3}, {"client": "제이케이엠디자인 주식회사 (JKMDESIGN)", "salesperson": "유영선", "count": 8, "median": 4000.0, "mode": 4000.0, "min": 3500.0, "max": 150000.0, "avg_diff_pct": 1039.6}, {"client": "파고다북스", "salesperson": "유영선", "count": 8, "median": 5500.0, "mode": 5500.0, "min": 3500.0, "max": 6000.0, "avg_diff_pct": 70.8}, {"client": "(주) 학토재", "salesperson": "유영선", "count": 8, "median": 6500.0, "mode": 7000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 97.9}, {"client": "주식회사 헬스조선", "salesperson": "김현식", "count": 8, "median": 8000.0, "mode": 8000.0, "min": 2500.0, "max": 8000.0, "avg_diff_pct": 102.1}, {"client": "주식회사 원교재사", "salesperson": "유영선", "count": 7, "median": 5000.0, "mode": 4000.0, "min": 1700.0, "max": 10000.0, "avg_diff_pct": 74.8}, {"client": "(주)호밀밭", "salesperson": "장경업", "count": 7, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 85.7}, {"client": "(사)세계교회성장연구원", "salesperson": "조기석", "count": 7, "median": 3500.0, "mode": 3500.0, "min": 3000.0, "max": 3500.0, "avg_diff_pct": 14.3}, {"client": "(사)한국금융연수원", "salesperson": "유영선", "count": 7, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "도서출판소동", "salesperson": "조기석", "count": 6, "median": 4000.0, "mode": 3000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 44.4}, {"client": "덕성기획", "salesperson": "조기석", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 122.2}, {"client": "여해(汝諧)고전연구소", "salesperson": "조기석", "count": 6, "median": 3000.0, "mode": 3000.0, "min": 3000.0, "max": 5000.0, "avg_diff_pct": 22.2}, {"client": "한국과학기술한림원", "salesperson": "이지현", "count": 6, "median": 15000.0, "mode": 15000.0, "min": 15000.0, "max": 15000.0, "avg_diff_pct": 400.0}, {"client": "아라크네", "salesperson": "조기석", "count": 6, "median": 3000.0, "mode": 2500.0, "min": 2500.0, "max": 3500.0, "avg_diff_pct": 0.0}, {"client": "(주)신망애출판사", "salesperson": "조기석", "count": 6, "median": 7000.0, "mode": 3000.0, "min": 3000.0, "max": 10000.0, "avg_diff_pct": 122.2}, {"client": "(주)에이아이북스(Ai Books Co.,Ltd.)", "salesperson": "유영선", "count": 6, "median": 6250.0, "mode": 7000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 97.2}, {"client": "(주)열린", "salesperson": "유영선", "count": 6, "median": 3000.0, "mode": 3000.0, "min": 1400.0, "max": 4500.0, "avg_diff_pct": 1.1}, {"client": "금강프린테크", "salesperson": "김현식", "count": 6, "median": 5600.0, "mode": 3200.0, "min": 3200.0, "max": 8000.0, "avg_diff_pct": 86.7}, {"client": "다락방", "salesperson": "조기석", "count": 5, "median": 5000.0, "mode": 7000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 70.0}, {"client": "(주)클로버", "salesperson": "김현식", "count": 5, "median": 4000.0, "mode": 4000.0, "min": 2500.0, "max": 6000.0, "avg_diff_pct": 36.6}, {"client": "(재) 새마을금고복지회", "salesperson": "이동신", "count": 5, "median": 1050.0, "mode": 1000.0, "min": 1000.0, "max": 1100.0, "avg_diff_pct": -35.7}, {"client": "(주)교원", "salesperson": "김현식", "count": 5, "median": 5800.0, "mode": 5800.0, "min": 5800.0, "max": 6000.0, "avg_diff_pct": 94.6}, {"client": "동아에코팩주식회사", "salesperson": "조기석", "count": 5, "median": 3000.0, "mode": 3000.0, "min": 1800.0, "max": 3000.0, "avg_diff_pct": -15.7}, {"client": "(주)한결마케팅", "salesperson": "장경업", "count": 5, "median": 6000.0, "mode": 5000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 93.3}, {"client": "리베로시스템주식회사", "salesperson": "조기석", "count": 4, "median": 5500.0, "mode": 2500.0, "min": 2500.0, "max": 10000.0, "avg_diff_pct": 95.8}, {"client": "주식회사밴코아트", "salesperson": "장경업", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 1500.0, "max": 7000.0, "avg_diff_pct": 87.5}, {"client": "(주)엔에스", "salesperson": "김영훈", "count": 4, "median": 6500.0, "mode": 7000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 100.0}, {"client": "주식회사네스트", "salesperson": "박정열", "count": 4, "median": 8000.0, "mode": 8000.0, "min": 6000.0, "max": 8000.0, "avg_diff_pct": 150.0}, {"client": "(주)씨디커뮤니케이션", "salesperson": "유영선", "count": 4, "median": 5000.0, "mode": 3000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 66.7}, {"client": "조이송아이콘뮤직 주식회사", "salesperson": "장경업", "count": 4, "median": 4500.0, "mode": 4500.0, "min": 3500.0, "max": 5000.0, "avg_diff_pct": 45.9}, {"client": "사단법인 아이코리아", "salesperson": "박정열", "count": 4, "median": 7000.0, "mode": 6000.0, "min": 6000.0, "max": 8000.0, "avg_diff_pct": 133.3}, {"client": "산업통상부", "salesperson": "배용기", "count": 4, "median": 2200.0, "mode": 1400.0, "min": 1400.0, "max": 3000.0, "avg_diff_pct": -26.6}, {"client": "도서출판미래엠앤비", "salesperson": "김현식", "count": 4, "median": 4000.0, "mode": 4000.0, "min": 2800.0, "max": 4500.0, "avg_diff_pct": 27.5}, {"client": "DANCING QUEEN", "salesperson": "유영선", "count": 4, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "주식회사오즈하우스", "salesperson": "조기석", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 3500.0, "max": 10000.0, "avg_diff_pct": 129.2}, {"client": "제일문화사", "salesperson": "유영선", "count": 3, "median": 4000.0, "mode": 4000.0, "min": 1500.0, "max": 4000.0, "avg_diff_pct": 5.5}, {"client": "(사)대한출판문화협회", "salesperson": "김현식", "count": 3, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 88.9}, {"client": "(주)해커스어학연구소", "salesperson": "김현식", "count": 3, "median": 2500.0, "mode": 2000.0, "min": 2000.0, "max": 3500.0, "avg_diff_pct": -11.1}, {"client": "(주) 오픈하우스포퍼블리셔스", "salesperson": "조기석", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 94.4}, {"client": "군자출판사 (주)", "salesperson": "조기석", "count": 3, "median": 3500.0, "mode": 3500.0, "min": 3500.0, "max": 5000.0, "avg_diff_pct": 33.4}, {"client": "(주)이강피엔씨", "salesperson": "유영선", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 20000.0, "avg_diff_pct": 277.8}, {"client": "혜성프린팅", "salesperson": "유영선", "count": 2, "median": 1300.0, "mode": 1000.0, "min": 1000.0, "max": 1600.0, "avg_diff_pct": -48.4}, {"client": "주식회사 네오(Neo Inc.)", "salesperson": "조기석", "count": 2, "median": 2000.0, "mode": 2000.0, "min": 2000.0, "max": 2000.0, "avg_diff_pct": -33.3}, {"client": "(주)프린트뱅크", "salesperson": "이휘영", "count": 2, "median": 1500.0, "mode": 1500.0, "min": 1500.0, "max": 1500.0, "avg_diff_pct": -50.0}, {"client": "(주)프린피아", "salesperson": "한기훈", "count": 2, "median": 1375.0, "mode": 1250.0, "min": 1250.0, "max": 1500.0, "avg_diff_pct": -54.1}, {"client": "(주)피티엘", "salesperson": "김현식", "count": 2, "median": 5250.0, "mode": 3500.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 75.0}, {"client": "B612북스", "salesperson": "조기석", "count": 2, "median": 4250.0, "mode": 3500.0, "min": 3500.0, "max": 5000.0, "avg_diff_pct": 41.7}, {"client": "골든픽쳐", "salesperson": "유영선", "count": 2, "median": 1800.0, "mode": 1800.0, "min": 1800.0, "max": 1800.0, "avg_diff_pct": -40.0}, {"client": "(주)챔프스터디", "salesperson": "김현식", "count": 2, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "주식회사와이앤리더스", "salesperson": "박정열", "count": 2, "median": 5000.0, "mode": 4000.0, "min": 4000.0, "max": 6000.0, "avg_diff_pct": 66.7}, {"client": "대구텍 유한회사", "salesperson": "조기석", "count": 2, "median": 8500.0, "mode": 7000.0, "min": 7000.0, "max": 10000.0, "avg_diff_pct": 183.3}, {"client": "도서출판 한미의학", "salesperson": "김현식", "count": 2, "median": 2750.0, "mode": 2500.0, "min": 2500.0, "max": 3000.0, "avg_diff_pct": -8.3}, {"client": "주식회사형민로드", "salesperson": "장경업", "count": 2, "median": 10250.0, "mode": 5500.0, "min": 5500.0, "max": 15000.0, "avg_diff_pct": 241.7}, {"client": "주식회사미유기획", "salesperson": "조기석", "count": 2, "median": 3250.0, "mode": 3000.0, "min": 3000.0, "max": 3500.0, "avg_diff_pct": 8.3}, {"client": "조선아이에스(주)", "salesperson": "김현식", "count": 2, "median": 6750.0, "mode": 3500.0, "min": 3500.0, "max": 10000.0, "avg_diff_pct": 125.0}, {"client": "(주)개성홍삼", "salesperson": "김현식", "count": 2, "median": 8500.0, "mode": 7000.0, "min": 7000.0, "max": 10000.0, "avg_diff_pct": 183.3}, {"client": "(주) 트랑고", "salesperson": "유영선", "count": 2, "median": 6500.0, "mode": 5000.0, "min": 5000.0, "max": 8000.0, "avg_diff_pct": 116.7}, {"client": "(주) 태림스코어", "salesperson": "장경업", "count": 2, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "한국브레인셈교육연구회", "salesperson": "조기석", "count": 2, "median": 5250.0, "mode": 3500.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 75.0}, {"client": "헤세의서재", "salesperson": "조기석", "count": 2, "median": 3750.0, "mode": 3500.0, "min": 3500.0, "max": 4000.0, "avg_diff_pct": 25.0}, {"client": "신원아트", "salesperson": "장경업", "count": 2, "median": 4500.0, "mode": 4000.0, "min": 4000.0, "max": 5000.0, "avg_diff_pct": 50.0}, {"client": "씨밀레북스", "salesperson": "장경업", "count": 2, "median": 2750.0, "mode": 2000.0, "min": 2000.0, "max": 3500.0, "avg_diff_pct": -8.3}, {"client": "(주) 그레이트앤글로리", "salesperson": "유영선", "count": 2, "median": 5000.0, "mode": 3000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 66.7}, {"client": "(주)파고다아카데미", "salesperson": "유영선", "count": 2, "median": 4500.0, "mode": 4500.0, "min": 4500.0, "max": 4500.0, "avg_diff_pct": 50.0}, {"client": "(주)고담", "salesperson": "배용기", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "(주)전송상사", "salesperson": "조기석", "count": 1, "median": 4000.0, "mode": 4000.0, "min": 4000.0, "max": 4000.0, "avg_diff_pct": 33.3}, {"client": "트래블고고(TRAVEL GOGO)", "salesperson": "유영선", "count": 1, "median": 50000.0, "mode": 50000.0, "min": 50000.0, "max": 50000.0, "avg_diff_pct": 1566.7}, {"client": "주식회사에이콘온(Acorn-on Co.,Ltd)", "salesperson": "유영선", "count": 1, "median": 4500.0, "mode": 4500.0, "min": 4500.0, "max": 4500.0, "avg_diff_pct": 50.0}, {"client": "어의운하", "salesperson": "조기석", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "주식회사더블유스피치커뮤니케이션", "salesperson": "장경업", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "모노북스", "salesperson": "조기석", "count": 1, "median": 3500.0, "mode": 3500.0, "min": 3500.0, "max": 3500.0, "avg_diff_pct": 16.7}, {"client": "엠알피(MRP)", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "우시모북스", "salesperson": "조기석", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "원코리아", "salesperson": "조기석", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "스킨큐어(주)_오산", "salesperson": "김현식", "count": 1, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 166.7}, {"client": "밝은미래", "salesperson": "김현식", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "물고기하나아이", "salesperson": "유영선", "count": 1, "median": 5500.0, "mode": 5500.0, "min": 5500.0, "max": 5500.0, "avg_diff_pct": 83.3}, {"client": "마음지기", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "에듀연", "salesperson": "김현식", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "레인북", "salesperson": "유영선", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "디자인페이지플러스주식회사", "salesperson": "박정열", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "디자인 나무", "salesperson": "장경업", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "내일날씨", "salesperson": "배용기", "count": 1, "median": 3500.0, "mode": 3500.0, "min": 3500.0, "max": 3500.0, "avg_diff_pct": 16.7}, {"client": "까치밥출판사", "salesperson": "박정열", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "주식회사 삼일씨앤피", "salesperson": "장경업", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "가가인쇄", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}]}, "303002": {"name": "인쇄(2종)", "standard_price": 1500, "total_rows": 1945, "overall_median": 5900.0, "overall_std": 2600.0, "clients": [{"client": "이투스에듀 주식회사 서초지점", "salesperson": "김영훈", "count": 360, "median": 3800.0, "mode": 4800.0, "min": 1100.0, "max": 6000.0, "avg_diff_pct": 36.2}, {"client": "헬로프린텍", "salesperson": "조기석", "count": 160, "median": 6000.0, "mode": 6000.0, "min": 2800.0, "max": 12125.0, "avg_diff_pct": 83.2}, {"client": "(주)에듀윌", "salesperson": "배용기", "count": 122, "median": 3600.0, "mode": 3600.0, "min": 2750.0, "max": 5750.0, "avg_diff_pct": 47.9}, {"client": "(주)코딩앤플레이", "salesperson": "유영선", "count": 98, "median": 7000.0, "mode": 7000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 123.8}, {"client": "주식회사 비즈니스북스", "salesperson": "김현식", "count": 96, "median": 8000.0, "mode": 8000.0, "min": 3100.0, "max": 10000.0, "avg_diff_pct": 168.1}, {"client": "(주)스몰빅미디어", "salesperson": "조기석", "count": 87, "median": 7000.0, "mode": 7000.0, "min": 3000.0, "max": 10000.0, "avg_diff_pct": 119.6}, {"client": "(주) 토이트론", "salesperson": "유영선", "count": 81, "median": 6000.0, "mode": 6000.0, "min": 15.0, "max": 7000.0, "avg_diff_pct": 68.9}, {"client": "(주)다락원", "salesperson": "김현식", "count": 59, "median": 6000.0, "mode": 7000.0, "min": 2200.0, "max": 7000.0, "avg_diff_pct": 75.0}, {"client": "에이콘출판(주)", "salesperson": "유영선", "count": 56, "median": 5000.0, "mode": 5000.0, "min": 4500.0, "max": 7000.0, "avg_diff_pct": 98.2}, {"client": "(주) 필통북스", "salesperson": "유영선", "count": 52, "median": 5000.0, "mode": 5000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 76.8}, {"client": "예진씨앤피", "salesperson": "장경업", "count": 37, "median": 5000.0, "mode": 5000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 54.5}, {"client": "(주) 상상아카데미", "salesperson": "조기석", "count": 35, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 129.5}, {"client": "투엘미디어", "salesperson": "조기석", "count": 34, "median": 7000.0, "mode": 7000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 122.5}, {"client": "기문당", "salesperson": "장경업", "count": 27, "median": 5000.0, "mode": 5000.0, "min": 4000.0, "max": 5000.0, "avg_diff_pct": 63.0}, {"client": "(주)바이풀디자인", "salesperson": "장경업", "count": 26, "median": 4400.0, "mode": 4400.0, "min": 2700.0, "max": 6600.0, "avg_diff_pct": 45.3}, {"client": "그래서음악(SO MUSIC)", "salesperson": "조기석", "count": 22, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "(사)한국금융연수원", "salesperson": "유영선", "count": 22, "median": 6000.0, "mode": 6000.0, "min": 3800.0, "max": 6000.0, "avg_diff_pct": 93.3}, {"client": "북펀딩", "salesperson": "유영선", "count": 21, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 10000.0, "avg_diff_pct": 134.9}, {"client": "교하도서관", "salesperson": "이지현", "count": 20, "median": 8000.0, "mode": 6000.0, "min": 6000.0, "max": 10000.0, "avg_diff_pct": 166.7}, {"client": "주식회사 도서출판세진", "salesperson": "유영선", "count": 19, "median": 4500.0, "mode": 4000.0, "min": 4000.0, "max": 10000.0, "avg_diff_pct": 187.7}, {"client": "사단법인 아이코리아", "salesperson": "박정열", "count": 17, "median": 10000.0, "mode": 10000.0, "min": 8000.0, "max": 10000.0, "avg_diff_pct": 217.6}, {"client": "(주) 게임문화", "salesperson": "유영선", "count": 17, "median": 3000.0, "mode": 1700.0, "min": 1700.0, "max": 5000.0, "avg_diff_pct": -16.5}, {"client": "(주) 학토재", "salesperson": "유영선", "count": 16, "median": 5000.0, "mode": 7000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 74.5}, {"client": "지구문화사", "salesperson": "유영선", "count": 15, "median": 5000.0, "mode": 5000.0, "min": 4500.0, "max": 7000.0, "avg_diff_pct": 87.8}, {"client": "자유아카데미", "salesperson": "조기석", "count": 15, "median": 6000.0, "mode": 6000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 84.4}, {"client": "서울음악출판사", "salesperson": "김현식", "count": 15, "median": 7000.0, "mode": 7000.0, "min": 4600.0, "max": 7000.0, "avg_diff_pct": 128.0}, {"client": "(주)브레이커 북스", "salesperson": "조기석", "count": 14, "median": 6000.0, "mode": 6000.0, "min": 3500.0, "max": 6000.0, "avg_diff_pct": 83.3}, {"client": "도서출판 서돌", "salesperson": "유영선", "count": 14, "median": 4000.0, "mode": 3000.0, "min": 3000.0, "max": 5000.0, "avg_diff_pct": 81.0}, {"client": "(주) 오픈하우스포퍼블리셔스", "salesperson": "조기석", "count": 13, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 119.2}, {"client": "주식회사형민로드", "salesperson": "장경업", "count": 13, "median": 5000.0, "mode": 5000.0, "min": 2500.0, "max": 6000.0, "avg_diff_pct": 46.2}, {"client": "주식회사 미디어퍼페추얼", "salesperson": "유영선", "count": 12, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 20000.0, "avg_diff_pct": 169.4}, {"client": "제이케이엠디자인 주식회사 (JKMDESIGN)", "salesperson": "유영선", "count": 12, "median": 12000.0, "mode": 7000.0, "min": 4000.0, "max": 30000.0, "avg_diff_pct": 362.5}, {"client": "주식회사지원출판", "salesperson": "박정열", "count": 11, "median": 5000.0, "mode": 5000.0, "min": 2500.0, "max": 5000.0, "avg_diff_pct": 28.8}, {"client": "나비소리", "salesperson": "장경업", "count": 10, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 113.3}, {"client": "김달진미술연구소", "salesperson": "유영선", "count": 10, "median": 2300.0, "mode": 2300.0, "min": 2300.0, "max": 20000.0, "avg_diff_pct": 35.7}, {"client": "주식회사 헬스조선", "salesperson": "김현식", "count": 10, "median": 8000.0, "mode": 8000.0, "min": 5000.0, "max": 10000.0, "avg_diff_pct": 153.4}, {"client": "반달서재", "salesperson": "유영선", "count": 10, "median": 4000.0, "mode": 4000.0, "min": 4000.0, "max": 4000.0, "avg_diff_pct": 33.3}, {"client": "주식회사 미래엔", "salesperson": "박정열", "count": 9, "median": 11100.0, "mode": 11100.0, "min": 11100.0, "max": 11100.0, "avg_diff_pct": 270.0}, {"client": "트래블고고(TRAVEL GOGO)", "salesperson": "유영선", "count": 9, "median": 7000.0, "mode": 7000.0, "min": 5500.0, "max": 40000.0, "avg_diff_pct": 309.2}, {"client": "(주) 청년의사", "salesperson": "조기석", "count": 9, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 103.7}, {"client": "도서출판소동", "salesperson": "조기석", "count": 9, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 15000.0, "avg_diff_pct": 144.4}, {"client": "(주)호밀밭", "salesperson": "장경업", "count": 9, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 111.1}, {"client": "주식회사 워터멜론컴퍼니", "salesperson": "김현식", "count": 8, "median": 5500.0, "mode": 4500.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 79.2}, {"client": "해피함피", "salesperson": "박정열", "count": 8, "median": 8000.0, "mode": 10000.0, "min": 5500.0, "max": 10000.0, "avg_diff_pct": 164.6}, {"client": "그림책방", "salesperson": "장경업", "count": 7, "median": 4000.0, "mode": 4000.0, "min": 4000.0, "max": 8000.0, "avg_diff_pct": 90.5}, {"client": "동아에코팩주식회사", "salesperson": "조기석", "count": 7, "median": 7000.0, "mode": 7000.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 128.5}, {"client": "아라크네", "salesperson": "조기석", "count": 6, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "도서출판미래엠앤비", "salesperson": "김현식", "count": 6, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "덕성기획", "salesperson": "조기석", "count": 6, "median": 5000.0, "mode": 5000.0, "min": 1500.0, "max": 7000.0, "avg_diff_pct": 69.5}, {"client": "(사)세계교회성장연구원", "salesperson": "조기석", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "다락방", "salesperson": "조기석", "count": 6, "median": 7000.0, "mode": 7000.0, "min": 3500.0, "max": 7000.0, "avg_diff_pct": 94.4}, {"client": "주식회사 엠굿(mgood)", "salesperson": "유영선", "count": 6, "median": 5500.0, "mode": 6000.0, "min": 3500.0, "max": 6000.0, "avg_diff_pct": 75.0}, {"client": "(주)해커스", "salesperson": "배용기", "count": 6, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "(주)지산컴퍼니", "salesperson": "장경업", "count": 6, "median": 3000.0, "mode": 2500.0, "min": 1500.0, "max": 5000.0, "avg_diff_pct": 11.1}, {"client": "더핑크퐁컴퍼니 주식회사", "salesperson": "유영선", "count": 5, "median": 3800.0, "mode": 3400.0, "min": 3400.0, "max": 5500.0, "avg_diff_pct": 32.7}, {"client": "디자인 나무", "salesperson": "장경업", "count": 5, "median": 4000.0, "mode": 7000.0, "min": 3000.0, "max": 7000.0, "avg_diff_pct": 63.3}, {"client": "(주)열린", "salesperson": "유영선", "count": 5, "median": 5000.0, "mode": 5000.0, "min": 3000.0, "max": 5000.0, "avg_diff_pct": 46.7}, {"client": "(주)노머스", "salesperson": "유영선", "count": 5, "median": 10000.0, "mode": 10000.0, "min": 6000.0, "max": 12000.0, "avg_diff_pct": 206.7}, {"client": "국제판촉물협회 (World gift)", "salesperson": "김현식", "count": 5, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 10000.0, "avg_diff_pct": 173.3}, {"client": "우리기획", "salesperson": "유영선", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 108.3}, {"client": "위고디자인(WEGO DESIGN)", "salesperson": "조기석", "count": 4, "median": 6500.0, "mode": 6000.0, "min": 6000.0, "max": 7000.0, "avg_diff_pct": 116.7}, {"client": "한국정기간행물협동조합", "salesperson": "박정열", "count": 4, "median": 5500.0, "mode": 6000.0, "min": 4000.0, "max": 6000.0, "avg_diff_pct": 75.0}, {"client": "여해(汝諧)고전연구소", "salesperson": "조기석", "count": 4, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "주식회사두두스토리", "salesperson": "유영선", "count": 4, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "주식회사에이콘온(Acorn-on Co.,Ltd)", "salesperson": "유영선", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 116.7}, {"client": "혜성프린팅", "salesperson": "유영선", "count": 4, "median": 2600.0, "mode": 2400.0, "min": 2400.0, "max": 2800.0, "avg_diff_pct": -13.3}, {"client": "(주)헥사인", "salesperson": "이동신", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 116.7}, {"client": "(주) 태림스코어", "salesperson": "장경업", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 116.7}, {"client": "(주)챔프스터디", "salesperson": "김현식", "count": 4, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "DANCING QUEEN", "salesperson": "유영선", "count": 4, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "(주)고담", "salesperson": "배용기", "count": 4, "median": 8000.0, "mode": 7000.0, "min": 7000.0, "max": 9000.0, "avg_diff_pct": 166.7}, {"client": "헤세의서재", "salesperson": "조기석", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "파고다북스", "salesperson": "유영선", "count": 3, "median": 4000.0, "mode": 2000.0, "min": 2000.0, "max": 5000.0, "avg_diff_pct": 22.2}, {"client": "이비에스미디어(주)", "salesperson": "조기석", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 111.1}, {"client": "주식회사밴코아트", "salesperson": "장경업", "count": 3, "median": 3500.0, "mode": 3500.0, "min": 3500.0, "max": 5000.0, "avg_diff_pct": 33.4}, {"client": "도서출판 한미의학", "salesperson": "김현식", "count": 3, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "조이송아이콘뮤직 주식회사", "salesperson": "장경업", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "(주)교원", "salesperson": "김현식", "count": 3, "median": 3260.0, "mode": 2200.0, "min": 2200.0, "max": 5000.0, "avg_diff_pct": 16.2}, {"client": "(주)에듀토셀", "salesperson": "유영선", "count": 3, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5500.0, "avg_diff_pct": 72.2}, {"client": "선일금고제작", "salesperson": "유영선", "count": 3, "median": 12000.0, "mode": 12000.0, "min": 8000.0, "max": 12000.0, "avg_diff_pct": 255.6}, {"client": "B612북스", "salesperson": "조기석", "count": 3, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "씨밀레북스", "salesperson": "장경업", "count": 2, "median": 9000.0, "mode": 9000.0, "min": 9000.0, "max": 9000.0, "avg_diff_pct": 200.0}, {"client": "인브리프 커뮤니케이션 (INBRIEF Communication)", "salesperson": "유영선", "count": 2, "median": 8500.0, "mode": 5000.0, "min": 5000.0, "max": 12000.0, "avg_diff_pct": 183.3}, {"client": "골든픽쳐", "salesperson": "유영선", "count": 2, "median": 5500.0, "mode": 5500.0, "min": 5500.0, "max": 5500.0, "avg_diff_pct": 83.3}, {"client": "군자출판사 (주)", "salesperson": "조기석", "count": 2, "median": 4000.0, "mode": 3000.0, "min": 3000.0, "max": 5000.0, "avg_diff_pct": 33.4}, {"client": "주식회사메르크말코리아", "salesperson": "유영선", "count": 2, "median": 14500.0, "mode": 4000.0, "min": 4000.0, "max": 25000.0, "avg_diff_pct": 383.3}, {"client": "레인북", "salesperson": "유영선", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 166.7}, {"client": "써니 아일랜드 (Sunny island)", "salesperson": "조기석", "count": 2, "median": 6000.0, "mode": 5000.0, "min": 5000.0, "max": 7000.0, "avg_diff_pct": 100.0}, {"client": "미술과비평 주식회사", "salesperson": "장경업", "count": 2, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "맥미디어", "salesperson": "유영선", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 166.7}, {"client": "(사)한국산업기술진흥협회", "salesperson": "이지현", "count": 2, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 166.7}, {"client": "(주)세연인터내셔널", "salesperson": "김현식", "count": 2, "median": 9500.0, "mode": 9000.0, "min": 9000.0, "max": 10000.0, "avg_diff_pct": 216.7}, {"client": "주식회사 태양기획", "salesperson": "유영선", "count": 2, "median": 4000.0, "mode": 3000.0, "min": 3000.0, "max": 5000.0, "avg_diff_pct": 33.4}, {"client": "(주)퓨처미디어", "salesperson": "장경업", "count": 2, "median": 5500.0, "mode": 4000.0, "min": 4000.0, "max": 7000.0, "avg_diff_pct": 83.3}, {"client": "(주)해커스어학연구소", "salesperson": "배용기", "count": 1, "median": 1700.0, "mode": 1700.0, "min": 1700.0, "max": 1700.0, "avg_diff_pct": -43.3}, {"client": "(주)피티엘", "salesperson": "김현식", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "주식회사 세움티엔티", "salesperson": "조기석", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "모노북스", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "(주)케이랩", "salesperson": "장경업", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "주식회사와이앤리더스", "salesperson": "박정열", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "주식회사 새터씨앤씨", "salesperson": "장경업", "count": 1, "median": 2500.0, "mode": 2500.0, "min": 2500.0, "max": 2500.0, "avg_diff_pct": -16.7}, {"client": "파주시선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "한국가이던스 주식회사", "salesperson": "유영선", "count": 1, "median": 6000.0, "mode": 6000.0, "min": 6000.0, "max": 6000.0, "avg_diff_pct": 100.0}, {"client": "(주) 트랑고", "salesperson": "유영선", "count": 1, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 166.7}, {"client": "(주)윈지코리아컨설팅", "salesperson": "장경업", "count": 1, "median": 3500.0, "mode": 3500.0, "min": 3500.0, "max": 3500.0, "avg_diff_pct": 16.7}, {"client": "계양구선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "가가인쇄", "salesperson": "조기석", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "어의운하", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "밝은미래", "salesperson": "김현식", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "부평구선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "마음지기", "salesperson": "조기석", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "리베로시스템주식회사", "salesperson": "조기석", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "스킨큐어(주)_오산", "salesperson": "김현식", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "스틸당(STEALANG)", "salesperson": "한기훈", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "신원아트", "salesperson": "장경업", "count": 1, "median": 5000.0, "mode": 5000.0, "min": 5000.0, "max": 5000.0, "avg_diff_pct": 66.7}, {"client": "디자인페이지플러스주식회사", "salesperson": "박정열", "count": 1, "median": 3000.0, "mode": 3000.0, "min": 3000.0, "max": 3000.0, "avg_diff_pct": 0.0}, {"client": "양구군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "에듀연", "salesperson": "김현식", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "조선아이에스(주)", "salesperson": "김현식", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "동두천시선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "엠알피(MRP)", "salesperson": "조기석", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "동구선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "옹진군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "내일날씨", "salesperson": "배용기", "count": 1, "median": 10000.0, "mode": 10000.0, "min": 10000.0, "max": 10000.0, "avg_diff_pct": 233.3}, {"client": "우시모북스", "salesperson": "조기석", "count": 1, "median": 8000.0, "mode": 8000.0, "min": 8000.0, "max": 8000.0, "avg_diff_pct": 166.7}, {"client": "인제군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "물고기하나아이", "salesperson": "유영선", "count": 1, "median": 7000.0, "mode": 7000.0, "min": 7000.0, "max": 7000.0, "avg_diff_pct": 133.3}, {"client": "강화군선거관리위원회", "salesperson": "김현식", "count": 1, "median": 22720.0, "mode": 22720.0, "min": 22720.0, "max": 22720.0, "avg_diff_pct": 657.3}, {"client": "만듦", "salesperson": "홍문보", "count": 1, "median": 15000.0, "mode": 15000.0, "min": 15000.0, "max": 15000.0, "avg_diff_pct": 400.0}]}}, "anomalies": {"premium": [{"견적번호": "EST20260115-0002", "수주번호": "260115-0036", "견적일": "20260115.0", "영업담당": "유영선", "거래처": "제이케이엠디자인 주식회사 (JKMDESIGN)", "품명": "3년 기프트 패키지", "항목": "303001", "항목명": "인쇄", "단가": 150000.0, "표준단가": 3000.0, "편차(%)": 4900.0, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20251110-0077", "수주번호": "251002-0014", "견적일": "20251031.0", "영업담당": "유영선", "거래처": "인브리프 커뮤니케이션 (INBRIEF Communication)", "품명": "블랙이글스가 되고싶어 (선방데이타 사고)", "항목": "303001", "항목명": "인쇄", "단가": 140000.0, "표준단가": 3000.0, "편차(%)": 4566.7, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20260115-0001", "수주번호": "260115-0035", "견적일": "20260115.0", "영업담당": "유영선", "거래처": "제이케이엠디자인 주식회사 (JKMDESIGN)", "품명": "10년 기프트 패키지", "항목": "303001", "항목명": "인쇄", "단가": 100000.0, "표준단가": 3000.0, "편차(%)": 3233.3, "수량R": 2.0, "승인여부": "승인"}, {"견적번호": "EST20250718-0005", "수주번호": "250717-0048", "견적일": "20250718.0", "영업담당": "유영선", "거래처": "트래블고고(TRAVEL GOGO)", "품명": "장항습지 만들기 박스", "항목": "303001", "항목명": "인쇄", "단가": 50000.0, "표준단가": 3000.0, "편차(%)": 1566.7, "수량R": 2.0, "승인여부": "승인"}, {"견적번호": "EST20260205-0022", "수주번호": "251229-0027", "견적일": "20260131.0", "영업담당": "유영선", "거래처": "트래블고고(TRAVEL GOGO)", "품명": "풍납토성 워크북 (만들기 5종)", "항목": "303002", "항목명": "인쇄(2종)", "단가": 40000.0, "표준단가": 3000.0, "편차(%)": 1233.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250808-0009", "수주번호": "250707-0006", "견적일": "20251130.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "2025 8월 이투스전국모의고사 안내문", "항목": "703002", "항목명": "CTP(제판)", "단가": 60000.0, "표준단가": 5000.0, "편차(%)": 1100.0, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250617-0031", "수주번호": "250529-0012", "견적일": "20250609.0", "영업담당": "유영선", "거래처": "(주)노머스", "품명": "백현 미주투어 포스터", "항목": "303001", "항목명": "인쇄", "단가": 35000.0, "표준단가": 3000.0, "편차(%)": 1066.7, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250620-0004", "수주번호": "250618-0001", "견적일": "20250711.0", "영업담당": "유영선", "거래처": "제이케이엠디자인 주식회사 (JKMDESIGN)", "품명": "오울9 다이어리 내지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 30000.0, "표준단가": 3000.0, "편차(%)": 900.0, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20251014-0011", "수주번호": "251014-0038", "견적일": "20251014.0", "영업담당": "유영선", "거래처": "주식회사메르크말코리아", "품명": "에코스마트파이어 카다록", "항목": "303002", "항목명": "인쇄(2종)", "단가": 25000.0, "표준단가": 3000.0, "편차(%)": 733.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250711-0002", "수주번호": "250702-0005", "견적일": "20250711.0", "영업담당": "유영선", "거래처": "제이케이엠디자인 주식회사 (JKMDESIGN)", "품명": "디어 마이 다이어리", "항목": "303002", "항목명": "인쇄(2종)", "단가": 24000.0, "표준단가": 3000.0, "편차(%)": 700.0, "수량R": 1.25, "승인여부": "승인"}, {"견적번호": "EST20250623-0024", "수주번호": "250513-0011", "견적일": "20250623.0", "영업담당": "김현식", "거래처": "동구선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250619-0002", "수주번호": "250515-0065", "견적일": "20250619.0", "영업담당": "김현식", "거래처": "파주시선거관리위원회", "품명": "제21대 대통령선거  주의문(100*216)", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250619-0033", "수주번호": "250513-0002", "견적일": "20250619.0", "영업담당": "김현식", "거래처": "계양구선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250709-0101", "수주번호": "250513-0005", "견적일": "20250709.0", "영업담당": "김현식", "거래처": "강화군선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250604-0044", "수주번호": "250513-0012", "견적일": "20250604.0", "영업담당": "김현식", "거래처": "양구군선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250625-0024", "수주번호": "250513-0003", "견적일": "20250625.0", "영업담당": "김현식", "거래처": "부평구선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250612-0035", "수주번호": "250513-0006", "견적일": "20250612.0", "영업담당": "김현식", "거래처": "옹진군선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250609-0002", "수주번호": "250513-0013", "견적일": "20250609.0", "영업담당": "김현식", "거래처": "인제군선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250610-0096", "수주번호": "250513-0014", "견적일": "20250604.0", "영업담당": "김현식", "거래처": "동두천시선거관리위원회", "품명": "21대 대선투표용지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 22720.0, "표준단가": 3000.0, "편차(%)": 657.3, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250908-0066", "수주번호": "250822-0010", "견적일": "20250908.0", "영업담당": "유영선", "거래처": "주식회사 도서출판세진", "품명": "2026년 전기설비기술기준 기본이론서", "항목": "303002", "항목명": "인쇄(2종)", "단가": 10000.0, "표준단가": 1500.0, "편차(%)": 566.7, "수량R": 0.0, "승인여부": "승인"}, {"견적번호": "EST20250908-0065", "수주번호": "250822-0009", "견적일": "20250908.0", "영업담당": "유영선", "거래처": "주식회사 도서출판세진", "품명": "2026년 전력공학 기본이론서", "항목": "303002", "항목명": "인쇄(2종)", "단가": 10000.0, "표준단가": 1500.0, "편차(%)": 566.7, "수량R": 0.0, "승인여부": "승인"}, {"견적번호": "EST20250905-0005", "수주번호": "250814-0027", "견적일": "20250831.0", "영업담당": "유영선", "거래처": "김달진미술연구소", "품명": "미술인의 편지", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20000.0, "표준단가": 3000.0, "편차(%)": 566.7, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20251219-0038", "수주번호": "251204-0009", "견적일": "20251219.0", "영업담당": "유영선", "거래처": "주식회사 미디어퍼페추얼", "품명": "해밀턴 2026 캘린더 봉투", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20000.0, "표준단가": 3000.0, "편차(%)": 566.7, "수량R": 3.0, "승인여부": "승인"}, {"견적번호": "EST20250908-0063", "수주번호": "250822-0007", "견적일": "20250908.0", "영업담당": "유영선", "거래처": "주식회사 도서출판세진", "품명": "2026년 전기기기 기본이론서", "항목": "303002", "항목명": "인쇄(2종)", "단가": 10000.0, "표준단가": 1500.0, "편차(%)": 566.7, "수량R": 0.0, "승인여부": "승인"}, {"견적번호": "EST20260204-0034", "수주번호": "260114-0004", "견적일": "20260130.0", "영업담당": "한기훈", "거래처": "주식회사 비즈니스북스", "품명": "인생의 변화는 작은 것에서 시작된다", "항목": "303001", "항목명": "인쇄", "단가": 20000.0, "표준단가": 3000.0, "편차(%)": 566.7, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20250908-0064", "수주번호": "250822-0008", "견적일": "20250908.0", "영업담당": "유영선", "거래처": "주식회사 도서출판세진", "품명": "2026년 전기자기학 기본이론서", "항목": "303002", "항목명": "인쇄(2종)", "단가": 10000.0, "표준단가": 1500.0, "편차(%)": 566.7, "수량R": 0.0, "승인여부": "승인"}, {"견적번호": "EST20250908-0067", "수주번호": "250822-0011", "견적일": "20250908.0", "영업담당": "유영선", "거래처": "주식회사 도서출판세진", "품명": "2026년 제어공학 기본이론서", "항목": "303002", "항목명": "인쇄(2종)", "단가": 10000.0, "표준단가": 1500.0, "편차(%)": 566.7, "수량R": 0.0, "승인여부": "승인"}, {"견적번호": "EST20250811-0013", "수주번호": "250716-0086", "견적일": "20250731.0", "영업담당": "유영선", "거래처": "제이케이엠디자인 주식회사 (JKMDESIGN)", "품명": "2025 삼성웰스토리 추석 카다록", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20000.0, "표준단가": 3000.0, "편차(%)": 566.7, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20260204-0033", "수주번호": "260105-0046", "견적일": "20260130.0", "영업담당": "한기훈", "거래처": "주식회사 비즈니스북스", "품명": "습관의 재발견", "항목": "303001", "항목명": "인쇄", "단가": 20000.0, "표준단가": 3000.0, "편차(%)": 566.7, "수량R": 1.0, "승인여부": "승인"}, {"견적번호": "EST20251219-0007", "수주번호": "251104-0006", "견적일": "20251219.0", "영업담당": "유영선", "거래처": "(주)노머스", "품명": "2026 강다니엘 시즌그리팅 (다이어리)", "항목": "303001", "항목명": "인쇄", "단가": 20000.0, "표준단가": 3000.0, "편차(%)": 566.7, "수량R": 1.0, "승인여부": "승인"}], "discount": [{"견적번호": "EST20251201-0003", "수주번호": "251103-0031", "견적일": "20251130.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "아이론랜드 10호", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 750.0, "승인여부": "승인"}, {"견적번호": "EST20250704-0052", "수주번호": "250526-0019", "견적일": "20250630.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 베이직 05호", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 750.0, "승인여부": "승인"}, {"견적번호": "EST20251030-0050", "수주번호": "251001-0030", "견적일": "20251030.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 09호 베이직", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20251223-0005", "수주번호": "251203-0009", "견적일": "20251223.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 11호 베이직", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20250731-0003", "수주번호": "250624-0025", "견적일": "20250731.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 베이직 06호", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 750.0, "승인여부": "승인"}, {"견적번호": "EST20251201-0002", "수주번호": "251103-0030", "견적일": "20251130.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 10호 베이직", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20250731-0004", "수주번호": "250624-0026", "견적일": "20250731.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 06호 2레벨", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20250929-0006", "수주번호": "250902-0047", "견적일": "20250929.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 08호 베이직", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20250829-0010", "수주번호": "250728-0043", "견적일": "20250829.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 07호 2레벨", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20250829-0009", "수주번호": "250728-0041", "견적일": "20250829.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 07호 베이직", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 3000.0, "편차(%)": -99.3, "수량R": 500.0, "승인여부": "승인"}, {"견적번호": "EST20250929-0007", "수주번호": "250902-0049", "견적일": "20250929.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "아이론랜드 08호", "항목": "303002", "항목명": "인쇄(2종)", "단가": 15.0, "표준단가": 2000.0, "편차(%)": -99.2, "수량R": 1000.0, "승인여부": "승인"}, {"견적번호": "EST20250731-0005", "수주번호": "250624-0028", "견적일": "20250731.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "아이론랜드 06호", "항목": "303002", "항목명": "인쇄(2종)", "단가": 15.0, "표준단가": 2000.0, "편차(%)": -99.2, "수량R": 1750.0, "승인여부": "승인"}, {"견적번호": "EST20251229-0041", "수주번호": "251203-0010", "견적일": "20251229.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 11호 2레벨", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 2000.0, "편차(%)": -99.0, "수량R": 1000.0, "승인여부": "승인"}, {"견적번호": "EST20250704-0053", "수주번호": "250526-0020", "견적일": "20250630.0", "영업담당": "유영선", "거래처": "(주) 토이트론", "품명": "CT랜드 05호 2레벨", "항목": "303002", "항목명": "인쇄(2종)", "단가": 20.0, "표준단가": 2000.0, "편차(%)": -99.0, "수량R": 1000.0, "승인여부": "승인"}, {"견적번호": "EST20250717-0035", "수주번호": "250717-0069", "견적일": "20250814.0", "영업담당": "이동신", "거래처": "(주)지담디앤피", "품명": "휴온스푸디언스_전립선 사군자 프리미엄 1개월 단상자[신]", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 1300.0, "편차(%)": -97.3, "수량R": 4200.0, "승인여부": "승인"}, {"견적번호": "EST20260319-0034", "수주번호": "260309-0040", "견적일": "20260331.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 하이스트 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 20000.0, "승인여부": "승인"}, {"견적번호": "EST20250923-0010", "수주번호": "250923-0019", "견적일": "20251031.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 수능 2000 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 20000.0, "승인여부": "승인"}, {"견적번호": "EST20251107-0056", "수주번호": "251029-0008", "견적일": "20251231.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 하이스트 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 20000.0, "승인여부": "승인"}, {"견적번호": "EST20250930-0050", "수주번호": "250924-0066", "견적일": "20251031.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 중등 베이직 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 20000.0, "승인여부": "승인"}, {"견적번호": "EST20251015-0061", "수주번호": "251015-0016", "견적일": "20251128.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 고등 베이직 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 30000.0, "승인여부": "승인"}, {"견적번호": "EST20260212-0103", "수주번호": "260203-0020", "견적일": "20260228.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 중등 베이직 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 20000.0, "승인여부": "승인"}, {"견적번호": "EST20251029-0101", "수주번호": "251022-0033", "견적일": "20251128.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 수능 2000 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 30000.0, "승인여부": "승인"}, {"견적번호": "EST20251216-0004", "수주번호": "251212-0012", "견적일": "20260131.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 수능 2000 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 30000.0, "승인여부": "승인"}, {"견적번호": "EST20250812-0026", "수주번호": "250721-0015", "견적일": "20250812.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 수능 2000 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 26000.0, "승인여부": "승인"}, {"견적번호": "EST20250812-0032", "수주번호": "250721-0018", "견적일": "20250812.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 하이스트 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 15000.0, "승인여부": "승인"}, {"견적번호": "EST20260226-0015", "수주번호": "260226-0019", "견적일": "20260331.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 고등 베이직 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 30000.0, "승인여부": "승인"}, {"견적번호": "EST20260121-0041", "수주번호": "260109-0030", "견적일": "20260131.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 고등 베이직 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 19500.0, "승인여부": "승인"}, {"견적번호": "EST20260212-0100", "수주번호": "260126-0059", "견적일": "20260228.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 수능 2000 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 30000.0, "승인여부": "승인"}, {"견적번호": "EST20260226-0010", "수주번호": "260220-0067", "견적일": "20260331.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 수능 2000 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 40000.0, "승인여부": "승인"}, {"견적번호": "EST20250812-0035", "수주번호": "250721-0021", "견적일": "20250812.0", "영업담당": "김영훈", "거래처": "이투스에듀 주식회사 서초지점", "품명": "워드마스터 고등 베이직 워크북", "항목": "303001", "항목명": "인쇄", "단가": 35.0, "표준단가": 900.0, "편차(%)": -96.1, "수량R": 20000.0, "승인여부": "승인"}], "total_count": 6535, "premium_total": 5880, "discount_total": 655}, "volume_discount": {"total_rows": 5257, "overall": [{"range": "~1천", "count": 5222, "median_price": 4800, "avg_price": 4830, "standard": "판갯수x5000"}, {"range": "1~2천", "count": 16, "median_price": 1100, "avg_price": 861, "standard": 3500}, {"range": "2~3천", "count": 1, "median_price": 1050, "avg_price": 1050, "standard": 3000}, {"range": "3~4천", "count": 1, "median_price": 1050, "avg_price": 1050, "standard": 2500}, {"range": "4~5천", "count": 1, "median_price": 35, "avg_price": 35, "standard": 2200}, {"range": "7~1만", "count": 1, "median_price": 1100, "avg_price": 1100, "standard": 1800}, {"range": "1만+", "count": 15, "median_price": 35, "avg_price": 35, "standard": 1600}], "by_salesperson": {}}};
+  renderAll();
+}
+
+function renderAll() {
+  document.getElementById('genDate').textContent = DATA._meta.generated;
+  renderRatioChart();
+  renderSummary();
+  renderRanking();
+  renderSalesCards();
+  renderFairness();
+  renderAnomalies();
+}
+
+// --- 탭 전환 ---
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// --- 전체 비율 도표 ---
+function renderRatioChart() {
+  const cards = Object.values(DATA.scorecards);
+  const totalDiscount = cards.reduce((s, c) => s + c.discount_count, 0);
+  const totalNormal = cards.reduce((s, c) => s + c.normal_count, 0);
+  const totalPremium = cards.reduce((s, c) => s + c.premium_count, 0);
+  const total = totalDiscount + totalNormal + totalPremium;
+
+  const dPct = (totalDiscount / total * 100).toFixed(1);
+  const nPct = (totalNormal / total * 100).toFixed(1);
+  const pPct = (totalPremium / total * 100).toFixed(1);
+
+  document.getElementById('donutTotal').textContent = total.toLocaleString();
+
+  // 도넛 차트 (canvas)
+  const canvas = document.getElementById('donutChart');
+  const ctx = canvas.getContext('2d');
+  const cx = 90, cy = 90, r = 75, lineW = 22;
+  const segments = [
+    { pct: totalDiscount / total, color: '#4a6cf7' },
+    { pct: totalNormal / total, color: '#198754' },
+    { pct: totalPremium / total, color: '#dc3545' },
+  ];
+  let startAngle = -Math.PI / 2;
+  ctx.lineWidth = lineW;
+  segments.forEach(seg => {
+    const sweep = seg.pct * Math.PI * 2;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r - lineW / 2, startAngle, startAngle + sweep);
+    ctx.strokeStyle = seg.color;
+    ctx.stroke();
+    startAngle += sweep;
+  });
+
+  // 비율 막대
+  const items = [
+    { label: '할인', color: '#4a6cf7', count: totalDiscount, pct: dPct, desc: '표준 대비 -5% 이하 (표준보다 싸게 견적)' },
+    { label: '정상', color: '#198754', count: totalNormal, pct: nPct, desc: '표준 대비 ±5% 이내 (적정 수준)' },
+    { label: '할증', color: '#dc3545', count: totalPremium, pct: pPct, desc: '표준 대비 +5% 이상 (표준보다 비싸게 견적)' },
+  ];
+  let detailHtml = '';
+  items.forEach(it => {
+    detailHtml += `<div class="ratio-item">
+      <div class="ratio-color" style="background:${it.color}"></div>
+      <div class="ratio-label">${it.label}</div>
+      <div class="ratio-bar-wrap">
+        <div class="ratio-bar" style="width:${it.pct}%;background:${it.color};"></div>
+      </div>
+      <div class="ratio-pct" style="color:${it.color}">${it.pct}%</div>
+      <div class="ratio-count">${it.count.toLocaleString()}건</div>
+    </div>
+    <div style="font-size:11px;color:#999;padding:0 0 4px 26px;margin-top:-6px;">${it.desc}</div>`;
+  });
+  document.getElementById('ratioDetails').innerHTML = detailHtml;
+}
+
+// --- 요약 카드 ---
+function renderSummary() {
+  const cards = Object.values(DATA.scorecards);
+  const totalRows = cards.reduce((s, c) => s + c.total_rows, 0);
+  const totalAnomalies = cards.reduce((s, c) => s + c.anomaly_count, 0);
+  const avgDiff = cards.reduce((s, c) => s + c.avg_diff_pct * c.total_rows, 0) / totalRows;
+  const anomalyRate = totalAnomalies / totalRows * 100;
+
+  document.getElementById('summaryRow').innerHTML = `
+    <div class="summary-card"><div class="label">분석 대상</div><div class="value">${totalRows.toLocaleString()}</div><div class="sub">건 (영업담당+항목+단가 있는 행)</div></div>
+    <div class="summary-card"><div class="label">영업자 수</div><div class="value">${cards.length}</div><div class="sub">명</div></div>
+    <div class="summary-card"><div class="label">전체 평균편차</div><div class="value ${diffClass(avgDiff)}">${avgDiff > 0 ? '+' : ''}${avgDiff.toFixed(1)}%</div><div class="sub">표준단가 대비</div></div>
+    <div class="summary-card"><div class="label">이상 건 비율</div><div class="value ${anomalyRate > 20 ? 'diff-bad' : anomalyRate > 10 ? 'diff-warn' : 'diff-good'}">${anomalyRate.toFixed(1)}%</div><div class="sub">${totalAnomalies.toLocaleString()}건 (±30% 초과)</div></div>
+  `;
+}
+
+function diffClass(v) {
+  const abs = Math.abs(v);
+  if (abs <= 5) return 'diff-good';
+  if (v < -30) return 'diff-discount-bad';
+  if (v < -5) return 'diff-discount';
+  if (v > 30) return 'diff-bad';
+  return 'diff-warn';
+}
+
+// --- 랭킹 테이블 ---
+function renderRanking() {
+  const cards = Object.values(DATA.scorecards)
+    .filter(c => c.total_rows >= 1)
+    .sort((a, b) => b.anomaly_rate_pct - a.anomaly_rate_pct);
+
+  let html = `<thead><tr>
+    <th>순위</th><th>영업담당</th><th class="r">분석건수</th>
+    <th class="r">평균편차(%)</th><th class="r">이상건수</th><th class="r">이상비율</th>
+    <th>구성 (할인/정상/할증)</th><th>주력 거래처</th>
+  </tr></thead><tbody>`;
+
+  cards.forEach((c, i) => {
+    const total = c.discount_count + c.normal_count + c.premium_count;
+    const dPct = (c.discount_count / total * 100).toFixed(0);
+    const nPct = (c.normal_count / total * 100).toFixed(0);
+    const pPct = (c.premium_count / total * 100).toFixed(0);
+    const topClient = c.top_clients[0] ? c.top_clients[0].name : '-';
+    const badge = c.anomaly_rate_pct > 30 ? 'badge-danger' : c.anomaly_rate_pct > 20 ? 'badge-warn' : 'badge-ok';
+
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><strong>${c.name}</strong></td>
+      <td class="r">${c.total_rows.toLocaleString()}</td>
+      <td class="r ${diffClass(c.avg_diff_pct)}">${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%</td>
+      <td class="r">${c.anomaly_count.toLocaleString()}</td>
+      <td class="r"><span class="badge ${badge}">${c.anomaly_rate_pct}%</span></td>
+      <td>
+        <div style="display:flex;height:16px;border-radius:3px;overflow:hidden;min-width:120px;">
+          <div class="bar-discount" style="width:${dPct}%" title="할인 ${c.discount_count}건"></div>
+          <div class="bar-normal" style="width:${nPct}%" title="정상 ${c.normal_count}건"></div>
+          <div class="bar-premium" style="width:${pPct}%" title="할증 ${c.premium_count}건"></div>
+        </div>
+        <div style="font-size:10px;color:#888;margin-top:2px;">${dPct}% / ${nPct}% / ${pPct}%</div>
+      </td>
+      <td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${topClient}</td>
+    </tr>`;
+  });
+
+  html += '</tbody>';
+  document.getElementById('rankingTable').innerHTML = html;
+}
+
+// --- 영업자 카드 ---
+function renderSalesCards() {
+  const container = document.getElementById('salesCards');
+  const cards = Object.values(DATA.scorecards)
+    .filter(c => c.total_rows >= 1)
+    .sort((a, b) => b.total_rows - a.total_rows);
+
+  let html = '';
+  cards.forEach(c => {
+    const total = c.discount_count + c.normal_count + c.premium_count;
+    const dW = (c.discount_count / total * 100);
+    const nW = (c.normal_count / total * 100);
+    const pW = (c.premium_count / total * 100);
+    const badge = c.anomaly_rate_pct > 30 ? 'badge-danger' : c.anomaly_rate_pct > 20 ? 'badge-warn' : 'badge-ok';
+
+    let detailHtml = '<table style="font-size:12px;"><thead><tr><th>항목</th><th class="r">건수</th><th class="r">실제(중앙)</th><th class="r">표준</th><th class="r">편차</th></tr></thead><tbody>';
+    c.item_stats.forEach(item => {
+      detailHtml += `<tr>
+        <td>${item.item_name}</td>
+        <td class="r">${item.count}</td>
+        <td class="r">${Math.round(item.median_price).toLocaleString()}</td>
+        <td class="r">${Math.round(item.standard_price).toLocaleString()}</td>
+        <td class="r ${diffClass(item.avg_diff_pct)}">${item.avg_diff_pct > 0 ? '+' : ''}${item.avg_diff_pct}%</td>
+      </tr>`;
+    });
+    detailHtml += '</tbody></table>';
+
+    let clientsHtml = '<div style="margin-top:12px;"><strong style="font-size:12px;">담당 거래처:</strong><div style="margin-top:6px;">';
+    c.top_clients.forEach(cl => {
+      const clBadge = Math.abs(cl.avg_diff_pct) <= 5 ? 'badge-ok' : Math.abs(cl.avg_diff_pct) <= 30 ? 'badge-warn' : 'badge-danger';
+      clientsHtml += `<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px;">
+        <span>${cl.name}</span>
+        <span><span class="badge ${clBadge}">${cl.avg_diff_pct > 0 ? '+' : ''}${cl.avg_diff_pct}%</span> (${cl.count}건)</span>
+      </div>`;
+    });
+    clientsHtml += '</div></div>';
+
+    html += `<div class="sales-card" onclick="this.classList.toggle('open')">
+      <div class="sales-card-header">
+        <div>
+          <div class="sales-card-name">${c.name}</div>
+          <div style="font-size:12px;color:#888;margin-top:2px;">${c.total_rows.toLocaleString()}건 분석</div>
+        </div>
+        <div class="sales-card-stats">
+          <div class="sales-mini-stat">
+            <div class="n ${diffClass(c.avg_diff_pct)}">${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%</div>
+            <div class="l">평균편차</div>
+          </div>
+          <div class="sales-mini-stat">
+            <div class="n"><span class="badge ${badge}">${c.anomaly_rate_pct}%</span></div>
+            <div class="l">이상비율</div>
+          </div>
+        </div>
+      </div>
+      <div class="sales-card-bar">
+        <div class="bar-discount" style="width:${dW}%"></div>
+        <div class="bar-normal" style="width:${nW}%"></div>
+        <div class="bar-premium" style="width:${pW}%"></div>
+      </div>
+      <div class="sales-card-detail">
+        <div style="background:#f8f9fa;border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.7;color:#444;border-left:3px solid #4a6cf7;">
+          <strong style="color:#1a1a2e;">📊 패턴 해석:</strong> ${c.pattern_analysis || '분석 데이터 없음'}
+        </div>
+        ${detailHtml}
+        ${clientsHtml}
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// --- 공정별 공정성 ---
+function renderFairness() {
+  const grid = document.getElementById('processGrid');
+  let html = '';
+
+  for (const [code, proc] of Object.entries(DATA.process_fairness)) {
+    const std = proc.standard_price;
+    const clients = proc.clients.filter(c => c.count >= 3).sort((a, b) => b.count - a.count).slice(0, 25);
+    if (clients.length === 0) continue;
+
+    const allPrices = clients.map(c => c.median);
+    const minP = Math.min(...clients.map(c => c.min), std * 0.3);
+    const maxP = Math.max(...clients.map(c => c.max), std * 2);
+    const range = maxP - minP || 1;
+
+    const toX = (v) => ((v - minP) / range * 100).toFixed(1);
+
+    let dotsHtml = '';
+    clients.forEach(c => {
+      const medianX = toX(c.median);
+      const minX = toX(c.min);
+      const maxX = toX(c.max);
+      const w = (parseFloat(maxX) - parseFloat(minX));
+      const isAnomaly = c.avg_diff_pct !== null && Math.abs(c.avg_diff_pct) > 30;
+      const color = c.avg_diff_pct === null ? '#888' :
+        Math.abs(c.avg_diff_pct) <= 5 ? '#198754' :
+        Math.abs(c.avg_diff_pct) <= 30 ? '#fd7e14' : '#dc3545';
+      const diffTxt = c.avg_diff_pct !== null ? `${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%` : '';
+
+      // 이상 건 사유 자동 생성
+      let anomalyNote = '';
+      if (isAnomaly) {
+        const dir = c.avg_diff_pct > 0 ? '높게' : '낮게';
+        const absDiff = Math.abs(c.avg_diff_pct);
+        if (absDiff > 100) {
+          anomalyNote = `단가 입력 단위 오류 가능성 (${Math.round(c.median).toLocaleString()}원 vs 표준 ${std.toLocaleString()}원). ERP 원본 확인 필요`;
+        } else if (c.avg_diff_pct < -30 && c.count > 20) {
+          anomalyNote = `대량 거래처 특별 할인 가능성 (${c.count}건). 계약 단가 확인 필요`;
+        } else if (c.avg_diff_pct > 30 && c.count <= 5) {
+          anomalyNote = `소량 건(${c.count}건) 할증. 소량 추가 비용이 반영된 것일 수 있음`;
+        } else if (c.avg_diff_pct > 30) {
+          anomalyNote = `표준 대비 ${absDiff.toFixed(0)}% ${dir} 적용 (${c.count}건). 거래 조건 또는 입력 오류 확인 필요`;
+        } else {
+          anomalyNote = `표준 대비 ${absDiff.toFixed(0)}% ${dir} 적용 (${c.count}건). 계약 단가 확인 필요`;
+        }
+      }
+
+      dotsHtml += `<div class="dot-row" style="${isAnomaly ? 'background:#fff5f5;border-radius:4px;padding:4px 0;' : ''}">
+        <div class="dot-name" title="${c.client} (${c.salesperson})">${isAnomaly ? '⚠️ ' : ''}${c.client}</div>
+        <div class="dot-bar-area">
+          <div class="dot-std-line" style="left:${toX(std)}%"></div>
+          <div class="dot-range" style="left:${minX}%;width:${w}%;background:${color};"></div>
+          <div class="dot-marker" style="left:${medianX}%;background:${color};"></div>
+        </div>
+        <div class="dot-info">${Math.round(c.median).toLocaleString()}원 <span style="color:${color}">${diffTxt}</span></div>
+      </div>${isAnomaly ? `<div style="font-size:11px;color:#b71c1c;padding:0 0 6px 172px;line-height:1.4;">→ ${anomalyNote} (담당: ${c.salesperson})</div>` : ''}`
+    });
+
+    html += `<div class="process-card">
+      <h3>${proc.name} (${code}) — 표준 ${std.toLocaleString()}원</h3>
+      <div style="font-size:12px;color:#888;">총 ${proc.total_rows.toLocaleString()}건, 전체 중앙값 ${Math.round(proc.overall_median).toLocaleString()}원</div>
+      <div style="font-size:11px;color:#aaa;margin-top:4px;">빨간 선 = 표준단가 | 점 = 거래처 중앙값 | 바 = 최소~최대</div>
+      <div class="dot-chart">${dotsHtml}</div>
+    </div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+// --- 이상 건 목록 ---
+function buildAnomalyTableHtml(list, borderColor) {
+  let html = `<thead><tr>
+    <th>견적번호</th><th>수주번호</th><th>영업담당</th><th>거래처</th><th>품명</th><th>항목</th>
+    <th class="r">실제단가</th><th class="r">표준단가</th>
+    <th class="r">편차(%)</th><th class="r">수량(R)</th><th>승인</th>
+  </tr></thead><tbody>`;
+  list.forEach(a => {
+    const dc = diffClass(a['편차(%)']);
+    html += `<tr style="border-left:3px solid ${borderColor};">
+      <td style="font-size:11px;white-space:nowrap;">${a['견적번호']}</td>
+      <td style="font-size:11px;white-space:nowrap;">${a['수주번호'] || '-'}</td>
+      <td><strong>${a['영업담당']}</strong></td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a['거래처']}">${a['거래처']}</td>
+      <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a['품명'] || ''}">${a['품명'] || '-'}</td>
+      <td>${a['항목명']}</td>
+      <td class="r">${Math.round(a['단가']).toLocaleString()}</td>
+      <td class="r">${Math.round(a['표준단가']).toLocaleString()}</td>
+      <td class="r ${dc}">${a['편차(%)'] > 0 ? '+' : ''}${a['편차(%)'].toFixed(1)}%</td>
+      <td class="r">${a['수량R'] !== null ? a['수량R'].toLocaleString() : '-'}</td>
+      <td>${a['승인여부']}</td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  return html;
+}
+
+function renderAnomalies() {
+  const anomalies = DATA.anomalies;
+  document.getElementById('premiumTotal').textContent = `전체 ${anomalies.premium_total.toLocaleString()}건 중 상위 30건 표시`;
+  document.getElementById('discountTotal').textContent = `전체 ${anomalies.discount_total.toLocaleString()}건 중 상위 30건 표시`;
+  document.getElementById('premiumTable').innerHTML = buildAnomalyTableHtml(anomalies.premium, '#dc3545');
+  document.getElementById('discountTable').innerHTML = buildAnomalyTableHtml(anomalies.discount, '#4a6cf7');
+}
+
+loadData();
+</script>
+</body>
+</html>
