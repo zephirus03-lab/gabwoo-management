@@ -2,7 +2,7 @@
   "_meta": {
     "label": "초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.",
     "source": "견적서 상세현황_(20250601~20260410).xlsx",
-    "generated": "2026-04-13 11:15",
+    "generated": "2026-04-13 16:43",
     "analysis_scope": "영업담당 있고 + 항목 있고 + 단가 > 0인 행",
     "total_analyzed": 24722
   },
@@ -6268,5 +6268,8057 @@
       }
     ],
     "by_salesperson": {}
+  },
+  "client_pricing": {
+    "이투스에듀 주식회사 서초지점": {
+      "name": "이투스에듀 주식회사 서초지점",
+      "salesperson": "김영훈",
+      "total_count": 2782,
+      "avg_diff_pct": 46.8,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1674,
+          "median": 6500,
+          "mode": 6500,
+          "min": 220,
+          "max": 60000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 748,
+          "median": 2000,
+          "mode": 2500,
+          "min": 35,
+          "max": 5400,
+          "standard": 1500,
+          "diff_pct": 33.3,
+          "by_volume": {
+            "~1천": {
+              "count": 722,
+              "median": 2000,
+              "standard": 3000,
+              "diff_pct": -33.3
+            },
+            "1~2천": {
+              "count": 11,
+              "median": 1200,
+              "standard": 2000,
+              "diff_pct": -40.0
+            },
+            "1만+": {
+              "count": 15,
+              "median": 35,
+              "standard": 900,
+              "diff_pct": -96.1
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 360,
+          "median": 3800,
+          "mode": 4800,
+          "min": 1100,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 153.3,
+          "by_volume": {
+            "~1천": {
+              "count": 360,
+              "median": 3800,
+              "standard": 3000,
+              "diff_pct": 26.7
+            }
+          }
+        }
+      }
+    },
+    "헬로프린텍": {
+      "name": "헬로프린텍",
+      "salesperson": "조기석",
+      "total_count": 957,
+      "avg_diff_pct": 103.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 488,
+          "median": 6000,
+          "mode": 6000,
+          "min": 1500,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 309,
+          "median": 3500,
+          "mode": 5000,
+          "min": 1500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 309,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 160,
+          "median": 6000,
+          "mode": 6000,
+          "min": 2800,
+          "max": 12125,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 160,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "(주)에듀윌": {
+      "name": "(주)에듀윌",
+      "salesperson": "배용기",
+      "total_count": 664,
+      "avg_diff_pct": 83.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 328,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 214,
+          "median": 3275,
+          "mode": 3400,
+          "min": 1200,
+          "max": 20000,
+          "standard": 1500,
+          "diff_pct": 118.3,
+          "by_volume": {
+            "~1천": {
+              "count": 214,
+              "median": 3275,
+              "standard": 3000,
+              "diff_pct": 9.2
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 122,
+          "median": 3600,
+          "mode": 3600,
+          "min": 2750,
+          "max": 5750,
+          "standard": 1500,
+          "diff_pct": 140.0,
+          "by_volume": {
+            "~1천": {
+              "count": 122,
+              "median": 3600,
+              "standard": 3000,
+              "diff_pct": 20.0
+            }
+          }
+        }
+      }
+    },
+    "(주)브레이커 북스": {
+      "name": "(주)브레이커 북스",
+      "salesperson": "조기석",
+      "total_count": 300,
+      "avg_diff_pct": 165.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 150,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 136,
+          "median": 6000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 136,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 14,
+          "median": 6000,
+          "mode": 6000,
+          "min": 3500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 14,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "(주)코딩앤플레이": {
+      "name": "(주)코딩앤플레이",
+      "salesperson": "유영선",
+      "total_count": 228,
+      "avg_diff_pct": 203.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 114,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 16,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 16,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 98,
+          "median": 7000,
+          "mode": 7000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 98,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)에듀토셀": {
+      "name": "(주)에듀토셀",
+      "salesperson": "유영선",
+      "total_count": 224,
+      "avg_diff_pct": 74.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 153,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 68,
+          "median": 4000,
+          "mode": 5000,
+          "min": 1500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 68,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5500,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주)스몰빅미디어": {
+      "name": "(주)스몰빅미디어",
+      "salesperson": "조기석",
+      "total_count": 221,
+      "avg_diff_pct": 169.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 110,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 24,
+          "median": 2200,
+          "mode": 1900,
+          "min": 1700,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 46.7,
+          "by_volume": {
+            "~1천": {
+              "count": 24,
+              "median": 2200,
+              "standard": 3000,
+              "diff_pct": -26.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 87,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 87,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 필통북스": {
+      "name": "(주) 필통북스",
+      "salesperson": "유영선",
+      "total_count": 210,
+      "avg_diff_pct": 165.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 105,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 53,
+          "median": 7000,
+          "mode": 7000,
+          "min": 1900,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 53,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 52,
+          "median": 5000,
+          "mode": 5000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 52,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "투엘미디어": {
+      "name": "투엘미디어",
+      "salesperson": "조기석",
+      "total_count": 205,
+      "avg_diff_pct": 109.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 103,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 68,
+          "median": 3000,
+          "mode": 3000,
+          "min": 1300,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 68,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 34,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 34,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 토이트론": {
+      "name": "(주) 토이트론",
+      "salesperson": "유영선",
+      "total_count": 188,
+      "avg_diff_pct": 176.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 93,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 14,
+          "median": 7000,
+          "mode": 7000,
+          "min": 2000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 14,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 81,
+          "median": 6000,
+          "mode": 6000,
+          "min": 15,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 77,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            },
+            "1~2천": {
+              "count": 4,
+              "median": 18,
+              "standard": 2000,
+              "diff_pct": -99.1
+            }
+          }
+        }
+      }
+    },
+    "인브리프 커뮤니케이션 (INBRIEF Communication)": {
+      "name": "인브리프 커뮤니케이션 (INBRIEF Communication)",
+      "salesperson": "유영선",
+      "total_count": 143,
+      "avg_diff_pct": 198.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 72,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 69,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3000,
+          "max": 140000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 69,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 8500,
+          "mode": 5000,
+          "min": 5000,
+          "max": 12000,
+          "standard": 1500,
+          "diff_pct": 466.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8500,
+              "standard": 3000,
+              "diff_pct": 183.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 비즈니스북스": {
+      "name": "주식회사 비즈니스북스",
+      "salesperson": "한기훈",
+      "total_count": 127,
+      "avg_diff_pct": 149.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 65,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 32,
+          "median": 3100,
+          "mode": 3100,
+          "min": 2900,
+          "max": 20000,
+          "standard": 1500,
+          "diff_pct": 106.7,
+          "by_volume": {
+            "~1천": {
+              "count": 32,
+              "median": 3100,
+              "standard": 3000,
+              "diff_pct": 3.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 30,
+          "median": 8000,
+          "mode": 8000,
+          "min": 5000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 30,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사 엠굿(mgood)": {
+      "name": "주식회사 엠굿(mgood)",
+      "salesperson": "유영선",
+      "total_count": 126,
+      "avg_diff_pct": 158.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 63,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 57,
+          "median": 6000,
+          "mode": 6000,
+          "min": 3600,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 57,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 5500,
+          "mode": 6000,
+          "min": 3500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 상상아카데미": {
+      "name": "(주) 상상아카데미",
+      "salesperson": "조기석",
+      "total_count": 119,
+      "avg_diff_pct": 155.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 59,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 25,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 25,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 35,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 35,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "에이콘출판(주)": {
+      "name": "에이콘출판(주)",
+      "salesperson": "유영선",
+      "total_count": 111,
+      "avg_diff_pct": 127.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 55,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 56,
+          "median": 5000,
+          "mode": 5000,
+          "min": 4500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 56,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "예진씨앤피": {
+      "name": "예진씨앤피",
+      "salesperson": "장경업",
+      "total_count": 104,
+      "avg_diff_pct": 156.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 52,
+          "median": 9000,
+          "mode": 9000,
+          "min": 8000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 15,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 37,
+          "median": 5000,
+          "mode": 5000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 37,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주)에이치에스애드": {
+      "name": "(주)에이치에스애드",
+      "salesperson": "조기석",
+      "total_count": 95,
+      "avg_diff_pct": 20.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 95,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        }
+      }
+    },
+    "그래서음악(SO MUSIC)": {
+      "name": "그래서음악(SO MUSIC)",
+      "salesperson": "조기석",
+      "total_count": 92,
+      "avg_diff_pct": 133.8,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 46,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 24,
+          "median": 3000,
+          "mode": 3000,
+          "min": 1450,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 24,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 22,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 22,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "지구문화사": {
+      "name": "지구문화사",
+      "salesperson": "유영선",
+      "total_count": 92,
+      "avg_diff_pct": 170.9,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 49,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 28,
+          "median": 7000,
+          "mode": 7000,
+          "min": 2200,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 28,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 15,
+          "median": 5000,
+          "mode": 5000,
+          "min": 4500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "이비에스미디어(주)": {
+      "name": "이비에스미디어(주)",
+      "salesperson": "조기석",
+      "total_count": 89,
+      "avg_diff_pct": 73.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 45,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 41,
+          "median": 3000,
+          "mode": 3000,
+          "min": 1500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 41,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)바이풀디자인": {
+      "name": "(주)바이풀디자인",
+      "salesperson": "장경업",
+      "total_count": 88,
+      "avg_diff_pct": 88.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 41,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 21,
+          "median": 2300,
+          "mode": 2300,
+          "min": 1700,
+          "max": 12000,
+          "standard": 1500,
+          "diff_pct": 53.3,
+          "by_volume": {
+            "~1천": {
+              "count": 21,
+              "median": 2300,
+              "standard": 3000,
+              "diff_pct": -23.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 26,
+          "median": 4400,
+          "mode": 4400,
+          "min": 2700,
+          "max": 6600,
+          "standard": 1500,
+          "diff_pct": 193.3,
+          "by_volume": {
+            "~1천": {
+              "count": 26,
+              "median": 4400,
+              "standard": 3000,
+              "diff_pct": 46.7
+            }
+          }
+        }
+      }
+    },
+    "기문당": {
+      "name": "기문당",
+      "salesperson": "장경업",
+      "total_count": 84,
+      "avg_diff_pct": 136.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 42,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 15,
+          "median": 5000,
+          "mode": 5000,
+          "min": 4000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 27,
+          "median": 5000,
+          "mode": 5000,
+          "min": 4000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 27,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "북펀딩": {
+      "name": "북펀딩",
+      "salesperson": "유영선",
+      "total_count": 83,
+      "avg_diff_pct": 169.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 42,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 20,
+          "median": 5000,
+          "mode": 7000,
+          "min": 2500,
+          "max": 8500,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 20,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 21,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 21,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "더핑크퐁컴퍼니 주식회사": {
+      "name": "더핑크퐁컴퍼니 주식회사",
+      "salesperson": "유영선",
+      "total_count": 80,
+      "avg_diff_pct": 70.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 40,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 35,
+          "median": 2900,
+          "mode": 1700,
+          "min": 1600,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 93.3,
+          "by_volume": {
+            "~1천": {
+              "count": 35,
+              "median": 2900,
+              "standard": 3000,
+              "diff_pct": -3.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 5,
+          "median": 3800,
+          "mode": 3400,
+          "min": 3400,
+          "max": 5500,
+          "standard": 1500,
+          "diff_pct": 153.3,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 3800,
+              "standard": 3000,
+              "diff_pct": 26.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사 이오문화사": {
+      "name": "주식회사 이오문화사",
+      "salesperson": "장경업",
+      "total_count": 67,
+      "avg_diff_pct": 198.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 33,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 34,
+          "median": 6500,
+          "mode": 5000,
+          "min": 5000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 333.3,
+          "by_volume": {
+            "~1천": {
+              "count": 34,
+              "median": 6500,
+              "standard": 3000,
+              "diff_pct": 116.7
+            }
+          }
+        }
+      }
+    },
+    "자유아카데미": {
+      "name": "자유아카데미",
+      "salesperson": "조기석",
+      "total_count": 63,
+      "avg_diff_pct": 184.9,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 32,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 16,
+          "median": 7000,
+          "mode": 7000,
+          "min": 2000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 16,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 15,
+          "median": 6000,
+          "mode": 6000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "주식회사 도서출판세진": {
+      "name": "주식회사 도서출판세진",
+      "salesperson": "유영선",
+      "total_count": 56,
+      "avg_diff_pct": 131.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 28,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 9,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 19,
+          "median": 4500,
+          "mode": 4000,
+          "min": 4000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 200.0,
+          "by_volume": {
+            "~1천": {
+              "count": 19,
+              "median": 4500,
+              "standard": 3000,
+              "diff_pct": 50.0
+            }
+          }
+        }
+      }
+    },
+    "주식회사 미디어퍼페추얼": {
+      "name": "주식회사 미디어퍼페추얼",
+      "salesperson": "유영선",
+      "total_count": 56,
+      "avg_diff_pct": 146.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 28,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 16,
+          "median": 4000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 16,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 12,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 20000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 12,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(사)한국금융연수원": {
+      "name": "(사)한국금융연수원",
+      "salesperson": "유영선",
+      "total_count": 54,
+      "avg_diff_pct": 183.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 25,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 7,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 22,
+          "median": 6000,
+          "mode": 6000,
+          "min": 3800,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 22,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "(주)케이랩": {
+      "name": "(주)케이랩",
+      "salesperson": "장경업",
+      "total_count": 53,
+      "avg_diff_pct": 50.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 28,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 24,
+          "median": 2500,
+          "mode": 2500,
+          "min": 1300,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 66.7,
+          "by_volume": {
+            "~1천": {
+              "count": 24,
+              "median": 2500,
+              "standard": 3000,
+              "diff_pct": -16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주) 게임문화": {
+      "name": "(주) 게임문화",
+      "salesperson": "유영선",
+      "total_count": 52,
+      "avg_diff_pct": 76.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 26,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 9,
+          "median": 4000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 17,
+          "median": 3000,
+          "mode": 1700,
+          "min": 1700,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 17,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        }
+      }
+    },
+    "주식회사지원출판": {
+      "name": "주식회사지원출판",
+      "salesperson": "박정열",
+      "total_count": 51,
+      "avg_diff_pct": 91.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 27,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 13,
+          "median": 3000,
+          "mode": 5000,
+          "min": 2200,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 13,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 11,
+          "median": 5000,
+          "mode": 5000,
+          "min": 2500,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 11,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주) 학토재": {
+      "name": "(주) 학토재",
+      "salesperson": "유영선",
+      "total_count": 48,
+      "avg_diff_pct": 153.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 24,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 6500,
+          "mode": 7000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 333.3,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 6500,
+              "standard": 3000,
+              "diff_pct": 116.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 16,
+          "median": 5000,
+          "mode": 7000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 16,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주) 청년의사": {
+      "name": "(주) 청년의사",
+      "salesperson": "조기석",
+      "total_count": 46,
+      "avg_diff_pct": 157.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 23,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 14,
+          "median": 4750,
+          "mode": 7000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 216.7,
+          "by_volume": {
+            "~1천": {
+              "count": 14,
+              "median": 4750,
+              "standard": 3000,
+              "diff_pct": 58.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 9,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "도서출판 서돌": {
+      "name": "도서출판 서돌",
+      "salesperson": "유영선",
+      "total_count": 44,
+      "avg_diff_pct": 95.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 22,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 3750,
+          "mode": 3500,
+          "min": 1800,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 150.0,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 3750,
+              "standard": 3000,
+              "diff_pct": 25.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 14,
+          "median": 4000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 14,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "반달서재": {
+      "name": "반달서재",
+      "salesperson": "유영선",
+      "total_count": 44,
+      "avg_diff_pct": 134.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 22,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 12,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 12,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 10,
+          "median": 4000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 4000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "제이케이엠디자인 주식회사 (JKMDESIGN)": {
+      "name": "제이케이엠디자인 주식회사 (JKMDESIGN)",
+      "salesperson": "유영선",
+      "total_count": 43,
+      "avg_diff_pct": 247.8,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 23,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 4000,
+          "mode": 4000,
+          "min": 3500,
+          "max": 150000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 12,
+          "median": 12000,
+          "mode": 7000,
+          "min": 4000,
+          "max": 30000,
+          "standard": 1500,
+          "diff_pct": 700.0,
+          "by_volume": {
+            "~1천": {
+              "count": 12,
+              "median": 12000,
+              "standard": 3000,
+              "diff_pct": 300.0
+            }
+          }
+        }
+      }
+    },
+    "사단법인 아이코리아": {
+      "name": "사단법인 아이코리아",
+      "salesperson": "박정열",
+      "total_count": 42,
+      "avg_diff_pct": 284.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 21,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 7000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 17,
+          "median": 10000,
+          "mode": 10000,
+          "min": 8000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 17,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "교하도서관": {
+      "name": "교하도서관",
+      "salesperson": "이지현",
+      "total_count": 40,
+      "avg_diff_pct": 246.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 20,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 20,
+          "median": 8000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 20,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "나비소리": {
+      "name": "나비소리",
+      "salesperson": "장경업",
+      "total_count": 40,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 20,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 10,
+          "median": 5000,
+          "mode": 5000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 10,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 아이뉴턴": {
+      "name": "주식회사 아이뉴턴",
+      "salesperson": "박정열",
+      "total_count": 40,
+      "avg_diff_pct": 146.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 20,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 20,
+          "median": 5000,
+          "mode": 4000,
+          "min": 3500,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 20,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "서울음악출판사": {
+      "name": "서울음악출판사",
+      "salesperson": "유영선",
+      "total_count": 39,
+      "avg_diff_pct": 152.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 19,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 14,
+          "median": 4300,
+          "mode": 3500,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 186.7,
+          "by_volume": {
+            "~1천": {
+              "count": 14,
+              "median": 4300,
+              "standard": 3000,
+              "diff_pct": 43.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "김달진미술연구소": {
+      "name": "김달진미술연구소",
+      "salesperson": "유영선",
+      "total_count": 38,
+      "avg_diff_pct": 67.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 19,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 9,
+          "median": 3000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 10,
+          "median": 2300,
+          "mode": 2300,
+          "min": 2300,
+          "max": 20000,
+          "standard": 1500,
+          "diff_pct": 53.3,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 2300,
+              "standard": 3000,
+              "diff_pct": -23.3
+            }
+          }
+        }
+      }
+    },
+    "(주)다락원": {
+      "name": "(주)다락원",
+      "salesperson": "이동신",
+      "total_count": 36,
+      "avg_diff_pct": 185.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 20,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 15,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3300,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "디자인크레파스": {
+      "name": "디자인크레파스",
+      "salesperson": "박정열",
+      "total_count": 36,
+      "avg_diff_pct": 78.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 18,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 18,
+          "median": 3250,
+          "mode": 6000,
+          "min": 1500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 116.7,
+          "by_volume": {
+            "~1천": {
+              "count": 18,
+              "median": 3250,
+              "standard": 3000,
+              "diff_pct": 8.3
+            }
+          }
+        }
+      }
+    },
+    "(주)노머스": {
+      "name": "(주)노머스",
+      "salesperson": "유영선",
+      "total_count": 34,
+      "avg_diff_pct": 272.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 19,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 12000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 10,
+          "median": 10000,
+          "mode": 10000,
+          "min": 5000,
+          "max": 35000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 5,
+          "median": 10000,
+          "mode": 10000,
+          "min": 6000,
+          "max": 12000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "동아에코팩주식회사": {
+      "name": "동아에코팩주식회사",
+      "salesperson": "조기석",
+      "total_count": 34,
+      "avg_diff_pct": 116.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 22,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 5,
+          "median": 3000,
+          "mode": 3000,
+          "min": 1800,
+          "max": 3000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 7,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 오픈하우스포퍼블리셔스": {
+      "name": "(주) 오픈하우스포퍼블리셔스",
+      "salesperson": "조기석",
+      "total_count": 33,
+      "avg_diff_pct": 198.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 17,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 13,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 13,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)지산컴퍼니": {
+      "name": "(주)지산컴퍼니",
+      "salesperson": "장경업",
+      "total_count": 33,
+      "avg_diff_pct": 60.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 15,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 12,
+          "median": 2500,
+          "mode": 2500,
+          "min": 1500,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 66.7,
+          "by_volume": {
+            "~1천": {
+              "count": 12,
+              "median": 2500,
+              "standard": 3000,
+              "diff_pct": -16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 3000,
+          "mode": 2500,
+          "min": 1500,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        }
+      }
+    },
+    "(주)호밀밭": {
+      "name": "(주)호밀밭",
+      "salesperson": "장경업",
+      "total_count": 32,
+      "avg_diff_pct": 174.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 16,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 7,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 9,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 원교재사": {
+      "name": "주식회사 원교재사",
+      "salesperson": "유영선",
+      "total_count": 32,
+      "avg_diff_pct": 74.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 25,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 7,
+          "median": 5000,
+          "mode": 4000,
+          "min": 1700,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주)객석컴퍼니": {
+      "name": "(주)객석컴퍼니",
+      "salesperson": "유영선",
+      "total_count": 30,
+      "avg_diff_pct": 50.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 30,
+          "median": 7500,
+          "mode": 7500,
+          "min": 7500,
+          "max": 7500,
+          "standard": 5000,
+          "diff_pct": 50.0
+        }
+      }
+    },
+    "(주)광명비즈니스파주지점": {
+      "name": "(주)광명비즈니스파주지점",
+      "salesperson": "박정열",
+      "total_count": 30,
+      "avg_diff_pct": 200.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 15,
+          "median": 10000,
+          "mode": 10000,
+          "min": 8000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 15,
+          "median": 6000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "(사)세계교회성장연구원": {
+      "name": "(사)세계교회성장연구원",
+      "salesperson": "조기석",
+      "total_count": 29,
+      "avg_diff_pct": 130.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 16,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 7,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3000,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "도서출판소동": {
+      "name": "도서출판소동",
+      "salesperson": "조기석",
+      "total_count": 29,
+      "avg_diff_pct": 167.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 14,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 4000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 9,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 15000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "한국가이던스 주식회사": {
+      "name": "한국가이던스 주식회사",
+      "salesperson": "유영선",
+      "total_count": 28,
+      "avg_diff_pct": 87.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 14,
+          "median": 8000,
+          "mode": 8000,
+          "min": 7000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 13,
+          "median": 3000,
+          "mode": 2000,
+          "min": 2000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 13,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "위고디자인(WEGO DESIGN)": {
+      "name": "위고디자인(WEGO DESIGN)",
+      "salesperson": "조기석",
+      "total_count": 27,
+      "avg_diff_pct": 136.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 13,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 10,
+          "median": 4250,
+          "mode": 7000,
+          "min": 2500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 183.3,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 4250,
+              "standard": 3000,
+              "diff_pct": 41.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 6500,
+          "mode": 6000,
+          "min": 6000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 333.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 6500,
+              "standard": 3000,
+              "diff_pct": 116.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사코리아프린테크": {
+      "name": "주식회사코리아프린테크",
+      "salesperson": "김영훈",
+      "total_count": 26,
+      "avg_diff_pct": 20.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 26,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        }
+      }
+    },
+    "주식회사 인투그래픽": {
+      "name": "주식회사 인투그래픽",
+      "salesperson": "박정열",
+      "total_count": 25,
+      "avg_diff_pct": 111.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 13,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 12,
+          "median": 4000,
+          "mode": 4000,
+          "min": 2800,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 12,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "(주)퓨처미디어": {
+      "name": "(주)퓨처미디어",
+      "salesperson": "장경업",
+      "total_count": 24,
+      "avg_diff_pct": 167.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 12,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 10,
+          "median": 6000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 10,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 5500,
+          "mode": 4000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        }
+      }
+    },
+    "덕성기획": {
+      "name": "덕성기획",
+      "salesperson": "조기석",
+      "total_count": 24,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 12,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 5000,
+          "mode": 5000,
+          "min": 1500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "아라크네": {
+      "name": "아라크네",
+      "salesperson": "조기석",
+      "total_count": 24,
+      "avg_diff_pct": 110.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 12,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 3000,
+          "mode": 2500,
+          "min": 2500,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "한국주산브레인셈교육회": {
+      "name": "한국주산브레인셈교육회",
+      "salesperson": "조기석",
+      "total_count": 24,
+      "avg_diff_pct": 86.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 12,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 12,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 12,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        }
+      }
+    },
+    "(주)열린": {
+      "name": "(주)열린",
+      "salesperson": "유영선",
+      "total_count": 22,
+      "avg_diff_pct": 95.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 11,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 3000,
+          "mode": 3000,
+          "min": 1400,
+          "max": 4500,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 5,
+          "median": 5000,
+          "mode": 5000,
+          "min": 3000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "다락방": {
+      "name": "다락방",
+      "salesperson": "조기석",
+      "total_count": 22,
+      "avg_diff_pct": 173.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 11,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 5,
+          "median": 5000,
+          "mode": 7000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "미술과비평 주식회사": {
+      "name": "미술과비평 주식회사",
+      "salesperson": "장경업",
+      "total_count": 22,
+      "avg_diff_pct": 104.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 11,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 9,
+          "median": 4000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "파고다북스": {
+      "name": "파고다북스",
+      "salesperson": "유영선",
+      "total_count": 22,
+      "avg_diff_pct": 139.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 11,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 5500,
+          "mode": 5500,
+          "min": 3500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 4000,
+          "mode": 2000,
+          "min": 2000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "(주)디딤돌교육": {
+      "name": "(주)디딤돌교육",
+      "salesperson": "박정열",
+      "total_count": 21,
+      "avg_diff_pct": 141.9,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 15,
+          "median": 4000,
+          "mode": 4000,
+          "min": 3000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 15,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "도서출판미래엠앤비": {
+      "name": "도서출판미래엠앤비",
+      "salesperson": "김현식",
+      "total_count": 21,
+      "avg_diff_pct": 138.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 11,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 4000,
+          "mode": 4000,
+          "min": 2800,
+          "max": 4500,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "여해(汝諧)고전연구소": {
+      "name": "여해(汝諧)고전연구소",
+      "salesperson": "조기석",
+      "total_count": 20,
+      "avg_diff_pct": 96.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 10,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 3000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "트래블고고(TRAVEL GOGO)": {
+      "name": "트래블고고(TRAVEL GOGO)",
+      "salesperson": "유영선",
+      "total_count": 20,
+      "avg_diff_pct": 346.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 10,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 50000,
+          "mode": 50000,
+          "min": 50000,
+          "max": 50000,
+          "standard": 1500,
+          "diff_pct": 3233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 50000,
+              "standard": 3000,
+              "diff_pct": 1566.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 9,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5500,
+          "max": 40000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)지담디앤피": {
+      "name": "(주)지담디앤피",
+      "salesperson": "한기훈",
+      "total_count": 18,
+      "avg_diff_pct": 146.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 9,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 9,
+          "median": 5000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 9,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사 미래엔": {
+      "name": "주식회사 미래엔",
+      "salesperson": "한기훈",
+      "total_count": 17,
+      "avg_diff_pct": 205.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 9,
+          "median": 8300,
+          "mode": 8300,
+          "min": 8300,
+          "max": 8300,
+          "standard": 5000,
+          "diff_pct": 66.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 6925,
+          "mode": 11100,
+          "min": 2300,
+          "max": 11100,
+          "standard": 1500,
+          "diff_pct": 361.7,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 6925,
+              "standard": 3000,
+              "diff_pct": 130.8
+            }
+          }
+        }
+      }
+    },
+    "(주)엑설런스코리아": {
+      "name": "(주)엑설런스코리아",
+      "salesperson": "한기훈",
+      "total_count": 16,
+      "avg_diff_pct": 256.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 8,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "DANCING QUEEN": {
+      "name": "DANCING QUEEN",
+      "salesperson": "유영선",
+      "total_count": 16,
+      "avg_diff_pct": 180.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 8,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 워터멜론컴퍼니": {
+      "name": "주식회사 워터멜론컴퍼니",
+      "salesperson": "이의섭",
+      "total_count": 16,
+      "avg_diff_pct": 263.8,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 8,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 5,
+          "median": 5000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "해피함피": {
+      "name": "해피함피",
+      "salesperson": "박정열",
+      "total_count": 16,
+      "avg_diff_pct": 256.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 8,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 8,
+          "median": 8000,
+          "mode": 10000,
+          "min": 5500,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 8,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "(주)교원": {
+      "name": "(주)교원",
+      "salesperson": "김현식",
+      "total_count": 14,
+      "avg_diff_pct": 144.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 5,
+          "median": 5800,
+          "mode": 5800,
+          "min": 5800,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 286.7,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 5800,
+              "standard": 3000,
+              "diff_pct": 93.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 3260,
+          "mode": 2200,
+          "min": 2200,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 117.3,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 3260,
+              "standard": 3000,
+              "diff_pct": 8.7
+            }
+          }
+        }
+      }
+    },
+    "그림책방": {
+      "name": "그림책방",
+      "salesperson": "장경업",
+      "total_count": 14,
+      "avg_diff_pct": 113.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 7,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 7,
+          "median": 4000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "조이송아이콘뮤직 주식회사": {
+      "name": "조이송아이콘뮤직 주식회사",
+      "salesperson": "장경업",
+      "total_count": 14,
+      "avg_diff_pct": 155.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 7,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 4500,
+          "mode": 4500,
+          "min": 3500,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 200.0,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 4500,
+              "standard": 3000,
+              "diff_pct": 50.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 태림스코어": {
+      "name": "(주) 태림스코어",
+      "salesperson": "장경업",
+      "total_count": 12,
+      "avg_diff_pct": 181.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)신망애출판사": {
+      "name": "(주)신망애출판사",
+      "salesperson": "조기석",
+      "total_count": 12,
+      "avg_diff_pct": 203.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 7000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)에이아이북스(Ai Books Co.,Ltd.)": {
+      "name": "(주)에이아이북스(Ai Books Co.,Ltd.)",
+      "salesperson": "유영선",
+      "total_count": 12,
+      "avg_diff_pct": 178.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 6250,
+          "mode": 7000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 316.7,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 6250,
+              "standard": 3000,
+              "diff_pct": 108.3
+            }
+          }
+        }
+      }
+    },
+    "(주)해커스": {
+      "name": "(주)해커스",
+      "salesperson": "배용기",
+      "total_count": 12,
+      "avg_diff_pct": 136.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 6,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "디자인 나무": {
+      "name": "디자인 나무",
+      "salesperson": "장경업",
+      "total_count": 12,
+      "avg_diff_pct": 120.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 5,
+          "median": 4000,
+          "mode": 7000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 헬스조선": {
+      "name": "주식회사 헬스조선",
+      "salesperson": "한기훈",
+      "total_count": 12,
+      "avg_diff_pct": 433.3,
+      "items": {
+        "303001": {
+          "name": "인쇄",
+          "count": 5,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 7,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 7,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "한국과학기술한림원": {
+      "name": "한국과학기술한림원",
+      "salesperson": "이지현",
+      "total_count": 12,
+      "avg_diff_pct": 470.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 6,
+          "median": 15000,
+          "mode": 15000,
+          "min": 15000,
+          "max": 15000,
+          "standard": 1500,
+          "diff_pct": 900.0,
+          "by_volume": {
+            "~1천": {
+              "count": 6,
+              "median": 15000,
+              "standard": 3000,
+              "diff_pct": 400.0
+            }
+          }
+        }
+      }
+    },
+    "(주)한결마케팅": {
+      "name": "(주)한결마케팅",
+      "salesperson": "장경업",
+      "total_count": 11,
+      "avg_diff_pct": 158.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 5,
+          "median": 6000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "국제판촉물협회 (World gift)": {
+      "name": "국제판촉물협회 (World gift)",
+      "salesperson": "김현식",
+      "total_count": 11,
+      "avg_diff_pct": 188.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 5,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(재) 새마을금고복지회": {
+      "name": "(재) 새마을금고복지회",
+      "salesperson": "이동신",
+      "total_count": 10,
+      "avg_diff_pct": 5.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 1025,
+          "mode": 1000,
+          "min": 1000,
+          "max": 1100,
+          "standard": 1500,
+          "diff_pct": -31.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 1000,
+              "standard": 3000,
+              "diff_pct": -66.7
+            },
+            "2~3천": {
+              "count": 1,
+              "median": 1050,
+              "standard": 1500,
+              "diff_pct": -30.0
+            },
+            "5~1만": {
+              "count": 1,
+              "median": 1100,
+              "standard": 1100,
+              "diff_pct": 0.0
+            }
+          }
+        }
+      }
+    },
+    "(주)클로버": {
+      "name": "(주)클로버",
+      "salesperson": "김현식",
+      "total_count": 10,
+      "avg_diff_pct": 103.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 7000,
+          "mode": 7000,
+          "min": 6000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 5,
+          "median": 4000,
+          "mode": 4000,
+          "min": 2500,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 5,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "골든픽쳐": {
+      "name": "골든픽쳐",
+      "salesperson": "유영선",
+      "total_count": 10,
+      "avg_diff_pct": 75.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 1800,
+          "mode": 1800,
+          "min": 1800,
+          "max": 1800,
+          "standard": 1500,
+          "diff_pct": 20.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 1800,
+              "standard": 3000,
+              "diff_pct": -40.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 5500,
+          "mode": 5500,
+          "min": 5500,
+          "max": 5500,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        }
+      }
+    },
+    "군자출판사 (주)": {
+      "name": "군자출판사 (주)",
+      "salesperson": "조기석",
+      "total_count": 10,
+      "avg_diff_pct": 88.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 3,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 4000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "도서출판 한미의학": {
+      "name": "도서출판 한미의학",
+      "salesperson": "김현식",
+      "total_count": 10,
+      "avg_diff_pct": 126.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 2750,
+          "mode": 2500,
+          "min": 2500,
+          "max": 3000,
+          "standard": 1500,
+          "diff_pct": 83.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 2750,
+              "standard": 3000,
+              "diff_pct": -8.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "리베로시스템주식회사": {
+      "name": "리베로시스템주식회사",
+      "salesperson": "조기석",
+      "total_count": 10,
+      "avg_diff_pct": 183.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 5500,
+          "mode": 2500,
+          "min": 2500,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사에이콘온(Acorn-on Co.,Ltd)": {
+      "name": "주식회사에이콘온(Acorn-on Co.,Ltd)",
+      "salesperson": "유영선",
+      "total_count": 10,
+      "avg_diff_pct": 176.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 4500,
+          "mode": 4500,
+          "min": 4500,
+          "max": 4500,
+          "standard": 1500,
+          "diff_pct": 200.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 4500,
+              "standard": 3000,
+              "diff_pct": 50.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "헤세의서재": {
+      "name": "헤세의서재",
+      "salesperson": "조기석",
+      "total_count": 10,
+      "avg_diff_pct": 160.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 3750,
+          "mode": 3500,
+          "min": 3500,
+          "max": 4000,
+          "standard": 1500,
+          "diff_pct": 150.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 3750,
+              "standard": 3000,
+              "diff_pct": 25.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(사)한국산업기술진흥협회": {
+      "name": "(사)한국산업기술진흥협회",
+      "salesperson": "이지현",
+      "total_count": 8,
+      "avg_diff_pct": 153.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "(주)씨디커뮤니케이션": {
+      "name": "(주)씨디커뮤니케이션",
+      "salesperson": "유영선",
+      "total_count": 8,
+      "avg_diff_pct": 136.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 5000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주)엔에스": {
+      "name": "(주)엔에스",
+      "salesperson": "김영훈",
+      "total_count": 8,
+      "avg_diff_pct": 206.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 6500,
+          "mode": 7000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 333.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 6500,
+              "standard": 3000,
+              "diff_pct": 116.7
+            }
+          }
+        }
+      }
+    },
+    "산업통상부": {
+      "name": "산업통상부",
+      "salesperson": "배용기",
+      "total_count": 8,
+      "avg_diff_pct": 38.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 2200,
+          "mode": 1400,
+          "min": 1400,
+          "max": 3000,
+          "standard": 1500,
+          "diff_pct": 46.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 2200,
+              "standard": 3000,
+              "diff_pct": -26.7
+            }
+          }
+        }
+      }
+    },
+    "씨밀레북스": {
+      "name": "씨밀레북스",
+      "salesperson": "장경업",
+      "total_count": 8,
+      "avg_diff_pct": 185.8,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 2750,
+          "mode": 2000,
+          "min": 2000,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 83.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 2750,
+              "standard": 3000,
+              "diff_pct": -8.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 1500,
+          "diff_pct": 500.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 9000,
+              "standard": 3000,
+              "diff_pct": 200.0
+            }
+          }
+        }
+      }
+    },
+    "우리기획": {
+      "name": "우리기획",
+      "salesperson": "유영선",
+      "total_count": 8,
+      "avg_diff_pct": 203.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 4000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 네오(Neo Inc.)": {
+      "name": "주식회사 네오(Neo Inc.)",
+      "salesperson": "조기석",
+      "total_count": 8,
+      "avg_diff_pct": 38.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 2000,
+          "mode": 2000,
+          "min": 2000,
+          "max": 2000,
+          "standard": 1500,
+          "diff_pct": 33.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 2000,
+              "standard": 3000,
+              "diff_pct": -33.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 새터씨앤씨": {
+      "name": "주식회사 새터씨앤씨",
+      "salesperson": "장경업",
+      "total_count": 8,
+      "avg_diff_pct": 43.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 7,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 2500,
+          "mode": 2500,
+          "min": 2500,
+          "max": 2500,
+          "standard": 1500,
+          "diff_pct": 66.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 2500,
+              "standard": 3000,
+              "diff_pct": -16.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사네스트": {
+      "name": "주식회사네스트",
+      "salesperson": "박정열",
+      "total_count": 8,
+      "avg_diff_pct": 266.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 8000,
+          "mode": 8000,
+          "min": 6000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사두두스토리": {
+      "name": "주식회사두두스토리",
+      "salesperson": "유영선",
+      "total_count": 8,
+      "avg_diff_pct": 300.9,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 6750,
+          "mode": 6500,
+          "min": 6500,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 35.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사밴코아트": {
+      "name": "주식회사밴코아트",
+      "salesperson": "조기석",
+      "total_count": 8,
+      "avg_diff_pct": 145.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사오즈하우스": {
+      "name": "주식회사오즈하우스",
+      "salesperson": "조기석",
+      "total_count": 8,
+      "avg_diff_pct": 198.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 4,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 4,
+          "median": 7000,
+          "mode": 7000,
+          "min": 3500,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(사)대한출판문화협회": {
+      "name": "(사)대한출판문화협회",
+      "salesperson": "김현식",
+      "total_count": 6,
+      "avg_diff_pct": 146.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 3,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주) 트랑고": {
+      "name": "(주) 트랑고",
+      "salesperson": "유영선",
+      "total_count": 6,
+      "avg_diff_pct": 223.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 6500,
+          "mode": 5000,
+          "min": 5000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 333.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 6500,
+              "standard": 3000,
+              "diff_pct": 116.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "(주)고담": {
+      "name": "(주)고담",
+      "salesperson": "배용기",
+      "total_count": 6,
+      "avg_diff_pct": 268.9,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 8000,
+          "mode": 8000,
+          "min": 7000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 8000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 9000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "(주)조선일보사": {
+      "name": "(주)조선일보사",
+      "salesperson": "박정열",
+      "total_count": 6,
+      "avg_diff_pct": 60.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 6,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        }
+      }
+    },
+    "(주)챔프스터디": {
+      "name": "(주)챔프스터디",
+      "salesperson": "유영선",
+      "total_count": 6,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "(주)피티엘": {
+      "name": "(주)피티엘",
+      "salesperson": "김현식",
+      "total_count": 6,
+      "avg_diff_pct": 174.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 5250,
+          "mode": 3500,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 250.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5250,
+              "standard": 3000,
+              "diff_pct": 75.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "B612북스": {
+      "name": "B612북스",
+      "salesperson": "조기석",
+      "total_count": 6,
+      "avg_diff_pct": 164.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "레인북": {
+      "name": "레인북",
+      "salesperson": "유영선",
+      "total_count": 6,
+      "avg_diff_pct": 213.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "신원아트": {
+      "name": "신원아트",
+      "salesperson": "장경업",
+      "total_count": 6,
+      "avg_diff_pct": 120.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 4500,
+          "mode": 4000,
+          "min": 4000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 200.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 4500,
+              "standard": 3000,
+              "diff_pct": 50.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "제일문화사": {
+      "name": "제일문화사",
+      "salesperson": "유영선",
+      "total_count": 6,
+      "avg_diff_pct": 98.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 3,
+          "median": 4000,
+          "mode": 4000,
+          "min": 1500,
+          "max": 4000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "조선아이에스(주)": {
+      "name": "조선아이에스(주)",
+      "salesperson": "김현식",
+      "total_count": 6,
+      "avg_diff_pct": 241.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 6750,
+          "mode": 3500,
+          "min": 3500,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 350.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 6750,
+              "standard": 3000,
+              "diff_pct": 125.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사형민로드": {
+      "name": "주식회사형민로드",
+      "salesperson": "조기석",
+      "total_count": 6,
+      "avg_diff_pct": 164.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5500,
+          "mode": 5500,
+          "min": 5500,
+          "max": 5500,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "한국정기간행물협동조합": {
+      "name": "한국정기간행물협동조합",
+      "salesperson": "박정열",
+      "total_count": 6,
+      "avg_diff_pct": 194.5,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7500,
+          "mode": 7500,
+          "min": 7500,
+          "max": 7500,
+          "standard": 5000,
+          "diff_pct": 50.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 5500,
+          "mode": 6000,
+          "min": 4000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        }
+      }
+    },
+    "혜성프린팅": {
+      "name": "혜성프린팅",
+      "salesperson": "유영선",
+      "total_count": 6,
+      "avg_diff_pct": 44.4,
+      "items": {
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 1300,
+          "mode": 1000,
+          "min": 1000,
+          "max": 1600,
+          "standard": 1500,
+          "diff_pct": -13.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 1600,
+              "standard": 3000,
+              "diff_pct": -46.7
+            },
+            "1~2천": {
+              "count": 1,
+              "median": 1000,
+              "standard": 2000,
+              "diff_pct": -50.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 4,
+          "median": 2600,
+          "mode": 2400,
+          "min": 2400,
+          "max": 2800,
+          "standard": 1500,
+          "diff_pct": 73.3,
+          "by_volume": {
+            "~1천": {
+              "count": 4,
+              "median": 2600,
+              "standard": 3000,
+              "diff_pct": -13.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 그레이트앤글로리": {
+      "name": "(주) 그레이트앤글로리",
+      "salesperson": "유영선",
+      "total_count": 5,
+      "avg_diff_pct": 117.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 5000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "(주)이강피엔씨": {
+      "name": "(주)이강피엔씨",
+      "salesperson": "유영선",
+      "total_count": 5,
+      "avg_diff_pct": 236.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 20000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "(주)해커스어학연구소": {
+      "name": "(주)해커스어학연구소",
+      "salesperson": "배용기",
+      "total_count": 5,
+      "avg_diff_pct": 38.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 2250,
+          "mode": 2000,
+          "min": 2000,
+          "max": 2500,
+          "standard": 1500,
+          "diff_pct": 50.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 2250,
+              "standard": 3000,
+              "diff_pct": -25.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 1700,
+          "mode": 1700,
+          "min": 1700,
+          "max": 1700,
+          "standard": 1500,
+          "diff_pct": 13.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 1700,
+              "standard": 3000,
+              "diff_pct": -43.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사와이앤리더스": {
+      "name": "주식회사와이앤리더스",
+      "salesperson": "박정열",
+      "total_count": 5,
+      "avg_diff_pct": 230.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 5000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "중앙일보(주)": {
+      "name": "중앙일보(주)",
+      "salesperson": "박정열",
+      "total_count": 5,
+      "avg_diff_pct": 60.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 5,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        }
+      }
+    },
+    "(주)개성홍삼": {
+      "name": "(주)개성홍삼",
+      "salesperson": "김현식",
+      "total_count": 4,
+      "avg_diff_pct": 263.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 8500,
+          "mode": 7000,
+          "min": 7000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 466.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8500,
+              "standard": 3000,
+              "diff_pct": 183.3
+            }
+          }
+        }
+      }
+    },
+    "(주)세연인터내셔널": {
+      "name": "(주)세연인터내셔널",
+      "salesperson": "김현식",
+      "total_count": 4,
+      "avg_diff_pct": 296.6,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 9500,
+          "mode": 9000,
+          "min": 9000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 533.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 9500,
+              "standard": 3000,
+              "diff_pct": 216.7
+            }
+          }
+        }
+      }
+    },
+    "(주)파고다아카데미": {
+      "name": "(주)파고다아카데미",
+      "salesperson": "유영선",
+      "total_count": 4,
+      "avg_diff_pct": 115.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 4500,
+          "mode": 4500,
+          "min": 4500,
+          "max": 4500,
+          "standard": 1500,
+          "diff_pct": 200.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 4500,
+              "standard": 3000,
+              "diff_pct": 50.0
+            }
+          }
+        }
+      }
+    },
+    "(주)프린피아": {
+      "name": "(주)프린피아",
+      "salesperson": "한기훈",
+      "total_count": 4,
+      "avg_diff_pct": 25.9,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 1375,
+          "mode": 1250,
+          "min": 1250,
+          "max": 1500,
+          "standard": 1500,
+          "diff_pct": -8.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 1375,
+              "standard": 3000,
+              "diff_pct": -54.2
+            }
+          }
+        }
+      }
+    },
+    "가가인쇄": {
+      "name": "가가인쇄",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "금강프린테크": {
+      "name": "금강프린테크",
+      "salesperson": "이의섭",
+      "total_count": 4,
+      "avg_diff_pct": 151.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 5600,
+          "mode": 3200,
+          "min": 3200,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 273.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5600,
+              "standard": 3000,
+              "diff_pct": 86.7
+            }
+          }
+        }
+      }
+    },
+    "내일날씨": {
+      "name": "내일날씨",
+      "salesperson": "배용기",
+      "total_count": 4,
+      "avg_diff_pct": 195.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "대구텍 유한회사": {
+      "name": "대구텍 유한회사",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 253.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 8500,
+          "mode": 7000,
+          "min": 7000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 466.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8500,
+              "standard": 3000,
+              "diff_pct": 183.3
+            }
+          }
+        }
+      }
+    },
+    "디자인페이지플러스주식회사": {
+      "name": "디자인페이지플러스주식회사",
+      "salesperson": "박정열",
+      "total_count": 4,
+      "avg_diff_pct": 140.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 3000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 3000,
+          "standard": 1500,
+          "diff_pct": 100.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 3000,
+              "standard": 3000,
+              "diff_pct": 0.0
+            }
+          }
+        }
+      }
+    },
+    "마음지기": {
+      "name": "마음지기",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 253.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "맥미디어": {
+      "name": "맥미디어",
+      "salesperson": "유영선",
+      "total_count": 4,
+      "avg_diff_pct": 236.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "모노북스": {
+      "name": "모노북스",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 145.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "물고기하나아이": {
+      "name": "물고기하나아이",
+      "salesperson": "유영선",
+      "total_count": 4,
+      "avg_diff_pct": 178.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5500,
+          "mode": 5500,
+          "min": 5500,
+          "max": 5500,
+          "standard": 1500,
+          "diff_pct": 266.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5500,
+              "standard": 3000,
+              "diff_pct": 83.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "선일금고제작": {
+      "name": "선일금고제작",
+      "salesperson": "유영선",
+      "total_count": 4,
+      "avg_diff_pct": 550.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 3,
+          "median": 12000,
+          "mode": 12000,
+          "min": 8000,
+          "max": 12000,
+          "standard": 1500,
+          "diff_pct": 700.0,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 12000,
+              "standard": 3000,
+              "diff_pct": 300.0
+            }
+          }
+        }
+      }
+    },
+    "스킨큐어(주)_오산": {
+      "name": "스킨큐어(주)_오산",
+      "salesperson": "김현식",
+      "total_count": 4,
+      "avg_diff_pct": 300.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 1500,
+          "diff_pct": 566.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 10000,
+              "standard": 3000,
+              "diff_pct": 233.3
+            }
+          }
+        }
+      }
+    },
+    "써니 아일랜드 (Sunny island)": {
+      "name": "써니 아일랜드 (Sunny island)",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 6000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "어의운하": {
+      "name": "어의운하",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "에듀연": {
+      "name": "에듀연",
+      "salesperson": "김현식",
+      "total_count": 4,
+      "avg_diff_pct": 180.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "엠알피(MRP)": {
+      "name": "엠알피(MRP)",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 198.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "우시모북스": {
+      "name": "우시모북스",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 213.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 1500,
+          "diff_pct": 433.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 8000,
+              "standard": 3000,
+              "diff_pct": 166.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사 태양기획": {
+      "name": "주식회사 태양기획",
+      "salesperson": "유영선",
+      "total_count": 4,
+      "avg_diff_pct": 98.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 4000,
+          "mode": 3000,
+          "min": 3000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사메르크말코리아": {
+      "name": "주식회사메르크말코리아",
+      "salesperson": "유영선",
+      "total_count": 4,
+      "avg_diff_pct": 458.4,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7500,
+          "mode": 7500,
+          "min": 7500,
+          "max": 7500,
+          "standard": 5000,
+          "diff_pct": 50.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 2,
+          "median": 14500,
+          "mode": 4000,
+          "min": 4000,
+          "max": 25000,
+          "standard": 1500,
+          "diff_pct": 866.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 14500,
+              "standard": 3000,
+              "diff_pct": 383.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사미유기획": {
+      "name": "주식회사미유기획",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 73.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 6500,
+          "mode": 6500,
+          "min": 6500,
+          "max": 6500,
+          "standard": 5000,
+          "diff_pct": 30.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 3250,
+          "mode": 3000,
+          "min": 3000,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 116.7,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 3250,
+              "standard": 3000,
+              "diff_pct": 8.3
+            }
+          }
+        }
+      }
+    },
+    "한국브레인셈교육연구회": {
+      "name": "한국브레인셈교육연구회",
+      "salesperson": "조기석",
+      "total_count": 4,
+      "avg_diff_pct": 145.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 5250,
+          "mode": 3500,
+          "min": 3500,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 250.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 5250,
+              "standard": 3000,
+              "diff_pct": 75.0
+            }
+          }
+        }
+      }
+    },
+    "(주) 나노엔텍": {
+      "name": "(주) 나노엔텍",
+      "salesperson": "이의섭",
+      "total_count": 3,
+      "avg_diff_pct": 366.7,
+      "items": {
+        "303001": {
+          "name": "인쇄",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 3,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "까치밥출판사": {
+      "name": "까치밥출판사",
+      "salesperson": "박정열",
+      "total_count": 3,
+      "avg_diff_pct": 153.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "밝은미래": {
+      "name": "밝은미래",
+      "salesperson": "김현식",
+      "total_count": 3,
+      "avg_diff_pct": 162.2,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "에이컴": {
+      "name": "에이컴",
+      "salesperson": "이의섭",
+      "total_count": 3,
+      "avg_diff_pct": 40.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        }
+      }
+    },
+    "주식회사유디": {
+      "name": "주식회사유디",
+      "salesperson": "박정열",
+      "total_count": 3,
+      "avg_diff_pct": 100.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 3,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        }
+      }
+    },
+    "(주)윈지코리아컨설팅": {
+      "name": "(주)윈지코리아컨설팅",
+      "salesperson": "장경업",
+      "total_count": 2,
+      "avg_diff_pct": 136.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 12000,
+          "mode": 12000,
+          "min": 12000,
+          "max": 12000,
+          "standard": 5000,
+          "diff_pct": 140.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 3500,
+          "mode": 3500,
+          "min": 3500,
+          "max": 3500,
+          "standard": 1500,
+          "diff_pct": 133.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 3500,
+              "standard": 3000,
+              "diff_pct": 16.7
+            }
+          }
+        }
+      }
+    },
+    "(주)전송상사": {
+      "name": "(주)전송상사",
+      "salesperson": "조기석",
+      "total_count": 2,
+      "avg_diff_pct": 103.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 4000,
+          "mode": 4000,
+          "min": 4000,
+          "max": 4000,
+          "standard": 1500,
+          "diff_pct": 166.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 4000,
+              "standard": 3000,
+              "diff_pct": 33.3
+            }
+          }
+        }
+      }
+    },
+    "(주)프린트뱅크": {
+      "name": "(주)프린트뱅크",
+      "salesperson": "이휘영",
+      "total_count": 2,
+      "avg_diff_pct": 0.0,
+      "items": {
+        "303001": {
+          "name": "인쇄",
+          "count": 2,
+          "median": 1500,
+          "mode": 1500,
+          "min": 1500,
+          "max": 1500,
+          "standard": 1500,
+          "diff_pct": 0.0,
+          "by_volume": {
+            "~1천": {
+              "count": 2,
+              "median": 1500,
+              "standard": 3000,
+              "diff_pct": -50.0
+            }
+          }
+        }
+      }
+    },
+    "(주)헥사인": {
+      "name": "(주)헥사인",
+      "salesperson": "한기훈",
+      "total_count": 2,
+      "avg_diff_pct": 203.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "강화군선거관리위원회": {
+      "name": "강화군선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "계양구선거관리위원회": {
+      "name": "계양구선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "동구선거관리위원회": {
+      "name": "동구선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "동두천시선거관리위원회": {
+      "name": "동두천시선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "만듦": {
+      "name": "만듦",
+      "salesperson": "홍문보",
+      "total_count": 2,
+      "avg_diff_pct": 500.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 15000,
+          "mode": 15000,
+          "min": 15000,
+          "max": 15000,
+          "standard": 1500,
+          "diff_pct": 900.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 15000,
+              "standard": 3000,
+              "diff_pct": 400.0
+            }
+          }
+        }
+      }
+    },
+    "부평구선거관리위원회": {
+      "name": "부평구선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "서울보증보험(주)": {
+      "name": "서울보증보험(주)",
+      "salesperson": "이지현",
+      "total_count": 2,
+      "avg_diff_pct": 80.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 9000,
+          "mode": 9000,
+          "min": 9000,
+          "max": 9000,
+          "standard": 5000,
+          "diff_pct": 80.0
+        }
+      }
+    },
+    "양구군선거관리위원회": {
+      "name": "양구군선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "옹진군선거관리위원회": {
+      "name": "옹진군선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "원코리아": {
+      "name": "원코리아",
+      "salesperson": "조기석",
+      "total_count": 2,
+      "avg_diff_pct": 136.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "인제군선거관리위원회": {
+      "name": "인제군선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사 삼일씨앤피": {
+      "name": "주식회사 삼일씨앤피",
+      "salesperson": "장경업",
+      "total_count": 2,
+      "avg_diff_pct": 170.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 1500,
+          "diff_pct": 300.0,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 6000,
+              "standard": 3000,
+              "diff_pct": 100.0
+            }
+          }
+        }
+      }
+    },
+    "주식회사 세움티엔티": {
+      "name": "주식회사 세움티엔티",
+      "salesperson": "조기석",
+      "total_count": 2,
+      "avg_diff_pct": 166.7,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 5000,
+          "mode": 5000,
+          "min": 5000,
+          "max": 5000,
+          "standard": 1500,
+          "diff_pct": 233.3,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 5000,
+              "standard": 3000,
+              "diff_pct": 66.7
+            }
+          }
+        }
+      }
+    },
+    "주식회사 인사이트네트워크": {
+      "name": "주식회사 인사이트네트워크",
+      "salesperson": "박정열",
+      "total_count": 2,
+      "avg_diff_pct": 100.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 2,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        }
+      }
+    },
+    "주식회사더블유스피치커뮤니케이션": {
+      "name": "주식회사더블유스피치커뮤니케이션",
+      "salesperson": "장경업",
+      "total_count": 2,
+      "avg_diff_pct": 203.3,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        },
+        "303001": {
+          "name": "인쇄",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "파주시선거관리위원회": {
+      "name": "파주시선거관리위원회",
+      "salesperson": "김현식",
+      "total_count": 2,
+      "avg_diff_pct": 718.1,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6070,
+          "mode": 6070,
+          "min": 6070,
+          "max": 6070,
+          "standard": 5000,
+          "diff_pct": 21.4
+        },
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 22720,
+          "mode": 22720,
+          "min": 22720,
+          "max": 22720,
+          "standard": 1500,
+          "diff_pct": 1414.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 22720,
+              "standard": 3000,
+              "diff_pct": 657.3
+            }
+          }
+        }
+      }
+    },
+    "(주) 키플러스": {
+      "name": "(주) 키플러스",
+      "salesperson": "조기석",
+      "total_count": 1,
+      "avg_diff_pct": 60.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 8000,
+          "mode": 8000,
+          "min": 8000,
+          "max": 8000,
+          "standard": 5000,
+          "diff_pct": 60.0
+        }
+      }
+    },
+    "김달진 미술 자료관": {
+      "name": "김달진 미술 자료관",
+      "salesperson": "유영선",
+      "total_count": 1,
+      "avg_diff_pct": 100.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 10000,
+          "mode": 10000,
+          "min": 10000,
+          "max": 10000,
+          "standard": 5000,
+          "diff_pct": 100.0
+        }
+      }
+    },
+    "비춤 바인텍": {
+      "name": "비춤 바인텍",
+      "salesperson": "김영훈",
+      "total_count": 1,
+      "avg_diff_pct": 20.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 6000,
+          "mode": 6000,
+          "min": 6000,
+          "max": 6000,
+          "standard": 5000,
+          "diff_pct": 20.0
+        }
+      }
+    },
+    "스틸당(STEALANG)": {
+      "name": "스틸당(STEALANG)",
+      "salesperson": "한기훈",
+      "total_count": 1,
+      "avg_diff_pct": 366.7,
+      "items": {
+        "303002": {
+          "name": "인쇄(2종)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 1500,
+          "diff_pct": 366.7,
+          "by_volume": {
+            "~1천": {
+              "count": 1,
+              "median": 7000,
+              "standard": 3000,
+              "diff_pct": 133.3
+            }
+          }
+        }
+      }
+    },
+    "주식회사파인드아웃(FIND OUT Co.Ltd.)": {
+      "name": "주식회사파인드아웃(FIND OUT Co.Ltd.)",
+      "salesperson": "조기석",
+      "total_count": 1,
+      "avg_diff_pct": 40.0,
+      "items": {
+        "703002": {
+          "name": "CTP(제판)",
+          "count": 1,
+          "median": 7000,
+          "mode": 7000,
+          "min": 7000,
+          "max": 7000,
+          "standard": 5000,
+          "diff_pct": 40.0
+        }
+      }
+    }
   }
 }

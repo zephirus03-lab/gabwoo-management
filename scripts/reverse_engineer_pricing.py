@@ -393,7 +393,94 @@ def build_volume_discount_analysis(filtered):
     }
 
 
-def save_all(scorecards, fairness, anomalies, volume, filtered):
+def build_client_pricing(filtered):
+    """거래처별 단가표 초안을 생성합니다. 인쇄는 부수 구간별로 세분화합니다."""
+    print("\n📊 거래처별 단가표 초안 생성 중...")
+
+    with_std = filtered[filtered["표준단가"].notna()].copy()
+
+    # 인쇄 항목에 부수 구간 태깅
+    bins = [0, 1000, 2000, 3000, 5000, 10000, float("inf")]
+    labels = ["~1천", "1~2천", "2~3천", "3~5천", "5~1만", "1만+"]
+    print_mask = with_std["항목"].isin(["303001", "303002"])
+    with_std.loc[print_mask, "부수구간"] = pd.cut(
+        with_std.loc[print_mask, "수량(R)"], bins=bins, labels=labels, right=False
+    )
+
+    # 부수 구간별 표준 인쇄 단가 (매입 원가)
+    volume_standard = {
+        "~1천": 3000, "1~2천": 2000, "2~3천": 1500,
+        "3~5천": 1350, "5~1만": 1100, "1만+": 900,
+    }
+
+    client_map = {}
+    for (client, salesperson), group in with_std.groupby(["거래처", "영업담당"]):
+        items = {}
+        total_count = 0
+
+        for item_code, item_info in KEY_ITEMS.items():
+            item_rows = group[group["항목"] == item_code]
+            if len(item_rows) == 0:
+                continue
+
+            count = len(item_rows)
+            total_count += count
+            median_price = float(item_rows["단가"].median())
+            std_price = item_info["standard"]
+
+            entry = {
+                "name": item_info["name"],
+                "count": count,
+                "median": round(median_price),
+                "mode": round(float(item_rows["단가"].mode().iloc[0])) if len(item_rows["단가"].mode()) > 0 else round(median_price),
+                "min": round(float(item_rows["단가"].min())),
+                "max": round(float(item_rows["단가"].max())),
+                "standard": std_price,
+                "diff_pct": round((median_price - std_price) / std_price * 100, 1) if std_price > 0 else None,
+            }
+
+            # 인쇄 항목은 부수 구간별 세분화 추가
+            if item_code in ("303001", "303002"):
+                by_vol = {}
+                for vol_label, vol_group in item_rows.groupby("부수구간", observed=True):
+                    vol_label_str = str(vol_label)
+                    vol_std = volume_standard.get(vol_label_str, std_price)
+                    vol_median = float(vol_group["단가"].median())
+                    by_vol[vol_label_str] = {
+                        "count": len(vol_group),
+                        "median": round(vol_median),
+                        "standard": vol_std,
+                        "diff_pct": round((vol_median - vol_std) / vol_std * 100, 1) if vol_std > 0 else None,
+                    }
+                entry["by_volume"] = by_vol
+
+            items[item_code] = entry
+
+        if total_count > 0:
+            # 거래처별 종합 편차 가산 평균
+            total_diff = 0
+            total_w = 0
+            for it in items.values():
+                if it["diff_pct"] is not None:
+                    total_diff += it["diff_pct"] * it["count"]
+                    total_w += it["count"]
+            avg_diff = round(total_diff / total_w, 1) if total_w > 0 else None
+
+            client_map[client] = {
+                "name": client,
+                "salesperson": salesperson,
+                "total_count": total_count,
+                "avg_diff_pct": avg_diff,
+                "items": items,
+            }
+
+    # 건수 내림차순 정렬
+    sorted_clients = dict(sorted(client_map.items(), key=lambda x: x[1]["total_count"], reverse=True))
+    print(f"   → {len(sorted_clients)}개 거래처 단가표 초안 생성 완료")
+    return sorted_clients
+
+
+def save_all(scorecards, fairness, anomalies, volume, client_pricing, filtered):
     """모든 결과를 저장합니다."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -409,6 +496,7 @@ def save_all(scorecards, fairness, anomalies, volume, filtered):
         "process_fairness": fairness,
         "anomalies": anomalies,
         "volume_discount": volume,
+        "client_pricing": client_pricing,
     }
 
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
@@ -465,7 +553,8 @@ def main():
     fairness = build_process_fairness(filtered)
     anomalies = find_anomalies(filtered)
     volume = build_volume_discount_analysis(filtered)
-    save_all(scorecards, fairness, anomalies, volume, filtered)
+    client_pricing = build_client_pricing(filtered)
+    save_all(scorecards, fairness, anomalies, volume, client_pricing, filtered)
     print_summary(scorecards, anomalies)
 
     print(f"\n✅ 완료!")

@@ -325,11 +325,13 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 let DATA = null;
 
 async function loadData() {
+  const SUPABASE_URL = 'https://xorascmhryuifrzzmzww.supabase.co/storage/v1/object/public/gmd-data/pricing_audit.json';
   try {
-    const resp = await fetch('./pricing_audit.json');
+    const resp = await fetch(SUPABASE_URL);
+    if (!resp.ok) throw new Error(resp.status);
     DATA = await resp.json();
   } catch(e) {
-    document.getElementById('tab-overview').innerHTML = '<div style="padding:60px;text-align:center;color:#999;">pricing_audit.json을 같은 폴더에 두고 열어주세요.</div>';
+    document.getElementById('tab-overview').innerHTML = '<div style="padding:60px;text-align:center;color:#999;">데이터를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.</div>';
     return;
   }
   renderAll();
