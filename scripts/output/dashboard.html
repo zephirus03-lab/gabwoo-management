@@ -62,12 +62,12 @@ tr:hover td { background: #fafbff; }
 .bar-bg { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 3px; opacity: 0.15; }
 .bar-fg { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 3px; opacity: 0.6; }
 
-/* 편차 색상 */
-.diff-good { color: #198754; font-weight: 600; }
-.diff-warn { color: #fd7e14; font-weight: 600; }
-.diff-bad { color: #dc3545; font-weight: 700; }
-.diff-discount { color: #4a6cf7; font-weight: 600; }
-.diff-discount-bad { color: #1a3bc7; font-weight: 700; }
+/* 편차 색상 (신호등: 할인=빨강 / 정상=노랑 / 할증=녹색) */
+.diff-good { color: #ca8a04; font-weight: 600; }             /* 정상 ±5% 이내 — 노랑 */
+.diff-warn { color: #16a34a; font-weight: 600; }             /* 할증 +5~+30% — 녹색 */
+.diff-bad { color: #15803d; font-weight: 700; }              /* 할증 +30% 초과 — 진한 녹색 */
+.diff-discount { color: #dc3545; font-weight: 600; }         /* 할인 -5~-30% — 빨강 */
+.diff-discount-bad { color: #991b1b; font-weight: 700; }     /* 할인 -30% 초과 — 진한 빨강 */
 .diff-neutral { color: #6c757d; }
 
 .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
@@ -96,9 +96,9 @@ tr:hover td { background: #fafbff; }
 .sales-card-bar {
   height: 6px; display: flex;
 }
-.bar-discount { background: #4a6cf7; }
-.bar-normal { background: #198754; }
-.bar-premium { background: #dc3545; }
+.bar-discount { background: #dc3545; }   /* 할인 = 빨강 */
+.bar-normal { background: #eab308; }     /* 정상 = 노랑 */
+.bar-premium { background: #16a34a; }    /* 할증 = 녹색 */
 
 .sales-card-detail { padding: 0 20px 16px; display: none; }
 .sales-card.open .sales-card-detail { display: block; }
@@ -121,9 +121,9 @@ tr:hover td { background: #fafbff; }
 .dot-info { width: 80px; font-size: 11px; color: #666; text-align: right; }
 
 /* 이상건 리스트 */
-.anomaly-row { border-left: 3px solid #dc3545; }
-.anomaly-row.positive { border-left-color: #dc3545; }
-.anomaly-row.negative { border-left-color: #4a6cf7; }
+.anomaly-row { border-left: 3px solid #6c757d; }
+.anomaly-row.positive { border-left-color: #15803d; }    /* 할증 이상 = 진한 녹색 */
+.anomaly-row.negative { border-left-color: #991b1b; }    /* 할인 이상 = 진한 빨강 */
 
 footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 
@@ -228,7 +228,7 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
       <div class="label">읽는 법</div>
       <div style="font-size:13px;margin-top:8px;color:#555;line-height:1.6;">
         카드를 클릭하면 해당 영업자의 항목별 단가와 담당 거래처별 편차를 볼 수 있습니다.<br>
-        색상 막대: <span style="color:#4a6cf7;">■ 원가 이하</span> / <span style="color:#198754;">■ 원가 수준</span> / <span style="color:#dc3545;">■ 마진 확보</span> — 기준은 상단 "분석 기준" 패널 참조
+        색상 막대: <span style="color:#dc3545;">■ 원가 이하(할인)</span> / <span style="color:#eab308;">■ 원가 수준(정상)</span> / <span style="color:#16a34a;">■ 마진 확보(할증)</span> — 기준은 상단 "분석 기준" 패널 참조
       </div>
     </div>
   </div>
@@ -253,7 +253,7 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 <!-- ===== 탭 4: 이상 건 목록 ===== -->
 <div class="tab-content" id="tab-anomalies">
   <div class="section" style="padding-top:20px;">
-    <h2 style="color:#dc3545;">할증 이상 건 — 표준 대비 +30% 초과 (상위 30건)</h2>
+    <h2 style="color:#15803d;">할증 이상 건 — 표준 대비 +30% 초과 (상위 30건)</h2>
     <p style="font-size:13px;color:#666;margin-bottom:12px;">
       매입 원가보다 크게 높은 마진이 붙은 건. 소량 건이면 정상이지만, 입력 오류 여부 확인 필요.
       <span id="premiumTotal" style="font-weight:600;"></span>
@@ -261,7 +261,7 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
     <table id="premiumTable"></table>
   </div>
   <div class="section" style="padding-top:20px;">
-    <h2 style="color:#4a6cf7;">원가 이하 이상 건 — 매입 원가 대비 -30% 초과 (상위 30건)</h2>
+    <h2 style="color:#991b1b;">원가 이하 이상 건 — 매입 원가 대비 -30% 초과 (상위 30건)</h2>
     <p style="font-size:13px;color:#666;margin-bottom:12px;">
       매입 원가보다 크게 낮은 단가로 견적한 건. 확실한 마진 손실 — 대량 특약인지, 입력 오류인지 확인 필요.
       <span id="discountTotal" style="font-weight:600;"></span>
@@ -304,10 +304,10 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
     <table>
       <thead><tr><th>판정</th><th>색상</th><th>기준</th><th>의미</th></tr></thead>
       <tbody>
-        <tr><td><span class="badge badge-info">원가 이하</span></td><td style="color:#4a6cf7;">■ 파랑</td><td>매입 원가 대비 <strong>-5% 이하</strong></td><td>원가보다 싸게 견적 — 마진 손실. 대량 특약이 아니면 확인 필요</td></tr>
-        <tr><td><span class="badge badge-ok">원가 수준</span></td><td style="color:#198754;">■ 초록</td><td>매입 원가 대비 <strong>±5% 이내</strong></td><td>원가와 거의 일치. 마진 거의 없음</td></tr>
-        <tr><td><span class="badge badge-warn">마진 확보</span></td><td style="color:#dc3545;">■ 빨강</td><td>매입 원가 대비 <strong>+5% 이상</strong></td><td>정상적인 마진 확보. 값이 클수록 높은 마진</td></tr>
-        <tr><td><span class="badge badge-danger">이상</span></td><td style="color:#dc3545;">■ 빨강 강조</td><td>매입 원가 대비 <strong>±30% 초과</strong></td><td>오입력이거나 특수 조건 건. 개별 확인 필요</td></tr>
+        <tr><td><span class="badge badge-info">원가 이하(할인)</span></td><td style="color:#dc3545;">■ 빨강</td><td>매입 원가 대비 <strong>-5% 이하</strong></td><td>원가보다 싸게 견적 — 마진 손실. 대량 특약이 아니면 확인 필요</td></tr>
+        <tr><td><span class="badge badge-ok">원가 수준(정상)</span></td><td style="color:#eab308;">■ 노랑</td><td>매입 원가 대비 <strong>±5% 이내</strong></td><td>원가와 거의 일치. 마진 거의 없음</td></tr>
+        <tr><td><span class="badge badge-warn">마진 확보(할증)</span></td><td style="color:#16a34a;">■ 초록</td><td>매입 원가 대비 <strong>+5% 이상</strong></td><td>정상적인 마진 확보. 값이 클수록 높은 마진</td></tr>
+        <tr><td><span class="badge badge-danger">이상</span></td><td style="color:#15803d;">■ 진한 초록</td><td style="white-space:nowrap;">원가 대비 <strong>+30% 초과</strong> 또는 <strong style="color:#991b1b;">-30% 초과</strong></td><td>할증 이상(진한 초록) 또는 할인 이상(진한 빨강). 오입력이거나 특수 조건 건 — 개별 확인 필요</td></tr>
       </tbody>
     </table>
     <div class="note" style="margin-top:12px;">
@@ -383,9 +383,9 @@ function renderRatioChart() {
   const ctx = canvas.getContext('2d');
   const cx = 90, cy = 90, r = 75, lineW = 22;
   const segments = [
-    { pct: totalDiscount / total, color: '#4a6cf7' },
-    { pct: totalNormal / total, color: '#198754' },
-    { pct: totalPremium / total, color: '#dc3545' },
+    { pct: totalDiscount / total, color: '#dc3545' },    /* 할인 = 빨강 */
+    { pct: totalNormal / total, color: '#eab308' },      /* 정상 = 노랑 */
+    { pct: totalPremium / total, color: '#16a34a' },     /* 할증 = 녹색 */
   ];
   let startAngle = -Math.PI / 2;
   ctx.lineWidth = lineW;
@@ -400,9 +400,9 @@ function renderRatioChart() {
 
   // 비율 막대
   const items = [
-    { label: '할인', color: '#4a6cf7', count: totalDiscount, pct: dPct, desc: '표준 대비 -5% 이하 (표준보다 싸게 견적)' },
-    { label: '정상', color: '#198754', count: totalNormal, pct: nPct, desc: '표준 대비 ±5% 이내 (적정 수준)' },
-    { label: '할증', color: '#dc3545', count: totalPremium, pct: pPct, desc: '표준 대비 +5% 이상 (표준보다 비싸게 견적)' },
+    { label: '할인', color: '#dc3545', count: totalDiscount, pct: dPct, desc: '표준 대비 -5% 이하 (표준보다 싸게 견적)' },
+    { label: '정상', color: '#eab308', count: totalNormal, pct: nPct, desc: '표준 대비 ±5% 이내 (적정 수준)' },
+    { label: '할증', color: '#16a34a', count: totalPremium, pct: pPct, desc: '표준 대비 +5% 이상 (표준보다 비싸게 견적)' },
   ];
   let detailHtml = '';
   items.forEach(it => {
@@ -584,9 +584,12 @@ function renderFairness() {
       const maxX = toX(c.max);
       const w = (parseFloat(maxX) - parseFloat(minX));
       const isAnomaly = c.avg_diff_pct !== null && Math.abs(c.avg_diff_pct) > 30;
+      // 신호등: 정상(노랑), 할증(녹색), 할인(빨강)
       const color = c.avg_diff_pct === null ? '#888' :
-        Math.abs(c.avg_diff_pct) <= 5 ? '#198754' :
-        Math.abs(c.avg_diff_pct) <= 30 ? '#fd7e14' : '#dc3545';
+        Math.abs(c.avg_diff_pct) <= 5 ? '#eab308' :
+        c.avg_diff_pct > 30 ? '#15803d' :
+        c.avg_diff_pct < -30 ? '#991b1b' :
+        c.avg_diff_pct > 0 ? '#16a34a' : '#dc3545';
       const diffTxt = c.avg_diff_pct !== null ? `${c.avg_diff_pct > 0 ? '+' : ''}${c.avg_diff_pct}%` : '';
 
       // 이상 건 사유 자동 생성
@@ -660,8 +663,8 @@ function renderAnomalies() {
   const anomalies = DATA.anomalies;
   document.getElementById('premiumTotal').textContent = `전체 ${anomalies.premium_total.toLocaleString()}건 중 상위 30건 표시`;
   document.getElementById('discountTotal').textContent = `전체 ${anomalies.discount_total.toLocaleString()}건 중 상위 30건 표시`;
-  document.getElementById('premiumTable').innerHTML = buildAnomalyTableHtml(anomalies.premium, '#dc3545');
-  document.getElementById('discountTable').innerHTML = buildAnomalyTableHtml(anomalies.discount, '#4a6cf7');
+  document.getElementById('premiumTable').innerHTML = buildAnomalyTableHtml(anomalies.premium, '#15803d');
+  document.getElementById('discountTable').innerHTML = buildAnomalyTableHtml(anomalies.discount, '#991b1b');
 }
 
 loadData();
