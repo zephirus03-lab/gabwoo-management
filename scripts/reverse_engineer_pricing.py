@@ -34,6 +34,14 @@ OUTPUT_DIR = SCRIPT_DIR / "output"
 OUTPUT_JSON = OUTPUT_DIR / "pricing_audit.json"
 OUTPUT_CSV = OUTPUT_DIR / "pricing_audit.csv"
 
+# 기간 선택지 — 대시보드 드롭다운과 매칭됨
+PERIODS = [
+    ("1m", 1, "1개월"),
+    ("3m", 3, "3개월"),
+    ("6m", 6, "6개월"),
+    ("1y", 12, "1년"),
+]
+
 # --- ERP 접속 정보 (.env.local에서 로드) ---
 def load_env(env_path: Path) -> dict:
     """간단한 .env 파서입니다."""
@@ -400,20 +408,29 @@ def find_anomalies(filtered, threshold_pct=30):
             })
         return result
 
-    # 할증 (편차 > +30%) — 편차 큰 순 30건
-    premium_anomalies = anomalies[anomalies["편차(%)"] > threshold_pct].sort_values("편차(%)", ascending=False).head(30)
-    # 할인 (편차 < -30%) — 편차 큰 순(음수이므로 오름차순) 30건
-    discount_anomalies = anomalies[anomalies["편차(%)"] < -threshold_pct].sort_values("편차(%)").head(30)
+    # 할증/할인 이상 각각 추출 → 편차 큰 순 정렬 → 같은 거래처+견적일 중복 제거 → 상위 30건
+    def dedup_client_date(df_slice):
+        """같은 거래처 × 같은 견적일의 행은 편차가 가장 큰 한 건만 남깁니다."""
+        if len(df_slice) == 0:
+            return df_slice
+        return df_slice.drop_duplicates(subset=["거래처", "견적일"], keep="first")
+
+    premium_all = anomalies[anomalies["편차(%)"] > threshold_pct].sort_values("편차(%)", ascending=False)
+    discount_all = anomalies[anomalies["편차(%)"] < -threshold_pct].sort_values("편차(%)")  # 음수 오름차순
+
+    premium_anomalies = dedup_client_date(premium_all).head(30)
+    discount_anomalies = dedup_client_date(discount_all).head(30)
 
     print(f"   → 이상 건: {len(anomalies):,}건 (전체 {len(with_std):,}건 중 {len(anomalies)/len(with_std)*100:.1f}%)")
-    print(f"      할증 이상: {len(anomalies[anomalies['편차(%)'] > threshold_pct]):,}건 / 할인 이상: {len(anomalies[anomalies['편차(%)'] < -threshold_pct]):,}건")
+    print(f"      할증 이상: {len(premium_all):,}건 / 할인 이상: {len(discount_all):,}건")
+    print(f"      중복 제거 후 상위: 할증 {len(premium_anomalies):,}건 / 할인 {len(discount_anomalies):,}건")
 
     return {
         "premium": rows_to_list(premium_anomalies),
         "discount": rows_to_list(discount_anomalies),
         "total_count": len(anomalies),
-        "premium_total": int(len(anomalies[anomalies["편차(%)"] > threshold_pct])),
-        "discount_total": int(len(anomalies[anomalies["편차(%)"] < -threshold_pct])),
+        "premium_total": int(len(premium_all)),
+        "discount_total": int(len(discount_all)),
     }
 
 
@@ -556,8 +573,8 @@ def build_client_pricing(filtered):
     return sorted_clients
 
 
-def save_all(scorecards, fairness, anomalies, volume, client_pricing, filtered):
-    """모든 결과를 저장합니다."""
+def save_period(scorecards, fairness, anomalies, volume, client_pricing, filtered, period_key, period_label):
+    """기간별 분석 결과를 pricing_audit_{period_key}.json 으로 저장합니다."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # 데이터 범위 계산 (가장 이른/늦은 견적일)
@@ -575,6 +592,8 @@ def save_all(scorecards, fairness, anomalies, volume, client_pricing, filtered):
             "total_analyzed": len(filtered),
             "date_from": date_from,
             "date_to": date_to,
+            "period_key": period_key,
+            "period_label": period_label,
         },
         "scorecards": scorecards,
         "process_fairness": fairness,
@@ -583,26 +602,31 @@ def save_all(scorecards, fairness, anomalies, volume, client_pricing, filtered):
         "client_pricing": client_pricing,
     }
 
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+    out_path = OUTPUT_DIR / f"pricing_audit_{period_key}.json"
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    print(f"\n💾 JSON 저장: {OUTPUT_JSON}")
+    size_kb = out_path.stat().st_size / 1024
+    print(f"💾 저장: {out_path.name} ({size_kb:.0f}KB)")
 
-    # CSV도 저장 (간단 버전)
-    rows = []
-    for name, sc in scorecards.items():
-        rows.append({
-            "영업담당": name,
-            "분석건수": sc["total_rows"],
-            "평균편차(%)": sc["avg_diff_pct"],
-            "중앙편차(%)": sc["median_diff_pct"],
-            "이상건수": sc["anomaly_count"],
-            "이상비율(%)": sc["anomaly_rate_pct"],
-            "할인건": sc["discount_count"],
-            "할증건": sc["premium_count"],
-            "정상건": sc["normal_count"],
-        })
-    pd.DataFrame(rows).to_csv(OUTPUT_CSV, index=False, encoding="utf-8-sig")
-    print(f"💾 CSV 저장: {OUTPUT_CSV}")
+    # 1년짜리는 기존 경로(pricing_audit.json)로도 저장해서 하위 호환 유지
+    if period_key == "1y":
+        with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+            json.dump(output, f, ensure_ascii=False, indent=2)
+        # CSV는 1년 기준으로만 저장
+        rows = []
+        for name, sc in scorecards.items():
+            rows.append({
+                "영업담당": name,
+                "분석건수": sc["total_rows"],
+                "평균편차(%)": sc["avg_diff_pct"],
+                "중앙편차(%)": sc["median_diff_pct"],
+                "이상건수": sc["anomaly_count"],
+                "이상비율(%)": sc["anomaly_rate_pct"],
+                "할인건": sc["discount_count"],
+                "할증건": sc["premium_count"],
+                "정상건": sc["normal_count"],
+            })
+        pd.DataFrame(rows).to_csv(OUTPUT_CSV, index=False, encoding="utf-8-sig")
 
 
 def print_summary(scorecards, anomalies):
@@ -632,16 +656,47 @@ def print_summary(scorecards, anomalies):
 
 
 def main():
-    df_raw, filtered = load_and_prepare()
-    scorecards = build_salesperson_scorecard(filtered)
-    fairness = build_process_fairness(filtered)
-    anomalies = find_anomalies(filtered)
-    volume = build_volume_discount_analysis(filtered)
-    client_pricing = build_client_pricing(filtered)
-    save_all(scorecards, fairness, anomalies, volume, client_pricing, filtered)
-    print_summary(scorecards, anomalies)
+    """ERP 데이터를 한 번 로드한 뒤 기간별(1개월/3개월/6개월/1년)로 분석합니다."""
+    df_raw, filtered_all = load_and_prepare()
 
-    print(f"\n✅ 완료!")
+    # 오늘 날짜 기준 상대 기간 계산용
+    today = pd.Timestamp.now().normalize()
+
+    latest_anomalies = None
+    latest_scorecards = None
+
+    for period_key, months, period_label in PERIODS:
+        print(f"\n{'='*70}")
+        print(f"🗓️  기간: {period_label} ({period_key})")
+        print(f"{'='*70}")
+
+        # 견적일(YYYYMMDD 문자열)을 datetime으로 변환해 필터링
+        cutoff = (today - pd.DateOffset(months=months)).strftime("%Y%m%d")
+        period_filtered = filtered_all[filtered_all["견적일"].astype(str) >= cutoff].copy()
+
+        if len(period_filtered) == 0:
+            print(f"   ⚠️ {period_label} 기간에 해당하는 데이터가 없습니다. 스킵합니다.")
+            continue
+
+        print(f"   대상 행: {len(period_filtered):,}건 (견적일 >= {cutoff})")
+
+        scorecards = build_salesperson_scorecard(period_filtered)
+        fairness = build_process_fairness(period_filtered)
+        anomalies = find_anomalies(period_filtered)
+        volume = build_volume_discount_analysis(period_filtered)
+        client_pricing = build_client_pricing(period_filtered)
+        save_period(scorecards, fairness, anomalies, volume, client_pricing,
+                    period_filtered, period_key, period_label)
+
+        if period_key == "1y":
+            latest_anomalies = anomalies
+            latest_scorecards = scorecards
+
+    # 요약은 1년 기준으로 한 번만 출력
+    if latest_scorecards:
+        print_summary(latest_scorecards, latest_anomalies)
+
+    print(f"\n✅ 완료! (기간별 JSON 4개 생성)")
     print("   ⚠️ 라벨: 초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.")
 
 

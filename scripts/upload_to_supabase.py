@@ -23,6 +23,8 @@ SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 ENV_FILE = Path("/Users/jack/dev/gabwoo/견적계산기/.env.local")
 AUDIT_JSON = SCRIPT_DIR / "output" / "pricing_audit.json"
+OUTPUT_DIR = SCRIPT_DIR / "output"
+PERIODS = ["1m", "3m", "6m", "1y"]
 
 # --- .env.local에서 키 읽기 ---
 def load_env(env_path: Path) -> dict:
@@ -78,14 +80,24 @@ def upload():
         print("🔑 service_role 키 확인 완료")
         auth_key = service_role_key
 
-    # 3. JSON 파일 확인
-    if not AUDIT_JSON.exists():
-        print(f"❌ pricing_audit.json을 찾을 수 없습니다: {AUDIT_JSON}")
-        print("   먼저 reverse_engineer_pricing.py를 실행해주세요.")
+    # 3. 업로드 대상 파일 수집 (기간별 JSON + 하위 호환용 pricing_audit.json)
+    files_to_upload = []
+    for p in PERIODS:
+        fp = OUTPUT_DIR / f"pricing_audit_{p}.json"
+        if fp.exists():
+            files_to_upload.append(fp)
+        else:
+            print(f"⚠️ {fp.name} 없음 — 스킵")
+    if AUDIT_JSON.exists():
+        files_to_upload.append(AUDIT_JSON)
+
+    if not files_to_upload:
+        print("❌ 업로드할 JSON 파일이 없습니다. reverse_engineer_pricing.py를 먼저 실행하세요.")
         sys.exit(1)
 
-    file_size = AUDIT_JSON.stat().st_size / 1024
-    print(f"📦 업로드 파일: {AUDIT_JSON.name} ({file_size:.0f}KB)")
+    print(f"📦 업로드 대상: {len(files_to_upload)}개 파일")
+    for fp in files_to_upload:
+        print(f"   - {fp.name} ({fp.stat().st_size/1024:.0f}KB)")
 
     # 4. 버킷 존재 확인 / 생성
     bucket_name = "gmd-data"
@@ -113,26 +125,32 @@ def upload():
     else:
         print(f"📁 '{bucket_name}' 버킷 확인 완료")
 
-    # 5. 파일 업로드 (upsert)
-    file_path_in_bucket = "pricing_audit.json"
-    upload_url = f"{storage_url}/object/{bucket_name}/{file_path_in_bucket}"
+    # 5. 파일 업로드 (upsert) — 모든 기간별 파일 순회
+    upload_headers = {
+        **headers_admin,
+        "Content-Type": "application/json",
+        "x-upsert": "true",
+    }
+    success_count = 0
+    for fp in files_to_upload:
+        file_path_in_bucket = fp.name
+        upload_url = f"{storage_url}/object/{bucket_name}/{file_path_in_bucket}"
+        with open(fp, "rb") as f:
+            upload_resp = requests.post(upload_url, headers=upload_headers, data=f)
+        if upload_resp.status_code in (200, 201):
+            print(f"   ✅ {fp.name}")
+            success_count += 1
+        else:
+            print(f"   ❌ {fp.name} 실패 ({upload_resp.status_code}): {upload_resp.text}")
 
-    with open(AUDIT_JSON, "rb") as f:
-        upload_headers = {
-            **headers_admin,
-            "Content-Type": "application/json",
-            "x-upsert": "true",
-        }
-        upload_resp = requests.post(upload_url, headers=upload_headers, data=f)
-
-    if upload_resp.status_code in (200, 201):
-        public_url = f"{supabase_url}/storage/v1/object/public/{bucket_name}/{file_path_in_bucket}"
-        print(f"✅ 업로드 성공!")
-        print(f"   공개 URL: {public_url}")
-        print(f"   대시보드에서 이 URL로 데이터를 fetch합니다.")
-        return public_url
+    if success_count == len(files_to_upload):
+        public_base = f"{supabase_url}/storage/v1/object/public/{bucket_name}/"
+        print(f"\n✅ 업로드 성공! ({success_count}개 파일)")
+        print(f"   공개 URL prefix: {public_base}")
+        print(f"   예: {public_base}pricing_audit_1m.json")
+        return public_base
     else:
-        print(f"❌ 업로드 실패 ({upload_resp.status_code}): {upload_resp.text}")
+        print(f"\n❌ 일부 업로드 실패 ({success_count}/{len(files_to_upload)})")
         sys.exit(1)
 
 
