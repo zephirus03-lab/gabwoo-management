@@ -189,7 +189,7 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 
 <header>
   <h1>영업자 대시보드</h1>
-  <p>ERP 견적 상세현황 (2025.06 ~ 2026.04) 기반 · 갑우문화사 · 매입(외주) 원가 대비 분석</p>
+  <p id="headerSubtitle">로딩 중...</p>
 </header>
 
 <div class="tabs">
@@ -318,7 +318,7 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 </div>
 
 <footer>
-  생성일: <span id="genDate">-</span> · 출처: ERP 견적 상세현황 · 초안(ERP 역산) — 영업자 확인 전
+  생성일: <span id="genDate">-</span> · 출처: <span id="sourceLabel">-</span> · 초안(ERP 역산) — 영업자 확인 전
 </footer>
 
 <script>
@@ -338,7 +338,14 @@ async function loadData() {
 }
 
 function renderAll() {
-  document.getElementById('genDate').textContent = DATA._meta.generated;
+  const meta = DATA._meta;
+  document.getElementById('genDate').textContent = meta.generated;
+  document.getElementById('sourceLabel').textContent = meta.source || 'ERP 견적 상세현황';
+  const dateRange = (meta.date_from && meta.date_to)
+    ? `${meta.date_from} ~ ${meta.date_to}`
+    : '2025.06 ~ 현재';
+  document.getElementById('headerSubtitle').textContent =
+    `ERP 실시간 데이터 (${dateRange}) 기반 · 갑우문화사 · 매입(외주) 원가 대비 분석`;
   renderRatioChart();
   renderSummary();
   renderRanking();
