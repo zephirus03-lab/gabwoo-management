@@ -79,11 +79,12 @@ def fetch_erp_data(env: dict, cutoff_date: str) -> tuple[dict, list]:
     cursor = conn.cursor(as_dict=True)
 
     # 1) 헤더
+    # AM_K는 항상 0이라 쓰지 않고, AM_SUM(VAT 포함 견적 총액)을 사용합니다.
     cursor.execute(f"""
         SELECT
             h.NO_EST, h.CD_FIRM, h.DT_EST, h.NM_EST, h.NM_PARTNER,
             h.CD_EMP, e.NM_EMP AS NM_EMP,
-            h.CD_DEPT, h.QT, h.AM_K,
+            h.CD_DEPT, h.QT, h.AM_SUM, h.AM_SUPPLY,
             h.YN_APP, h.NO_SO, h.TP_ITEM, h.FG_BIND
         FROM PRT_ESTH h
         LEFT JOIN MAS_EMP e ON h.CD_EMP = e.CD_EMP
@@ -108,7 +109,8 @@ def fetch_erp_data(env: dict, cutoff_date: str) -> tuple[dict, list]:
             "product_type": (r["TP_ITEM"] or "").strip() or None,
             "binding_name": (r["FG_BIND"] or "").strip() or None,
             "copies": int(r["QT"]) if r["QT"] else None,
-            "quote_amount": float(r["AM_K"] or 0),
+            # 견적금액: AM_SUM(VAT 포함) 우선, 없으면 AM_SUPPLY(공급가)로 폴백
+            "quote_amount": float(r["AM_SUM"] or r["AM_SUPPLY"] or 0),
             "quote_title": (r["NM_EST"] or "").strip() or None,
             "product_name": (r["NM_EST"] or "").strip() or None,
             "order_number": (r["NO_SO"] or "").strip() or None,
