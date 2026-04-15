@@ -302,6 +302,76 @@ def replace_lines(lines: list, id_map: dict, project_ref: str, service_key: str)
     print(f"\n   ✅ {total:,}건 insert 완료")
 
 
+def fetch_erp_sales(env: dict, cutoff_date: str) -> list:
+    """SAL_SALESH + MAS_CUST + MAS_EMP JOIN으로 실제 매출 데이터를 가져옵니다."""
+    conn = pymssql.connect(
+        server=env["ERP_HOST"], port=int(env.get("ERP_PORT", 1433)),
+        user=env["ERP_USER"], password=env["ERP_PASSWORD"],
+        database=env["ERP_DATABASE"], login_timeout=10,
+    )
+    cursor = conn.cursor(as_dict=True)
+    cursor.execute(f"""
+        SELECT
+            h.NO_SALES, h.CD_FIRM, h.DT_SALES,
+            h.CD_CUST, c.NM_CUST AS CUST_NAME,
+            h.CD_EMP, e.NM_EMP AS EMP_NAME,
+            h.CD_DEPT,
+            h.AM, h.AM_VAT, h.AM_K,
+            h.ST_SALES, h.YN_APP
+        FROM SAL_SALESH h
+        LEFT JOIN MAS_CUST c ON h.CD_CUST = c.CD_CUST AND h.CD_FIRM = c.CD_FIRM
+        LEFT JOIN MAS_EMP e ON h.CD_EMP = e.CD_EMP
+        WHERE h.DT_SALES >= '{cutoff_date}'
+    """)
+    rows = []
+    for r in cursor.fetchall():
+        if not r["NO_SALES"]:
+            continue
+        # 매출일 YYYYMMDD → YYYY-MM-DD
+        dt = str(r["DT_SALES"] or "").strip()
+        if len(dt) != 8 or not dt.isdigit():
+            continue
+        sdate = f"{dt[:4]}-{dt[4:6]}-{dt[6:8]}"
+
+        rows.append({
+            "sales_number": r["NO_SALES"],
+            "sales_date": sdate,
+            "customer_code": (r["CD_CUST"] or "").strip() or None,
+            "customer_name": (r["CUST_NAME"] or "").strip() or None,
+            "sales_person_code": (r["CD_EMP"] or "").strip() or None,
+            "sales_person": (r["EMP_NAME"] or "").strip() or None,
+            "department": (r["CD_DEPT"] or "").strip() or None,
+            "company": COMPANY_MAP.get(str(r["CD_FIRM"] or "").strip(), "갑우문화사"),
+            "supply_amount": float(r["AM"] or 0),
+            "vat_amount": float(r["AM_VAT"] or 0),
+            "total_amount": float(r["AM_K"] or 0),
+            "sales_status": (r["ST_SALES"] or "").strip() or None,
+            "approval_status": (r["YN_APP"] or "").strip() or None,
+            "firm_code": str(r["CD_FIRM"] or "").strip() or None,
+        })
+    conn.close()
+    return rows
+
+
+def upsert_sales(rows: list, project_ref: str, service_key: str):
+    """erp_sales 테이블에 upsert합니다."""
+    base = f"https://{project_ref}.supabase.co/rest/v1"
+    total = 0
+    for chunk in chunk_iter(rows, 500):
+        resp = supabase_request(
+            "POST", f"{base}/erp_sales?on_conflict=sales_number",
+            service_key,
+            headers={"Prefer": "resolution=merge-duplicates,return=minimal"},
+            json=chunk,
+        )
+        if resp.status_code not in (200, 201, 204):
+            print(f"❌ upsert 실패 ({resp.status_code}): {resp.text[:500]}")
+            sys.exit(1)
+        total += len(chunk)
+        print(f"   upsert 진행: {total:,} / {len(rows):,}건", end="\r")
+    print(f"\n   ✅ {total:,}건 upsert 완료")
+
+
 def sync():
     if not ENV_FILE.exists():
         print(f"❌ .env.local 없음: {ENV_FILE}")
@@ -322,15 +392,23 @@ def sync():
     print(f"\n📥 ERP 조회 중 (견적일 >= {cutoff_dt})...")
     quotes, lines = fetch_erp_data(env, cutoff_dt)
 
-    # 3. Supabase 동기화
-    print(f"\n📤 Supabase upsert 중...")
+    # 3. Supabase 견적/라인 동기화
+    print(f"\n📤 Supabase 견적 upsert 중...")
     id_map = upsert_quotes(quotes, DASHBOARD_PROJECT_REF, service_key)
 
-    print(f"\n📤 Supabase 라인 교체 중...")
+    print(f"\n📤 Supabase 견적라인 교체 중...")
     replace_lines(lines, id_map, DASHBOARD_PROJECT_REF, service_key)
 
+    # 4. SAL_SALESH(실제 매출) 동기화
+    print(f"\n📥 ERP 매출(SAL_SALESH) 조회 중 (매출일 >= {cutoff_dt})...")
+    sales_rows = fetch_erp_sales(env, cutoff_dt)
+    print(f"   → 매출 헤더: {len(sales_rows):,}건")
+
+    print(f"\n📤 Supabase erp_sales upsert 중...")
+    upsert_sales(sales_rows, DASHBOARD_PROJECT_REF, service_key)
+
     print("\n✅ 동기화 완료!")
-    print(f"   견적 {len(quotes):,}건 / 라인 {len(lines):,}건 → {DASHBOARD_PROJECT_REF}")
+    print(f"   견적 {len(quotes):,}건 / 견적라인 {len(lines):,}건 / 매출 {len(sales_rows):,}건")
 
 
 if __name__ == "__main__":

@@ -30,8 +30,8 @@ if [ $STEP2 -ne 0 ]; then
     exit 1
 fi
 
-# 3. ERP → Supabase DB 동기화 (경영 대시보드용 erp_quotes/erp_quote_lines 테이블)
-echo "[3/3] Supabase DB 동기화 (경영 대시보드)..." >> "$LOG_FILE"
+# 3. ERP → Supabase DB 동기화 (경영 대시보드용 erp_quotes/erp_quote_lines + erp_sales)
+echo "[3/4] Supabase DB 동기화 (경영 대시보드 — 견적 + 매출)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/sync_erp_to_supabase.py" >> "$LOG_FILE" 2>&1
 STEP3=$?
 
@@ -39,6 +39,15 @@ if [ $STEP3 -ne 0 ]; then
     echo "❌ Supabase DB 동기화 실패 (exit $STEP3)" >> "$LOG_FILE"
     echo "===== $(date '+%Y-%m-%d %H:%M:%S') 실패 =====" >> "$LOG_FILE"
     exit 1
+fi
+
+# 4. AI YoY 인사이트 생성 (매출 동기화 이후 실행)
+echo "[4/4] AI 인사이트 생성 (YoY 분석)..." >> "$LOG_FILE"
+$PYTHON "$SCRIPT_DIR/generate_insights.py" >> "$LOG_FILE" 2>&1
+STEP4=$?
+
+if [ $STEP4 -ne 0 ]; then
+    echo "⚠️ 인사이트 생성 실패 (exit $STEP4) — 대시보드는 계속 동작합니다." >> "$LOG_FILE"
 fi
 
 echo "✅ 완료" >> "$LOG_FILE"

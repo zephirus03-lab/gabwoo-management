@@ -1,0 +1,183 @@
+
+======================================================================
+KPI-1 월별 견적액 추이 (추정매출) 2025-04 ~ 2026-04
+======================================================================
+{'ym': '202504', 'ests': 616, 'supply': Decimal('2044928791')}
+{'ym': '202505', 'ests': 585, 'supply': Decimal('1750554396')}
+{'ym': '202506', 'ests': 661, 'supply': Decimal('2183740986')}
+{'ym': '202507', 'ests': 613, 'supply': Decimal('1922893622')}
+{'ym': '202508', 'ests': 583, 'supply': Decimal('1796759157')}
+{'ym': '202509', 'ests': 675, 'supply': Decimal('3107870069')}
+{'ym': '202510', 'ests': 610, 'supply': Decimal('1846219233')}
+{'ym': '202511', 'ests': 503, 'supply': Decimal('2429513259')}
+{'ym': '202512', 'ests': 563, 'supply': Decimal('2250334553')}
+{'ym': '202601', 'ests': 515, 'supply': Decimal('2105685049')}
+{'ym': '202602', 'ests': 480, 'supply': Decimal('1768747269')}
+{'ym': '202603', 'ests': 573, 'supply': Decimal('1476596042')}
+{'ym': '202604', 'ests': 152, 'supply': Decimal('330377061')}
+
+======================================================================
+KPI-2 2025 거래처 매출 Top 10 (PRT_ESTH 기준)
+======================================================================
+{'CD_PARTNER': 'V00661', 'NM_PARTNER': '(주)교원구몬', 'ests': 1345, 'supply': Decimal('5984083127')}
+{'CD_PARTNER': 'V1389', 'NM_PARTNER': '한국조폐공사', 'ests': 386, 'supply': Decimal('2636859922')}
+{'CD_PARTNER': 'V01222', 'NM_PARTNER': '이투스에듀 주식회사 서초지점', 'ests': 564, 'supply': Decimal('2632368790')}
+{'CD_PARTNER': 'V00712', 'NM_PARTNER': '(주)교원', 'ests': 154, 'supply': Decimal('2097999511')}
+{'CD_PARTNER': 'V00701', 'NM_PARTNER': '씨디유파트너스 주식회사', 'ests': 909, 'supply': Decimal('1441093140')}
+{'CD_PARTNER': 'V00228', 'NM_PARTNER': '주식회사 동행복권', 'ests': 41, 'supply': Decimal('928538508')}
+{'CD_PARTNER': 'V00716', 'NM_PARTNER': '(재) 새마을금고복지회', 'ests': 5, 'supply': Decimal('880990864')}
+{'CD_PARTNER': 'V2163', 'NM_PARTNER': '(주)에이치에스애드', 'ests': 152, 'supply': Decimal('595791771')}
+{'CD_PARTNER': 'V2591', 'NM_PARTNER': '(주)다락원', 'ests': 146, 'supply': Decimal('516141650')}
+{'CD_PARTNER': 'V00749', 'NM_PARTNER': '(주)지에스리테일', 'ests': 24, 'supply': Decimal('374390937')}
+
+======================================================================
+KPI-3 2025 영업자별 매출 Top 15
+======================================================================
+{'CD_EMP': '2015027', 'NM_EMP': '방진혁', 'ests': 1486, 'supply': Decimal('8002367038'), 'partners': 3}
+{'CD_EMP': '2424019', 'NM_EMP': '김영훈', 'ests': 678, 'supply': Decimal('2749387823'), 'partners': 5}
+{'CD_EMP': '2018004', 'NM_EMP': '김세미', 'ests': 386, 'supply': Decimal('2636859922'), 'partners': 1}
+{'CD_EMP': '2014006', 'NM_EMP': '조기석', 'ests': 1022, 'supply': Decimal('2193997757'), 'partners': 47}
+{'CD_EMP': '2010003', 'NM_EMP': '배용기', 'ests': 195, 'supply': Decimal('1980583081'), 'partners': 15}
+{'CD_EMP': '2017013', 'NM_EMP': '유영선', 'ests': 777, 'supply': Decimal('1962179421'), 'partners': 57}
+{'CD_EMP': '2417006', 'NM_EMP': '김현식', 'ests': 607, 'supply': Decimal('1672013859'), 'partners': 52}
+{'CD_EMP': '2022010', 'NM_EMP': '이의섭', 'ests': 1043, 'supply': Decimal('1592478106'), 'partners': 9}
+{'CD_EMP': '2012004', 'NM_EMP': '이동신', 'ests': 323, 'supply': Decimal('1254388813'), 'partners': 14}
+{'CD_EMP': '2024009', 'NM_EMP': '이지현', 'ests': 136, 'supply': Decimal('898848167'), 'partners': 14}
+{'CD_EMP': '2015013', 'NM_EMP': '장경업', 'ests': 402, 'supply': Decimal('896657738'), 'partners': 39}
+{'CD_EMP': '2018021', 'NM_EMP': '차은실', 'ests': 175, 'supply': Decimal('481559807'), 'partners': 31}
+{'CD_EMP': 'G250901', 'NM_EMP': '박정열', 'ests': 125, 'supply': Decimal('452342140'), 'partners': 19}
+{'CD_EMP': 'G250801', 'NM_EMP': '한기훈', 'ests': 58, 'supply': Decimal('98181092'), 'partners': 9}
+{'CD_EMP': '2018017', 'NM_EMP': None, 'ests': 49, 'supply': Decimal('56825750'), 'partners': 13}
+
+======================================================================
+KPI-4 견적→수주 전환율 연도별
+======================================================================
+{'yr': '2022', 'ests': 12697, 'with_so': 12501, 'pct': Decimal('98.5')}
+{'yr': '2023', 'ests': 10953, 'with_so': 10799, 'pct': Decimal('98.6')}
+{'yr': '2024', 'ests': 9208, 'with_so': 9141, 'pct': Decimal('99.3')}
+{'yr': '2025', 'ests': 7490, 'with_so': 7428, 'pct': Decimal('99.2')}
+{'yr': '2026', 'ests': 1720, 'with_so': 1696, 'pct': Decimal('98.6')}
+
+======================================================================
+KPI-5 신규 vs 기존 거래처 (2025)
+======================================================================
+{'kind': '신규', 'partners': 79, 'ests': 394, 'supply': Decimal('2411637946')}
+{'kind': '기존', 'partners': 211, 'ests': 7096, 'supply': Decimal('24567961868')}
+
+======================================================================
+KPI-6 이탈 위험 거래처 (2024~25년 5천만+ 매출 BUT 2026-01 이후 견적 0건) Top 15
+======================================================================
+{'CD_PARTNER': 'V00701', 'NM_PARTNER': '씨디유파트너스 주식회사', 'past_supply': Decimal('2636799435'), 'last_est': '20251030'}
+{'CD_PARTNER': 'V00749', 'NM_PARTNER': '(주)지에스리테일', 'past_supply': Decimal('1950989192'), 'last_est': '20250522'}
+{'CD_PARTNER': 'V00716', 'NM_PARTNER': '(재) 새마을금고복지회', 'past_supply': Decimal('880990864'), 'last_est': '20250917'}
+{'CD_PARTNER': 'V00051', 'NM_PARTNER': '(주)클로버', 'past_supply': Decimal('509828240'), 'last_est': '20250831'}
+{'CD_PARTNER': 'V23020204', 'NM_PARTNER': '(주)블루스톤마케팅', 'past_supply': Decimal('365605670'), 'last_est': '20250430'}
+{'CD_PARTNER': 'V1466', 'NM_PARTNER': '(주)엘지씨엔에스', 'past_supply': Decimal('332567006'), 'last_est': '20250124'}
+{'CD_PARTNER': 'V25120901', 'NM_PARTNER': '(주)한성피앤아이', 'past_supply': Decimal('302050000'), 'last_est': '20251128'}
+{'CD_PARTNER': 'V1298', 'NM_PARTNER': '(주)오메가포인트', 'past_supply': Decimal('280656700'), 'last_est': '20240826'}
+{'CD_PARTNER': 'V1437', 'NM_PARTNER': '사단법인 한국판촉선물제조협회', 'past_supply': Decimal('271263000'), 'last_est': '20251014'}
+{'CD_PARTNER': 'V24011702', 'NM_PARTNER': '(주) 피티엘', 'past_supply': Decimal('231685000'), 'last_est': '20250630'}
+{'CD_PARTNER': 'V00200', 'NM_PARTNER': '주식회사 기프트북 (GIFT BOOK)', 'past_supply': Decimal('221777745'), 'last_est': '20241031'}
+{'CD_PARTNER': 'V1312', 'NM_PARTNER': '(주)한국미스미', 'past_supply': Decimal('208769100'), 'last_est': '20241031'}
+{'CD_PARTNER': 'V01199', 'NM_PARTNER': '롯데웰푸드 (주)', 'past_supply': Decimal('198070459'), 'last_est': '20250124'}
+{'CD_PARTNER': 'V24011701', 'NM_PARTNER': '내츄럴웨이코리아 (주)', 'past_supply': Decimal('191989600'), 'last_est': '20250205'}
+{'CD_PARTNER': 'V23041301', 'NM_PARTNER': '코스맥스바이오 주식회사', 'past_supply': Decimal('185640050'), 'last_est': '20250110'}
+
+======================================================================
+KPI-7 2025 평균 리드타임 — 수주일~WO생성일
+======================================================================
+{'cnt': 28981, 'avg_days': 2.9428936199579034}
+
+======================================================================
+KPI-8 월별 용지 매입 (viewGabwoo_마감)
+======================================================================
+{'ym': '2025-04', 'lines': 775, 'supply': Decimal('470891356'), 'orders': 186}
+{'ym': '2025-05', 'lines': 762, 'supply': Decimal('490991088'), 'orders': 195}
+{'ym': '2025-06', 'lines': 748, 'supply': Decimal('477796231'), 'orders': 186}
+{'ym': '2025-07', 'lines': 763, 'supply': Decimal('537044346'), 'orders': 234}
+{'ym': '2025-08', 'lines': 1083, 'supply': Decimal('883046258'), 'orders': 214}
+{'ym': '2025-09', 'lines': 876, 'supply': Decimal('615256641'), 'orders': 271}
+{'ym': '2025-10', 'lines': 621, 'supply': Decimal('440793440'), 'orders': 194}
+{'ym': '2025-11', 'lines': 549, 'supply': Decimal('410277560'), 'orders': 202}
+{'ym': '2025-12', 'lines': 603, 'supply': Decimal('413941977'), 'orders': 233}
+{'ym': '2026-01', 'lines': 628, 'supply': Decimal('408314544'), 'orders': 207}
+{'ym': '2026-02', 'lines': 604, 'supply': Decimal('409127113'), 'orders': 204}
+{'ym': '2026-03', 'lines': 737, 'supply': Decimal('421987026'), 'orders': 239}
+{'ym': '2026-04', 'lines': 241, 'supply': Decimal('132549129'), 'orders': 79}
+
+======================================================================
+KPI-9 2025 설비별 다운타임 Top 10
+======================================================================
+ERR: (207, b"Invalid column name 'DT_DOWN'.DB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\nDB-Lib error message 20018, severity 16:\nGeneral SQL Server error: Check messages from the SQL Server\n")
+
+======================================================================
+KPI-10 2025 품목 Top 20 (PRT_ESTL 기준)
+======================================================================
+{'CD_ITEM': None, 'nm': 'WK.K편E골', 'lines': 8233, 'supply': Decimal('3866129248.2625')}
+{'CD_ITEM': '706001', 'nm': 'S04', 'lines': 1641, 'supply': Decimal('830977552.8000')}
+{'CD_ITEM': '703002', 'nm': 'UV판', 'lines': 7379, 'supply': Decimal('804898764.0000')}
+{'CD_ITEM': '707011', 'nm': 'PP 0.2T (0.45*0.30)', 'lines': 765, 'supply': Decimal('801610961.5000')}
+{'CD_ITEM': '', 'nm': 'TMB 300g ', 'lines': 2296, 'supply': Decimal('623882104.6500')}
+{'CD_ITEM': 'MA-03820', 'nm': '90 백상지 770*535', 'lines': 41, 'supply': Decimal('596132005.0000')}
+{'CD_ITEM': '303001', 'nm': 'UV인쇄', 'lines': 3912, 'supply': Decimal('289025909.9000')}
+{'CD_ITEM': 'MA-07790', 'nm': '100 백상지 720*1015', 'lines': 1, 'supply': Decimal('281417012.0000')}
+{'CD_ITEM': '001006', 'nm': '합본표지에폭시', 'lines': 987, 'supply': Decimal('234187400.0000')}
+{'CD_ITEM': '706011', 'nm': 'S03', 'lines': 603, 'supply': Decimal('202604746.0000')}
+{'CD_ITEM': '003', 'nm': '', 'lines': 9, 'supply': Decimal('200632000.0000')}
+{'CD_ITEM': '001002', 'nm': 'IR무광코팅', 'lines': 1190, 'supply': Decimal('165364300.0000')}
+{'CD_ITEM': '706010', 'nm': '', 'lines': 87, 'supply': Decimal('124293063.0000')}
+{'CD_ITEM': 'MA-04842', 'nm': '120 아트지 625*850', 'lines': 1, 'supply': Decimal('115093700.0000')}
+{'CD_ITEM': 'MA01089', 'nm': '70 뉴플러스(백) 880*0', 'lines': 46, 'supply': Decimal('105019612.0000')}
+{'CD_ITEM': '706034', 'nm': 'S21', 'lines': 50, 'supply': Decimal('94070500.0000')}
+{'CD_ITEM': 'MA-07791', 'nm': '100 백상지 625*850', 'lines': 1, 'supply': Decimal('84943635.0000')}
+{'CD_ITEM': 'MA01280', 'nm': '70 캠퍼스 788*1091', 'lines': 31, 'supply': Decimal('79816050.0000')}
+{'CD_ITEM': '706024', 'nm': 'S01', 'lines': 35, 'supply': Decimal('73452930.0000')}
+{'CD_ITEM': '001001', 'nm': '혹박', 'lines': 747, 'supply': Decimal('72533970.0000')}
+
+======================================================================
+#3-A 교원구몬 2025 월별 견적액 & 건수
+======================================================================
+{'ym': '202501', 'ests': 102, 'supply': Decimal('522271365')}
+{'ym': '202502', 'ests': 129, 'supply': Decimal('499649515')}
+{'ym': '202503', 'ests': 118, 'supply': Decimal('521539755')}
+{'ym': '202504', 'ests': 114, 'supply': Decimal('586102551')}
+{'ym': '202505', 'ests': 147, 'supply': Decimal('508944401')}
+{'ym': '202506', 'ests': 92, 'supply': Decimal('426672223')}
+{'ym': '202507', 'ests': 94, 'supply': Decimal('419657250')}
+{'ym': '202508', 'ests': 96, 'supply': Decimal('451173396')}
+{'ym': '202509', 'ests': 124, 'supply': Decimal('498920324')}
+{'ym': '202510', 'ests': 128, 'supply': Decimal('475987197')}
+{'ym': '202511', 'ests': 99, 'supply': Decimal('559520518')}
+{'ym': '202512', 'ests': 102, 'supply': Decimal('513644632')}
+
+======================================================================
+#3-B 교원구몬 매출 vs 용지매입 원가 매칭 (2025 Top 10 수주)
+======================================================================
+{'NO_EST': 'EST20250512-0133', 'NO_SO': '250403-0007', 'sales': Decimal('123754560'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250616-0084', 'NO_SO': '250421-0020', 'sales': Decimal('122294904'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20260203-0068', 'NO_SO': '251125-0056', 'sales': Decimal('121837040'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20251021-0027', 'NO_SO': '250902-0036', 'sales': Decimal('116707764'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20251215-0012', 'NO_SO': '251029-0508', 'sales': Decimal('115255588'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250512-0131', 'NO_SO': '250326-0045', 'sales': Decimal('112225908'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250416-0013', 'NO_SO': '250302-0017', 'sales': Decimal('108892656'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250416-0009', 'NO_SO': '250226-0005', 'sales': Decimal('107412784'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250826-0070', 'NO_SO': '250624-0068', 'sales': Decimal('101297204'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20251119-0021', 'NO_SO': '250926-0026', 'sales': Decimal('100763796'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250206-0067', 'NO_SO': '241226-0068', 'sales': Decimal('99809984'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250711-0041', 'NO_SO': '250528-0055', 'sales': Decimal('99485060'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250912-0009', 'NO_SO': '250819-0034', 'sales': Decimal('92726832'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20250306-0078', 'NO_SO': '250123-0052', 'sales': Decimal('92352152'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+{'NO_EST': 'EST20251215-0014', 'NO_SO': '251103-0010', 'sales': Decimal('91422960'), 'paper_cost': None, 'paper_lines': 0, 'pct': None}
+
+======================================================================
+#3-C 교원구몬 2025 전체 매출 vs 용지원가 집계
+======================================================================
+{'matched_ests': 1139, 'total_sales': Decimal('4597659947'), 'total_paper_cost': None}
+
+======================================================================
+#3-D PUR_POL 에 NO_WO 컬럼 존재 여부
+======================================================================
+{'c': 1}
+
+
+DONE

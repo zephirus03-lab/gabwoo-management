@@ -1,0 +1,329 @@
+===== 2026-04-14 15:58:30 시작 =====
+[1/2] ERP 분석 실행...
+📂 ERP DB 접속 중...
+Traceback (most recent call last):
+  File "src/pymssql/_pymssql.pyx", line 651, in pymssql._pymssql.connect
+  File "src/pymssql/_mssql.pyx", line 2189, in pymssql._mssql.connect
+  File "src/pymssql/_mssql.pyx", line 722, in pymssql._mssql.MSSQLConnection.__init__
+  File "src/pymssql/_mssql.pyx", line 1915, in pymssql._mssql.maybe_raise_MSSQLDatabaseException
+  File "src/pymssql/_mssql.pyx", line 1932, in pymssql._mssql.raise_MSSQLDatabaseException
+pymssql._mssql.MSSQLDatabaseException: (20009, b'DB-Lib error message 20009, severity 9:\nUnable to connect: Adaptive Server is unavailable or does not exist (192.168.3.5)\nNet-Lib error during No route to host (65)\nDB-Lib error message 20009, severity 9:\nUnable to connect: Adaptive Server is unavailable or does not exist (192.168.3.5)\nNet-Lib error during No route to host (65)\n')
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py", line 641, in <module>
+    main()
+  File "/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py", line 627, in main
+    df_raw, filtered = load_and_prepare()
+  File "/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py", line 139, in load_and_prepare
+    conn = get_erp_connection()
+  File "/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py", line 90, in get_erp_connection
+    return pymssql.connect(
+  File "src/pymssql/_pymssql.pyx", line 660, in pymssql._pymssql.connect
+pymssql.exceptions.OperationalError: (20009, b'DB-Lib error message 20009, severity 9:\nUnable to connect: Adaptive Server is unavailable or does not exist (192.168.3.5)\nNet-Lib error during No route to host (65)\nDB-Lib error message 20009, severity 9:\nUnable to connect: Adaptive Server is unavailable or does not exist (192.168.3.5)\nNet-Lib error during No route to host (65)\n')
+❌ ERP 분석 실패 (exit 1) — 사내망 연결을 확인하세요.
+===== 2026-04-14 15:58:40 실패 =====
+===== 2026-04-14 16:00:28 시작 =====
+[1/2] ERP 분석 실행...
+/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py:143: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  df = pd.read_sql(ERP_QUERY, conn)
+📂 ERP DB 접속 중...
+   ✅ 접속 성공
+📥 견적 데이터 조회 중 (2025-06-01 이후)...
+   → 65,100행 로드 (ERP 실시간)
+📊 분석 대상: 33,332건 (영업담당 있고 + 항목 있고 + 단가 > 0)
+   영업담당 23명, 거래처 270곳
+
+📋 영업자별 업무 패턴 생성 중...
+⚖️  공정별 공정성 분석 중...
+🔍 이상 건 탐지 중 (±30% 초과)...
+   → 이상 건: 9,123건 (전체 14,230건 중 64.1%)
+      할증 이상: 8,300건 / 할인 이상: 823건
+📦 대량 주문 할인 분석 중...
+
+📊 거래처별 단가표 초안 생성 중...
+   → 244개 거래처 단가표 초안 생성 완료
+
+💾 JSON 저장: /Users/jack/dev/gabwoo/관리 대시보드/scripts/output/pricing_audit.json
+💾 CSV 저장: /Users/jack/dev/gabwoo/관리 대시보드/scripts/output/pricing_audit.csv
+
+======================================================================
+📋 영업자별 업무 패턴 요약 (초안 — ERP 역산)
+======================================================================
+
+영업담당           건수     평균편차    이상건     이상비율    할인    정상    할증
+----------------------------------------------------------------------
+성연광             4   +33.8%      4   100.0%     1     0     3 ⚠️
+이지현            62  +130.7%     62   100.0%     0     0    62 ⚠️
+이휘영             2   -50.0%      2   100.0%     2     0     0 ⚠️
+홍문보            12  +225.8%     12   100.0%     0     0    12 ⚠️
+도재웅           113   +97.0%    112    99.1%    16     1    96 ⚠️
+김병주         1,044  +188.6%  1,032    98.9%    95    11   938 ⚠️
+이동신           499   +78.7%    479    96.0%    11     6   482 ⚠️
+서득기           180   +96.6%    171    95.0%    15     9   156 ⚠️
+한기훈           682   +76.6%    648    95.0%    21    30   631 ⚠️
+이의섭            50   +97.8%     44    88.0%     0     1    49 ⚠️
+장경업           691   +57.0%    599    86.7%    57     7   627 ⚠️
+김현식           841   +84.4%    697    82.9%    31    44   766 ⚠️
+박정열         1,224   +74.8%    984    80.4%   173     8 1,043 ⚠️
+윤미리            22  +148.5%     16    72.7%     0     6    16 ⚠️
+방진혁            18   +67.4%     13    72.2%     0     0    18 ⚠️
+유영선         2,353   +71.0%  1,568    66.6%   117    46 2,190 ⚠️
+배용기           771   +31.7%    513    66.5%   124    32   615 ⚠️
+조기석         2,608   +48.1%  1,401    53.7%   182   102 2,324 ⚠️
+하청환             2   +73.3%      1    50.0%     0     0     2 ⚠️
+김영훈         3,052   +19.5%    765    25.1%   586    22 2,444 ⚠️
+
+🔍 할증 이상 TOP 5 (표준 대비 +30% 초과):
+  김병주 × (주)제이제이글로비스 | 인쇄(2종) | 단가 300,000 vs 표준 3,000 (+9900.0%)
+  김병주 × (주)제이제이글로비스 | 인쇄 | 단가 250,000 vs 표준 3,000 (+8233.3%)
+  유영선 × 인브리프 커뮤니케이션 (IN | 인쇄 | 단가 240,000 vs 표준 3,000 (+7900.0%)
+  유영선 × 제이케이엠디자인 주식회사 ( | 인쇄 | 단가 150,000 vs 표준 3,000 (+4900.0%)
+  조기석 × 투엘미디어 | 인쇄(2종) | 단가 150,000 vs 표준 3,000 (+4900.0%)
+
+🔍 할인 이상 TOP 5 (표준 대비 -30% 초과):
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 5 vs 표준 2,000 (-99.8%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄(2종) | 단가 10 vs 표준 2,000 (-99.5%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄(2종) | 단가 10 vs 표준 2,000 (-99.5%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄(2종) | 단가 10 vs 표준 2,000 (-99.5%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄 | 단가 10 vs 표준 2,000 (-99.5%)
+
+✅ 완료!
+   ⚠️ 라벨: 초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.
+[2/2] Supabase 업로드...
+/Users/jack/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🔑 service_role 키 확인 완료
+📦 업로드 파일: pricing_audit.json (476KB)
+📁 'gmd-data' 버킷 확인 완료
+✅ 업로드 성공!
+   공개 URL: https://xorascmhryuifrzzmzww.supabase.co/storage/v1/object/public/gmd-data/pricing_audit.json
+   대시보드에서 이 URL로 데이터를 fetch합니다.
+✅ 완료
+===== 2026-04-14 16:00:31 종료 =====
+
+===== 2026-04-15 08:42:27 시작 =====
+[1/2] ERP 분석 실행...
+/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py:143: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  df = pd.read_sql(ERP_QUERY, conn)
+📂 ERP DB 접속 중...
+   ✅ 접속 성공
+📥 견적 데이터 조회 중 (2025-06-01 이후)...
+   → 65,188행 로드 (ERP 실시간)
+📊 분석 대상: 33,403건 (영업담당 있고 + 항목 있고 + 단가 > 0)
+   영업담당 23명, 거래처 270곳
+
+📋 영업자별 업무 패턴 생성 중...
+⚖️  공정별 공정성 분석 중...
+🔍 이상 건 탐지 중 (±30% 초과)...
+   → 이상 건: 9,146건 (전체 14,253건 중 64.2%)
+      할증 이상: 8,320건 / 할인 이상: 826건
+📦 대량 주문 할인 분석 중...
+
+📊 거래처별 단가표 초안 생성 중...
+   → 244개 거래처 단가표 초안 생성 완료
+
+💾 JSON 저장: /Users/jack/dev/gabwoo/관리 대시보드/scripts/output/pricing_audit.json
+💾 CSV 저장: /Users/jack/dev/gabwoo/관리 대시보드/scripts/output/pricing_audit.csv
+
+======================================================================
+📋 영업자별 업무 패턴 요약 (초안 — ERP 역산)
+======================================================================
+
+영업담당           건수     평균편차    이상건     이상비율    할인    정상    할증
+----------------------------------------------------------------------
+성연광             4   +33.8%      4   100.0%     1     0     3 ⚠️
+이지현            62  +130.7%     62   100.0%     0     0    62 ⚠️
+이휘영             2   -50.0%      2   100.0%     2     0     0 ⚠️
+홍문보            12  +225.8%     12   100.0%     0     0    12 ⚠️
+도재웅           113   +97.0%    112    99.1%    16     1    96 ⚠️
+김병주         1,044  +188.6%  1,032    98.9%    95    11   938 ⚠️
+이동신           499   +78.7%    479    96.0%    11     6   482 ⚠️
+한기훈           693   +76.2%    659    95.1%    24    30   639 ⚠️
+서득기           180   +96.6%    171    95.0%    15     9   156 ⚠️
+이의섭            50   +97.8%     44    88.0%     0     1    49 ⚠️
+장경업           691   +57.0%    599    86.7%    57     7   627 ⚠️
+김현식           841   +84.4%    697    82.9%    31    44   766 ⚠️
+박정열         1,224   +74.8%    984    80.4%   173     8 1,043 ⚠️
+윤미리            22  +148.5%     16    72.7%     0     6    16 ⚠️
+방진혁            18   +67.4%     13    72.2%     0     0    18 ⚠️
+배용기           783   +32.2%    525    67.0%   124    32   627 ⚠️
+유영선         2,353   +71.0%  1,568    66.6%   117    46 2,190 ⚠️
+조기석         2,608   +48.1%  1,401    53.7%   182   102 2,324 ⚠️
+하청환             2   +73.3%      1    50.0%     0     0     2 ⚠️
+김영훈         3,052   +19.5%    765    25.1%   586    22 2,444 ⚠️
+
+🔍 할증 이상 TOP 5 (표준 대비 +30% 초과):
+  김병주 × (주)제이제이글로비스 | 인쇄(2종) | 단가 300,000 vs 표준 3,000 (+9900.0%)
+  김병주 × (주)제이제이글로비스 | 인쇄 | 단가 250,000 vs 표준 3,000 (+8233.3%)
+  유영선 × 인브리프 커뮤니케이션 (IN | 인쇄 | 단가 240,000 vs 표준 3,000 (+7900.0%)
+  조기석 × 투엘미디어 | 인쇄(2종) | 단가 150,000 vs 표준 3,000 (+4900.0%)
+  유영선 × 제이케이엠디자인 주식회사 ( | 인쇄 | 단가 150,000 vs 표준 3,000 (+4900.0%)
+
+🔍 할인 이상 TOP 5 (표준 대비 -30% 초과):
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 5 vs 표준 2,000 (-99.8%)
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 8 vs 표준 2,000 (-99.6%)
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 8 vs 표준 2,000 (-99.6%)
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 8 vs 표준 2,000 (-99.6%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄(2종) | 단가 10 vs 표준 2,000 (-99.5%)
+
+✅ 완료!
+   ⚠️ 라벨: 초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.
+[2/2] Supabase 업로드...
+/Users/jack/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🔑 service_role 키 확인 완료
+📦 업로드 파일: pricing_audit.json (476KB)
+📁 'gmd-data' 버킷 확인 완료
+✅ 업로드 성공!
+   공개 URL: https://xorascmhryuifrzzmzww.supabase.co/storage/v1/object/public/gmd-data/pricing_audit.json
+   대시보드에서 이 URL로 데이터를 fetch합니다.
+✅ 완료
+===== 2026-04-15 08:42:31 종료 =====
+
+===== 2026-04-15 09:03:21 시작 =====
+[1/2] ERP 분석 실행...
+/Users/jack/dev/gabwoo/관리 대시보드/scripts/reverse_engineer_pricing.py:151: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+  df = pd.read_sql(ERP_QUERY, conn)
+📂 ERP DB 접속 중...
+   ✅ 접속 성공
+📥 견적 데이터 조회 중 (2025-06-01 이후)...
+   → 65,188행 로드 (ERP 실시간)
+📊 분석 대상: 33,403건 (영업담당 있고 + 항목 있고 + 단가 > 0)
+   영업담당 23명, 거래처 270곳
+
+======================================================================
+🗓️  기간: 1개월 (1m)
+======================================================================
+   대상 행: 3,491건 (견적일 >= 20260315)
+
+📋 영업자별 업무 패턴 생성 중...
+⚖️  공정별 공정성 분석 중...
+🔍 이상 건 탐지 중 (±30% 초과)...
+   → 이상 건: 1,033건 (전체 1,640건 중 63.0%)
+      할증 이상: 914건 / 할인 이상: 119건
+      중복 제거 후 상위: 할증 30건 / 할인 24건
+📦 대량 주문 할인 분석 중...
+
+📊 거래처별 단가표 초안 생성 중...
+   → 84개 거래처 단가표 초안 생성 완료
+💾 저장: pricing_audit_1m.json (190KB)
+
+======================================================================
+🗓️  기간: 3개월 (3m)
+======================================================================
+   대상 행: 9,635건 (견적일 >= 20260115)
+
+📋 영업자별 업무 패턴 생성 중...
+⚖️  공정별 공정성 분석 중...
+🔍 이상 건 탐지 중 (±30% 초과)...
+   → 이상 건: 2,801건 (전체 4,306건 중 65.0%)
+      할증 이상: 2,513건 / 할인 이상: 288건
+      중복 제거 후 상위: 할증 30건 / 할인 30건
+📦 대량 주문 할인 분석 중...
+
+📊 거래처별 단가표 초안 생성 중...
+   → 129개 거래처 단가표 초안 생성 완료
+💾 저장: pricing_audit_3m.json (278KB)
+
+======================================================================
+🗓️  기간: 6개월 (6m)
+======================================================================
+   대상 행: 18,946건 (견적일 >= 20251015)
+
+📋 영업자별 업무 패턴 생성 중...
+⚖️  공정별 공정성 분석 중...
+🔍 이상 건 탐지 중 (±30% 초과)...
+   → 이상 건: 5,310건 (전체 8,234건 중 64.5%)
+      할증 이상: 4,784건 / 할인 이상: 526건
+      중복 제거 후 상위: 할증 30건 / 할인 30건
+📦 대량 주문 할인 분석 중...
+
+📊 거래처별 단가표 초안 생성 중...
+   → 183개 거래처 단가표 초안 생성 완료
+💾 저장: pricing_audit_6m.json (368KB)
+
+======================================================================
+🗓️  기간: 1년 (1y)
+======================================================================
+   대상 행: 33,403건 (견적일 >= 20250415)
+
+📋 영업자별 업무 패턴 생성 중...
+⚖️  공정별 공정성 분석 중...
+🔍 이상 건 탐지 중 (±30% 초과)...
+   → 이상 건: 9,146건 (전체 14,253건 중 64.2%)
+      할증 이상: 8,320건 / 할인 이상: 826건
+      중복 제거 후 상위: 할증 30건 / 할인 30건
+📦 대량 주문 할인 분석 중...
+
+📊 거래처별 단가표 초안 생성 중...
+   → 244개 거래처 단가표 초안 생성 완료
+💾 저장: pricing_audit_1y.json (476KB)
+
+======================================================================
+📋 영업자별 업무 패턴 요약 (초안 — ERP 역산)
+======================================================================
+
+영업담당           건수     평균편차    이상건     이상비율    할인    정상    할증
+----------------------------------------------------------------------
+성연광             4   +33.8%      4   100.0%     1     0     3 ⚠️
+이지현            62  +130.7%     62   100.0%     0     0    62 ⚠️
+이휘영             2   -50.0%      2   100.0%     2     0     0 ⚠️
+홍문보            12  +225.8%     12   100.0%     0     0    12 ⚠️
+도재웅           113   +97.0%    112    99.1%    16     1    96 ⚠️
+김병주         1,044  +188.6%  1,032    98.9%    95    11   938 ⚠️
+이동신           499   +78.7%    479    96.0%    11     6   482 ⚠️
+한기훈           693   +76.2%    659    95.1%    24    30   639 ⚠️
+서득기           180   +96.6%    171    95.0%    15     9   156 ⚠️
+이의섭            50   +97.8%     44    88.0%     0     1    49 ⚠️
+장경업           691   +57.0%    599    86.7%    57     7   627 ⚠️
+김현식           841   +84.4%    697    82.9%    31    44   766 ⚠️
+박정열         1,224   +74.8%    984    80.4%   173     8 1,043 ⚠️
+윤미리            22  +148.5%     16    72.7%     0     6    16 ⚠️
+방진혁            18   +67.4%     13    72.2%     0     0    18 ⚠️
+배용기           783   +32.2%    525    67.0%   124    32   627 ⚠️
+유영선         2,353   +71.0%  1,568    66.6%   117    46 2,190 ⚠️
+조기석         2,608   +48.1%  1,401    53.7%   182   102 2,324 ⚠️
+하청환             2   +73.3%      1    50.0%     0     0     2 ⚠️
+김영훈         3,052   +19.5%    765    25.1%   586    22 2,444 ⚠️
+
+🔍 할증 이상 TOP 5 (표준 대비 +30% 초과):
+  김병주 × (주)제이제이글로비스 | 인쇄(2종) | 단가 300,000 vs 표준 3,000 (+9900.0%)
+  김병주 × (주)제이제이글로비스 | 인쇄 | 단가 250,000 vs 표준 3,000 (+8233.3%)
+  유영선 × 인브리프 커뮤니케이션 (IN | 인쇄 | 단가 240,000 vs 표준 3,000 (+7900.0%)
+  조기석 × 투엘미디어 | 인쇄(2종) | 단가 150,000 vs 표준 3,000 (+4900.0%)
+  유영선 × 제이케이엠디자인 주식회사 ( | 인쇄 | 단가 150,000 vs 표준 3,000 (+4900.0%)
+
+🔍 할인 이상 TOP 5 (표준 대비 -30% 초과):
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 5 vs 표준 2,000 (-99.8%)
+  한기훈 × (주)지담디앤피 | 인쇄 | 단가 8 vs 표준 2,000 (-99.6%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄(2종) | 단가 10 vs 표준 2,000 (-99.5%)
+  김병주 × (주)비앤에프엘엔씨 | 인쇄(2종) | 단가 10 vs 표준 2,000 (-99.5%)
+  유영선 × (주) 토이트론 | 인쇄(2종) | 단가 20 vs 표준 3,000 (-99.3%)
+
+✅ 완료! (기간별 JSON 4개 생성)
+   ⚠️ 라벨: 초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.
+[2/2] Supabase 업로드...
+/Users/jack/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+🔑 service_role 키 확인 완료
+📦 업로드 대상: 5개 파일
+   - pricing_audit_1m.json (190KB)
+   - pricing_audit_3m.json (278KB)
+   - pricing_audit_6m.json (368KB)
+   - pricing_audit_1y.json (476KB)
+   - pricing_audit.json (476KB)
+📁 'gmd-data' 버킷 확인 완료
+   ✅ pricing_audit_1m.json
+   ✅ pricing_audit_3m.json
+   ✅ pricing_audit_6m.json
+   ✅ pricing_audit_1y.json
+   ✅ pricing_audit.json
+
+✅ 업로드 성공! (5개 파일)
+   공개 URL prefix: https://xorascmhryuifrzzmzww.supabase.co/storage/v1/object/public/gmd-data/
+   예: https://xorascmhryuifrzzmzww.supabase.co/storage/v1/object/public/gmd-data/pricing_audit_1m.json
+✅ 완료
+===== 2026-04-15 09:03:26 종료 =====
+

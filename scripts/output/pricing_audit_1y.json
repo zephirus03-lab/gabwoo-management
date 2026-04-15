@@ -2,7 +2,7 @@
   "_meta": {
     "label": "초안(ERP 역산) — 영업자 확인 전. 실제 단가표와 대조 필요.",
     "source": "ERP DB 직접 조회 (PRT_ESTH + PRT_ESTL + MAS_EMP)",
-    "generated": "2026-04-15 08:57",
+    "generated": "2026-04-15 09:03",
     "analysis_scope": "영업담당 있고 + 항목 있고 + 단가 > 0인 행",
     "total_analyzed": 33403,
     "date_from": "2025.06",
