@@ -34,8 +34,16 @@ ENV_FILE = Path("/Users/jack/dev/gabwoo/견적계산기/.env.local")
 DASHBOARD_PROJECT_REF = "btbqzbrtsmwoolurpqgx"
 
 # 매핑 테이블
-COMPANY_MAP = {"7000": "갑우문화사", "8000": "비피앤피"}
+COMPANY_MAP = {"7000": "갑우문화사", "8000": "비피앤피"}  # 견적(PRT_ESTH)용 CD_FIRM 매핑
 APPROVAL_MAP = {"R": "승인", "P": "작성", "F": "확정"}
+
+# v3 (2026-04-15): 매출(SAL_SALESH)은 CD_FIRM이 전부 '7000'이라 구분 불가.
+# CD_CUST_OWN으로 3사 구분 가능 (PDF 세금계산서 대조 검증 96.6%).
+OWNER_MAP = {
+    "10000": "갑우문화사",
+    "20000": "비피앤피",
+    "30000": "더원프린팅",
+}
 
 # 동기화 범위 (오늘 기준 N개월 이전부터)
 # v1: KPI-4 "과거 3년 신규/기존 판별" + KPI-5 "직전 2년 누적" 모두 커버하도록 40개월
@@ -354,9 +362,10 @@ def fetch_erp_sales(env: dict, cutoff_date: str) -> list:
         database=env["ERP_DATABASE"], login_timeout=10,
     )
     cursor = conn.cursor(as_dict=True)
+    # v3 (2026-04-15): CD_CUST_OWN 추가 - 3사(갑우/비피/더원) 분리 키
     cursor.execute(f"""
         SELECT
-            h.NO_SALES, h.CD_FIRM, h.DT_SALES,
+            h.NO_SALES, h.CD_FIRM, h.CD_BIZ, h.CD_CUST_OWN, h.DT_SALES,
             h.CD_CUST, c.NM_CUST AS CUST_NAME,
             h.CD_EMP, e.NM_EMP AS EMP_NAME,
             h.CD_DEPT,
@@ -377,6 +386,7 @@ def fetch_erp_sales(env: dict, cutoff_date: str) -> list:
             continue
         sdate = f"{dt[:4]}-{dt[4:6]}-{dt[6:8]}"
 
+        owner = (r["CD_CUST_OWN"] or "").strip() or None
         rows.append({
             "sales_number": r["NO_SALES"],
             "sales_date": sdate,
@@ -385,13 +395,16 @@ def fetch_erp_sales(env: dict, cutoff_date: str) -> list:
             "sales_person_code": (r["CD_EMP"] or "").strip() or None,
             "sales_person": (r["EMP_NAME"] or "").strip() or None,
             "department": (r["CD_DEPT"] or "").strip() or None,
-            "company": COMPANY_MAP.get(str(r["CD_FIRM"] or "").strip(), "갑우문화사"),
+            # v3: company는 CD_CUST_OWN 기반. CD_FIRM은 전부 7000이라 구분 불가
+            "company": OWNER_MAP.get(owner, "갑우문화사"),
             "supply_amount": float(r["AM"] or 0),
             "vat_amount": float(r["AM_VAT"] or 0),
             "total_amount": float(r["AM_K"] or 0),
             "sales_status": (r["ST_SALES"] or "").strip() or None,
             "approval_status": (r["YN_APP"] or "").strip() or None,
             "firm_code": str(r["CD_FIRM"] or "").strip() or None,
+            "business_unit": (r["CD_BIZ"] or "").strip() or None,  # v2: 사업부 구분
+            "owner_code": owner,  # v3: 3사 구분 원본(10000/20000/30000)
         })
     conn.close()
     return rows

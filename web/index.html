@@ -266,6 +266,12 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
           <option value="비피앤피">비피앤피</option>
           <option value="더원프린팅">더원프린팅</option>
         </select>
+        <select id="businessUnitFilter" class="header-filter" onchange="Dashboard.load()" title="ERP CD_BIZ 기준 사업부 분리 (검증중 — 라벨 해석은 추후 확정)">
+          <option value="ALL">사업부 전체</option>
+          <option value="GABWOO">GABWOO (주력)</option>
+          <option value="PKG">PKG (패키지)</option>
+          <option value="BPNP">(빈값·비피계열)</option>
+        </select>
         <select id="periodFilter" class="header-filter" onchange="Dashboard.load()">
           <option value="all">전체 기간</option>
           <option value="1">최근 1개월</option>
@@ -329,6 +335,9 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 
     <!-- 마감 정책 안내 -->
     <div id="closingNote" class="closing-note"></div>
+
+    <!-- 데이터 품질 경고 (회사/기간별 신뢰도) -->
+    <div id="dataQualityBanner" class="freshness-banner" style="display:none"></div>
 
     <!-- AI 인사이트 (접었다 펼 수 있음) -->
     <details id="insightsDetails" class="insights-details" open>
@@ -689,6 +698,19 @@ var Dashboard = (function(){
 
   function getFilter() { return document.getElementById('companyFilter').value || null; }
 
+  // 사업부 필터 (ERP CD_BIZ 기준) — PDF 검증 결과 추가됨
+  //   ALL  → null  (전체)
+  //   GABWOO / PKG → 그대로 전달
+  //   BPNP → '' (빈값. RPC에서 COALESCE(business_unit,'') = ''로 매칭)
+  function getBusinessUnit() {
+    var el = document.getElementById('businessUnitFilter');
+    if (!el) return null;
+    var v = el.value;
+    if (v === 'ALL' || !v) return null;
+    if (v === 'BPNP') return '';
+    return v;
+  }
+
   function destroyChart(id) {
     if (chartInstances[id]) { chartInstances[id].destroy(); chartInstances[id] = null; }
   }
@@ -722,6 +744,30 @@ var Dashboard = (function(){
         nextClosingDate = new Date(now.getFullYear(), now.getMonth(), 10);
       }
 
+      // ─── 데이터 품질 경고 배너 (PDF·감사보고서 대조 결과 기반) ───
+      //   - 2024+ : ±5% 신뢰 가능 (감사보고서와 비피 2025 차이 +2.2%)
+      //   - 2023- : 최대 16% 누락 (비피 2023 감사 240억 vs ERP 201억)
+      //   - 더원(30000): PDF 2,026M 중 ERP는 663M (1/3만 등록)
+      (function updateDataQualityBanner() {
+        var banner = document.getElementById('dataQualityBanner');
+        if (!banner) return;
+        var warnings = [];
+        var baseYear = logicalBase.getFullYear();
+        if (company === '더원프린팅') {
+          warnings.push('⚠️ <strong>더원프린팅은 부분 데이터</strong>입니다. 실 세금계산서의 약 1/3만 ERP에 등록되어 있어 그룹 연결 매출 기준으로는 과소 집계됩니다 (2025 ERP 6.6억 vs 실제 20억대).');
+        }
+        if (baseYear <= 2023) {
+          warnings.push('⚠️ <strong>2023년 이전 데이터는 최대 16% 누락</strong>되어 있어 참고용입니다. 감사보고서 기준 비피앤피 2023 매출 240억 vs ERP 201억.');
+        }
+        if (warnings.length) {
+          banner.className = 'freshness-banner freshness-banner--stale';
+          banner.innerHTML = '<span class="freshness-dot"></span><span>' + warnings.join(' / ') + '</span>';
+          banner.style.display = 'flex';
+        } else {
+          banner.style.display = 'none';
+        }
+      })();
+
       // 마감 안내 문구
       var noteEl = document.getElementById('closingNote');
       if (noteEl) {
@@ -733,9 +779,12 @@ var Dashboard = (function(){
       }
 
       // 1) RPC: 3패널 데이터 (최근 확정 3개월)
+      //    v2: p_business_unit(CD_BIZ) 추가. null이면 전체, 빈문자열이면 비피계열(빈값)
+      var businessUnit = getBusinessUnit();
       var rpcRes = await sb.rpc('get_dashboard_summary', {
         p_company: company,
-        p_base_date: logicalBase.toISOString().substring(0, 10)
+        p_base_date: logicalBase.toISOString().substring(0, 10),
+        p_business_unit: businessUnit
       });
 
       if (rpcRes.error) {
