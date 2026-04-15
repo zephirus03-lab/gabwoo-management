@@ -679,7 +679,7 @@ var Dashboard = (function(){
       var pageFrom = 0;
       var pageSize = 1000;
       while (true) {
-        var filter = sb.from('erp_quotes').select('customer_name, sales_person, quote_amount, product_type, approval_status, quote_date').eq('approval_status', '승인').gt('quote_amount', 0).range(pageFrom, pageFrom + pageSize - 1);
+        var filter = sb.from('erp_quotes').select('customer_name, sales_person, quote_amount, product_type, approval_status, quote_date').eq('approval_status', '승인').gt('quote_amount', 0).order('quote_number', { ascending: true }).range(pageFrom, pageFrom + pageSize - 1);
         if (company) filter = filter.eq('company', company);
         if (periodVal !== 'all') {
           var monthsAgo = new Date(now.getFullYear(), now.getMonth() - parseInt(periodVal), 1);
@@ -747,6 +747,7 @@ var Dashboard = (function(){
           .eq('approval_status', '승인')
           .gt('quote_amount', 0)
           .gte('quote_date', yoyStart.toISOString().substring(0, 10))
+          .order('quote_number', { ascending: true })  // 페이지 일관성 확보
           .range(yoyFrom, yoyFrom + pageSize - 1);
         if (company) yf = yf.eq('company', company);
         var yoyRes = await yf;
