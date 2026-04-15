@@ -87,14 +87,25 @@ def fmt_pct(cur: float, prev: float) -> str:
     return f"{sign}{pct:.1f}%"
 
 
+def logical_month_end(base_date: date) -> date:
+    """세금계산서 마감(매월 10일) 기준으로 "분석 창의 upper bound"를 반환합니다.
+    - 오늘.day > 10 → 이번 달 1일 (이번달 이전 = 마지막 확정월까지 포함)
+    - 오늘.day ≤ 10 → 지난 달 1일 (지난달은 아직 집계 중)
+    """
+    if base_date.day > 10:
+        return date(base_date.year, base_date.month, 1)
+    return add_months(date(base_date.year, base_date.month, 1), -1)
+
+
 def analyze(access_token: str, base_date: date, company: str = None) -> dict:
-    """비교 기간: base_date 기준 최근 2개월 윈도우 vs 전년 동기."""
-    # 올해 윈도우: 2개월 전 1일 ~ 이번달 1일
-    this_end = date(base_date.year, base_date.month, 1)
-    this_start = add_months(this_end, -2)
+    """비교 기간: 마지막 확정 3개월 윈도우 vs 전년 동월 3개월."""
+    # 확정된 분석 창의 끝 (exclusive)
+    this_end = logical_month_end(base_date)
+    # 3개월 윈도우
+    this_start = add_months(this_end, -3)
     # 작년 동기
     last_end = date(this_end.year - 1, this_end.month, 1)
-    last_start = add_months(last_end, -2)
+    last_start = add_months(last_end, -3)
 
     company_clause = f"AND company = '{company}'" if company else ""
 
@@ -179,31 +190,38 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
     lost_customers = [r for r in cust_rows if r["last_amt"] > 0 and r["this_amt"] == 0][:5]
     lost_total = sum(r["last_amt"] for r in lost_customers)
 
-    period_label = f"{this_start.year}.{this_start.month:02d}~{(this_end - timedelta(days=1)).month:02d}월"
+    # 기간 라벨 — 구체적 연월 (e.g. "2026.01~03")
+    this_last = this_end - timedelta(days=1)
+    last_last = last_end - timedelta(days=1)
+    period_this_label = f"{this_start.year}.{this_start.month:02d}~{this_last.month:02d}"
+    period_last_label = f"{last_start.year}.{last_start.month:02d}~{last_last.month:02d}"
+
     if total_delta < 0:
         direction = "down"
-        title = f"매출 {fmt_won(total_total := abs(total_delta))} 감소 ({fmt_pct(this_total, last_total)})"
-        body_parts = [f"최근 2개월({period_label}) 확정 매출이 작년 동기 {fmt_won(last_total)} → 올해 {fmt_won(this_total)}로 줄었습니다."]
+        title = f"{period_this_label} 매출 {fmt_won(abs(total_delta))} 감소 ({fmt_pct(this_total, last_total)})"
+        body = (f"{period_this_label} 확정 매출 {fmt_won(this_total)} vs "
+                f"{period_last_label} {fmt_won(last_total)}.")
         if top_declined:
             names = ", ".join([f"{r['name'][:12]}({fmt_won(r['delta'])})" for r in top_declined[:2]])
-            body_parts.append(f"가장 크게 줄어든 거래처: {names}.")
-        insights.append({"title": title, "body": " ".join(body_parts), "direction": direction})
+            body += f" 가장 크게 줄어든 거래처: {names}."
+        insights.append({"title": title, "body": body, "direction": direction})
     else:
         direction = "up"
-        title = f"매출 {fmt_won(total_delta)} 증가 ({fmt_pct(this_total, last_total)})"
-        body_parts = [f"최근 2개월({period_label}) 확정 매출이 작년 동기 대비 늘었습니다."]
+        title = f"{period_this_label} 매출 {fmt_won(total_delta)} 증가 ({fmt_pct(this_total, last_total)})"
+        body = (f"{period_this_label} 확정 매출 {fmt_won(this_total)} vs "
+                f"{period_last_label} {fmt_won(last_total)}.")
         top_grown = [r for r in sorted(cust_rows, key=lambda r: -r['delta']) if r["delta"] > 0][:2]
         if top_grown:
             names = ", ".join([f"{r['name'][:12]}(+{fmt_won(r['delta'])})" for r in top_grown])
-            body_parts.append(f"견인 거래처: {names}.")
-        insights.append({"title": title, "body": " ".join(body_parts), "direction": direction})
+            body += f" 견인 거래처: {names}."
+        insights.append({"title": title, "body": body, "direction": direction})
 
     # 인사이트 2: 이탈/급감 거래처 구체 금액
     if lost_customers:
         names = ", ".join([r["name"][:15] for r in lost_customers[:3]])
         insights.append({
             "title": f"거래 중단 {len(lost_customers)}곳 — {fmt_won(lost_total)} 공백",
-            "body": f"작년 동기에는 매출이 있었지만 올해 같은 기간 매출이 0원인 거래처: {names} 등. "
+            "body": f"{period_last_label}에는 매출이 있었지만 {period_this_label} 매출이 0원인 거래처: {names} 등. "
                     f"영업 재접촉 또는 이탈 사유 확인이 필요합니다.",
             "direction": "down",
         })
@@ -211,7 +229,7 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
         r = top_declined[0]
         insights.append({
             "title": f"{r['name'][:15]} 매출 {fmt_pct(r['this_amt'], r['last_amt'])} 축소",
-            "body": f"작년 {fmt_won(r['last_amt'])} → 올해 {fmt_won(r['this_amt'])}. "
+            "body": f"{period_last_label} {fmt_won(r['last_amt'])} → {period_this_label} {fmt_won(r['this_amt'])}. "
                     f"주요 거래처의 물량 축소가 총매출 하락에 기여했습니다.",
             "direction": "down",
         })
@@ -222,7 +240,7 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
         if abs(avg_pct) > 5:
             direction = "down" if avg_pct < 0 else "up"
             title = f"건당 평균 매출 {fmt_pct(this_avg, last_avg)} — {fmt_won(this_avg)}"
-            body = (f"작년 동기 건당 {fmt_won(last_avg)} → 올해 {fmt_won(this_avg)}. "
+            body = (f"{period_last_label} 건당 {fmt_won(last_avg)} → {period_this_label} {fmt_won(this_avg)}. "
                     f"거래 건수는 {last_cnt}→{this_cnt}건. ")
             if avg_pct < 0:
                 body += "동일 거래처 내 물량 감소 또는 단가 인하 가능성이 있습니다."
@@ -235,7 +253,7 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
             if worst_emp:
                 insights.append({
                     "title": f"영업담당 {worst_emp['name']} 매출 {fmt_pct(worst_emp['this_amt'], worst_emp['last_amt'])}",
-                    "body": f"작년 동기 {fmt_won(worst_emp['last_amt'])} → 올해 {fmt_won(worst_emp['this_amt'])}. "
+                    "body": f"{period_last_label} {fmt_won(worst_emp['last_amt'])} → {period_this_label} {fmt_won(worst_emp['this_amt'])}. "
                             f"담당 거래처 상태 및 활동 점검이 필요합니다.",
                     "direction": "down",
                 })
@@ -249,8 +267,11 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
     insights = insights[:3]
 
     meta = {
-        "period_this": f"{this_start} ~ {this_end - timedelta(days=1)}",
-        "period_last": f"{last_start} ~ {last_end - timedelta(days=1)}",
+        "period_this": period_this_label,
+        "period_last": period_last_label,
+        "period_this_range": f"{this_start} ~ {this_last}",
+        "period_last_range": f"{last_start} ~ {last_last}",
+        "period_label": f"{period_this_label} vs {period_last_label} (확정 3개월)",
         "this_total": this_total,
         "last_total": last_total,
         "total_delta_pct": total_pct,

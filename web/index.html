@@ -95,8 +95,22 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .badge-estimate{background:var(--amber-100);color:var(--amber-700);border:1px solid rgba(217,119,6,0.15)}
 .badge-progress{background:var(--blue-100,#dbeafe);color:var(--blue-700,#1d4ed8);border:1px solid rgba(37,99,235,0.15)}
 
+/* 세금계산서 마감 안내 */
+.closing-note{font-size:12px;color:var(--gray-500);padding:8px 14px;margin:12px 0 0;background:var(--gray-50,#f8fafc);border-radius:8px;border-left:3px solid #94a3b8;line-height:1.5}
+.closing-note strong{color:var(--gray-700)}
+
+/* AI 인사이트 접기/펼치기 */
+.insights-details{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin:12px 0 16px;overflow:hidden}
+.insights-summary{padding:14px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;user-select:none;transition:background .15s}
+.insights-summary::-webkit-details-marker{display:none}
+.insights-summary:hover{background:var(--gray-50,#f8fafc)}
+.insights-summary-title{font-size:14px;font-weight:700;color:var(--gray-900)}
+.insights-summary-toggle{font-size:11px;color:var(--gray-500);background:var(--gray-100,#f1f5f9);padding:3px 10px;border-radius:12px}
+.insights-details[open] .insights-summary-toggle::before{content:'▾ '}
+.insights-details:not([open]) .insights-summary-toggle::before{content:'▸ '}
+
 /* AI 인사이트 박스 */
-.insights-box{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);padding:20px 24px;margin:16px 0}
+.insights-box{background:#fff;padding:6px 24px 20px}
 .insights-box .insight-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap}
 .insights-box .insight-header strong{font-size:15px;color:var(--gray-900);font-weight:700}
 .insights-box .insight-meta{font-size:12px;color:var(--gray-500)}
@@ -257,27 +271,36 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
     <!-- 3패널 KPI -->
     <div class="dashboard-grid" id="dashboardGrid">
       <div class="kpi-card kpi-card--last">
-        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiPrevTitle">2개월 전</span><span class="badge badge-confirm">확정</span></div>
+        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiPrevTitle">-</span><span class="badge badge-confirm">확정</span></div>
         <div class="kpi-card-amount" id="kpiPrevAmount">-</div>
         <div class="kpi-card-count" id="kpiPrevCount"></div>
         <div class="kpi-card-footer"><span class="kpi-delta kpi-delta--flat" id="kpiPrevDelta">-</span></div>
       </div>
       <div class="kpi-card kpi-card--this">
-        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiCurrTitle">1개월 전</span><span class="badge badge-confirm">확정</span></div>
+        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiCurrTitle">-</span><span class="badge badge-confirm">확정</span></div>
         <div class="kpi-card-amount" id="kpiCurrAmount">-</div>
         <div class="kpi-card-count" id="kpiCurrCount"></div>
         <div class="kpi-card-footer"><span class="kpi-delta kpi-delta--flat" id="kpiCurrDelta">-</span></div>
       </div>
       <div class="kpi-card kpi-card--next">
-        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiNextTitle">이번달</span><span class="badge badge-progress">진행중</span></div>
+        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiNextTitle">-</span><span class="badge badge-confirm">확정</span></div>
         <div class="kpi-card-amount" id="kpiNextAmount">-</div>
         <div class="kpi-card-count" id="kpiNextCount"></div>
         <div class="kpi-card-footer"><span class="kpi-delta kpi-delta--flat" id="kpiNextDelta">-</span></div>
       </div>
     </div>
 
-    <!-- AI 인사이트 (YoY 해석 3줄) -->
-    <div id="insightsBox" class="insights-box">로딩 중...</div>
+    <!-- 마감 정책 안내 -->
+    <div id="closingNote" class="closing-note"></div>
+
+    <!-- AI 인사이트 (접었다 펼 수 있음) -->
+    <details id="insightsDetails" class="insights-details" open>
+      <summary class="insights-summary">
+        <span class="insights-summary-title" id="insightsSummaryTitle">해석 · 불러오는 중...</span>
+        <span class="insights-summary-toggle">접기/펼치기</span>
+      </summary>
+      <div id="insightsBox" class="insights-box">로딩 중...</div>
+    </details>
 
     <!-- 월별 추이 (전체 너비) -->
     <div class="charts-grid" style="margin-bottom:16px">
@@ -610,10 +633,38 @@ var Dashboard = (function(){
       var company = getFilter();
       var now = new Date();
 
-      // 1) RPC: 3패널 데이터
+      // 세금계산서 마감 정책: 매달 10일에 전월 세금계산서 마감.
+      // - today.day > 10 → 전월(이번달-1)이 마지막 확정월
+      // - today.day ≤ 10 → 전전월(이번달-2)이 마지막 확정월 (전월은 아직 집계 중)
+      var logicalBase;  // RPC에 보낼 base_date (이 달 1일 기준으로 직전 3개월을 조회)
+      var nextClosingMonth;  // "이번달"이 집계 중일 때 안내용 (마감 예정 월)
+      var nextClosingDate;
+      if (now.getDate() > 10) {
+        // 이번 달 초를 base로 → 직전 3개월(이번달-3 ~ 이번달-1)은 모두 확정
+        logicalBase = new Date(now.getFullYear(), now.getMonth(), 1);
+        nextClosingMonth = new Date(now.getFullYear(), now.getMonth(), 1);  // 이번달 = 집계 중
+        nextClosingDate = new Date(now.getFullYear(), now.getMonth() + 1, 10);
+      } else {
+        // 전월은 아직 10일 마감 전 → 전월 초를 base로 → 직전 3개월 = 전월-3 ~ 전월-1 = 이번달-4 ~ 이번달-2
+        logicalBase = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        nextClosingMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);  // 전월 = 아직 집계 중
+        nextClosingDate = new Date(now.getFullYear(), now.getMonth(), 10);
+      }
+
+      // 마감 안내 문구
+      var noteEl = document.getElementById('closingNote');
+      if (noteEl) {
+        noteEl.innerHTML =
+          '<strong>세금계산서 마감 정책</strong> · 매달 10일에 전월 실적 마감. ' +
+          '다음 마감: <strong>' + monthName(nextClosingMonth) + ' 실적</strong> → ' +
+          (nextClosingDate.getFullYear() + '.' + String(nextClosingDate.getMonth()+1).padStart(2,'0') + '.10') +
+          ' 이후 확인 가능.';
+      }
+
+      // 1) RPC: 3패널 데이터 (최근 확정 3개월)
       var rpcRes = await sb.rpc('get_dashboard_summary', {
         p_company: company,
-        p_base_date: now.toISOString().substring(0, 10)
+        p_base_date: logicalBase.toISOString().substring(0, 10)
       });
 
       if (rpcRes.error) {
@@ -627,8 +678,7 @@ var Dashboard = (function(){
         return;
       }
 
-      // v3 RPC 스키마: period × year_type 조합 6개 행
-      // key = period + '_' + year_type  (예: '2개월전_올해')
+      // RPC 스키마: 3개월전/2개월전/1개월전 × 올해/작년 (모두 확정)
       var panelData = {};
       if (rpcRes.data) {
         rpcRes.data.forEach(function(r) {
@@ -636,49 +686,49 @@ var Dashboard = (function(){
         });
       }
 
-      // 월 이름 설정
-      var twoMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2, 1);
-      var oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      document.getElementById('kpiPrevTitle').textContent = monthName(twoMonthsAgo) + ' 매출';
-      document.getElementById('kpiCurrTitle').textContent = monthName(oneMonthAgo) + ' 매출';
-      document.getElementById('kpiNextTitle').textContent = monthName(now) + ' 매출';
+      // logicalBase = m0. m3=3개월전, m2=2개월전, m1=1개월전(가장 최근 확정월)
+      var m3 = new Date(logicalBase.getFullYear(), logicalBase.getMonth() - 3, 1);
+      var m2 = new Date(logicalBase.getFullYear(), logicalBase.getMonth() - 2, 1);
+      var m1 = new Date(logicalBase.getFullYear(), logicalBase.getMonth() - 1, 1);
 
-      // KPI 금액 (올해)
-      var twoAgoAmt = (panelData['2개월전_올해'] || {}).total_amount || 0;
-      var oneAgoAmt = (panelData['1개월전_올해'] || {}).total_amount || 0;
-      var currAmt = (panelData['이번달_올해'] || {}).total_amount || 0;
+      document.getElementById('kpiPrevTitle').textContent = monthName(m3) + ' 매출';
+      document.getElementById('kpiCurrTitle').textContent = monthName(m2) + ' 매출';
+      document.getElementById('kpiNextTitle').textContent = monthName(m1) + ' 매출';
 
-      // 전년 동월 (YoY 비교 기준)
-      var twoAgoPrevYr = (panelData['2개월전_작년'] || {}).total_amount || 0;
-      var oneAgoPrevYr = (panelData['1개월전_작년'] || {}).total_amount || 0;
-      var currPrevYr = (panelData['이번달_작년'] || {}).total_amount || 0;
+      var m3Amt = (panelData['3개월전_올해'] || {}).total_amount || 0;
+      var m2Amt = (panelData['2개월전_올해'] || {}).total_amount || 0;
+      var m1Amt = (panelData['1개월전_올해'] || {}).total_amount || 0;
 
-      document.getElementById('kpiPrevAmount').textContent = fmtAmt(twoAgoAmt);
-      document.getElementById('kpiCurrAmount').textContent = fmtAmt(oneAgoAmt);
-      document.getElementById('kpiNextAmount').textContent = fmtAmt(currAmt);
+      var m3PrevYr = (panelData['3개월전_작년'] || {}).total_amount || 0;
+      var m2PrevYr = (panelData['2개월전_작년'] || {}).total_amount || 0;
+      var m1PrevYr = (panelData['1개월전_작년'] || {}).total_amount || 0;
 
-      document.getElementById('kpiPrevCount').textContent = ((panelData['2개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
-      document.getElementById('kpiCurrCount').textContent = ((panelData['1개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
-      document.getElementById('kpiNextCount').textContent = ((panelData['이번달_올해'] || {}).quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiPrevAmount').textContent = fmtAmt(m3Amt);
+      document.getElementById('kpiCurrAmount').textContent = fmtAmt(m2Amt);
+      document.getElementById('kpiNextAmount').textContent = fmtAmt(m1Amt);
 
-      // 전년 동월 대비(YoY) 증감률 표시
-      function setDelta(elId, current, previous, suffix) {
+      document.getElementById('kpiPrevCount').textContent = ((panelData['3개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiCurrCount').textContent = ((panelData['2개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiNextCount').textContent = ((panelData['1개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
+
+      // 전년 동월 대비(YoY) — 구체적인 전년 월 레이블도 같이 표시
+      function setDelta(elId, current, previous, prevMonth) {
         var el = document.getElementById(elId);
+        var prevLabel = (prevMonth.getFullYear() - 2000) + '.' + String(prevMonth.getMonth() + 1).padStart(2,'0');
         if (previous === 0) {
-          el.textContent = '작년 자료 없음';
+          el.textContent = "'" + prevLabel + " 자료 없음";
           el.className = 'kpi-delta kpi-delta--flat';
           return;
         }
         var pct = ((current - previous) / previous * 100).toFixed(1);
-        var label = (suffix || 'YoY');
-        if (pct > 0) { el.textContent = '\u2191 +' + pct + '% (' + label + ')'; el.className = 'kpi-delta kpi-delta--up'; }
-        else if (pct < 0) { el.textContent = '\u2193 ' + pct + '% (' + label + ')'; el.className = 'kpi-delta kpi-delta--down'; }
-        else { el.textContent = '0% (' + label + ')'; el.className = 'kpi-delta kpi-delta--flat'; }
+        var suffix = ' (vs \'' + prevLabel + ')';
+        if (pct > 0) { el.textContent = '\u2191 +' + pct + '%' + suffix; el.className = 'kpi-delta kpi-delta--up'; }
+        else if (pct < 0) { el.textContent = '\u2193 ' + pct + '%' + suffix; el.className = 'kpi-delta kpi-delta--down'; }
+        else { el.textContent = '0%' + suffix; el.className = 'kpi-delta kpi-delta--flat'; }
       }
-      setDelta('kpiPrevDelta', twoAgoAmt, twoAgoPrevYr, 'YoY');
-      setDelta('kpiCurrDelta', oneAgoAmt, oneAgoPrevYr, 'YoY');
-      // 이번달은 진행 중 → 작년 동월 전체와 비교 (label로 구분)
-      setDelta('kpiNextDelta', currAmt, currPrevYr, '작년 동월 전체 대비');
+      setDelta('kpiPrevDelta', m3Amt, m3PrevYr, new Date(m3.getFullYear() - 1, m3.getMonth(), 1));
+      setDelta('kpiCurrDelta', m2Amt, m2PrevYr, new Date(m2.getFullYear() - 1, m2.getMonth(), 1));
+      setDelta('kpiNextDelta', m1Amt, m1PrevYr, new Date(m1.getFullYear() - 1, m1.getMonth(), 1));
 
       // 2) 기간 필터 적용 쿼리 — erp_sales(확정 매출) 기반, 페이징
       var periodVal = document.getElementById('periodFilter').value;
@@ -785,9 +835,14 @@ var Dashboard = (function(){
         else if (y === lastYear) lastYearAmounts[m] += amt;
       });
 
-      // 올해는 현재 달(진행중)까지만 채우고, 이후는 null로 비워둠
-      var currMonthIdx = now.getMonth();
-      var thisYearDisplay = thisYearAmounts.map(function(v, i) { return i <= currMonthIdx ? v : null; });
+      // 올해는 "마지막 확정 월"까지만 채우고, 이후는 null로 비워둠
+      // logicalBase = 이번 달 초 (day>10) 또는 전월 초 (day<=10). m1 = 마지막 확정월(logicalBase - 1)
+      var lastConfirmedMonthIdx = m1.getMonth();  // 0=1월 ... 11=12월
+      // m1.getFullYear() === thisYear 인 경우만 올해 그래프에 반영. 예외(1월에 로드되어 m1이 작년 12월일 때)도 자동 처리됨.
+      var thisYearDisplay = thisYearAmounts.map(function(v, i) {
+        if (m1.getFullYear() !== thisYear) return null;  // 올해에 확정월이 아직 없음
+        return i <= lastConfirmedMonthIdx ? v : null;
+      });
 
       destroyChart('trendChart');
       chartInstances['trendChart'] = new Chart(document.getElementById('trendChart'), {
@@ -847,6 +902,7 @@ var Dashboard = (function(){
 // ═══ AI 인사이트 로더 ═══
 async function loadInsights(sb, company) {
   var box = document.getElementById('insightsBox');
+  var summaryTitle = document.getElementById('insightsSummaryTitle');
   if (!box) return;
   try {
     var q = sb.from('dashboard_insights')
@@ -855,18 +911,24 @@ async function loadInsights(sb, company) {
       .limit(5);
     var res = await q;
     var rows = (res.data || []).filter(function(r) {
-      // company filter 매칭 (null = 전체)
       if (!company) return r.company_filter === null;
       return r.company_filter === company;
     });
     var row = rows[0];
     if (!row) {
-      box.innerHTML = '<div class="insight-empty">아직 생성된 해석이 없습니다. 내일 10시 자동 실행 후 표시됩니다.</div>';
+      if (summaryTitle) summaryTitle.textContent = '해석 · 데이터 없음';
+      box.innerHTML = '<div class="insight-empty">아직 생성된 해석이 없습니다. 내일 오전 10시 자동 실행 후 표시됩니다.</div>';
       return;
     }
     var items = row.insights || [];
     var gen = new Date(row.generated_at).toLocaleString('ko-KR', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     var meta = row.meta || {};
+    // 명시적 기간 라벨 (meta에 있으면 사용, 없으면 period_this/period_last로 재구성)
+    var headerLabel = meta.period_label || (meta.period_this && meta.period_last
+      ? (meta.period_this + ' vs ' + meta.period_last + ' 비교 해석')
+      : '확정 매출 비교 해석');
+    if (summaryTitle) summaryTitle.textContent = '해석 · ' + headerLabel + ' · AI 생성 ' + gen;
+
     var cards = items.map(function(it, idx) {
       var dirCls = it.direction === 'down' ? 'insight-card--down' : (it.direction === 'up' ? 'insight-card--up' : 'insight-card--neutral');
       var icon = it.direction === 'down' ? '↓' : (it.direction === 'up' ? '↑' : '•');
@@ -876,13 +938,9 @@ async function loadInsights(sb, company) {
              '<div class="insight-body">' + esc(it.body) + '</div>' +
              '</div>';
     }).join('');
-    box.innerHTML =
-      '<div class="insight-header">' +
-        '<strong>작년 동기 대비 해석</strong>' +
-        '<span class="insight-meta">AI 자동 생성 · ' + gen + '</span>' +
-      '</div>' +
-      '<div class="insight-grid">' + cards + '</div>';
+    box.innerHTML = '<div class="insight-grid">' + cards + '</div>';
   } catch (e) {
+    if (summaryTitle) summaryTitle.textContent = '해석 · 불러오기 실패';
     box.innerHTML = '<div class="insight-empty">해석 불러오기 실패</div>';
   }
 }
