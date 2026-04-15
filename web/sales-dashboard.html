@@ -222,8 +222,8 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
   header, .tabs, .section, .summary-row { padding-left: 16px; padding-right: 16px; }
 }
 
-/* ─── 매출 집중도 + 키맨 리스크 (영업자 대시보드 상단 경보) ─── */
-.conc-wrap { padding: 20px 32px 0; background: #f0f2f5; }
+/* ─── 매출 집중도 + 키맨 리스크 (전체 현황 탭 하단) ─── */
+.conc-wrap { padding: 0; background: transparent; }
 .conc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .conc-card { background: #fff; border-radius: 12px; padding: 18px 20px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); position: relative; }
 .conc-card h3 { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
@@ -251,7 +251,6 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 .conc-summary-bar--warn { background: #fef2f2; color: #991b1b; border-left: 3px solid #dc2626; }
 @media (max-width: 860px) {
   .conc-grid { grid-template-columns: 1fr; }
-  .conc-wrap { padding: 16px; }
 }
 </style>
 </head>
@@ -277,41 +276,6 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
       <option value="1y" selected>1년</option>
     </select>
   </label>
-</div>
-
-<!-- 매출 규모 쏠림 경보 (거래처 집중도 + 영업자 키맨 리스크) -->
-<div class="conc-wrap">
-  <div class="conc-grid">
-    <div class="conc-card">
-      <h3>
-        <span>🏢 거래처 매출 집중도</span>
-        <span id="concCustBadge" class="conc-badge conc-badge--ok">정상</span>
-      </h3>
-      <div class="sub" id="concCustSub">기간 내 확정 매출 기준</div>
-      <div class="conc-metrics">
-        <div class="conc-metric"><div class="v" id="concCustTop1">-</div><div class="l">TOP 1 비중</div></div>
-        <div class="conc-metric"><div class="v" id="concCustTop5">-</div><div class="l">TOP 5 비중</div></div>
-        <div class="conc-metric"><div class="v" id="concCustTop10">-</div><div class="l">TOP 10 비중</div></div>
-      </div>
-      <ol class="conc-list" id="concCustList"></ol>
-      <div class="conc-summary-bar" id="concCustSummary">-</div>
-    </div>
-
-    <div class="conc-card">
-      <h3>
-        <span>🧑‍💼 영업자 매출 키맨 리스크</span>
-        <span id="concKeymanBadge" class="conc-badge conc-badge--ok">정상</span>
-      </h3>
-      <div class="sub">1인 의존도 ≥ 25%면 경보</div>
-      <div class="conc-keyman" id="concKeymanBox">
-        <div class="name" id="concKeymanName">-</div>
-        <div class="pct" id="concKeymanPct">-</div>
-      </div>
-      <div style="margin-top:12px;font-size:11px;color:#64748b;font-weight:600;">영업자 TOP 10</div>
-      <ol class="conc-list" id="concEmpList"></ol>
-      <div class="conc-summary-bar" id="concKeymanSummary" style="display:none">-</div>
-    </div>
-  </div>
 </div>
 
 <div class="tabs">
@@ -340,6 +304,48 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
       이상비율 = 표준 대비 ±30% 초과 건의 비율. 20% 이상이면 ⚠️ 표시.
     </p>
     <table id="rankingTable"></table>
+  </div>
+
+  <!-- 매출 규모 쏠림 경보 (거래처 집중도 + 영업자 키맨 리스크) -->
+  <div class="section">
+    <h2>매출 규모 쏠림 경보</h2>
+    <p style="font-size:13px;color:#666;margin-bottom:16px;">
+      특정 거래처·영업자에 매출이 과도하게 쏠려있는지 확인합니다.
+      임계값: 거래처 TOP 1 ≥ 20% 또는 TOP 5 ≥ 60% / 영업자 1인 ≥ 25%
+    </p>
+    <div class="conc-wrap">
+      <div class="conc-grid">
+        <div class="conc-card">
+          <h3>
+            <span>🏢 거래처 매출 집중도</span>
+            <span id="concCustBadge" class="conc-badge conc-badge--ok">정상</span>
+          </h3>
+          <div class="sub" id="concCustSub">기간 내 확정 매출 기준</div>
+          <div class="conc-metrics">
+            <div class="conc-metric"><div class="v" id="concCustTop1">-</div><div class="l">TOP 1 비중</div></div>
+            <div class="conc-metric"><div class="v" id="concCustTop5">-</div><div class="l">TOP 5 비중</div></div>
+            <div class="conc-metric"><div class="v" id="concCustTop10">-</div><div class="l">TOP 10 비중</div></div>
+          </div>
+          <ol class="conc-list" id="concCustList"></ol>
+          <div class="conc-summary-bar" id="concCustSummary">-</div>
+        </div>
+
+        <div class="conc-card">
+          <h3>
+            <span>🧑‍💼 영업자 매출 키맨 리스크</span>
+            <span id="concKeymanBadge" class="conc-badge conc-badge--ok">정상</span>
+          </h3>
+          <div class="sub">1인 의존도 ≥ 25%면 경보</div>
+          <div class="conc-keyman" id="concKeymanBox">
+            <div class="name" id="concKeymanName">-</div>
+            <div class="pct" id="concKeymanPct">-</div>
+          </div>
+          <div style="margin-top:12px;font-size:11px;color:#64748b;font-weight:600;">영업자 TOP 10</div>
+          <ol class="conc-list" id="concEmpList"></ol>
+          <div class="conc-summary-bar" id="concKeymanSummary" style="display:none">-</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -486,7 +492,9 @@ async function loadConcentration(periodKey) {
     if (!resp.ok) throw new Error(resp.status);
     data = await resp.json();
   } catch(e) {
-    document.querySelector('.conc-wrap').style.display = 'none';
+    // 데이터 없을 때는 섹션 전체 숨김
+    const wrap = document.querySelector('.conc-wrap');
+    if (wrap && wrap.closest('.section')) wrap.closest('.section').style.display = 'none';
     return;
   }
   renderConcentration(data);
