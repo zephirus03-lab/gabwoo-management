@@ -4,7 +4,8 @@
 #
 # v1 개선 (2026-04-15, CTO 리뷰 TOP-1):
 # - macOS 알림: 실패 시 화면 우상단에 즉시 팝업 (로그 안 열어봐도 인지)
-# - step [4/5] 추가: 용지 매입 동기화 (KPI-6)
+# - step [2/6] 추가: 매출 집중도/키맨 리스크 집계 (영업자 대시보드 상단 경보)
+# - step [5/6] 추가: 용지 매입 동기화 (KPI-6)
 # - 각 step 종료 결과는 Supabase sync_log 테이블에도 기록되어
 #   대시보드 상단 "데이터 기준 시각" 배너에 표시됩니다.
 
@@ -26,55 +27,64 @@ notify_success() {
 echo "===== $(date '+%Y-%m-%d %H:%M:%S') 시작 =====" >> "$LOG_FILE"
 
 # 1. ERP DB 조회 → pricing_audit.json 생성 (영업자 대시보드용)
-echo "[1/5] ERP 분석 실행 (영업자 대시보드)..." >> "$LOG_FILE"
+echo "[1/6] ERP 분석 실행 (영업자 대시보드)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/reverse_engineer_pricing.py" >> "$LOG_FILE" 2>&1
 STEP1=$?
 
 if [ $STEP1 -ne 0 ]; then
     echo "❌ ERP 분석 실패 (exit $STEP1) — 사내망 연결을 확인하세요." >> "$LOG_FILE"
     echo "===== $(date '+%Y-%m-%d %H:%M:%S') 실패 =====" >> "$LOG_FILE"
-    notify_fail "[1/5] ERP 분석" "$STEP1"
+    notify_fail "[1/6] ERP 분석" "$STEP1"
     exit 1
 fi
 
-# 2. pricing_audit JSON 파일들 Supabase Storage 업로드 (영업자 대시보드용)
-echo "[2/5] Supabase Storage 업로드 (영업자 대시보드)..." >> "$LOG_FILE"
+# 1.5. 매출 집중도 + 키맨 리스크 집계 (영업자 대시보드 상단 경보용)
+echo "[2/6] 매출 집중도/키맨 리스크 집계..." >> "$LOG_FILE"
+$PYTHON "$SCRIPT_DIR/compute_sales_concentration.py" >> "$LOG_FILE" 2>&1
+STEP_CONC=$?
+if [ $STEP_CONC -ne 0 ]; then
+    echo "⚠️ 집중도 집계 실패 (exit $STEP_CONC) — 이 단계 실패해도 파이프라인은 계속됨" >> "$LOG_FILE"
+    # 비치명: 기존 JSON 유지한 채로 업로드 진행
+fi
+
+# 2. pricing_audit JSON + sales_concentration JSON 파일들 Supabase Storage 업로드
+echo "[3/6] Supabase Storage 업로드 (영업자 대시보드)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/upload_to_supabase.py" >> "$LOG_FILE" 2>&1
 STEP2=$?
 
 if [ $STEP2 -ne 0 ]; then
     echo "❌ Supabase Storage 업로드 실패 (exit $STEP2)" >> "$LOG_FILE"
     echo "===== $(date '+%Y-%m-%d %H:%M:%S') 실패 =====" >> "$LOG_FILE"
-    notify_fail "[2/5] Supabase Storage 업로드" "$STEP2"
+    notify_fail "[3/6] Supabase Storage 업로드" "$STEP2"
     exit 1
 fi
 
 # 3. ERP → Supabase DB 동기화 (견적 + 매출)
-echo "[3/5] Supabase DB 동기화 (경영 대시보드 — 견적 + 매출)..." >> "$LOG_FILE"
+echo "[4/6] Supabase DB 동기화 (경영 대시보드 — 견적 + 매출)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/sync_erp_to_supabase.py" >> "$LOG_FILE" 2>&1
 STEP3=$?
 
 if [ $STEP3 -ne 0 ]; then
     echo "❌ Supabase DB 동기화 실패 (exit $STEP3)" >> "$LOG_FILE"
     echo "===== $(date '+%Y-%m-%d %H:%M:%S') 실패 =====" >> "$LOG_FILE"
-    notify_fail "[3/5] Supabase DB 동기화 (견적+매출)" "$STEP3"
+    notify_fail "[4/6] Supabase DB 동기화 (견적+매출)" "$STEP3"
     exit 1
 fi
 
 # 4. 용지 매입 동기화 (KPI-6, erp_paper_purchases 테이블)
-echo "[4/5] Supabase DB 동기화 (용지 매입)..." >> "$LOG_FILE"
+echo "[5/6] Supabase DB 동기화 (용지 매입)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/sync_paper_purchases.py" >> "$LOG_FILE" 2>&1
 STEP4=$?
 
 if [ $STEP4 -ne 0 ]; then
     echo "❌ 용지 매입 동기화 실패 (exit $STEP4)" >> "$LOG_FILE"
     echo "===== $(date '+%Y-%m-%d %H:%M:%S') 실패 =====" >> "$LOG_FILE"
-    notify_fail "[4/5] 용지 매입 동기화" "$STEP4"
+    notify_fail "[5/6] 용지 매입 동기화" "$STEP4"
     exit 1
 fi
 
 # 5. AI YoY 인사이트 생성 (매출 동기화 이후 실행, 실패해도 대시보드는 동작)
-echo "[5/5] AI 인사이트 생성 (YoY 분석)..." >> "$LOG_FILE"
+echo "[6/6] AI 인사이트 생성 (YoY 분석)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/generate_insights.py" >> "$LOG_FILE" 2>&1
 STEP5=$?
 

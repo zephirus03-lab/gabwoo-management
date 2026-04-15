@@ -80,7 +80,7 @@ def upload():
         print("🔑 service_role 키 확인 완료")
         auth_key = service_role_key
 
-    # 3. 업로드 대상 파일 수집 (기간별 JSON + 하위 호환용 pricing_audit.json)
+    # 3. 업로드 대상 파일 수집 (기간별 JSON + 하위 호환용 pricing_audit.json + 매출 집중도)
     files_to_upload = []
     for p in PERIODS:
         fp = OUTPUT_DIR / f"pricing_audit_{p}.json"
@@ -88,6 +88,12 @@ def upload():
             files_to_upload.append(fp)
         else:
             print(f"⚠️ {fp.name} 없음 — 스킵")
+        # 매출 집중도 JSON (compute_sales_concentration.py 출력)
+        sc = OUTPUT_DIR / f"sales_concentration_{p}.json"
+        if sc.exists():
+            files_to_upload.append(sc)
+        else:
+            print(f"⚠️ {sc.name} 없음 — 스킵")
     if AUDIT_JSON.exists():
         files_to_upload.append(AUDIT_JSON)
 

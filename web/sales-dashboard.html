@@ -221,6 +221,38 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
   .sales-cards { grid-template-columns: 1fr; }
   header, .tabs, .section, .summary-row { padding-left: 16px; padding-right: 16px; }
 }
+
+/* ─── 매출 집중도 + 키맨 리스크 (영업자 대시보드 상단 경보) ─── */
+.conc-wrap { padding: 20px 32px 0; background: #f0f2f5; }
+.conc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.conc-card { background: #fff; border-radius: 12px; padding: 18px 20px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); position: relative; }
+.conc-card h3 { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+.conc-card .sub { font-size: 12px; color: #64748b; margin-bottom: 14px; }
+.conc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; }
+.conc-badge--ok { background: #dcfce7; color: #15803d; }
+.conc-badge--warn { background: #fed7aa; color: #9a3412; }
+.conc-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.conc-metric { padding: 10px 12px; border-radius: 8px; background: #f8fafc; border: 1px solid #e2e8f0; }
+.conc-metric .v { font-size: 22px; font-weight: 800; color: #0f172a; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.conc-metric .v--warn { color: #dc2626; }
+.conc-metric .l { font-size: 11px; color: #64748b; margin-top: 2px; font-weight: 600; letter-spacing: 0.03em; }
+.conc-keyman { padding: 12px 14px; border-radius: 10px; background: #f8fafc; border: 1px solid #e2e8f0; }
+.conc-keyman--warn { background: #fff7ed; border-color: #fdba74; }
+.conc-keyman .name { font-size: 20px; font-weight: 800; color: #0f172a; }
+.conc-keyman .name--warn { color: #dc2626; }
+.conc-keyman .pct { font-size: 13px; color: #475569; margin-top: 2px; font-weight: 600; }
+.conc-list { list-style: none; padding: 0; margin: 0; max-height: 180px; overflow-y: auto; }
+.conc-list li { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f1f5f9; font-size: 12.5px; }
+.conc-list li:last-child { border-bottom: 0; }
+.conc-list .nm { color: #334155; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+.conc-list .pct { color: #64748b; font-variant-numeric: tabular-nums; font-weight: 600; }
+.conc-list .pct strong { color: #0f172a; margin-right: 4px; }
+.conc-summary-bar { font-size: 12px; color: #475569; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; margin-top: 12px; }
+.conc-summary-bar--warn { background: #fef2f2; color: #991b1b; border-left: 3px solid #dc2626; }
+@media (max-width: 860px) {
+  .conc-grid { grid-template-columns: 1fr; }
+  .conc-wrap { padding: 16px; }
+}
 </style>
 </head>
 <body>
@@ -245,6 +277,41 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
       <option value="1y" selected>1년</option>
     </select>
   </label>
+</div>
+
+<!-- 매출 규모 쏠림 경보 (거래처 집중도 + 영업자 키맨 리스크) -->
+<div class="conc-wrap">
+  <div class="conc-grid">
+    <div class="conc-card">
+      <h3>
+        <span>🏢 거래처 매출 집중도</span>
+        <span id="concCustBadge" class="conc-badge conc-badge--ok">정상</span>
+      </h3>
+      <div class="sub" id="concCustSub">기간 내 확정 매출 기준</div>
+      <div class="conc-metrics">
+        <div class="conc-metric"><div class="v" id="concCustTop1">-</div><div class="l">TOP 1 비중</div></div>
+        <div class="conc-metric"><div class="v" id="concCustTop5">-</div><div class="l">TOP 5 비중</div></div>
+        <div class="conc-metric"><div class="v" id="concCustTop10">-</div><div class="l">TOP 10 비중</div></div>
+      </div>
+      <ol class="conc-list" id="concCustList"></ol>
+      <div class="conc-summary-bar" id="concCustSummary">-</div>
+    </div>
+
+    <div class="conc-card">
+      <h3>
+        <span>🧑‍💼 영업자 매출 키맨 리스크</span>
+        <span id="concKeymanBadge" class="conc-badge conc-badge--ok">정상</span>
+      </h3>
+      <div class="sub">1인 의존도 ≥ 25%면 경보</div>
+      <div class="conc-keyman" id="concKeymanBox">
+        <div class="name" id="concKeymanName">-</div>
+        <div class="pct" id="concKeymanPct">-</div>
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:#64748b;font-weight:600;">영업자 TOP 10</div>
+      <ol class="conc-list" id="concEmpList"></ol>
+      <div class="conc-summary-bar" id="concKeymanSummary" style="display:none">-</div>
+    </div>
+  </div>
 </div>
 
 <div class="tabs">
@@ -399,6 +466,118 @@ async function loadData(periodKey = '1y') {
     }
   }
   renderAll();
+  // 매출 집중도 + 키맨 리스크 (별도 JSON, 실패해도 나머지 UI는 정상)
+  loadConcentration(periodKey).catch(function(e){ console.warn('concentration load error', e); });
+}
+
+function fmtBillion(n) {
+  if (n == null || isNaN(n)) return '-';
+  n = Number(n);
+  if (n >= 1e8) return (n/1e8).toFixed(1) + '억';
+  if (n >= 1e4) return Math.round(n/1e4).toLocaleString() + '만';
+  return n.toLocaleString() + '원';
+}
+
+async function loadConcentration(periodKey) {
+  const url = `${SUPABASE_BUCKET_URL}sales_concentration_${periodKey}.json?t=${Date.now()}`;
+  let data;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(resp.status);
+    data = await resp.json();
+  } catch(e) {
+    document.querySelector('.conc-wrap').style.display = 'none';
+    return;
+  }
+  renderConcentration(data);
+}
+
+function renderConcentration(d) {
+  // ─── 거래처 집중도 ───
+  const t1 = d.customer_top1_pct || 0;
+  const t5 = d.customer_top5_pct || 0;
+  const t10 = d.customer_top10_pct || 0;
+  document.getElementById('concCustTop1').textContent = t1.toFixed(1) + '%';
+  document.getElementById('concCustTop5').textContent = t5.toFixed(1) + '%';
+  document.getElementById('concCustTop10').textContent = t10.toFixed(1) + '%';
+  // 경보 색상 (Top 1 ≥ 20% 또는 Top 5 ≥ 60%)
+  const custWarn = !!d.customer_alert;
+  if (t1 >= 20) document.getElementById('concCustTop1').classList.add('v--warn');
+  if (t5 >= 60) document.getElementById('concCustTop5').classList.add('v--warn');
+  const custBadge = document.getElementById('concCustBadge');
+  if (custWarn) { custBadge.className = 'conc-badge conc-badge--warn'; custBadge.textContent = '⚠️ 경보'; }
+  else { custBadge.className = 'conc-badge conc-badge--ok'; custBadge.textContent = '정상'; }
+
+  document.getElementById('concCustSub').textContent =
+    `${d._meta.date_from} ~ ${d._meta.date_to} · 거래처 ${d.customer_count}곳 · 총 ${fmtBillion(d.total_amount)}`;
+
+  // Top 10 리스트
+  const custList = document.getElementById('concCustList');
+  custList.innerHTML = (d.customer_top10 || []).map((r, i) =>
+    `<li><span class="nm">${i+1}. ${escapeHtml(r.name)}</span>` +
+    `<span class="pct"><strong>${fmtBillion(r.amount)}</strong>${r.pct.toFixed(1)}%</span></li>`
+  ).join('');
+
+  // 요약 바
+  const custSum = document.getElementById('concCustSummary');
+  if (custWarn) {
+    custSum.className = 'conc-summary-bar conc-summary-bar--warn';
+    let msgs = [];
+    if (t1 >= 20) msgs.push(`TOP 1 거래처 비중 <strong>${t1.toFixed(1)}%</strong>(기준 20% 초과)`);
+    if (t5 >= 60) msgs.push(`TOP 5 합계 <strong>${t5.toFixed(1)}%</strong>(기준 60% 초과)`);
+    custSum.innerHTML = '⚠️ ' + msgs.join(' · ') + ' — 거래처 다변화 검토 권고';
+  } else {
+    custSum.className = 'conc-summary-bar';
+    custSum.innerHTML = `✅ 집중도 정상 (TOP 1 ${t1.toFixed(1)}%, TOP 5 ${t5.toFixed(1)}%)`;
+  }
+
+  // ─── 영업자 키맨 ───
+  const emp1 = (d.salesperson_top10 || [])[0];
+  const empPct = d.salesperson_top1_pct || 0;
+  const empWarn = !!d.keyman_alert;
+
+  if (emp1) {
+    document.getElementById('concKeymanName').textContent = emp1.name;
+    document.getElementById('concKeymanPct').innerHTML =
+      `1인 매출 비중 <strong>${empPct.toFixed(1)}%</strong> · ${fmtBillion(emp1.amount)}`;
+  } else {
+    document.getElementById('concKeymanName').textContent = '데이터 없음';
+    document.getElementById('concKeymanPct').textContent = '-';
+  }
+  const keymanBox = document.getElementById('concKeymanBox');
+  const keymanName = document.getElementById('concKeymanName');
+  const keymanBadge = document.getElementById('concKeymanBadge');
+  if (empWarn) {
+    keymanBox.classList.add('conc-keyman--warn');
+    keymanName.classList.add('name--warn');
+    keymanBadge.className = 'conc-badge conc-badge--warn'; keymanBadge.textContent = '⚠️ 키맨';
+  } else {
+    keymanBox.classList.remove('conc-keyman--warn');
+    keymanName.classList.remove('name--warn');
+    keymanBadge.className = 'conc-badge conc-badge--ok'; keymanBadge.textContent = '정상';
+  }
+
+  // 영업자 TOP 10
+  document.getElementById('concEmpList').innerHTML = (d.salesperson_top10 || []).map((r, i) =>
+    `<li><span class="nm">${i+1}. ${escapeHtml(r.name)}</span>` +
+    `<span class="pct"><strong>${fmtBillion(r.amount)}</strong>${r.pct.toFixed(1)}%</span></li>`
+  ).join('');
+
+  // 키맨 요약
+  const keySum = document.getElementById('concKeymanSummary');
+  if (empWarn && emp1) {
+    keySum.style.display = 'block';
+    keySum.className = 'conc-summary-bar conc-summary-bar--warn';
+    keySum.innerHTML = `⚠️ <strong>${escapeHtml(emp1.name)}</strong> 한 명이 전체의 <strong>${empPct.toFixed(1)}%</strong>를 담당 — ` +
+                       `이탈 시 영향 ${fmtBillion(emp1.amount)}`;
+  } else {
+    keySum.style.display = 'none';
+  }
+}
+
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function renderAll() {
