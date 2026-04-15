@@ -93,6 +93,7 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-full);font-size:11px;font-weight:600;letter-spacing:0.025em;height:20px}
 .badge-confirm{background:var(--green-100);color:var(--green-700);border:1px solid rgba(22,163,74,0.15)}
 .badge-estimate{background:var(--amber-100);color:var(--amber-700);border:1px solid rgba(217,119,6,0.15)}
+.badge-progress{background:var(--blue-100,#dbeafe);color:var(--blue-700,#1d4ed8);border:1px solid rgba(37,99,235,0.15)}
 
 /* ─── Upload Panel ─── */
 .upload-panel{background:#fff;border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:24px;margin-top:20px;overflow:hidden}
@@ -240,19 +241,19 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
     <!-- 3패널 KPI -->
     <div class="dashboard-grid" id="dashboardGrid">
       <div class="kpi-card kpi-card--last">
-        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiPrevTitle">지난달</span><span class="badge badge-confirm">확정</span></div>
+        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiPrevTitle">2개월 전</span><span class="badge badge-confirm">확정</span></div>
         <div class="kpi-card-amount" id="kpiPrevAmount">-</div>
         <div class="kpi-card-count" id="kpiPrevCount"></div>
         <div class="kpi-card-footer"><span class="kpi-delta kpi-delta--flat" id="kpiPrevDelta">-</span></div>
       </div>
       <div class="kpi-card kpi-card--this">
-        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiCurrTitle">이번달</span><span class="badge badge-estimate">예상</span></div>
+        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiCurrTitle">1개월 전</span><span class="badge badge-confirm">확정</span></div>
         <div class="kpi-card-amount" id="kpiCurrAmount">-</div>
         <div class="kpi-card-count" id="kpiCurrCount"></div>
         <div class="kpi-card-footer"><span class="kpi-delta kpi-delta--flat" id="kpiCurrDelta">-</span></div>
       </div>
       <div class="kpi-card kpi-card--next">
-        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiNextTitle">다음달</span><span class="badge badge-estimate">예상</span></div>
+        <div class="kpi-card-header"><span class="kpi-card-title" id="kpiNextTitle">이번달</span><span class="badge badge-progress">진행중</span></div>
         <div class="kpi-card-amount" id="kpiNextAmount">-</div>
         <div class="kpi-card-count" id="kpiNextCount"></div>
         <div class="kpi-card-footer"><span class="kpi-delta kpi-delta--flat" id="kpiNextDelta">-</span></div>
@@ -619,40 +620,41 @@ var Dashboard = (function(){
         return;
       }
 
-      var panelData = { '지난달': {}, '이번달': {}, '다음달': {} };
+      // 새 RPC 스키마: 2개월전 / 1개월전 / 이번달
+      var panelData = { '2개월전': {}, '1개월전': {}, '이번달': {} };
       if (rpcRes.data) {
         rpcRes.data.forEach(function(r) { panelData[r.period] = r; });
       }
 
       // 월 이름 설정
-      var prevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-      var nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1);
-      document.getElementById('kpiPrevTitle').textContent = monthName(prevMonth) + ' 매출';
-      document.getElementById('kpiCurrTitle').textContent = monthName(now) + ' 매출';
-      document.getElementById('kpiNextTitle').textContent = monthName(nextMonth) + ' 매출';
-
-      // KPI 금액 표시
-      var prevAmt = panelData['지난달'].total_amount || 0;
-      var currAmt = panelData['이번달'].total_amount || 0;
-      var nextAmt = panelData['다음달'].total_amount || 0;
-
-      document.getElementById('kpiPrevAmount').textContent = fmtAmt(prevAmt);
-      document.getElementById('kpiCurrAmount').textContent = fmtAmt(currAmt);
-      document.getElementById('kpiNextAmount').textContent = fmtAmt(nextAmt);
-
-      document.getElementById('kpiPrevCount').textContent = (panelData['지난달'].quote_count || 0).toLocaleString() + '건';
-      document.getElementById('kpiCurrCount').textContent = (panelData['이번달'].quote_count || 0).toLocaleString() + '건';
-      document.getElementById('kpiNextCount').textContent = (panelData['다음달'].quote_count || 0).toLocaleString() + '건';
-
-      // 증감률 계산 (2달 전 데이터 필요 → 별도 쿼리)
       var twoMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2, 1);
+      var oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      document.getElementById('kpiPrevTitle').textContent = monthName(twoMonthsAgo) + ' 매출';
+      document.getElementById('kpiCurrTitle').textContent = monthName(oneMonthAgo) + ' 매출';
+      document.getElementById('kpiNextTitle').textContent = monthName(now) + ' 매출';
+
+      // KPI 금액 표시 (kpiPrev=2개월전, kpiCurr=1개월전, kpiNext=이번달 진행중)
+      var twoAgoAmt = panelData['2개월전'].total_amount || 0;
+      var oneAgoAmt = panelData['1개월전'].total_amount || 0;
+      var currAmt = panelData['이번달'].total_amount || 0;
+
+      document.getElementById('kpiPrevAmount').textContent = fmtAmt(twoAgoAmt);
+      document.getElementById('kpiCurrAmount').textContent = fmtAmt(oneAgoAmt);
+      document.getElementById('kpiNextAmount').textContent = fmtAmt(currAmt);
+
+      document.getElementById('kpiPrevCount').textContent = (panelData['2개월전'].quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiCurrCount').textContent = (panelData['1개월전'].quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiNextCount').textContent = (panelData['이번달'].quote_count || 0).toLocaleString() + '건';
+
+      // 증감률 계산 (기준 직전 달 대비)
+      // 2개월전 대비 3개월전: RPC를 한 달 이전 기준으로 한 번 더 호출
       var rpc2 = await sb.rpc('get_dashboard_summary', {
         p_company: company,
-        p_base_date: prevMonth.toISOString().substring(0, 10)
+        p_base_date: oneMonthAgo.toISOString().substring(0, 10)
       });
-      var prevPrevAmt = 0;
+      var threeAgoAmt = 0;
       if (rpc2.data) {
-        rpc2.data.forEach(function(r) { if (r.period === '지난달') prevPrevAmt = r.total_amount || 0; });
+        rpc2.data.forEach(function(r) { if (r.period === '2개월전') threeAgoAmt = r.total_amount || 0; });
       }
 
       function setDelta(elId, current, previous) {
@@ -663,9 +665,10 @@ var Dashboard = (function(){
         else if (pct < 0) { el.textContent = '\u2193 ' + pct + '%'; el.className = 'kpi-delta kpi-delta--down'; }
         else { el.textContent = '0%'; el.className = 'kpi-delta kpi-delta--flat'; }
       }
-      setDelta('kpiPrevDelta', prevAmt, prevPrevAmt);
-      setDelta('kpiCurrDelta', currAmt, prevAmt);
-      setDelta('kpiNextDelta', nextAmt, currAmt);
+      // 각 패널은 "전월 대비" 증감을 표시
+      setDelta('kpiPrevDelta', twoAgoAmt, threeAgoAmt);  // 2개월전 vs 3개월전
+      setDelta('kpiCurrDelta', oneAgoAmt, twoAgoAmt);    // 1개월전 vs 2개월전
+      setDelta('kpiNextDelta', currAmt, oneAgoAmt);      // 이번달(진행중) vs 1개월전
 
       // 2) 기간 필터 적용 쿼리 — 페이징으로 전체 데이터 조회
       var periodVal = document.getElementById('periodFilter').value;
