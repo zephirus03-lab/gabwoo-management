@@ -282,7 +282,6 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
   <div class="tab active" data-tab="overview">전체 현황</div>
   <div class="tab" data-tab="scorecards">영업자별 업무 패턴</div>
   <div class="tab" data-tab="fairness">공정별 단가 비교</div>
-  <div class="tab" data-tab="anomalies">이상 건 목록</div>
 </div>
 
 <!-- ===== 탭 1: 전체 현황 ===== -->
@@ -378,25 +377,9 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
   </div>
 </div>
 
-<!-- ===== 탭 4: 이상 건 목록 ===== -->
-<div class="tab-content" id="tab-anomalies">
-  <div class="section" style="padding-top:20px;">
-    <h2 style="color:#15803d;">할증 이상 건 — 표준 대비 +30% 초과 (상위 30건)</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:12px;">
-      매입 원가보다 크게 높은 마진이 붙은 건. 소량 건이면 정상이지만, 입력 오류 여부 확인 필요.
-      <span id="premiumTotal" style="font-weight:600;"></span>
-    </p>
-    <table id="premiumTable"></table>
-  </div>
-  <div class="section" style="padding-top:20px;">
-    <h2 style="color:#991b1b;">원가 이하 이상 건 — 매입 원가 대비 -30% 초과 (상위 30건)</h2>
-    <p style="font-size:13px;color:#666;margin-bottom:12px;">
-      매입 원가보다 크게 낮은 단가로 견적한 건. 확실한 마진 손실 — 대량 특약인지, 입력 오류인지 확인 필요.
-      <span id="discountTotal" style="font-weight:600;"></span>
-    </p>
-    <table id="discountTable"></table>
-  </div>
-</div>
+<!-- 탭 4 "이상 건 목록"은 본부장 피드백으로 제거됨 (2026-04-15):
+     +할증은 대부분 패키지 인쇄물이라 정상, -할인은 대부분 재작업이라 판단 불가.
+     전체 페이지를 닫는 방향으로 결정. -->
 
 <div class="criteria-panel" id="criteriaPanel" style="margin-bottom:0;border-radius:0;">
   <div class="criteria-toggle" onclick="document.getElementById('criteriaPanel').classList.toggle('open')">
@@ -911,8 +894,11 @@ function buildAnomalyTableHtml(list, borderColor) {
 }
 
 function renderAnomalies() {
+  // 2026-04-15 본부장 피드백으로 "이상 건 목록" 탭 제거됨. UI 복원 시 guard 유지.
+  const premiumTotal = document.getElementById('premiumTotal');
+  if (!premiumTotal) return;
   const anomalies = DATA.anomalies;
-  document.getElementById('premiumTotal').textContent = `전체 ${anomalies.premium_total.toLocaleString()}건 중 상위 30건 표시`;
+  premiumTotal.textContent = `전체 ${anomalies.premium_total.toLocaleString()}건 중 상위 30건 표시`;
   document.getElementById('discountTotal').textContent = `전체 ${anomalies.discount_total.toLocaleString()}건 중 상위 30건 표시`;
   document.getElementById('premiumTable').innerHTML = buildAnomalyTableHtml(anomalies.premium, '#15803d');
   document.getElementById('discountTable').innerHTML = buildAnomalyTableHtml(anomalies.discount, '#991b1b');
