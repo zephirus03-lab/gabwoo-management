@@ -153,6 +153,37 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .toast-error{background:var(--red-50);color:var(--red-600);border:1px solid rgba(239,68,68,0.2)}
 .toast-info{background:var(--brand-50);color:var(--brand-700);border:1px solid rgba(59,130,246,0.2)}
 
+/* ─── 데이터 기준 배너 (CTO TOP-1 가시화) ─── */
+.freshness-banner{display:flex;align-items:center;gap:10px;padding:8px 14px;margin:16px 0 8px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--radius-sm);font-size:12px;color:var(--gray-500)}
+.freshness-banner--stale{background:#fef2f2;border-color:rgba(239,68,68,0.2);color:var(--red-600);font-weight:600}
+.freshness-banner--fresh{background:var(--green-50);border-color:rgba(34,197,94,0.15)}
+.freshness-dot{width:8px;height:8px;border-radius:50%;background:var(--green-500);flex-shrink:0}
+.freshness-banner--stale .freshness-dot{background:var(--red-500);animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* ─── KPI-5 이탈 위험 거래처 패널 ─── */
+.risk-panel{background:#fff;border-radius:var(--radius-lg);padding:20px 24px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:16px;border-left:4px solid var(--red-500)}
+.risk-panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.risk-panel-title{font-size:14px;font-weight:700;color:var(--gray-900);display:flex;align-items:center;gap:8px}
+.risk-panel-title-icon{font-size:16px}
+.risk-panel-subtitle{font-size:12px;color:var(--gray-500)}
+.risk-summary{font-size:13px;color:var(--gray-700);background:#fef2f2;padding:8px 12px;border-radius:var(--radius-sm);margin-bottom:12px;border:1px solid rgba(239,68,68,0.15);line-height:1.5}
+.risk-summary strong{color:var(--red-600);font-weight:700}
+.risk-table{width:100%;border-collapse:collapse;font-size:13px}
+.risk-table thead tr{border-bottom:1px solid var(--gray-200)}
+.risk-table th{text-align:left;padding:8px 10px;font-size:11px;font-weight:600;color:var(--gray-500);letter-spacing:0.05em;text-transform:uppercase}
+.risk-table th.th-right{text-align:right}
+.risk-table tbody tr{border-bottom:1px solid var(--gray-100);transition:background .1s}
+.risk-table tbody tr:hover{background:var(--gray-50)}
+.risk-table td{padding:10px;vertical-align:middle}
+.risk-table td.td-right{text-align:right;font-variant-numeric:tabular-nums}
+.risk-customer{font-weight:600;color:var(--gray-900)}
+.risk-last-emp{font-size:12px;color:var(--gray-500);margin-top:2px}
+.risk-days{font-weight:700;color:var(--red-600);font-variant-numeric:tabular-nums}
+.risk-days--severe{background:var(--red-500);color:#fff;padding:2px 8px;border-radius:var(--radius-full)}
+.risk-empty{padding:24px;text-align:center;color:var(--gray-500);font-size:13px}
+.risk-empty-icon{font-size:24px;opacity:0.4;margin-bottom:8px}
+
 /* ─── Footer ─── */
 .footer{text-align:center;padding:20px 16px;font-size:12px;color:var(--gray-400);border-top:1px solid var(--gray-200);margin-top:16px;letter-spacing:0.025em}
 .placeholder-text{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;color:var(--gray-400);font-size:13px;gap:8px}
@@ -249,6 +280,12 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
   </div>
 
   <div id="appContainer">
+    <!-- 데이터 기준 시각 배너 (CTO TOP-1 — 배치 실패/지연 가시화) -->
+    <div id="freshnessBanner" class="freshness-banner" style="display:none">
+      <span class="freshness-dot"></span>
+      <span id="freshnessText">데이터 기준 시각 확인 중...</span>
+    </div>
+
     <!-- 업로드 패널 (ERP DB 직접 동기화로 전환 — 수동 업로드 비활성화) -->
     <details class="upload-panel" id="uploadPanel" style="display:none">
       <summary>데이터 업로드</summary>
@@ -310,7 +347,26 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
       </div>
     </div>
 
-    <!-- 거래처 + 영업자 차트 -->
+    <!-- KPI-4 신규/기존 거래처 + KPI-6 용지 매입 추이 (2-col) -->
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-card-header"><div>
+          <div class="chart-card-title">신규 vs 기존 거래처</div>
+          <div class="chart-card-subtitle" id="newVsExistingSubtitle">기간 내 매출 기준 · 신규 = 이전 36개월 거래 이력 없음</div>
+        </div></div>
+        <div class="chart-wrap chart-wrap--donut"><canvas id="newVsExistingChart"></canvas></div>
+        <div id="newVsExistingTable" style="margin-top:12px;font-size:13px;color:var(--gray-600)"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card-header"><div>
+          <div class="chart-card-title">월별 용지 매입 추이</div>
+          <div class="chart-card-subtitle" id="paperSubtitle">최근 12개월 · 제조사별 · 공급가액</div>
+        </div></div>
+        <div class="chart-wrap chart-wrap--md"><canvas id="paperChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- 거래처 + 영업자 TOP 10 -->
     <div class="charts-grid">
       <div class="chart-card">
         <div class="chart-card-header"><div><div class="chart-card-title">거래처별 매출 TOP 10</div></div></div>
@@ -321,6 +377,21 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
         <div class="chart-wrap chart-wrap--bar-auto" id="salesChartWrap"><canvas id="salesChart"></canvas></div>
       </div>
     </div>
+
+    <!-- KPI-5 이탈 위험 거래처 조기 경보 -->
+    <section class="risk-panel" id="riskPanel" style="display:none">
+      <div class="risk-panel-header">
+        <div>
+          <div class="risk-panel-title">
+            <span class="risk-panel-title-icon">⚠️</span>
+            <span>이탈 위험 거래처</span>
+          </div>
+          <div class="risk-panel-subtitle">직전 2년 누적 매출 5천만원 이상 · 최근 90일 이상 신규 거래 없음</div>
+        </div>
+      </div>
+      <div id="riskSummary" class="risk-summary" style="display:none"></div>
+      <div id="riskContent"></div>
+    </section>
 
     <div class="footer">마지막 업데이트: <span id="lastUpdate">-</span> | 데이터: <span id="totalQuotes">0</span>건 매출</div>
   </div>
@@ -736,10 +807,10 @@ var Dashboard = (function(){
       var pageFrom = 0;
       var pageSize = 1000;
       while (true) {
-        var filter = sb.from('erp_sales')
+        var filter = sb.from('erp_sales_confirmed')
           .select('customer_name, sales_person, supply_amount, sales_date, sales_status')
-          .eq('sales_status', 'Y')
-          .gt('supply_amount', 0)
+          
+          
           .order('sales_number', { ascending: true })
           .range(pageFrom, pageFrom + pageSize - 1);
         if (company) filter = filter.eq('company', company);
@@ -755,7 +826,7 @@ var Dashboard = (function(){
       }
 
       // 총 건수 (전체 매출 건수)
-      var countRes = await sb.from('erp_sales').select('id', { count: 'exact', head: true });
+      var countRes = await sb.from('erp_sales_confirmed').select('id', { count: 'exact', head: true });
       document.getElementById('totalQuotes').textContent = (countRes.count || 0).toLocaleString();
       document.getElementById('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
 
@@ -804,10 +875,10 @@ var Dashboard = (function(){
       var yoyData = [];
       var yoyFrom = 0;
       while (true) {
-        var yf = sb.from('erp_sales')
+        var yf = sb.from('erp_sales_confirmed')
           .select('supply_amount, sales_date')
-          .eq('sales_status', 'Y')
-          .gt('supply_amount', 0)
+          
+          
           .gte('sales_date', yoyStart.toISOString().substring(0, 10))
           .order('sales_number', { ascending: true })
           .range(yoyFrom, yoyFrom + pageSize - 1);
@@ -895,9 +966,439 @@ var Dashboard = (function(){
 
       // 6) AI 인사이트 로드 — dashboard_insights 테이블에서 최신 1건
       await loadInsights(sb, company);
+
+      // 7) 데이터 기준 시각 배너 (CTO TOP-1)
+      loadFreshness(sb).catch(function(e){ console.warn('freshness load error', e); });
+
+      // 8) KPI-5 이탈 위험 거래처
+      loadRiskCustomers(sb, company, now).catch(function(e){ console.warn('risk load error', e); });
+
+      // 9) KPI-4 신규/기존 거래처
+      var periodMonths = periodVal === 'all' ? 12 : parseInt(periodVal);
+      loadNewVsExisting(sb, company, now, periodMonths).catch(function(e){ console.warn('newVsExisting error', e); });
+
+      // 10) KPI-6 용지 매입 추이 (company 필터는 무의미 — 용지매입은 그룹사 공통)
+      loadPaperPurchases(sb, now).catch(function(e){ console.warn('paper error', e); });
     }
   };
 })();
+
+// ═══ 데이터 기준 시각 배너 (sync_log 기반) ═══
+async function loadFreshness(sb) {
+  var banner = document.getElementById('freshnessBanner');
+  var txt = document.getElementById('freshnessText');
+  if (!banner) return;
+  try {
+    var res = await sb.rpc('get_sync_status');
+    if (res.error) throw res.error;
+    var rows = res.data || [];
+    // erp_quotes 우선, 없으면 paper_purchases
+    var main = rows.find(function(r){ return r.job_name === 'erp_quotes'; })
+            || rows.find(function(r){ return r.job_name === 'paper_purchases'; })
+            || rows[0];
+    if (!main) {
+      txt.textContent = '배치 실행 기록 없음 — 관리자 확인 필요';
+      banner.className = 'freshness-banner freshness-banner--stale';
+      banner.style.display = 'flex';
+      return;
+    }
+    var last = new Date(main.last_run);
+    var hrs = Number(main.hours_since_run || 0);
+    var fmt = last.toLocaleString('ko-KR', { year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit' });
+
+    var label;
+    if (main.status === 'failed') {
+      label = '⚠️ 마지막 배치 실패 (' + fmt + ') — 데이터가 갱신되지 않았습니다';
+      banner.className = 'freshness-banner freshness-banner--stale';
+    } else if (hrs > 24) {
+      label = '⚠️ 데이터 기준: ' + fmt + ' · ' + hrs.toFixed(1) + '시간 경과 (24시간 이상 미갱신)';
+      banner.className = 'freshness-banner freshness-banner--stale';
+    } else if (hrs < 2) {
+      label = '데이터 기준: ' + fmt + ' · ' + Math.round(hrs * 60) + '분 전 최신';
+      banner.className = 'freshness-banner freshness-banner--fresh';
+    } else {
+      label = '데이터 기준: ' + fmt + ' · ' + hrs.toFixed(1) + '시간 전';
+      banner.className = 'freshness-banner';
+    }
+    txt.textContent = label;
+    banner.style.display = 'flex';
+  } catch (e) {
+    txt.textContent = '데이터 기준 시각 조회 실패 (sync_log 권한 확인 필요)';
+    banner.className = 'freshness-banner freshness-banner--stale';
+    banner.style.display = 'flex';
+  }
+}
+
+// ═══ KPI-5 이탈 위험 거래처 ═══
+// 기준: 직전 2년 (=24개월) 누적 supply_amount ≥ 50,000,000원 AND 최근 90일 이상 신규 매출 없음
+async function loadRiskCustomers(sb, company, now) {
+  var panel = document.getElementById('riskPanel');
+  var contentEl = document.getElementById('riskContent');
+  var summaryEl = document.getElementById('riskSummary');
+  if (!panel || !contentEl) return;
+
+  panel.style.display = 'block';
+  contentEl.innerHTML = '<div class="risk-empty">분석 중...</div>';
+
+  try {
+    // 24개월치 erp_sales 확정분 페이징 조회
+    var cutoff = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
+    var cutoffStr = cutoff.toISOString().substring(0, 10);
+    var all = [];
+    var pageFrom = 0;
+    var pageSize = 1000;
+    while (true) {
+      var q = sb.from('erp_sales_confirmed')
+        .select('customer_name, sales_person, supply_amount, sales_date')
+        
+        
+        .gte('sales_date', cutoffStr)
+        .order('sales_date', { ascending: false })
+        .range(pageFrom, pageFrom + pageSize - 1);
+      if (company) q = q.eq('company', company);
+      var r = await q;
+      var page = r.data || [];
+      all = all.concat(page);
+      if (page.length < pageSize) break;
+      pageFrom += pageSize;
+    }
+
+    // 거래처별 집계: 총매출 / 마지막 매출일 / 마지막 영업자
+    var agg = {};
+    all.forEach(function(row) {
+      if (!row.customer_name) return;
+      var k = row.customer_name;
+      if (!agg[k]) agg[k] = { total: 0, last: null, emp: null };
+      agg[k].total += Number(row.supply_amount) || 0;
+      if (!agg[k].last || row.sales_date > agg[k].last) {
+        agg[k].last = row.sales_date;
+        agg[k].emp = row.sales_person;
+      }
+    });
+
+    // 이탈 위험 조건: 누적 ≥ 5천만 AND 최근 매출 90일 이상 전
+    var today = now;
+    var risky = [];
+    Object.keys(agg).forEach(function(name) {
+      var a = agg[name];
+      if (a.total < 50000000) return;
+      if (!a.last) return;
+      var lastDt = new Date(a.last);
+      var daysSince = Math.floor((today - lastDt) / (1000 * 60 * 60 * 24));
+      if (daysSince < 90) return;
+      risky.push({
+        name: name,
+        total: a.total,
+        last: a.last,
+        emp: a.emp,
+        days: daysSince
+      });
+    });
+
+    // 금액 × 경과일 스코어 내림차순 (경영 우선순위)
+    // 단순 곱셈: 큰 금액이지만 오래 조용할수록 상위 노출
+    risky.forEach(function(r) { r.score = r.total * r.days; });
+    risky.sort(function(a, b) { return b.score - a.score; });
+
+    if (risky.length === 0) {
+      contentEl.innerHTML = '<div class="risk-empty"><div class="risk-empty-icon">✅</div>이탈 위험 거래처 없음 (누적 5천만 이상 · 최근 90일 이내 모두 거래)</div>';
+      summaryEl.style.display = 'none';
+      return;
+    }
+
+    // 요약 바
+    var totalAtRisk = risky.reduce(function(s, x) { return s + x.total; }, 0);
+    summaryEl.style.display = 'block';
+    summaryEl.innerHTML = '<strong>' + risky.length + '곳</strong>의 거래처가 90일 이상 조용합니다. 직전 2년 누적 매출 합계 <strong>' + fmtAmt(totalAtRisk) + '</strong> — 경영진 확인 권고.';
+
+    // Top 20만 표시 (너무 많으면 화면 길어짐)
+    var shown = risky.slice(0, 20);
+
+    var html = '<table class="risk-table"><thead><tr>' +
+      '<th>거래처</th>' +
+      '<th class="th-right">직전 2년 누적</th>' +
+      '<th class="th-right">마지막 매출일</th>' +
+      '<th class="th-right">경과</th>' +
+      '</tr></thead><tbody>';
+
+    shown.forEach(function(r) {
+      var daysCls = r.days >= 180 ? 'risk-days--severe' : 'risk-days';
+      html += '<tr>' +
+        '<td><div class="risk-customer">' + esc(r.name) + '</div>' +
+        (r.emp ? '<div class="risk-last-emp">담당: ' + esc(r.emp) + '</div>' : '') +
+        '</td>' +
+        '<td class="td-right">' + fmtAmt(r.total) + '</td>' +
+        '<td class="td-right" style="color:var(--gray-500)">' + r.last + '</td>' +
+        '<td class="td-right"><span class="' + daysCls + '">' + r.days + '일</span></td>' +
+        '</tr>';
+    });
+    html += '</tbody></table>';
+    if (risky.length > shown.length) {
+      html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--gray-100);font-size:12px;color:var(--gray-500);text-align:center">외 ' + (risky.length - shown.length) + '곳 생략</div>';
+    }
+    contentEl.innerHTML = html;
+  } catch (e) {
+    console.error('risk panel error', e);
+    contentEl.innerHTML = '<div class="risk-empty">이탈 위험 분석 실패: ' + esc(e.message || '알 수 없는 오류') + '</div>';
+  }
+}
+
+// ═══ 전역 차트 관리 (Dashboard 모듈 바깥 함수들이 공유) ═══
+// Dashboard IIFE 내부의 chartInstances/destroyChart와는 별개 네임스페이스.
+// 새 KPI 패널(신규/기존·용지·품목)은 이 전역 헬퍼를 사용합니다.
+if (!window.chartInstances) window.chartInstances = {};
+function destroyChart(id) {
+  var inst = window.chartInstances[id];
+  if (inst) { inst.destroy(); window.chartInstances[id] = null; }
+}
+
+// ═══ 페이징 헬퍼 ═══
+async function fetchAllPages(buildQuery) {
+  var all = [];
+  var pageFrom = 0;
+  var pageSize = 1000;
+  while (true) {
+    var q = buildQuery().range(pageFrom, pageFrom + pageSize - 1);
+    var r = await q;
+    var page = r.data || [];
+    all = all.concat(page);
+    if (page.length < pageSize) break;
+    pageFrom += pageSize;
+  }
+  return all;
+}
+
+// ═══ KPI-4 신규 vs 기존 거래처 ═══
+// 신규 = 기간 내 거래한 거래처 중, 그 이전 36개월에는 거래 이력 없는 곳
+async function loadNewVsExisting(sb, company, now, periodMonths) {
+  var canvas = document.getElementById('newVsExistingChart');
+  var tableEl = document.getElementById('newVsExistingTable');
+  if (!canvas) return;
+
+  document.getElementById('newVsExistingSubtitle').textContent =
+    '최근 ' + periodMonths + '개월 매출 기준 · 신규 = 이전 거래 이력 없음';
+
+  var periodStart = new Date(now.getFullYear(), now.getMonth() - periodMonths, 1);
+  var periodStartStr = periodStart.toISOString().substring(0, 10);
+
+  // 1) 기간 내 거래 전체 (거래처별 금액 + 건수 집계용)
+  var inPeriod = await fetchAllPages(function() {
+    var q = sb.from('erp_sales_confirmed')
+      .select('customer_name, supply_amount')
+      
+      
+      .gte('sales_date', periodStartStr)
+      .order('sales_number', { ascending: true });
+    if (company) q = q.eq('company', company);
+    return q;
+  });
+
+  // 2) 기간 이전 거래처 목록 (distinct customer_name만 필요)
+  var beforePeriod = await fetchAllPages(function() {
+    var q = sb.from('erp_sales_confirmed')
+      .select('customer_name')
+      
+      
+      .lt('sales_date', periodStartStr)
+      .order('sales_number', { ascending: true });
+    if (company) q = q.eq('company', company);
+    return q;
+  });
+
+  var beforeSet = {};
+  beforePeriod.forEach(function(r) { if (r.customer_name) beforeSet[r.customer_name] = true; });
+
+  // 3) 기간 내 거래처 집계
+  var custMap = {};
+  inPeriod.forEach(function(r) {
+    if (!r.customer_name) return;
+    if (!custMap[r.customer_name]) custMap[r.customer_name] = { amount: 0, count: 0 };
+    custMap[r.customer_name].amount += Number(r.supply_amount) || 0;
+    custMap[r.customer_name].count += 1;
+  });
+
+  // 4) 신규/기존 분류
+  var newStat = { amount: 0, count: 0, customers: 0 };
+  var existStat = { amount: 0, count: 0, customers: 0 };
+  Object.keys(custMap).forEach(function(name) {
+    var c = custMap[name];
+    if (beforeSet[name]) {
+      existStat.amount += c.amount; existStat.count += c.count; existStat.customers += 1;
+    } else {
+      newStat.amount += c.amount; newStat.count += c.count; newStat.customers += 1;
+    }
+  });
+
+  // 5) 도넛 차트
+  destroyChart('newVsExistingChart');
+  var totalAmt = newStat.amount + existStat.amount;
+  if (totalAmt === 0) {
+    tableEl.innerHTML = '<div style="padding:20px;text-align:center;color:var(--gray-400)">기간 내 매출 없음</div>';
+    return;
+  }
+  chartInstances['newVsExistingChart'] = new Chart(canvas, {
+    type: 'doughnut',
+    data: {
+      labels: ['신규 거래처', '기존 거래처'],
+      datasets: [{
+        data: [newStat.amount, existStat.amount],
+        backgroundColor: ['rgba(34,197,94,0.75)', 'rgba(59,130,246,0.75)'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 12 } } },
+        tooltip: { callbacks: {
+          label: function(ctx) {
+            var pct = (ctx.raw / totalAmt * 100).toFixed(1);
+            return ctx.label + ': ' + fmtAmt(ctx.raw) + ' (' + pct + '%)';
+          }
+        } }
+      },
+      cutout: '60%'
+    }
+  });
+
+  // 6) 표
+  function avg(st) { return st.count > 0 ? st.amount / st.count : 0; }
+  tableEl.innerHTML =
+    '<table style="width:100%;border-collapse:collapse;font-size:12px">' +
+    '<thead><tr style="border-bottom:1px solid var(--gray-200)">' +
+    '<th style="text-align:left;padding:6px 0;color:var(--gray-500);font-weight:600"></th>' +
+    '<th style="text-align:right;padding:6px 0;color:var(--gray-500);font-weight:600">거래처 수</th>' +
+    '<th style="text-align:right;padding:6px 0;color:var(--gray-500);font-weight:600">매출</th>' +
+    '<th style="text-align:right;padding:6px 0;color:var(--gray-500);font-weight:600">평균 건단가</th>' +
+    '</tr></thead><tbody>' +
+    '<tr><td style="padding:6px 0;color:var(--green-600);font-weight:600">● 신규</td>' +
+    '<td style="text-align:right;font-variant-numeric:tabular-nums">' + newStat.customers.toLocaleString() + '곳</td>' +
+    '<td style="text-align:right;font-variant-numeric:tabular-nums">' + fmtAmt(newStat.amount) + '</td>' +
+    '<td style="text-align:right;font-variant-numeric:tabular-nums">' + fmtAmt(avg(newStat)) + '</td></tr>' +
+    '<tr><td style="padding:6px 0;color:var(--brand-600);font-weight:600">● 기존</td>' +
+    '<td style="text-align:right;font-variant-numeric:tabular-nums">' + existStat.customers.toLocaleString() + '곳</td>' +
+    '<td style="text-align:right;font-variant-numeric:tabular-nums">' + fmtAmt(existStat.amount) + '</td>' +
+    '<td style="text-align:right;font-variant-numeric:tabular-nums">' + fmtAmt(avg(existStat)) + '</td></tr>' +
+    '</tbody></table>';
+}
+
+// ═══ KPI-6 월별 용지 매입 추이 ═══
+async function loadPaperPurchases(sb, now) {
+  var canvas = document.getElementById('paperChart');
+  if (!canvas) return;
+
+  // 최근 13개월 (올해 + 전년 1개월)
+  var startDt = new Date(now.getFullYear(), now.getMonth() - 12, 1);
+  var startStr = startDt.toISOString().substring(0, 10);
+
+  var rows = await fetchAllPages(function() {
+    return sb.from('erp_paper_purchases')
+      .select('purchase_date, maker_name, supply_amount')
+      .gte('purchase_date', startStr)
+      .order('purchase_date', { ascending: true });
+  });
+
+  // 월별 × 제조사별 집계 (제조사는 무림/한솔/기타 3개 버킷)
+  var months = [];
+  for (var i = 12; i >= 0; i--) {
+    var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push({ ym: d.toISOString().substring(0, 7), label: (d.getMonth() + 1) + '월' });
+  }
+  var buckets = { '무림': {}, '한솔': {}, '기타': {} };
+  months.forEach(function(m) {
+    buckets['무림'][m.ym] = 0; buckets['한솔'][m.ym] = 0; buckets['기타'][m.ym] = 0;
+  });
+  rows.forEach(function(r) {
+    var ym = String(r.purchase_date).substring(0, 7);
+    if (!(ym in buckets['무림'])) return;
+    var maker = r.maker_name || '기타';
+    var b = (maker === '무림' || maker === '한솔') ? maker : '기타';
+    buckets[b][ym] += Number(r.supply_amount) || 0;
+  });
+
+  destroyChart('paperChart');
+  chartInstances['paperChart'] = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: months.map(function(m) { return m.label; }),
+      datasets: [
+        { label: '무림', data: months.map(function(m) { return buckets['무림'][m.ym]; }), backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 4 },
+        { label: '한솔', data: months.map(function(m) { return buckets['한솔'][m.ym]; }), backgroundColor: 'rgba(34,197,94,0.75)', borderRadius: 4 },
+        { label: '기타', data: months.map(function(m) { return buckets['기타'][m.ym]; }), backgroundColor: 'rgba(148,163,184,0.6)', borderRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, font: { size: 11 } } },
+        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + fmtAmt(ctx.raw); } } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }
+      }
+    }
+  });
+}
+
+// ═══ KPI-7 품목(제품종류) 카테고리 매출 TOP 15 ═══
+async function loadItemMix(sb, company, now, periodMonths) {
+  var canvas = document.getElementById('itemMixChart');
+  var wrap = document.getElementById('itemMixWrap');
+  if (!canvas) return;
+
+  document.getElementById('itemMixSubtitle').textContent =
+    '최근 ' + periodMonths + '개월 · ERP 제품종류 기준 · 견적 금액 (세부 품목은 v1.x 예정)';
+
+  var periodStart = new Date(now.getFullYear(), now.getMonth() - periodMonths, 1);
+  var periodStartStr = periodStart.toISOString().substring(0, 10);
+
+  // erp_quotes에서 product_type 기준 집계 (확정 매출이 아닌 견적 금액이지만 카테고리 믹스 용도)
+  var rows = await fetchAllPages(function() {
+    var q = sb.from('erp_quotes')
+      .select('product_type, quote_amount')
+      .gte('quote_date', periodStartStr)
+      .gt('quote_amount', 0)
+      .order('quote_number', { ascending: true });
+    if (company) q = q.eq('company', company);
+    return q;
+  });
+
+  var bucket = {};
+  rows.forEach(function(r) {
+    var k = (r.product_type || '').trim() || '(미분류)';
+    bucket[k] = (bucket[k] || 0) + Number(r.quote_amount);
+  });
+  var top = Object.entries(bucket).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 15);
+
+  wrap.style.height = Math.max(400, top.length * 36 + 60) + 'px';
+  destroyChart('itemMixChart');
+  chartInstances['itemMixChart'] = new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels: top.map(function(t) { return t[0].length > 20 ? t[0].substring(0, 20) + '...' : t[0]; }),
+      datasets: [{
+        data: top.map(function(t) { return t[1]; }),
+        backgroundColor: 'rgba(245,158,11,0.7)',
+        borderRadius: 4,
+        barThickness: 22
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } }
+      },
+      scales: {
+        x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+        y: { ticks: { font: { size: 12 } }, grid: { display: false } }
+      }
+    }
+  });
+}
 
 // ═══ AI 인사이트 로더 ═══
 async function loadInsights(sb, company) {

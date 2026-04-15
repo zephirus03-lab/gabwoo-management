@@ -39,9 +39,8 @@ BEGIN
   -- 3개월전 올해
   SELECT '3개월전'::text, '올해'::text, '확정'::text,
          COALESCE(SUM(s.supply_amount), 0), COUNT(*)::bigint, m3, (m2 - interval '1 day')::date
-  FROM erp_sales s
-  WHERE s.sales_status = 'Y' AND s.supply_amount > 0
-    AND s.sales_date >= m3 AND s.sales_date < m2
+  FROM erp_sales_confirmed s
+  WHERE s.sales_date >= m3 AND s.sales_date < m2
     AND (p_company IS NULL OR s.company = p_company)
 
   UNION ALL
@@ -49,9 +48,8 @@ BEGIN
   -- 3개월전 작년
   SELECT '3개월전'::text, '작년'::text, '확정'::text,
          COALESCE(SUM(s.supply_amount), 0), COUNT(*)::bigint, ly_m3, (ly_m2 - interval '1 day')::date
-  FROM erp_sales s
-  WHERE s.sales_status = 'Y' AND s.supply_amount > 0
-    AND s.sales_date >= ly_m3 AND s.sales_date < ly_m2
+  FROM erp_sales_confirmed s
+  WHERE s.sales_date >= ly_m3 AND s.sales_date < ly_m2
     AND (p_company IS NULL OR s.company = p_company)
 
   UNION ALL
@@ -59,9 +57,8 @@ BEGIN
   -- 2개월전 올해
   SELECT '2개월전'::text, '올해'::text, '확정'::text,
          COALESCE(SUM(s.supply_amount), 0), COUNT(*)::bigint, m2, (m1 - interval '1 day')::date
-  FROM erp_sales s
-  WHERE s.sales_status = 'Y' AND s.supply_amount > 0
-    AND s.sales_date >= m2 AND s.sales_date < m1
+  FROM erp_sales_confirmed s
+  WHERE s.sales_date >= m2 AND s.sales_date < m1
     AND (p_company IS NULL OR s.company = p_company)
 
   UNION ALL
@@ -69,9 +66,8 @@ BEGIN
   -- 2개월전 작년
   SELECT '2개월전'::text, '작년'::text, '확정'::text,
          COALESCE(SUM(s.supply_amount), 0), COUNT(*)::bigint, ly_m2, (ly_m1 - interval '1 day')::date
-  FROM erp_sales s
-  WHERE s.sales_status = 'Y' AND s.supply_amount > 0
-    AND s.sales_date >= ly_m2 AND s.sales_date < ly_m1
+  FROM erp_sales_confirmed s
+  WHERE s.sales_date >= ly_m2 AND s.sales_date < ly_m1
     AND (p_company IS NULL OR s.company = p_company)
 
   UNION ALL
@@ -79,9 +75,8 @@ BEGIN
   -- 1개월전 올해 (가장 최근 확정월)
   SELECT '1개월전'::text, '올해'::text, '확정'::text,
          COALESCE(SUM(s.supply_amount), 0), COUNT(*)::bigint, m1, (m0 - interval '1 day')::date
-  FROM erp_sales s
-  WHERE s.sales_status = 'Y' AND s.supply_amount > 0
-    AND s.sales_date >= m1 AND s.sales_date < m0
+  FROM erp_sales_confirmed s
+  WHERE s.sales_date >= m1 AND s.sales_date < m0
     AND (p_company IS NULL OR s.company = p_company)
 
   UNION ALL
@@ -89,9 +84,8 @@ BEGIN
   -- 1개월전 작년
   SELECT '1개월전'::text, '작년'::text, '확정'::text,
          COALESCE(SUM(s.supply_amount), 0), COUNT(*)::bigint, ly_m1, (ly_m0 - interval '1 day')::date
-  FROM erp_sales s
-  WHERE s.sales_status = 'Y' AND s.supply_amount > 0
-    AND s.sales_date >= ly_m1 AND s.sales_date < ly_m0
+  FROM erp_sales_confirmed s
+  WHERE s.sales_date >= ly_m1 AND s.sales_date < ly_m0
     AND (p_company IS NULL OR s.company = p_company);
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

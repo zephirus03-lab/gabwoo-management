@@ -107,22 +107,23 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
     last_end = date(this_end.year - 1, this_end.month, 1)
     last_start = add_months(last_end, -3)
 
-    company_clause = f"AND company = '{company}'" if company else ""
+    # 회사 필터: company가 None이면 항상 true (1=1) → WHERE 절 구조 안전
+    company_clause = f"company = '{company}'" if company else "1=1"
 
     # 전체 요약
     summary_sql = f"""
         SELECT
-            (SELECT COALESCE(SUM(supply_amount),0) FROM erp_sales
-             WHERE sales_status='Y' AND supply_amount>0 {company_clause}
+            (SELECT COALESCE(SUM(supply_amount),0) FROM erp_sales_confirmed
+             WHERE {company_clause}
              AND sales_date >= '{this_start}' AND sales_date < '{this_end}') AS this_total,
-            (SELECT COALESCE(SUM(supply_amount),0) FROM erp_sales
-             WHERE sales_status='Y' AND supply_amount>0 {company_clause}
+            (SELECT COALESCE(SUM(supply_amount),0) FROM erp_sales_confirmed
+             WHERE {company_clause}
              AND sales_date >= '{last_start}' AND sales_date < '{last_end}') AS last_total,
-            (SELECT COUNT(*) FROM erp_sales
-             WHERE sales_status='Y' AND supply_amount>0 {company_clause}
+            (SELECT COUNT(*) FROM erp_sales_confirmed
+             WHERE {company_clause}
              AND sales_date >= '{this_start}' AND sales_date < '{this_end}') AS this_cnt,
-            (SELECT COUNT(*) FROM erp_sales
-             WHERE sales_status='Y' AND supply_amount>0 {company_clause}
+            (SELECT COUNT(*) FROM erp_sales_confirmed
+             WHERE {company_clause}
              AND sales_date >= '{last_start}' AND sales_date < '{last_end}') AS last_cnt
     """
     s = sb_query(summary_sql, access_token)[0]
@@ -138,15 +139,15 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
     cust_sql = f"""
         WITH this_cust AS (
             SELECT customer_name, SUM(supply_amount) AS amt, COUNT(*) AS cnt
-            FROM erp_sales
-            WHERE sales_status='Y' AND supply_amount>0 {company_clause}
+            FROM erp_sales_confirmed
+            WHERE {company_clause}
               AND sales_date >= '{this_start}' AND sales_date < '{this_end}'
             GROUP BY customer_name
         ),
         last_cust AS (
             SELECT customer_name, SUM(supply_amount) AS amt, COUNT(*) AS cnt
-            FROM erp_sales
-            WHERE sales_status='Y' AND supply_amount>0 {company_clause}
+            FROM erp_sales_confirmed
+            WHERE {company_clause}
               AND sales_date >= '{last_start}' AND sales_date < '{last_end}'
             GROUP BY customer_name
         )
