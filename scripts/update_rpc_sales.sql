@@ -22,6 +22,14 @@ DECLARE
   m_two_start date := (date_trunc('month', p_base_date) - interval '2 month')::date;
   m_next_start date := (date_trunc('month', p_base_date) + interval '1 month')::date;
 BEGIN
+  -- 권한 체크: 사용자 JWT(email 보유)인 경우 approved_users 확인.
+  -- service_role/anon은 email이 없으므로 체크 패스 (RLS로 보호)
+  IF auth.jwt()->>'email' IS NOT NULL AND NOT EXISTS (
+    SELECT 1 FROM approved_users WHERE email = auth.jwt()->>'email'
+  ) THEN
+    RAISE EXCEPTION 'Unauthorized';
+  END IF;
+
   RETURN QUERY
 
   SELECT '2개월전'::text, '올해'::text, '확정'::text,
