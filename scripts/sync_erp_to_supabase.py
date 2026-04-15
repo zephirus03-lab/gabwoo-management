@@ -6,11 +6,16 @@ erp_quotes / erp_quote_lines 테이블을 읽습니다. 원래는 사용자가 �
 업로드해야 했지만, 이 스크립트가 ERP DB를 직접 조회해서 upsert하므로
 수동 업로드 없이 대시보드가 최신 데이터를 보여줄 수 있게 합니다.
 
-동기화 범위: 최근 13개월(1년 + 버퍼)
+동기화 범위: 최근 40개월 (KPI-4 "과거 3년" 신규/기존 판별 + 여유)
+
+v1 개선 (2026-04-15, CTO 리뷰 반영):
+- TOP-2: 라인 교체를 replace_quote_lines RPC로 트랜잭션화 (DELETE+INSERT 원자적)
+- TOP-1: 배치 시작/종료 시 sync_log 테이블에 기록 → 대시보드 상단 "데이터 기준" 배너
 """
 
 import json
 import sys
+import time
 from pathlib import Path
 from datetime import datetime, timedelta
 
@@ -33,8 +38,11 @@ COMPANY_MAP = {"7000": "갑우문화사", "8000": "비피앤피"}
 APPROVAL_MAP = {"R": "승인", "P": "작성", "F": "확정"}
 
 # 동기화 범위 (오늘 기준 N개월 이전부터)
-# 전년 동기(YoY) 비교를 위해 최소 24개월 + 버퍼
-SYNC_MONTHS_BACK = 26
+# v1: KPI-4 "과거 3년 신규/기존 판별" + KPI-5 "직전 2년 누적" 모두 커버하도록 40개월
+SYNC_MONTHS_BACK = 40
+
+# sync_log 테이블에 기록할 때 쓰는 작업 이름
+JOB_NAME = "erp_quotes"
 
 
 def load_env(env_path: Path) -> dict:
@@ -172,6 +180,38 @@ def chunk_iter(iterable, size):
         yield buf
 
 
+def log_sync(project_ref: str, service_key: str, job_name: str, status: str,
+             rows: int = None, duration_sec: float = None, error_msg: str = None):
+    """sync_log 테이블에 배치 실행 결과를 기록합니다.
+
+    대시보드 상단 "데이터 기준: YYYY-MM-DD HH:MM" 배너가 이 값을 읽습니다.
+    실패해도 main flow를 깨지 않도록 예외는 조용히 무시합니다.
+    """
+    try:
+        payload = {
+            "job_name": job_name,
+            "status": status,
+            "rows_affected": rows,
+            "duration_sec": round(duration_sec, 2) if duration_sec is not None else None,
+            "error_msg": (error_msg or "")[:500] if error_msg else None,
+        }
+        resp = requests.post(
+            f"https://{project_ref}.supabase.co/rest/v1/sync_log",
+            headers={
+                "apikey": service_key,
+                "Authorization": f"Bearer {service_key}",
+                "Content-Type": "application/json",
+                "Prefer": "return=minimal",
+            },
+            json=payload,
+            timeout=15,
+        )
+        if resp.status_code not in (200, 201, 204):
+            print(f"   ⚠️ sync_log 기록 실패 ({resp.status_code}): {resp.text[:200]}")
+    except Exception as e:
+        print(f"   ⚠️ sync_log 기록 중 예외 (무시): {e}")
+
+
 def supabase_request(method: str, url: str, service_key: str, max_retries: int = 5, **kwargs) -> requests.Response:
     """재시도 로직 포함한 Supabase REST 요청입니다. 502/503/504는 백오프 재시도."""
     import time
@@ -250,31 +290,16 @@ def upsert_quotes(quotes: dict, project_ref: str, service_key: str) -> dict:
 
 
 def replace_lines(lines: list, id_map: dict, project_ref: str, service_key: str):
-    """해당 quote_id의 기존 라인을 삭제하고 새 라인을 insert합니다."""
+    """quote별 라인을 트랜잭션 안전하게 교체합니다 (CTO 리뷰 TOP-2 대응).
+
+    기존 구현: DELETE 배치 → INSERT 배치 2단계. 중간 실패 시 라인 영구 손실.
+    v1 개선: replace_quote_lines RPC 호출. Postgres 트랜잭션으로 DELETE+INSERT 원자화.
+    청크 크기는 한 번에 전송 가능한 JSON 크기를 고려해 quote_id 150개씩.
+    """
     base = f"https://{project_ref}.supabase.co/rest/v1"
 
-    # 대상 quote_id 수집
-    quote_ids = list(set(id_map[l["_quote_number"]] for l in lines if l["_quote_number"] in id_map))
-
-    # 1) 기존 라인 삭제
-    print(f"   기존 라인 삭제 중... ({len(quote_ids):,}개 견적)")
-    deleted = 0
-    for chunk in chunk_iter(quote_ids, 200):
-        id_list = ",".join(f'"{qid}"' for qid in chunk)
-        resp = supabase_request(
-            "DELETE",
-            f"{base}/erp_quote_lines?quote_id=in.({id_list})",
-            service_key,
-        )
-        if resp.status_code not in (200, 204):
-            print(f"❌ 삭제 실패 ({resp.status_code}): {resp.text[:500]}")
-            sys.exit(1)
-        deleted += len(chunk)
-        print(f"   삭제 진행: {deleted:,} / {len(quote_ids):,}개 견적", end="\r")
-    print()
-
-    # 2) 새 라인 insert
-    insert_rows = []
+    # quote_number → 매핑된 id로 변환 + _quote_number 제거
+    lines_by_qid: dict = {}
     skipped = 0
     for line in lines:
         qid = id_map.get(line["_quote_number"])
@@ -283,23 +308,42 @@ def replace_lines(lines: list, id_map: dict, project_ref: str, service_key: str)
             continue
         row = {k: v for k, v in line.items() if k != "_quote_number"}
         row["quote_id"] = qid
-        insert_rows.append(row)
+        lines_by_qid.setdefault(qid, []).append(row)
 
-    print(f"   라인 insert 중... ({len(insert_rows):,}건, 스킵 {skipped})")
-    total = 0
-    for chunk in chunk_iter(insert_rows, 500):
+    quote_ids_all = list(lines_by_qid.keys())
+    total_lines = sum(len(v) for v in lines_by_qid.values())
+    print(f"   라인 교체 대상: {len(quote_ids_all):,}개 견적 / {total_lines:,}개 라인 (스킵 {skipped})")
+
+    # RPC에 한 번에 보내는 청크 크기 (quote_id 기준)
+    CHUNK_SIZE = 150
+    total_deleted = 0
+    total_inserted = 0
+
+    for i, chunk in enumerate(chunk_iter(quote_ids_all, CHUNK_SIZE), 1):
+        payload = {
+            "quote_ids": chunk,
+            "lines": [row for qid in chunk for row in lines_by_qid[qid]],
+        }
         resp = supabase_request(
-            "POST", f"{base}/erp_quote_lines",
+            "POST",
+            f"{base}/rpc/replace_quote_lines",
             service_key,
-            headers={"Prefer": "return=minimal"},
-            json=chunk,
+            json={"p_payload": payload},
         )
         if resp.status_code not in (200, 201, 204):
-            print(f"❌ insert 실패 ({resp.status_code}): {resp.text[:500]}")
-            sys.exit(1)
-        total += len(chunk)
-        print(f"   insert 진행: {total:,} / {len(insert_rows):,}건", end="\r")
-    print(f"\n   ✅ {total:,}건 insert 완료")
+            # 트랜잭션 덕분에 이 청크는 자동 롤백됨. 전체 배치는 실패 처리.
+            raise RuntimeError(
+                f"replace_quote_lines RPC 실패 ({resp.status_code}): {resp.text[:500]}"
+            )
+        result = resp.json()
+        if isinstance(result, list) and result:
+            total_deleted += result[0].get("deleted_count", 0)
+            total_inserted += result[0].get("inserted_count", 0)
+
+        done = min(i * CHUNK_SIZE, len(quote_ids_all))
+        print(f"   라인 교체 진행: {done:,} / {len(quote_ids_all):,}개 견적", end="\r")
+
+    print(f"\n   ✅ 삭제 {total_deleted:,}건 / 신규 {total_inserted:,}건 (트랜잭션 안전)")
 
 
 def fetch_erp_sales(env: dict, cutoff_date: str) -> list:
@@ -373,12 +417,17 @@ def upsert_sales(rows: list, project_ref: str, service_key: str):
 
 
 def sync():
+    """ERP → Supabase 동기화 메인.
+
+    전체를 try/except로 감싸서 성공·실패 모두 sync_log에 기록합니다.
+    대시보드 상단 배너가 이 로그를 읽어 "데이터 기준 시각"을 표시합니다.
+    """
     if not ENV_FILE.exists():
         print(f"❌ .env.local 없음: {ENV_FILE}")
         sys.exit(1)
     env = load_env(ENV_FILE)
 
-    # 1. Supabase 키 확보
+    # 1. Supabase 키 확보 (sync_log 기록에도 필요)
     print("🔑 Supabase 키 조회 중...")
     access_token = env["SUPABASE_ACCESS_TOKEN"]
     anon_key, service_key = get_supabase_keys(access_token, DASHBOARD_PROJECT_REF)
@@ -387,28 +436,51 @@ def sync():
         sys.exit(1)
     print(f"   ✅ {DASHBOARD_PROJECT_REF} 프로젝트 접근 확인")
 
-    # 2. ERP 데이터 조회
-    cutoff_dt = (datetime.now() - timedelta(days=SYNC_MONTHS_BACK * 31)).strftime("%Y%m%d")
-    print(f"\n📥 ERP 조회 중 (견적일 >= {cutoff_dt})...")
-    quotes, lines = fetch_erp_data(env, cutoff_dt)
+    # 2. 본 작업 (타이머 + sync_log 기록)
+    t_start = time.time()
+    try:
+        cutoff_dt = (datetime.now() - timedelta(days=SYNC_MONTHS_BACK * 31)).strftime("%Y%m%d")
+        print(f"\n📥 ERP 조회 중 (견적일 >= {cutoff_dt}, 최근 {SYNC_MONTHS_BACK}개월)...")
+        quotes, lines = fetch_erp_data(env, cutoff_dt)
 
-    # 3. Supabase 견적/라인 동기화
-    print(f"\n📤 Supabase 견적 upsert 중...")
-    id_map = upsert_quotes(quotes, DASHBOARD_PROJECT_REF, service_key)
+        # 3. Supabase 견적/라인 동기화
+        print(f"\n📤 Supabase 견적 upsert 중...")
+        id_map = upsert_quotes(quotes, DASHBOARD_PROJECT_REF, service_key)
 
-    print(f"\n📤 Supabase 견적라인 교체 중...")
-    replace_lines(lines, id_map, DASHBOARD_PROJECT_REF, service_key)
+        print(f"\n📤 Supabase 견적라인 교체 중 (트랜잭션 RPC)...")
+        replace_lines(lines, id_map, DASHBOARD_PROJECT_REF, service_key)
 
-    # 4. SAL_SALESH(실제 매출) 동기화
-    print(f"\n📥 ERP 매출(SAL_SALESH) 조회 중 (매출일 >= {cutoff_dt})...")
-    sales_rows = fetch_erp_sales(env, cutoff_dt)
-    print(f"   → 매출 헤더: {len(sales_rows):,}건")
+        # 4. SAL_SALESH(실제 매출) 동기화
+        print(f"\n📥 ERP 매출(SAL_SALESH) 조회 중 (매출일 >= {cutoff_dt})...")
+        sales_rows = fetch_erp_sales(env, cutoff_dt)
+        print(f"   → 매출 헤더: {len(sales_rows):,}건")
 
-    print(f"\n📤 Supabase erp_sales upsert 중...")
-    upsert_sales(sales_rows, DASHBOARD_PROJECT_REF, service_key)
+        print(f"\n📤 Supabase erp_sales upsert 중...")
+        upsert_sales(sales_rows, DASHBOARD_PROJECT_REF, service_key)
 
-    print("\n✅ 동기화 완료!")
-    print(f"   견적 {len(quotes):,}건 / 견적라인 {len(lines):,}건 / 매출 {len(sales_rows):,}건")
+        duration = time.time() - t_start
+        print(f"\n✅ 동기화 완료! ({duration:.1f}초)")
+        print(f"   견적 {len(quotes):,}건 / 견적라인 {len(lines):,}건 / 매출 {len(sales_rows):,}건")
+
+        # 성공 로그 (대시보드 배너가 이 시각을 "데이터 기준"으로 표시)
+        log_sync(
+            DASHBOARD_PROJECT_REF, service_key,
+            job_name=JOB_NAME, status="success",
+            rows=len(quotes) + len(sales_rows), duration_sec=duration,
+        )
+
+    except Exception as e:
+        duration = time.time() - t_start
+        err_msg = f"{type(e).__name__}: {e}"
+        print(f"\n❌ 동기화 실패 ({duration:.1f}초): {err_msg}")
+
+        # 실패 로그 (배너가 🔴 경고 표시)
+        log_sync(
+            DASHBOARD_PROJECT_REF, service_key,
+            job_name=JOB_NAME, status="failed",
+            rows=None, duration_sec=duration, error_msg=err_msg,
+        )
+        raise  # daily_update.sh가 exit code로 실패 감지할 수 있도록
 
 
 if __name__ == "__main__":

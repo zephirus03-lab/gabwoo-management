@@ -906,6 +906,13 @@ var Dashboard = (function(){
         else if (y === lastYear) lastYearAmounts[m] += amt;
       });
 
+      // ★ 카드(RPC) ↔ 차트 100% 일치 보장 (단일 진실의 원천 = RPC get_dashboard_summary)
+      // 카드와 차트 모두 erp_sales_confirmed를 쓰지만 별도 경로(RPC vs 클라이언트 페이징)이므로
+      // 타이밍·캐시·필터 차이로 어긋날 수 있음. RPC 값으로 3개 확정월을 강제 덮어쓴다.
+      if (m3.getFullYear() === thisYear) { thisYearAmounts[m3.getMonth()] = m3Amt; lastYearAmounts[m3.getMonth()] = m3PrevYr; }
+      if (m2.getFullYear() === thisYear) { thisYearAmounts[m2.getMonth()] = m2Amt; lastYearAmounts[m2.getMonth()] = m2PrevYr; }
+      if (m1.getFullYear() === thisYear) { thisYearAmounts[m1.getMonth()] = m1Amt; lastYearAmounts[m1.getMonth()] = m1PrevYr; }
+
       // 올해는 "마지막 확정 월"까지만 채우고, 이후는 null로 비워둠
       // logicalBase = 이번 달 초 (day>10) 또는 전월 초 (day<=10). m1 = 마지막 확정월(logicalBase - 1)
       var lastConfirmedMonthIdx = m1.getMonth();  // 0=1월 ... 11=12월
@@ -1041,7 +1048,7 @@ async function loadRiskCustomers(sb, company, now) {
   contentEl.innerHTML = '<div class="risk-empty">분석 중...</div>';
 
   try {
-    // 24개월치 erp_sales 확정분 페이징 조회
+    // 24개월치 erp_sales_confirmed 페이징 조회 (월말 일괄 거래처 정책 반영)
     var cutoff = new Date(now.getFullYear() - 2, now.getMonth(), now.getDate());
     var cutoffStr = cutoff.toISOString().substring(0, 10);
     var all = [];
@@ -1301,9 +1308,15 @@ async function loadPaperPurchases(sb, now) {
 
   // 월별 × 제조사별 집계 (제조사는 무림/한솔/기타 3개 버킷)
   var months = [];
+  var prevYear = null;
   for (var i = 12; i >= 0; i--) {
     var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    months.push({ ym: d.toISOString().substring(0, 7), label: (d.getMonth() + 1) + '월' });
+    var y = d.getFullYear();
+    var m = d.getMonth() + 1;
+    // 연도가 바뀌는 첫 달에만 "2026년 1월", 나머지는 "2월", "3월"
+    var label = (y !== prevYear) ? (y + '년 ' + m + '월') : (m + '월');
+    prevYear = y;
+    months.push({ ym: d.toISOString().substring(0, 7), label: label });
   }
   var buckets = { '무림': {}, '한솔': {}, '기타': {} };
   months.forEach(function(m) {
