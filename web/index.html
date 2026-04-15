@@ -218,8 +218,8 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
   </div>
 
   <div id="appContainer">
-    <!-- 업로드 패널 -->
-    <details class="upload-panel" id="uploadPanel">
+    <!-- 업로드 패널 (ERP DB 직접 동기화로 전환 — 수동 업로드 비활성화) -->
+    <details class="upload-panel" id="uploadPanel" style="display:none">
       <summary>데이터 업로드</summary>
       <div class="upload-body">
         <div class="dropzone" id="dropzone" onclick="document.getElementById('fileInput').click()">
