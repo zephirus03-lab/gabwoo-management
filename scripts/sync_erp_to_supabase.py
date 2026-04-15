@@ -33,7 +33,8 @@ COMPANY_MAP = {"7000": "갑우문화사", "8000": "비피앤피"}
 APPROVAL_MAP = {"R": "승인", "P": "작성", "F": "확정"}
 
 # 동기화 범위 (오늘 기준 N개월 이전부터)
-SYNC_MONTHS_BACK = 13
+# 전년 동기(YoY) 비교를 위해 최소 24개월 + 버퍼
+SYNC_MONTHS_BACK = 26
 
 
 def load_env(env_path: Path) -> dict:

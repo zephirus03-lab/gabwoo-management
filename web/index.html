@@ -620,10 +620,13 @@ var Dashboard = (function(){
         return;
       }
 
-      // 새 RPC 스키마: 2개월전 / 1개월전 / 이번달
-      var panelData = { '2개월전': {}, '1개월전': {}, '이번달': {} };
+      // v3 RPC 스키마: period × year_type 조합 6개 행
+      // key = period + '_' + year_type  (예: '2개월전_올해')
+      var panelData = {};
       if (rpcRes.data) {
-        rpcRes.data.forEach(function(r) { panelData[r.period] = r; });
+        rpcRes.data.forEach(function(r) {
+          panelData[r.period + '_' + r.year_type] = r;
+        });
       }
 
       // 월 이름 설정
@@ -633,42 +636,42 @@ var Dashboard = (function(){
       document.getElementById('kpiCurrTitle').textContent = monthName(oneMonthAgo) + ' 매출';
       document.getElementById('kpiNextTitle').textContent = monthName(now) + ' 매출';
 
-      // KPI 금액 표시 (kpiPrev=2개월전, kpiCurr=1개월전, kpiNext=이번달 진행중)
-      var twoAgoAmt = panelData['2개월전'].total_amount || 0;
-      var oneAgoAmt = panelData['1개월전'].total_amount || 0;
-      var currAmt = panelData['이번달'].total_amount || 0;
+      // KPI 금액 (올해)
+      var twoAgoAmt = (panelData['2개월전_올해'] || {}).total_amount || 0;
+      var oneAgoAmt = (panelData['1개월전_올해'] || {}).total_amount || 0;
+      var currAmt = (panelData['이번달_올해'] || {}).total_amount || 0;
+
+      // 전년 동월 (YoY 비교 기준)
+      var twoAgoPrevYr = (panelData['2개월전_작년'] || {}).total_amount || 0;
+      var oneAgoPrevYr = (panelData['1개월전_작년'] || {}).total_amount || 0;
+      var currPrevYr = (panelData['이번달_작년'] || {}).total_amount || 0;
 
       document.getElementById('kpiPrevAmount').textContent = fmtAmt(twoAgoAmt);
       document.getElementById('kpiCurrAmount').textContent = fmtAmt(oneAgoAmt);
       document.getElementById('kpiNextAmount').textContent = fmtAmt(currAmt);
 
-      document.getElementById('kpiPrevCount').textContent = (panelData['2개월전'].quote_count || 0).toLocaleString() + '건';
-      document.getElementById('kpiCurrCount').textContent = (panelData['1개월전'].quote_count || 0).toLocaleString() + '건';
-      document.getElementById('kpiNextCount').textContent = (panelData['이번달'].quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiPrevCount').textContent = ((panelData['2개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiCurrCount').textContent = ((panelData['1개월전_올해'] || {}).quote_count || 0).toLocaleString() + '건';
+      document.getElementById('kpiNextCount').textContent = ((panelData['이번달_올해'] || {}).quote_count || 0).toLocaleString() + '건';
 
-      // 증감률 계산 (기준 직전 달 대비)
-      // 2개월전 대비 3개월전: RPC를 한 달 이전 기준으로 한 번 더 호출
-      var rpc2 = await sb.rpc('get_dashboard_summary', {
-        p_company: company,
-        p_base_date: oneMonthAgo.toISOString().substring(0, 10)
-      });
-      var threeAgoAmt = 0;
-      if (rpc2.data) {
-        rpc2.data.forEach(function(r) { if (r.period === '2개월전') threeAgoAmt = r.total_amount || 0; });
-      }
-
-      function setDelta(elId, current, previous) {
+      // 전년 동월 대비(YoY) 증감률 표시
+      function setDelta(elId, current, previous, suffix) {
         var el = document.getElementById(elId);
-        if (previous === 0) { el.textContent = '-'; el.className = 'kpi-delta kpi-delta--flat'; return; }
+        if (previous === 0) {
+          el.textContent = '작년 자료 없음';
+          el.className = 'kpi-delta kpi-delta--flat';
+          return;
+        }
         var pct = ((current - previous) / previous * 100).toFixed(1);
-        if (pct > 0) { el.textContent = '\u2191 +' + pct + '%'; el.className = 'kpi-delta kpi-delta--up'; }
-        else if (pct < 0) { el.textContent = '\u2193 ' + pct + '%'; el.className = 'kpi-delta kpi-delta--down'; }
-        else { el.textContent = '0%'; el.className = 'kpi-delta kpi-delta--flat'; }
+        var label = (suffix || 'YoY');
+        if (pct > 0) { el.textContent = '\u2191 +' + pct + '% (' + label + ')'; el.className = 'kpi-delta kpi-delta--up'; }
+        else if (pct < 0) { el.textContent = '\u2193 ' + pct + '% (' + label + ')'; el.className = 'kpi-delta kpi-delta--down'; }
+        else { el.textContent = '0% (' + label + ')'; el.className = 'kpi-delta kpi-delta--flat'; }
       }
-      // 각 패널은 "전월 대비" 증감을 표시
-      setDelta('kpiPrevDelta', twoAgoAmt, threeAgoAmt);  // 2개월전 vs 3개월전
-      setDelta('kpiCurrDelta', oneAgoAmt, twoAgoAmt);    // 1개월전 vs 2개월전
-      setDelta('kpiNextDelta', currAmt, oneAgoAmt);      // 이번달(진행중) vs 1개월전
+      setDelta('kpiPrevDelta', twoAgoAmt, twoAgoPrevYr, 'YoY');
+      setDelta('kpiCurrDelta', oneAgoAmt, oneAgoPrevYr, 'YoY');
+      // 이번달은 진행 중 → 작년 동월 전체와 비교 (label로 구분)
+      setDelta('kpiNextDelta', currAmt, currPrevYr, '작년 동월 전체 대비');
 
       // 2) 기간 필터 적용 쿼리 — 페이징으로 전체 데이터 조회
       var periodVal = document.getElementById('periodFilter').value;
@@ -731,44 +734,95 @@ var Dashboard = (function(){
         options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } } }, scales: { x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }, y: { ticks: { font: { size: 13 } }, grid: { display: false } } } }
       });
 
-      // 5) 월별 매출 추이 — allData 재활용 (KPI와 동일한 승인 기준 데이터)
-      var trendMonths = periodVal === 'all' ? 10 : parseInt(periodVal);
-      document.getElementById('trendSubtitle').textContent = periodVal === 'all' ? '최근 10개월' : '최근 ' + trendMonths + '개월';
+      // 5) 월별 매출 추이 — 올해 vs 작년 YoY 비교 (12개월 x축 1월~12월)
+      // period filter와 무관하게 24개월치를 별도 조회
+      document.getElementById('trendSubtitle').textContent = '작년 vs 올해 (승인 견적 기준)';
 
-      var trendBuckets = {};
-      for (var mi = trendMonths - 1; mi >= 0; mi--) {
-        var md = new Date(now.getFullYear(), now.getMonth() - mi, 1);
-        var key = md.getFullYear() + '-' + String(md.getMonth() + 1).padStart(2, '0');
-        trendBuckets[key] = { label: monthName(md), amount: 0 };
+      var yoyStart = new Date(now.getFullYear() - 1, 0, 1);  // 작년 1월 1일
+      var yoyData = [];
+      var yoyFrom = 0;
+      while (true) {
+        var yf = sb.from('erp_quotes')
+          .select('quote_amount, quote_date')
+          .eq('approval_status', '승인')
+          .gt('quote_amount', 0)
+          .gte('quote_date', yoyStart.toISOString().substring(0, 10))
+          .range(yoyFrom, yoyFrom + pageSize - 1);
+        if (company) yf = yf.eq('company', company);
+        var yoyRes = await yf;
+        var ypage = yoyRes.data || [];
+        yoyData = yoyData.concat(ypage);
+        if (ypage.length < pageSize) break;
+        yoyFrom += pageSize;
       }
-      allData.forEach(function(r) {
+
+      var thisYear = now.getFullYear();
+      var lastYear = thisYear - 1;
+      var monthLabels = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+      var thisYearAmounts = new Array(12).fill(0);
+      var lastYearAmounts = new Array(12).fill(0);
+
+      yoyData.forEach(function(r) {
         if (!r.quote_date) return;
-        var ym = String(r.quote_date).substring(0, 7);
-        if (trendBuckets[ym]) trendBuckets[ym].amount += Number(r.quote_amount);
+        var y = parseInt(String(r.quote_date).substring(0, 4));
+        var m = parseInt(String(r.quote_date).substring(5, 7)) - 1;
+        if (m < 0 || m > 11) return;
+        var amt = Number(r.quote_amount) || 0;
+        if (y === thisYear) thisYearAmounts[m] += amt;
+        else if (y === lastYear) lastYearAmounts[m] += amt;
       });
-      var trendKeys = Object.keys(trendBuckets);
-      var trendLabels = trendKeys.map(function(k) { return trendBuckets[k].label; });
-      var trendAmounts = trendKeys.map(function(k) { return trendBuckets[k].amount; });
+
+      // 올해는 현재 달(진행중)까지만 채우고, 이후는 null로 비워둠
+      var currMonthIdx = now.getMonth();
+      var thisYearDisplay = thisYearAmounts.map(function(v, i) { return i <= currMonthIdx ? v : null; });
 
       destroyChart('trendChart');
       chartInstances['trendChart'] = new Chart(document.getElementById('trendChart'), {
         type: 'line',
         data: {
-          labels: trendLabels,
-          datasets: [{
-            data: trendAmounts,
-            borderColor: 'rgba(59,130,246,1)',
-            backgroundColor: 'rgba(59,130,246,0.08)',
-            fill: true,
-            tension: 0.3,
-            pointRadius: 5,
-            pointBackgroundColor: '#fff',
-            pointBorderColor: 'rgba(59,130,246,1)',
-            pointBorderWidth: 2,
-            borderWidth: 2.5
-          }]
+          labels: monthLabels,
+          datasets: [
+            {
+              label: lastYear + '년',
+              data: lastYearAmounts,
+              borderColor: 'rgba(156,163,175,0.9)',
+              backgroundColor: 'transparent',
+              borderDash: [6, 4],
+              tension: 0.3,
+              pointRadius: 4,
+              pointBackgroundColor: '#fff',
+              pointBorderColor: 'rgba(156,163,175,0.9)',
+              pointBorderWidth: 2,
+              borderWidth: 2
+            },
+            {
+              label: thisYear + '년',
+              data: thisYearDisplay,
+              borderColor: 'rgba(59,130,246,1)',
+              backgroundColor: 'rgba(59,130,246,0.08)',
+              fill: true,
+              tension: 0.3,
+              pointRadius: 5,
+              pointBackgroundColor: '#fff',
+              pointBorderColor: 'rgba(59,130,246,1)',
+              pointBorderWidth: 2,
+              borderWidth: 2.5,
+              spanGaps: false
+            }
+          ]
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } } }, scales: { y: { beginAtZero: true, ticks: { callback: function(v) { return (v/100000000).toFixed(1) + '억'; } }, grid: { color: 'rgba(0,0,0,0.04)' } }, x: { grid: { display: false } } } }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, position: 'top', labels: { usePointStyle: true, font: { size: 12 } } },
+            tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + fmtAmt(ctx.raw); } } }
+          },
+          scales: {
+            y: { beginAtZero: true, ticks: { callback: function(v) { return (v/100000000).toFixed(1) + '억'; } }, grid: { color: 'rgba(0,0,0,0.04)' } },
+            x: { grid: { display: false } }
+          }
+        }
       });
 
       // 6) 제품종류별 비중
