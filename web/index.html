@@ -1667,32 +1667,40 @@ async function loadTop20Customers(sb, now) {
   var thead = document.getElementById('top20Thead');
   if (!tbody || !thead) return;
 
-  // 최근 12개월 범위
-  var start = new Date(now.getFullYear(), now.getMonth() - 11, 1);
-  var startStr = start.toISOString().substring(0, 10);
+  // 표시용 최근 12개월 + YoY 비교용 작년 동기간 3개월 → fetch는 24개월치
+  var fetchStart = new Date(now.getFullYear(), now.getMonth() - 23, 1);
+  var fetchStartStr = fetchStart.toISOString().substring(0, 10);
+  // 표시용 12개월 (헤더에 보이는 범위)
+  var displayStart = new Date(now.getFullYear(), now.getMonth() - 11, 1);
   var months = [];
   for (var i = 0; i < 12; i++) {
-    var d = new Date(start.getFullYear(), start.getMonth() + i, 1);
+    var d = new Date(displayStart.getFullYear(), displayStart.getMonth() + i, 1);
     var ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
     months.push({
       ym: ym,
       label: String(d.getFullYear()).slice(2) + '.' + String(d.getMonth() + 1).padStart(2, '0'),
     });
   }
+  // YoY 비교용 — 최근 3개월 vs 작년 동기간 3개월
+  var recentYMs = months.slice(-3).map(function(m) { return m.ym; });
+  var prevYoYYMs = recentYMs.map(function(ym) {
+    var parts = ym.split('-');
+    return (parseInt(parts[0], 10) - 1) + '-' + parts[1];
+  });
 
   // 관계사·지입 제외 키워드 (customer_name 부분일치)
   var EXCLUDE_KEYWORDS = ['갑우문화사', '비피앤피', '더원프린팅', '프린트뱅크',
                           '교원', '이투스', '에듀윌'];
 
-  // fetch (페이지네이션)
+  // fetch 24개월 (페이지네이션) — YoY 비교용 작년 3개월 포함
   var rows = await fetchAllPages(function() {
     return sb.from('erp_sales_confirmed')
       .select('customer_name, sales_date, supply_amount, company')
-      .gte('sales_date', startStr)
+      .gte('sales_date', fetchStartStr)
       .gt('supply_amount', 0);
   });
 
-  // 거래처 × 월 피벗
+  // 거래처 × 월 피벗 (24개월 전체 저장, total은 최근 12개월 기준)
   var byCustomer = {};
   (rows || []).forEach(function(r) {
     var name = (r.customer_name || '').trim();
@@ -1700,21 +1708,25 @@ async function loadTop20Customers(sb, now) {
     if (EXCLUDE_KEYWORDS.some(function(k) { return name.indexOf(k) !== -1; })) return;
     var ym = String(r.sales_date).substring(0, 7);
     if (!byCustomer[name]) {
-      byCustomer[name] = { total: 0, byMonth: {}, company: r.company };
+      byCustomer[name] = { byMonth: {}, company: r.company };
     }
-    byCustomer[name].total += Number(r.supply_amount) || 0;
     byCustomer[name].byMonth[ym] = (byCustomer[name].byMonth[ym] || 0) + (Number(r.supply_amount) || 0);
   });
 
+  // 상위 20 정렬은 최근 12개월 합 기준
+  Object.values(byCustomer).forEach(function(d) {
+    d.total12m = months.reduce(function(sum, m) { return sum + (d.byMonth[m.ym] || 0); }, 0);
+  });
   var entries = Object.entries(byCustomer)
-    .sort(function(a, b) { return b[1].total - a[1].total; })
+    .filter(function(e) { return e[1].total12m > 0; })
+    .sort(function(a, b) { return b[1].total12m - a[1].total12m; })
     .slice(0, 20);
 
   // 헤더
   var theadHtml = '<tr>';
   theadHtml += '<th class="th-name">거래처</th>';
   months.forEach(function(m) { theadHtml += '<th>' + m.label + '</th>'; });
-  theadHtml += '<th class="th-dir">방향</th>';
+  theadHtml += '<th class="th-dir">방향 (YoY)</th>';
   theadHtml += '</tr>';
   thead.innerHTML = theadHtml;
 
@@ -1750,11 +1762,11 @@ async function loadTop20Customers(sb, now) {
       }
     });
 
-    // 방향 — 최근 3개월 vs 이전 3개월
-    var recent = months.slice(-3).map(function(m) { return d.byMonth[m.ym] || 0; });
-    var prev = months.slice(-6, -3).map(function(m) { return d.byMonth[m.ym] || 0; });
+    // 방향 — YoY: 최근 3개월 vs 작년 동기간 3개월
+    var recent = recentYMs.map(function(ym) { return d.byMonth[ym] || 0; });
+    var prevYoY = prevYoYYMs.map(function(ym) { return d.byMonth[ym] || 0; });
     var recentAvg = recent.reduce(function(a, b) { return a + b; }, 0) / 3;
-    var prevAvg = prev.reduce(function(a, b) { return a + b; }, 0) / 3;
+    var prevAvg = prevYoY.reduce(function(a, b) { return a + b; }, 0) / 3;
     var dirHtml;
     if (prevAvg === 0 && recentAvg > 0) {
       dirHtml = '<span class="top20-dir top20-dir--new">🔵 신규</span>';
@@ -1778,7 +1790,7 @@ async function loadTop20Customers(sb, now) {
   // 부제목에 건수 반영
   var sub = document.getElementById('top20Subtitle');
   if (sub) {
-    sub.textContent = '최근 12개월 · ERP 기준 · 단위: 백만 원 · 상위 ' + entries.length + '개사 (관계사·지입 제외)';
+    sub.textContent = '최근 12개월 · ERP 기준 · 단위: 백만 원 · 방향=YoY(최근 3개월 vs 작년 동기간 3개월) · 상위 ' + entries.length + '개사 (관계사·지입 제외)';
   }
 }
 
