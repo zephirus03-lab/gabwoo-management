@@ -835,7 +835,8 @@ var Dashboard = (function(){
       var noteEl = document.getElementById('closingNote');
       if (noteEl) {
         noteEl.innerHTML =
-          '<strong>세금계산서 마감 정책</strong> · 매달 10일에 전월 실적 마감. ' +
+          '<strong>ERP 확정 매출 기준</strong> (ST_SALES=Y/NULL · 실 세금계산서 발행액과 차이 있을 수 있음) · ' +
+          '매달 10일에 전월 실적 마감. ' +
           '다음 마감: <strong>' + monthName(nextClosingMonth) + ' 실적</strong> → ' +
           (nextClosingDate.getFullYear() + '.' + String(nextClosingDate.getMonth()+1).padStart(2,'0') + '.10') +
           ' 이후 확인 가능.';
@@ -965,7 +966,7 @@ var Dashboard = (function(){
 
       // 5) 월별 매출 추이 — 올해 vs 작년 YoY 비교 (12개월 x축 1월~12월)
       // period filter와 무관하게 24개월치를 별도 조회 (확정 매출 기준)
-      document.getElementById('trendSubtitle').textContent = '작년 vs 올해 (세금계산서 기준)';
+      document.getElementById('trendSubtitle').textContent = '작년 vs 올해 · ERP 확정 매출 기준 (실 세금계산서와 차이 있을 수 있음)';
 
       var yoyStart = new Date(now.getFullYear() - 1, 0, 1);
       var yoyData = [];
