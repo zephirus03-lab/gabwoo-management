@@ -224,6 +224,36 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .paper-sales-tab:hover:not(.active){background:var(--gray-50)}
 .paper-sales-placeholder{padding:24px;text-align:center;color:var(--gray-400);font-size:12px}
 
+/* ─── 영업자 상세 모달 (pricing_audit 기반 카드) ─── */
+.emp-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center}
+.emp-modal-backdrop{position:absolute;inset:0;background:rgba(15,23,42,0.55);backdrop-filter:blur(2px)}
+.emp-modal-card{position:relative;background:#fff;border-radius:12px;max-width:760px;width:92%;max-height:88vh;overflow-y:auto;box-shadow:0 24px 48px rgba(0,0,0,0.25);padding:24px 28px}
+.emp-modal-close{position:absolute;top:12px;right:14px;background:transparent;border:0;font-size:22px;cursor:pointer;color:#64748b;line-height:1}
+.emp-modal-close:hover{color:#0f172a}
+.emp-modal .mini-stat{text-align:center}
+.emp-modal .mini-stat .n{font-size:18px;font-weight:700}
+.emp-modal .mini-stat .l{font-size:10px;color:#888;letter-spacing:0.03em}
+.emp-modal .badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.emp-modal .badge-danger{background:#fde8e8;color:#dc3545}
+.emp-modal .badge-warn{background:#fff3e0;color:#e65100}
+.emp-modal .badge-ok{background:#e8f5e9;color:#2e7d32}
+.emp-modal .diff-good{color:#ca8a04;font-weight:600}
+.emp-modal .diff-warn{color:#16a34a;font-weight:600}
+.emp-modal .diff-bad{color:#15803d;font-weight:700}
+.emp-modal .diff-discount{color:#dc3545;font-weight:600}
+.emp-modal .diff-discount-bad{color:#991b1b;font-weight:700}
+.emp-modal .diff-neutral{color:#6c757d}
+.emp-modal .ratio-bar{display:flex;height:8px;margin:14px 0 6px;border-radius:4px;overflow:hidden;background:#f1f5f9}
+.emp-modal .ratio-bar .bar-discount{background:#dc3545}
+.emp-modal .ratio-bar .bar-normal{background:#eab308}
+.emp-modal .ratio-bar .bar-premium{background:#16a34a}
+.emp-modal table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.emp-modal th{text-align:left;padding:6px 8px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-weight:600;color:#475569;font-size:11px;letter-spacing:0.02em;text-transform:uppercase}
+.emp-modal td{padding:6px 8px;border-bottom:1px solid #f1f5f9}
+.emp-modal .r{text-align:right;font-variant-numeric:tabular-nums}
+.emp-modal-loading,.emp-modal-err{padding:40px;text-align:center;color:#64748b}
+.emp-modal-err{color:#dc2626}
+
 /* ─── Footer ─── */
 .footer{text-align:center;padding:20px 16px;font-size:12px;color:var(--gray-400);border-top:1px solid var(--gray-200);margin-top:16px;letter-spacing:0.025em}
 .placeholder-text{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;color:var(--gray-400);font-size:13px;gap:8px}
@@ -466,6 +496,15 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
     </section>
 
     <div class="footer">마지막 업데이트: <span id="lastUpdate">-</span> | 데이터: <span id="totalQuotes">0</span>건 매출</div>
+  </div>
+</div>
+
+<!-- 영업자 상세 모달 (pricing_audit 기반) -->
+<div id="empModal" class="emp-modal" style="display:none">
+  <div class="emp-modal-backdrop"></div>
+  <div class="emp-modal-card">
+    <button class="emp-modal-close" aria-label="닫기">✕</button>
+    <div id="empModalBody"><div class="emp-modal-loading">로딩 중…</div></div>
   </div>
 </div>
 
@@ -950,7 +989,7 @@ var Dashboard = (function(){
       });
       var salesTop = Object.entries(salesMap).filter(function(s) { return s[1] > 0; }).sort(function(a, b) { return b[1] - a[1]; });
       var salesSubtitle = document.getElementById('salesChartSubtitle');
-      if (salesSubtitle) salesSubtitle.textContent = '기간 내 거래 있는 영업자 ' + salesTop.length + '명 · 호버 시 최근 3개월 활동';
+      if (salesSubtitle) salesSubtitle.textContent = '기간 내 거래 있는 영업자 ' + salesTop.length + '명 · 호버=최근 3개월 / 클릭=단가 패턴 상세';
 
       // ── 영업자별 최근 3개월 활동 상세 (tooltip 용) ──
       // 현재 시점 기준 최근 3개월 × 영업자별 (매출, 건수, 거래처수)
@@ -991,6 +1030,18 @@ var Dashboard = (function(){
         },
         options: {
           indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          onClick: function(evt, elements) {
+            if (elements && elements.length > 0) {
+              var idx = elements[0].index;
+              var empName = salesTop[idx] && salesTop[idx][0];
+              if (empName) openEmpModal(empName);
+            }
+          },
+          onHover: function(evt, elements) {
+            if (evt && evt.native && evt.native.target) {
+              evt.native.target.style.cursor = (elements && elements.length > 0) ? 'pointer' : 'default';
+            }
+          },
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -1834,6 +1885,137 @@ async function loadPaperTrend(sb) {
     },
   });
 }
+
+// ═══ 영업자 상세 모달 (pricing_audit 기반 카드) ═══
+// sales-dashboard.html의 renderSalesCards() 로직을 포팅.
+// 데이터 소스: gmd-data 버킷 (xorascmhryuifrzzmzww public) — 별도 인증 불필요.
+var PRICING_AUDIT_URL = 'https://xorascmhryuifrzzmzww.supabase.co/storage/v1/object/public/gmd-data/pricing_audit_1y.json';
+var _pricingAuditData = null;
+
+async function loadPricingAuditCache() {
+  if (_pricingAuditData) return _pricingAuditData;
+  try {
+    var resp = await fetch(PRICING_AUDIT_URL + '?t=' + Date.now());
+    if (!resp.ok) return null;
+    _pricingAuditData = await resp.json();
+    return _pricingAuditData;
+  } catch (e) {
+    console.warn('pricing_audit fetch 실패', e);
+    return null;
+  }
+}
+
+function empDiffCls(v) {
+  var abs = Math.abs(v);
+  if (abs <= 5) return 'diff-good';
+  if (v < -30) return 'diff-discount-bad';
+  if (v < -5) return 'diff-discount';
+  if (v > 30) return 'diff-bad';
+  return 'diff-warn';
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+async function openEmpModal(empName) {
+  var modal = document.getElementById('empModal');
+  var body = document.getElementById('empModalBody');
+  if (!modal || !body) return;
+  body.innerHTML = '<div class="emp-modal-loading">분석 데이터 로딩 중…</div>';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  var data = await loadPricingAuditCache();
+  if (!data || !data.scorecards) {
+    body.innerHTML = '<div class="emp-modal-err">영업자 분석 데이터를 불러오지 못했습니다.<br><small>gmd-data/pricing_audit_1y.json 접근 실패</small></div>';
+    return;
+  }
+
+  var c = Object.values(data.scorecards).find(function(s) { return s.name === empName; });
+  if (!c) {
+    body.innerHTML = '<div class="emp-modal-err">\'' + escapeHtml(empName) + '\' 의 분석 데이터가 없습니다.<br><small>영업자명이 ERP와 pricing_audit 간 다르거나, 분석 건수가 부족한 경우</small></div>';
+    return;
+  }
+
+  var total = (c.discount_count || 0) + (c.normal_count || 0) + (c.premium_count || 0);
+  var dW = total ? ((c.discount_count || 0) / total * 100).toFixed(1) : 0;
+  var nW = total ? ((c.normal_count || 0) / total * 100).toFixed(1) : 0;
+  var pW = total ? ((c.premium_count || 0) / total * 100).toFixed(1) : 0;
+  var anomalyBadge = c.anomaly_rate_pct > 30 ? 'badge-danger' : c.anomaly_rate_pct > 20 ? 'badge-warn' : 'badge-ok';
+
+  // 항목별 편차 테이블
+  var itemRows = (c.item_stats || []).map(function(item) {
+    return '<tr>' +
+      '<td>' + escapeHtml(item.item_name) + '</td>' +
+      '<td class="r">' + (item.count || 0).toLocaleString() + '</td>' +
+      '<td class="r">' + Math.round(item.median_price || 0).toLocaleString() + '</td>' +
+      '<td class="r">' + Math.round(item.standard_price || 0).toLocaleString() + '</td>' +
+      '<td class="r ' + empDiffCls(item.avg_diff_pct) + '">' +
+        (item.avg_diff_pct > 0 ? '+' : '') + item.avg_diff_pct + '%</td>' +
+    '</tr>';
+  }).join('');
+  var itemTable = itemRows
+    ? '<table><thead><tr><th>항목</th><th class="r">건수</th><th class="r">실제(중앙)</th><th class="r">표준</th><th class="r">편차</th></tr></thead><tbody>' + itemRows + '</tbody></table>'
+    : '<div style="padding:12px;color:#94a3b8;font-size:12px">항목별 상세 없음</div>';
+
+  // 담당 거래처 리스트
+  var clientsHtml = '';
+  if (Array.isArray(c.top_clients) && c.top_clients.length) {
+    clientsHtml = '<div style="margin-top:18px"><div style="font-size:12px;font-weight:600;color:#475569;margin-bottom:6px">담당 거래처 (상위)</div>';
+    c.top_clients.forEach(function(cl) {
+      var clBadge = Math.abs(cl.avg_diff_pct) <= 5 ? 'badge-ok' : Math.abs(cl.avg_diff_pct) <= 30 ? 'badge-warn' : 'badge-danger';
+      clientsHtml += '<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:12px;border-bottom:1px solid #f1f5f9">' +
+        '<span>' + escapeHtml(cl.name) + '</span>' +
+        '<span><span class="badge ' + clBadge + '">' + (cl.avg_diff_pct > 0 ? '+' : '') + cl.avg_diff_pct + '%</span> (' + (cl.count || 0).toLocaleString() + '건)</span>' +
+        '</div>';
+    });
+    clientsHtml += '</div>';
+  }
+
+  body.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid #e2e8f0;gap:16px">' +
+      '<div>' +
+        '<div style="font-size:19px;font-weight:700;color:#0f172a">' + escapeHtml(c.name) + '</div>' +
+        '<div style="font-size:12px;color:#64748b;margin-top:3px">' + (c.total_rows || 0).toLocaleString() + '건 분석 (최근 1년 · ERP 역산)</div>' +
+      '</div>' +
+      '<div style="display:flex;gap:18px">' +
+        '<div class="mini-stat"><div class="n ' + empDiffCls(c.avg_diff_pct) + '">' + (c.avg_diff_pct > 0 ? '+' : '') + c.avg_diff_pct + '%</div><div class="l">평균편차</div></div>' +
+        '<div class="mini-stat"><div class="n"><span class="badge ' + anomalyBadge + '">' + c.anomaly_rate_pct + '%</span></div><div class="l">이상비율</div></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="ratio-bar"><div class="bar-discount" style="width:' + dW + '%"></div><div class="bar-normal" style="width:' + nW + '%"></div><div class="bar-premium" style="width:' + pW + '%"></div></div>' +
+    '<div style="font-size:11px;color:#64748b;margin-bottom:14px;display:flex;gap:14px">' +
+      '<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#dc3545"></span>할인 ' + (c.discount_count || 0).toLocaleString() + '건</span>' +
+      '<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#eab308"></span>정상 ' + (c.normal_count || 0).toLocaleString() + '건</span>' +
+      '<span style="display:inline-flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#16a34a"></span>할증 ' + (c.premium_count || 0).toLocaleString() + '건</span>' +
+    '</div>' +
+    '<div style="background:#f8fafc;border-radius:8px;padding:14px 16px;margin-bottom:14px;font-size:13px;line-height:1.7;color:#334155;border-left:3px solid #4a6cf7"><strong style="color:#1a1a2e">📊 패턴 해석:</strong> ' + escapeHtml(c.pattern_analysis || '분석 데이터 없음') + '</div>' +
+    itemTable + clientsHtml +
+    '<div style="margin-top:20px;padding-top:14px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#94a3b8">' +
+      '<span>⚠️ 초안(ERP 역산) — 영업자 확인 전</span>' +
+      '<a href="sales-dashboard.html" target="_blank" style="color:#2563eb;text-decoration:none;font-weight:600">→ 영업자 대시보드 전체 분석</a>' +
+    '</div>';
+}
+
+// 모달 닫기
+(function bindEmpModalClose() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('empModal');
+    if (!modal) return;
+    function close() {
+      modal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+    modal.querySelector('.emp-modal-close').addEventListener('click', close);
+    modal.querySelector('.emp-modal-backdrop').addEventListener('click', close);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.style.display === 'flex') close();
+    });
+  });
+})();
 
 document.addEventListener('DOMContentLoaded', App.init);
 </script>
