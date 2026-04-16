@@ -426,16 +426,6 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
       </div>
     </div>
 
-    <!-- KPI-4 신규 vs 기존 거래처 (전체 너비) -->
-    <div class="chart-card" style="margin-bottom:16px">
-      <div class="chart-card-header"><div>
-        <div class="chart-card-title">신규 vs 기존 거래처</div>
-        <div class="chart-card-subtitle" id="newVsExistingSubtitle">기간 내 매출 기준 · 신규 = 이전 36개월 거래 이력 없음</div>
-      </div></div>
-      <div class="chart-wrap chart-wrap--donut"><canvas id="newVsExistingChart"></canvas></div>
-      <div id="newVsExistingTable" style="margin-top:12px;font-size:13px;color:var(--gray-600)"></div>
-    </div>
-
     <!-- 영업자별 매출 (전체 너비) -->
     <div class="chart-card" style="margin-bottom:16px">
       <div class="chart-card-header"><div>
@@ -479,6 +469,16 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
         </table>
       </div>
     </section>
+
+    <!-- KPI-4 신규 vs 기존 거래처 (이탈 위험 바로 위) -->
+    <div class="chart-card" style="margin-bottom:16px">
+      <div class="chart-card-header"><div>
+        <div class="chart-card-title">신규 vs 기존 거래처</div>
+        <div class="chart-card-subtitle" id="newVsExistingSubtitle">기간 내 매출 기준 · 신규 = 이전 36개월 거래 이력 없음</div>
+      </div></div>
+      <div class="chart-wrap chart-wrap--donut"><canvas id="newVsExistingChart"></canvas></div>
+      <div id="newVsExistingTable" style="margin-top:12px;font-size:13px;color:var(--gray-600)"></div>
+    </div>
 
     <!-- KPI-5 이탈 위험 거래처 조기 경보 -->
     <section class="risk-panel" id="riskPanel" style="display:none">
