@@ -184,6 +184,46 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .risk-empty{padding:24px;text-align:center;color:var(--gray-500);font-size:13px}
 .risk-empty-icon{font-size:24px;opacity:0.4;margin-bottom:8px}
 
+/* ─── 상위 20 거래처 월별 타일 ─── */
+.top20-card{background:#fff;border-radius:var(--radius-lg);padding:20px 24px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:16px}
+.top20-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.top20-title{font-size:14px;font-weight:700;color:var(--gray-900)}
+.top20-subtitle{font-size:12px;color:var(--gray-500);margin-top:2px}
+.top20-exclude{font-size:11px;color:var(--gray-500);background:var(--gray-50);padding:6px 10px;border-radius:var(--radius-sm);border:1px solid var(--gray-200);max-width:560px;line-height:1.4}
+.top20-scroll{overflow-x:auto}
+.top20-table{width:100%;border-collapse:collapse;font-size:11px;min-width:900px}
+.top20-table thead th{padding:6px 4px;font-size:10px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.03em;background:var(--gray-50);border-bottom:1px solid var(--gray-200);text-align:right;white-space:nowrap}
+.top20-table thead th.th-name{text-align:left;min-width:160px;position:sticky;left:0;background:var(--gray-50);z-index:2}
+.top20-table thead th.th-dir{text-align:center;min-width:80px;background:#eff6ff}
+.top20-table tbody td{padding:6px 4px;text-align:right;border-bottom:1px solid var(--gray-100);font-variant-numeric:tabular-nums;color:var(--gray-700)}
+.top20-table tbody td.td-name{text-align:left;font-weight:600;color:var(--gray-900);position:sticky;left:0;background:#fff;z-index:1;white-space:nowrap}
+.top20-table tbody tr:hover td{background:var(--gray-50)}
+.top20-table tbody tr:hover td.td-name{background:#f1f5f9}
+.top20-cell-amount{padding:4px 6px;border-radius:3px;font-variant-numeric:tabular-nums}
+.top20-cell-zero{color:var(--gray-300)}
+.top20-dir{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:var(--radius-full);font-size:11px;font-weight:600;white-space:nowrap}
+.top20-dir--up{background:rgba(34,197,94,0.12);color:#16a34a}
+.top20-dir--flat{background:rgba(245,158,11,0.12);color:#b45309}
+.top20-dir--down{background:rgba(239,68,68,0.12);color:#dc2626}
+.top20-dir--new{background:rgba(59,130,246,0.12);color:#1d4ed8}
+
+/* ─── 용지원가 vs 판매단가 추세 ─── */
+.paper-sales-card{background:#fff;border-radius:var(--radius-lg);padding:20px 24px;box-shadow:var(--shadow-sm);border:1px solid var(--gray-200);margin-bottom:16px}
+.paper-sales-headline{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:10px 0 16px;padding:12px 14px;background:var(--gray-50);border-radius:var(--radius-sm);border:1px solid var(--gray-200)}
+.paper-sales-headline-item{display:flex;flex-direction:column;gap:2px}
+.paper-sales-headline-label{font-size:11px;color:var(--gray-500);letter-spacing:0.03em}
+.paper-sales-headline-value{font-size:16px;font-weight:700;color:var(--gray-900);font-variant-numeric:tabular-nums}
+.paper-sales-headline-value--up{color:#16a34a}
+.paper-sales-headline-value--down{color:#dc2626}
+.paper-sales-headline-gap{margin-left:auto;padding:6px 12px;border-radius:var(--radius-sm);font-size:12px;font-weight:600}
+.paper-sales-headline-gap--risk{background:rgba(239,68,68,0.1);color:#dc2626;border:1px solid rgba(239,68,68,0.2)}
+.paper-sales-headline-gap--ok{background:rgba(34,197,94,0.1);color:#16a34a;border:1px solid rgba(34,197,94,0.2)}
+.paper-sales-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.paper-sales-tab{padding:5px 12px;font-size:12px;border:1px solid var(--gray-200);background:#fff;color:var(--gray-600);border-radius:var(--radius-full);cursor:pointer;transition:.15s}
+.paper-sales-tab.active{background:var(--blue-600);border-color:var(--blue-600);color:#fff}
+.paper-sales-tab:hover:not(.active){background:var(--gray-50)}
+.paper-sales-placeholder{padding:24px;text-align:center;color:var(--gray-400);font-size:12px}
+
 /* ─── Footer ─── */
 .footer{text-align:center;padding:20px 16px;font-size:12px;color:var(--gray-400);border-top:1px solid var(--gray-200);margin-top:16px;letter-spacing:0.025em}
 .placeholder-text{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;color:var(--gray-400);font-size:13px;gap:8px}
@@ -382,10 +422,51 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
         <div class="chart-wrap chart-wrap--bar-auto" id="customerChartWrap"><canvas id="customerChart"></canvas></div>
       </div>
       <div class="chart-card">
-        <div class="chart-card-header"><div><div class="chart-card-title">영업자별 매출 TOP 10</div></div></div>
+        <div class="chart-card-header"><div><div class="chart-card-title">영업자별 매출</div><div class="chart-card-subtitle" id="salesChartSubtitle">기간 내 거래 있는 영업자 전체</div></div></div>
         <div class="chart-wrap chart-wrap--bar-auto" id="salesChartWrap"><canvas id="salesChart"></canvas></div>
       </div>
     </div>
+
+    <!-- 용지원가 vs 판매단가 2년 추세 (Feature 1) -->
+    <section class="paper-sales-card" id="paperSalesCard">
+      <div class="top20-header">
+        <div>
+          <div class="top20-title">용지원가 vs 판매단가 2년 추세</div>
+          <div class="top20-subtitle" id="paperSalesSubtitle">2023-01 ~ 2025-12 월별 가중평균 · 3사 합산 기준</div>
+        </div>
+        <div class="paper-sales-tabs" id="paperSalesTabs">
+          <button class="paper-sales-tab active" data-pstab="all">3사 합산</button>
+          <button class="paper-sales-tab" data-pstab="10000">갑우</button>
+          <button class="paper-sales-tab" data-pstab="20000">비피</button>
+          <button class="paper-sales-tab" data-pstab="30000">더원</button>
+        </div>
+      </div>
+      <div class="paper-sales-headline" id="paperSalesHeadline">
+        <div class="paper-sales-placeholder">데이터 준비 중 — 집계 테이블 생성 후 표시됩니다</div>
+      </div>
+      <div class="chart-wrap" style="height:300px">
+        <canvas id="paperSalesChart"></canvas>
+      </div>
+    </section>
+
+    <!-- 상위 20 거래처 월별 변화 (Feature 2) -->
+    <section class="top20-card" id="top20Card">
+      <div class="top20-header">
+        <div>
+          <div class="top20-title">상위 20 거래처 월별 변화</div>
+          <div class="top20-subtitle" id="top20Subtitle">최근 12개월 · ERP 기준 · 단위: 억 원</div>
+        </div>
+        <div class="top20-exclude">
+          <strong>제외:</strong> 관계사(갑우문화사·비피앤피·더원프린팅·프린트뱅크), 지입(교원·교원구몬·이투스·에듀윌)
+        </div>
+      </div>
+      <div class="top20-scroll">
+        <table class="top20-table" id="top20Table">
+          <thead id="top20Thead"></thead>
+          <tbody id="top20Tbody"></tbody>
+        </table>
+      </div>
+    </section>
 
     <!-- KPI-5 이탈 위험 거래처 조기 경보 -->
     <section class="risk-panel" id="riskPanel" style="display:none">
@@ -898,12 +979,14 @@ var Dashboard = (function(){
         options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } } }, scales: { x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }, y: { ticks: { font: { size: 13 } }, grid: { display: false } } } }
       });
 
-      // 4) 영업자별 매출 (확정 매출 기준)
+      // 4) 영업자별 매출 — 기간 내 거래 있는 영업자 전체 (매출 있는 사람만)
       var salesMap = {};
       allData.forEach(function(r) {
         if (r.sales_person) salesMap[r.sales_person] = (salesMap[r.sales_person] || 0) + Number(r.supply_amount);
       });
-      var salesTop = Object.entries(salesMap).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 10);
+      var salesTop = Object.entries(salesMap).filter(function(s) { return s[1] > 0; }).sort(function(a, b) { return b[1] - a[1]; });
+      var salesSubtitle = document.getElementById('salesChartSubtitle');
+      if (salesSubtitle) salesSubtitle.textContent = '기간 내 거래 있는 영업자 ' + salesTop.length + '명';
 
       document.getElementById('salesChartWrap').style.height = Math.max(400, salesTop.length * 50 + 60) + 'px';
       destroyChart('salesChart');
@@ -1035,6 +1118,12 @@ var Dashboard = (function(){
 
       // 10) KPI-6 용지 매입 추이 (company 필터는 무의미 — 용지매입은 그룹사 공통)
       loadPaperPurchases(sb, now).catch(function(e){ console.warn('paper error', e); });
+
+      // 11) Top 20 거래처 월별 변화 (최근 12개월, 관계사·지입 제외)
+      loadTop20Customers(sb, now).catch(function(e){ console.warn('top20 error', e); });
+
+      // 12) 용지원가 vs 판매단가 2년 추세 (데이터 테이블 준비 시 활성)
+      loadPaperVsSales(sb).catch(function(e){ console.warn('paper-vs-sales error', e); });
     }
   };
 })();
@@ -1563,6 +1652,250 @@ var App = {
     }
   }
 };
+
+// ═══ Top 20 거래처 월별 변화 ═══
+async function loadTop20Customers(sb, now) {
+  var tbody = document.getElementById('top20Tbody');
+  var thead = document.getElementById('top20Thead');
+  if (!tbody || !thead) return;
+
+  // 최근 12개월 범위
+  var start = new Date(now.getFullYear(), now.getMonth() - 11, 1);
+  var startStr = start.toISOString().substring(0, 10);
+  var months = [];
+  for (var i = 0; i < 12; i++) {
+    var d = new Date(start.getFullYear(), start.getMonth() + i, 1);
+    var ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    months.push({
+      ym: ym,
+      label: String(d.getFullYear()).slice(2) + '.' + String(d.getMonth() + 1).padStart(2, '0'),
+    });
+  }
+
+  // 관계사·지입 제외 키워드 (customer_name 부분일치)
+  var EXCLUDE_KEYWORDS = ['갑우문화사', '비피앤피', '더원프린팅', '프린트뱅크',
+                          '교원', '이투스', '에듀윌'];
+
+  // fetch (페이지네이션)
+  var rows = await fetchAllPages(function() {
+    return sb.from('erp_sales_confirmed')
+      .select('customer_name, sales_date, supply_amount, company')
+      .gte('sales_date', startStr)
+      .gt('supply_amount', 0);
+  });
+
+  // 거래처 × 월 피벗
+  var byCustomer = {};
+  (rows || []).forEach(function(r) {
+    var name = (r.customer_name || '').trim();
+    if (!name) return;
+    if (EXCLUDE_KEYWORDS.some(function(k) { return name.indexOf(k) !== -1; })) return;
+    var ym = String(r.sales_date).substring(0, 7);
+    if (!byCustomer[name]) {
+      byCustomer[name] = { total: 0, byMonth: {}, company: r.company };
+    }
+    byCustomer[name].total += Number(r.supply_amount) || 0;
+    byCustomer[name].byMonth[ym] = (byCustomer[name].byMonth[ym] || 0) + (Number(r.supply_amount) || 0);
+  });
+
+  var entries = Object.entries(byCustomer)
+    .sort(function(a, b) { return b[1].total - a[1].total; })
+    .slice(0, 20);
+
+  // 헤더
+  var theadHtml = '<tr>';
+  theadHtml += '<th class="th-name">거래처</th>';
+  months.forEach(function(m) { theadHtml += '<th>' + m.label + '</th>'; });
+  theadHtml += '<th class="th-dir">방향</th>';
+  theadHtml += '</tr>';
+  thead.innerHTML = theadHtml;
+
+  // 전체 최대값 (히트맵 스케일)
+  var globalMax = 0;
+  entries.forEach(function(e) {
+    months.forEach(function(m) {
+      var v = e[1].byMonth[m.ym] || 0;
+      if (v > globalMax) globalMax = v;
+    });
+  });
+
+  // 행 생성
+  var bodyHtml = '';
+  entries.forEach(function(entry) {
+    var name = entry[0];
+    var d = entry[1];
+    var displayName = name.length > 20 ? name.substring(0, 20) + '…' : name;
+    bodyHtml += '<tr>';
+    bodyHtml += '<td class="td-name" title="' + name + '">' + displayName + '</td>';
+
+    months.forEach(function(m) {
+      var val = d.byMonth[m.ym] || 0;
+      if (val <= 0) {
+        bodyHtml += '<td class="top20-cell-zero">—</td>';
+      } else {
+        var intensity = globalMax > 0 ? val / globalMax : 0;
+        var alpha = (0.08 + intensity * 0.45).toFixed(2);
+        var bg = 'rgba(59,130,246,' + alpha + ')';
+        var disp = (val / 1e8).toFixed(2);
+        bodyHtml += '<td><span class="top20-cell-amount" style="background:' + bg + '">' + disp + '</span></td>';
+      }
+    });
+
+    // 방향 — 최근 3개월 vs 이전 3개월
+    var recent = months.slice(-3).map(function(m) { return d.byMonth[m.ym] || 0; });
+    var prev = months.slice(-6, -3).map(function(m) { return d.byMonth[m.ym] || 0; });
+    var recentAvg = recent.reduce(function(a, b) { return a + b; }, 0) / 3;
+    var prevAvg = prev.reduce(function(a, b) { return a + b; }, 0) / 3;
+    var dirHtml;
+    if (prevAvg === 0 && recentAvg > 0) {
+      dirHtml = '<span class="top20-dir top20-dir--new">🔵 신규</span>';
+    } else if (prevAvg === 0 && recentAvg === 0) {
+      dirHtml = '<span class="top20-dir top20-dir--flat">⚪ —</span>';
+    } else {
+      var pct = (recentAvg - prevAvg) / prevAvg * 100;
+      if (pct >= 10) {
+        dirHtml = '<span class="top20-dir top20-dir--up">🟢 +' + pct.toFixed(0) + '%</span>';
+      } else if (pct <= -10) {
+        dirHtml = '<span class="top20-dir top20-dir--down">🔴 ' + pct.toFixed(0) + '%</span>';
+      } else {
+        dirHtml = '<span class="top20-dir top20-dir--flat">🟡 ' + (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%</span>';
+      }
+    }
+    bodyHtml += '<td style="text-align:center">' + dirHtml + '</td>';
+    bodyHtml += '</tr>';
+  });
+  tbody.innerHTML = bodyHtml;
+
+  // 부제목에 건수 반영
+  var sub = document.getElementById('top20Subtitle');
+  if (sub) {
+    sub.textContent = '최근 12개월 · ERP 기준 · 단위: 억 원 · 상위 ' + entries.length + '개사 (관계사·지입 제외)';
+  }
+}
+
+// ═══ 용지원가 vs 판매단가 2년 추세 ═══
+// 데이터 소스: paper_vs_sales_monthly 테이블 (sync_paper_vs_sales.py로 동기화 예정)
+// 테이블이 아직 없거나 비어있으면 안내 메시지 표시
+var _paperSalesState = { data: null, currentTab: 'all', chart: null };
+
+async function loadPaperVsSales(sb) {
+  var headline = document.getElementById('paperSalesHeadline');
+  var tabs = document.getElementById('paperSalesTabs');
+  if (!headline || !tabs) return;
+
+  // 테이블 존재 확인
+  var res = await sb.from('paper_vs_sales_monthly')
+    .select('ym, company, paper_um_avg, sales_um_avg')
+    .order('ym', { ascending: true });
+
+  if (res.error || !res.data || !res.data.length) {
+    headline.innerHTML = '<div class="paper-sales-placeholder">📊 데이터 준비 중 — <code>paper_vs_sales_monthly</code> 테이블 생성 및 Python 동기화 스크립트(<code>sync_paper_vs_sales.py</code>) 실행 후 표시됩니다.</div>';
+    var chartEl = document.getElementById('paperSalesChart');
+    if (chartEl) chartEl.style.display = 'none';
+    return;
+  }
+
+  _paperSalesState.data = res.data;
+
+  // 탭 바인딩
+  tabs.querySelectorAll('.paper-sales-tab').forEach(function(btn) {
+    btn.onclick = function() {
+      tabs.querySelectorAll('.paper-sales-tab').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      _paperSalesState.currentTab = btn.getAttribute('data-pstab');
+      renderPaperVsSales();
+    };
+  });
+
+  renderPaperVsSales();
+}
+
+function renderPaperVsSales() {
+  var headline = document.getElementById('paperSalesHeadline');
+  var canvas = document.getElementById('paperSalesChart');
+  if (!headline || !canvas || !_paperSalesState.data) return;
+
+  var tab = _paperSalesState.currentTab;
+  var filtered = _paperSalesState.data.filter(function(r) { return r.company === tab; });
+  filtered.sort(function(a, b) { return a.ym.localeCompare(b.ym); });
+
+  if (!filtered.length) {
+    headline.innerHTML = '<div class="paper-sales-placeholder">선택한 범위의 데이터가 없습니다</div>';
+    return;
+  }
+
+  // 첫 월 기준 index 100
+  var basePaper = filtered[0].paper_um_avg || 0;
+  var baseSales = filtered[0].sales_um_avg || 0;
+  var last = filtered[filtered.length - 1];
+  var paperChange = basePaper > 0 ? ((last.paper_um_avg - basePaper) / basePaper * 100) : 0;
+  var salesChange = baseSales > 0 ? ((last.sales_um_avg - baseSales) / baseSales * 100) : 0;
+  var gap = salesChange - paperChange;
+
+  // 헤드라인
+  var paperCls = paperChange >= 0 ? 'up' : 'down';
+  var salesCls = salesChange >= 0 ? 'up' : 'down';
+  var gapCls = gap >= 0 ? 'ok' : 'risk';
+  var gapLabel = gap >= 0 ? '✅ 원가 상승 반영' : '⚠️ 원가 상승 미반영';
+  headline.innerHTML =
+    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">용지 매입 단가</div>' +
+    '<div class="paper-sales-headline-value paper-sales-headline-value--' + paperCls + '">' + (paperChange >= 0 ? '+' : '') + paperChange.toFixed(1) + '%</div></div>' +
+    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">평균 판매 단가</div>' +
+    '<div class="paper-sales-headline-value paper-sales-headline-value--' + salesCls + '">' + (salesChange >= 0 ? '+' : '') + salesChange.toFixed(1) + '%</div></div>' +
+    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">반영 격차</div>' +
+    '<div class="paper-sales-headline-value">' + (gap >= 0 ? '+' : '') + gap.toFixed(1) + '%p</div></div>' +
+    '<div class="paper-sales-headline-gap paper-sales-headline-gap--' + gapCls + '">' + gapLabel + '</div>';
+
+  // 차트
+  if (_paperSalesState.chart) _paperSalesState.chart.destroy();
+  _paperSalesState.chart = new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels: filtered.map(function(r) { return r.ym; }),
+      datasets: [
+        {
+          label: '용지 매입 단가 (' + filtered[0].ym + ' = 100)',
+          data: filtered.map(function(r) { return basePaper > 0 ? (r.paper_um_avg / basePaper * 100) : null; }),
+          borderColor: 'rgba(59,130,246,1)',
+          backgroundColor: 'rgba(59,130,246,0.08)',
+          borderWidth: 2.5,
+          tension: 0.25,
+          fill: false,
+        },
+        {
+          label: '판매 평균 단가 (' + filtered[0].ym + ' = 100)',
+          data: filtered.map(function(r) { return baseSales > 0 ? (r.sales_um_avg / baseSales * 100) : null; }),
+          borderColor: 'rgba(34,197,94,1)',
+          backgroundColor: 'rgba(34,197,94,0.08)',
+          borderWidth: 2.5,
+          tension: 0.25,
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { usePointStyle: true, font: { size: 11 } } },
+        tooltip: {
+          callbacks: {
+            label: function(ctx) { return ctx.dataset.label + ': ' + ctx.raw.toFixed(1); },
+          },
+        },
+      },
+      scales: {
+        y: {
+          beginAtZero: false,
+          ticks: { callback: function(v) { return v.toFixed(0); } },
+          title: { display: true, text: '지수 (시작 월 = 100)', font: { size: 11 } },
+        },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+}
 
 document.addEventListener('DOMContentLoaded', App.init);
 </script>

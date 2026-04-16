@@ -83,8 +83,17 @@ if [ $STEP4 -ne 0 ]; then
     exit 1
 fi
 
-# 5. AI YoY 인사이트 생성 (매출 동기화 이후 실행, 실패해도 대시보드는 동작)
-echo "[6/6] AI 인사이트 생성 (YoY 분석)..." >> "$LOG_FILE"
+# 5. 용지원가 vs 판매단가 월별 추세 동기화 (paper_vs_sales_monthly)
+echo "[6/7] 용지원가 vs 판매단가 월별 추세 동기화..." >> "$LOG_FILE"
+$PYTHON "$SCRIPT_DIR/sync_paper_vs_sales.py" >> "$LOG_FILE" 2>&1
+STEP_PVS=$?
+if [ $STEP_PVS -ne 0 ]; then
+    echo "⚠️ 용지원가-판매단가 동기화 실패 (exit $STEP_PVS) — 대시보드 Feature 1만 비어 보일 수 있음" >> "$LOG_FILE"
+    # 비치명: 대시보드는 계속 동작
+fi
+
+# 6. AI YoY 인사이트 생성 (매출 동기화 이후 실행, 실패해도 대시보드는 동작)
+echo "[7/7] AI 인사이트 생성 (YoY 분석)..." >> "$LOG_FILE"
 $PYTHON "$SCRIPT_DIR/generate_insights.py" >> "$LOG_FILE" 2>&1
 STEP5=$?
 
