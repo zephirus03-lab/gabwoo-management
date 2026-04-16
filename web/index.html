@@ -950,7 +950,35 @@ var Dashboard = (function(){
       });
       var salesTop = Object.entries(salesMap).filter(function(s) { return s[1] > 0; }).sort(function(a, b) { return b[1] - a[1]; });
       var salesSubtitle = document.getElementById('salesChartSubtitle');
-      if (salesSubtitle) salesSubtitle.textContent = '기간 내 거래 있는 영업자 ' + salesTop.length + '명';
+      if (salesSubtitle) salesSubtitle.textContent = '기간 내 거래 있는 영업자 ' + salesTop.length + '명 · 호버 시 최근 3개월 활동';
+
+      // ── 영업자별 최근 3개월 활동 상세 (tooltip 용) ──
+      // 현재 시점 기준 최근 3개월 × 영업자별 (매출, 건수, 거래처수)
+      var recent3Months = [];
+      for (var r3i = 2; r3i >= 0; r3i--) {
+        var r3d = new Date(now.getFullYear(), now.getMonth() - r3i, 1);
+        recent3Months.push({
+          ym: r3d.getFullYear() + '-' + String(r3d.getMonth() + 1).padStart(2, '0'),
+          label: String(r3d.getFullYear()).slice(2) + '.' + String(r3d.getMonth() + 1).padStart(2, '0'),
+        });
+      }
+      var salesActivity = {};  // { 영업자: { months: { ym: {amt, cnt, custs:Set} }, totalCusts:Set } }
+      allData.forEach(function(r) {
+        if (!r.sales_person) return;
+        if (!salesActivity[r.sales_person]) {
+          salesActivity[r.sales_person] = { months: {}, totalCusts: new Set() };
+        }
+        var ym = String(r.sales_date || '').substring(0, 7);
+        var sa = salesActivity[r.sales_person];
+        if (r.customer_name) sa.totalCusts.add(r.customer_name);
+        var inRecent = recent3Months.some(function(m) { return m.ym === ym; });
+        if (inRecent) {
+          if (!sa.months[ym]) sa.months[ym] = { amt: 0, cnt: 0, custs: new Set() };
+          sa.months[ym].amt += Number(r.supply_amount) || 0;
+          sa.months[ym].cnt += 1;
+          if (r.customer_name) sa.months[ym].custs.add(r.customer_name);
+        }
+      });
 
       // 행당 32px + 여백 — 바는 maxBarThickness로 상한만 두고 자동 조정
       document.getElementById('salesChartWrap').style.height = Math.max(400, salesTop.length * 32 + 60) + 'px';
@@ -961,7 +989,39 @@ var Dashboard = (function(){
           labels: salesTop.map(function(s) { return s[0]; }),
           datasets: [{ data: salesTop.map(function(s) { return s[1]; }), backgroundColor: 'rgba(139,92,246,0.7)', borderRadius: 4, maxBarThickness: 20, categoryPercentage: 0.7, barPercentage: 0.85 }]
         },
-        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } } }, scales: { x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }, y: { ticks: { font: { size: 13 } }, grid: { display: false } } } }
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(15,23,42,0.95)',
+              padding: 10,
+              titleFont: { size: 13, weight: '700' },
+              bodyFont: { size: 12 },
+              boxPadding: 4,
+              displayColors: false,
+              callbacks: {
+                title: function(items) { return items[0].label; },
+                label: function(ctx) { return '기간 매출: ' + fmtAmt(ctx.raw); },
+                afterLabel: function(ctx) {
+                  var sa = salesActivity[ctx.label];
+                  if (!sa) return '';
+                  var lines = ['담당 거래처(기간): ' + sa.totalCusts.size + '개사', '', '── 최근 3개월 활동 ──'];
+                  recent3Months.forEach(function(m) {
+                    var md = sa.months[m.ym];
+                    if (md && md.amt > 0) {
+                      lines.push(m.label + '월  ' + fmtAmt(md.amt) + '  /  ' + md.cnt + '건  /  ' + md.custs.size + '개사');
+                    } else {
+                      lines.push(m.label + '월  —');
+                    }
+                  });
+                  return lines;
+                }
+              }
+            }
+          },
+          scales: { x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }, y: { ticks: { font: { size: 13 } }, grid: { display: false } } }
+        }
       });
 
       // 5) 월별 매출 추이 — 올해 vs 작년 YoY 비교 (12개월 x축 1월~12월)
