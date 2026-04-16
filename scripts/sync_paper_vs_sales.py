@@ -17,7 +17,7 @@ Supabase 테이블 레코드:
 import sys
 import time
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timedelta
 
 try:
     import pymssql
@@ -33,8 +33,11 @@ ENV_FILE = Path("/Users/jack/dev/gabwoo/견적계산기/.env.local")
 DASHBOARD_PROJECT_REF = "btbqzbrtsmwoolurpqgx"
 JOB_NAME = "paper_vs_sales"
 
-# 범위: 2023-01-01 ~ 현재
+# 범위: 2023-01-01 ~ 현재 + 45일 (미래 오입력 데이터 차단)
 YEAR_START = "20230101"
+YEAR_END = (datetime.now() + timedelta(days=45)).strftime("%Y%m%d")
+# viewGabwoo_마감 용 ISO 형식
+YEAR_END_ISO = (datetime.now() + timedelta(days=45)).strftime("%Y-%m-%d")
 
 FIRM = "7000"
 COMPANIES = [
@@ -79,6 +82,7 @@ def fetch_paper(conn) -> dict:
             SUM(CAST([공급가액] AS FLOAT)) AS amount
         FROM [viewGabwoo_마감]
         WHERE [일자] >= '{YEAR_START[:4]}-{YEAR_START[4:6]}-{YEAR_START[6:]}'
+          AND [일자] <= '{YEAR_END_ISO}'
         GROUP BY CONVERT(varchar(7), [일자], 23)
         ORDER BY ym
     """)
@@ -107,7 +111,7 @@ def fetch_sales(conn, cust_own):
         FROM SAL_SALESH h
         JOIN SAL_SALESL l ON h.CD_FIRM=l.CD_FIRM AND h.NO_SALES=l.NO_SALES
         WHERE h.CD_FIRM='{FIRM}'
-          AND h.DT_SALES BETWEEN '{YEAR_START}' AND '99991231'
+          AND h.DT_SALES BETWEEN '{YEAR_START}' AND '{YEAR_END}'
           AND (h.ST_SALES='Y' OR h.ST_SALES IS NULL)
           AND l.QT > 0 AND l.AM > 0
           {where_own}
@@ -156,6 +160,23 @@ def build_records(paper_by_ym: dict, sales_by_company_ym: dict) -> list:
                 "updated_at": now_iso,
             })
     return records
+
+
+def cleanup_out_of_range(supabase_url: str, service_key: str):
+    """유효 범위 밖(미래/과거 오입력) 레코드 삭제."""
+    headers = {
+        "apikey": service_key,
+        "Authorization": f"Bearer {service_key}",
+    }
+    cut = YEAR_END_ISO[:7]  # 'YYYY-MM'
+    resp = requests.delete(
+        f"{supabase_url}/rest/v1/paper_vs_sales_monthly?ym=gt.{cut}",
+        headers=headers, timeout=30,
+    )
+    if resp.ok:
+        print(f"   🧹 미래 이상 레코드 청소 완료 (> {cut})")
+    else:
+        print(f"   ⚠️ 청소 실패 (무시): {resp.status_code} {resp.text[:120]}")
 
 
 def upsert(rows, supabase_url: str, service_key: str):
@@ -237,6 +258,7 @@ def main():
         sys.exit(1)
     service_key = get_service_key(access_token, DASHBOARD_PROJECT_REF)
     supabase_url = f"https://{DASHBOARD_PROJECT_REF}.supabase.co"
+    cleanup_out_of_range(supabase_url, service_key)
     upsert(records, supabase_url, service_key)
 
     record_sync_log(JOB_NAME, "ok", len(records), supabase_url, service_key)

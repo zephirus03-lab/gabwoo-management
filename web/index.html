@@ -1825,13 +1825,28 @@ function renderPaperVsSales() {
     return;
   }
 
-  // 첫 월 기준 index 100
-  var basePaper = filtered[0].paper_um_avg || 0;
-  var baseSales = filtered[0].sales_um_avg || 0;
-  var last = filtered[filtered.length - 1];
-  var paperChange = basePaper > 0 ? ((last.paper_um_avg - basePaper) / basePaper * 100) : 0;
-  var salesChange = baseSales > 0 ? ((last.sales_um_avg - baseSales) / baseSales * 100) : 0;
+  // 양쪽 단가 모두 > 0 인 첫 월 / 마지막 월을 기준으로 (빈 월 무시)
+  var baseRow = null, lastRow = null;
+  for (var i = 0; i < filtered.length; i++) {
+    if (filtered[i].paper_um_avg > 0 && filtered[i].sales_um_avg > 0) { baseRow = filtered[i]; break; }
+  }
+  for (var j = filtered.length - 1; j >= 0; j--) {
+    if (filtered[j].paper_um_avg > 0 && filtered[j].sales_um_avg > 0) { lastRow = filtered[j]; break; }
+  }
+  if (!baseRow || !lastRow || baseRow === lastRow) {
+    headline.innerHTML = '<div class="paper-sales-placeholder">비교 가능한 유효 월이 부족합니다</div>';
+    return;
+  }
+  var basePaper = baseRow.paper_um_avg;
+  var baseSales = baseRow.sales_um_avg;
+  var paperChange = (lastRow.paper_um_avg - basePaper) / basePaper * 100;
+  var salesChange = (lastRow.sales_um_avg - baseSales) / baseSales * 100;
   var gap = salesChange - paperChange;
+
+  // 부제목에 실제 비교 구간 + 탭 라벨
+  var tabLabels = { all: '3사 합산', '10000': '갑우', '20000': '비피', '30000': '더원' };
+  var sub = document.getElementById('paperSalesSubtitle');
+  if (sub) sub.textContent = baseRow.ym + ' → ' + lastRow.ym + ' 월별 가중평균 · ' + (tabLabels[tab] || tab) + ' 기준';
 
   // 헤드라인
   var paperCls = paperChange >= 0 ? 'up' : 'down';
@@ -1847,7 +1862,7 @@ function renderPaperVsSales() {
     '<div class="paper-sales-headline-value">' + (gap >= 0 ? '+' : '') + gap.toFixed(1) + '%p</div></div>' +
     '<div class="paper-sales-headline-gap paper-sales-headline-gap--' + gapCls + '">' + gapLabel + '</div>';
 
-  // 차트
+  // 차트 — 빈 월은 null로 처리해서 라인이 끊어지도록
   if (_paperSalesState.chart) _paperSalesState.chart.destroy();
   _paperSalesState.chart = new Chart(canvas, {
     type: 'line',
@@ -1855,21 +1870,23 @@ function renderPaperVsSales() {
       labels: filtered.map(function(r) { return r.ym; }),
       datasets: [
         {
-          label: '용지 매입 단가 (' + filtered[0].ym + ' = 100)',
-          data: filtered.map(function(r) { return basePaper > 0 ? (r.paper_um_avg / basePaper * 100) : null; }),
+          label: '용지 매입 단가 (' + baseRow.ym + ' = 100)',
+          data: filtered.map(function(r) { return (r.paper_um_avg > 0) ? (r.paper_um_avg / basePaper * 100) : null; }),
           borderColor: 'rgba(59,130,246,1)',
           backgroundColor: 'rgba(59,130,246,0.08)',
           borderWidth: 2.5,
           tension: 0.25,
+          spanGaps: true,
           fill: false,
         },
         {
-          label: '판매 평균 단가 (' + filtered[0].ym + ' = 100)',
-          data: filtered.map(function(r) { return baseSales > 0 ? (r.sales_um_avg / baseSales * 100) : null; }),
+          label: '판매 평균 단가 (' + baseRow.ym + ' = 100)',
+          data: filtered.map(function(r) { return (r.sales_um_avg > 0) ? (r.sales_um_avg / baseSales * 100) : null; }),
           borderColor: 'rgba(34,197,94,1)',
           backgroundColor: 'rgba(34,197,94,0.08)',
           borderWidth: 2.5,
           tension: 0.25,
+          spanGaps: true,
           fill: false,
         },
       ],
