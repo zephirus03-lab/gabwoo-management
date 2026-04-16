@@ -396,56 +396,38 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
       </div>
     </div>
 
-    <!-- KPI-4 신규/기존 거래처 + KPI-6 용지 매입 추이 (2-col) -->
-    <div class="charts-grid">
-      <div class="chart-card">
-        <div class="chart-card-header"><div>
-          <div class="chart-card-title">신규 vs 기존 거래처</div>
-          <div class="chart-card-subtitle" id="newVsExistingSubtitle">기간 내 매출 기준 · 신규 = 이전 36개월 거래 이력 없음</div>
-        </div></div>
-        <div class="chart-wrap chart-wrap--donut"><canvas id="newVsExistingChart"></canvas></div>
-        <div id="newVsExistingTable" style="margin-top:12px;font-size:13px;color:var(--gray-600)"></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-card-header"><div>
-          <div class="chart-card-title">월별 용지 매입 추이</div>
-          <div class="chart-card-subtitle" id="paperSubtitle">최근 12개월 · 제조사별 · 공급가액</div>
-        </div></div>
-        <div class="chart-wrap chart-wrap--md"><canvas id="paperChart"></canvas></div>
-      </div>
+    <!-- KPI-4 신규 vs 기존 거래처 (전체 너비) -->
+    <div class="chart-card" style="margin-bottom:16px">
+      <div class="chart-card-header"><div>
+        <div class="chart-card-title">신규 vs 기존 거래처</div>
+        <div class="chart-card-subtitle" id="newVsExistingSubtitle">기간 내 매출 기준 · 신규 = 이전 36개월 거래 이력 없음</div>
+      </div></div>
+      <div class="chart-wrap chart-wrap--donut"><canvas id="newVsExistingChart"></canvas></div>
+      <div id="newVsExistingTable" style="margin-top:12px;font-size:13px;color:var(--gray-600)"></div>
     </div>
 
-    <!-- 거래처 + 영업자 TOP 10 -->
-    <div class="charts-grid">
-      <div class="chart-card">
-        <div class="chart-card-header"><div><div class="chart-card-title">거래처별 매출 TOP 10</div></div></div>
-        <div class="chart-wrap chart-wrap--bar-auto" id="customerChartWrap"><canvas id="customerChart"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-card-header"><div><div class="chart-card-title">영업자별 매출</div><div class="chart-card-subtitle" id="salesChartSubtitle">기간 내 거래 있는 영업자 전체</div></div></div>
-        <div class="chart-wrap chart-wrap--bar-auto" id="salesChartWrap"><canvas id="salesChart"></canvas></div>
-      </div>
+    <!-- 영업자별 매출 (전체 너비) -->
+    <div class="chart-card" style="margin-bottom:16px">
+      <div class="chart-card-header"><div>
+        <div class="chart-card-title">영업자별 매출</div>
+        <div class="chart-card-subtitle" id="salesChartSubtitle">기간 내 거래 있는 영업자 전체</div>
+      </div></div>
+      <div class="chart-wrap chart-wrap--bar-auto" id="salesChartWrap"><canvas id="salesChart"></canvas></div>
     </div>
 
-    <!-- 용지원가 vs 판매단가 2년 추세 (Feature 1) -->
-    <section class="paper-sales-card" id="paperSalesCard">
+    <!-- 용지 매입 단가 추이 (단일 꺾은선) -->
+    <section class="paper-sales-card" id="paperTrendCard">
       <div class="top20-header">
         <div>
-          <div class="top20-title">용지원가 vs 판매단가 2년 추세</div>
-          <div class="top20-subtitle" id="paperSalesSubtitle">2023-01 ~ 2025-12 월별 가중평균 · 3사 합산 기준</div>
+          <div class="top20-title">용지 매입 단가 추이</div>
+          <div class="top20-subtitle" id="paperTrendSubtitle">월별 가중평균 · 갑우그룹 공통</div>
         </div>
-        <div class="paper-sales-tabs" id="paperSalesTabs">
-          <button class="paper-sales-tab active" data-pstab="all">3사 합산</button>
-          <button class="paper-sales-tab" data-pstab="10000">갑우</button>
-          <button class="paper-sales-tab" data-pstab="20000">비피</button>
-          <button class="paper-sales-tab" data-pstab="30000">더원</button>
+        <div class="paper-sales-headline" id="paperTrendHeadline" style="margin:0;padding:8px 14px;gap:12px">
+          <div class="paper-sales-placeholder" style="padding:0;font-size:12px">집계 중…</div>
         </div>
       </div>
-      <div class="paper-sales-headline" id="paperSalesHeadline">
-        <div class="paper-sales-placeholder">데이터 준비 중 — 집계 테이블 생성 후 표시됩니다</div>
-      </div>
-      <div class="chart-wrap" style="height:300px">
-        <canvas id="paperSalesChart"></canvas>
+      <div class="chart-wrap" style="height:280px">
+        <canvas id="paperTrendChart"></canvas>
       </div>
     </section>
 
@@ -960,26 +942,7 @@ var Dashboard = (function(){
       document.getElementById('totalQuotes').textContent = (countRes.count || 0).toLocaleString();
       document.getElementById('lastUpdate').textContent = new Date().toLocaleString('ko-KR');
 
-      // 3) 거래처 TOP 10 (확정 매출 기준)
-      var custMap = {};
-      allData.forEach(function(r) {
-        if (r.customer_name) custMap[r.customer_name] = (custMap[r.customer_name] || 0) + Number(r.supply_amount);
-      });
-      var custTop = Object.entries(custMap).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 10);
-
-      // 바 개수에 비례해서 차트 높이 설정 (바당 50px + 여백 60px)
-      document.getElementById('customerChartWrap').style.height = Math.max(400, custTop.length * 50 + 60) + 'px';
-      destroyChart('customerChart');
-      chartInstances['customerChart'] = new Chart(document.getElementById('customerChart'), {
-        type: 'bar',
-        data: {
-          labels: custTop.map(function(c) { return c[0].length > 15 ? c[0].substring(0, 15) + '...' : c[0]; }),
-          datasets: [{ data: custTop.map(function(c) { return c[1]; }), backgroundColor: 'rgba(59,130,246,0.7)', borderRadius: 4, barThickness: 28 }]
-        },
-        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } } }, scales: { x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }, y: { ticks: { font: { size: 13 } }, grid: { display: false } } } }
-      });
-
-      // 4) 영업자별 매출 — 기간 내 거래 있는 영업자 전체 (매출 있는 사람만)
+      // 3) 영업자별 매출 — 기간 내 거래 있는 영업자 전체 (매출 있는 사람만)
       var salesMap = {};
       allData.forEach(function(r) {
         if (r.sales_person) salesMap[r.sales_person] = (salesMap[r.sales_person] || 0) + Number(r.supply_amount);
@@ -1117,14 +1080,11 @@ var Dashboard = (function(){
       var periodMonths = periodVal === 'all' ? 12 : parseInt(periodVal);
       loadNewVsExisting(sb, company, now, periodMonths).catch(function(e){ console.warn('newVsExisting error', e); });
 
-      // 10) KPI-6 용지 매입 추이 (company 필터는 무의미 — 용지매입은 그룹사 공통)
-      loadPaperPurchases(sb, now).catch(function(e){ console.warn('paper error', e); });
-
-      // 11) Top 20 거래처 월별 변화 (최근 12개월, 관계사·지입 제외)
+      // 10) Top 20 거래처 월별 변화 (최근 12개월, 관계사·지입 제외)
       loadTop20Customers(sb, now).catch(function(e){ console.warn('top20 error', e); });
 
-      // 12) 용지원가 vs 판매단가 2년 추세 (데이터 테이블 준비 시 활성)
-      loadPaperVsSales(sb).catch(function(e){ console.warn('paper-vs-sales error', e); });
+      // 11) 용지 매입 단가 추이 (월별 가중평균, 그룹 공통)
+      loadPaperTrend(sb).catch(function(e){ console.warn('paper-trend error', e); });
     }
   };
 })();
@@ -1429,71 +1389,6 @@ async function loadNewVsExisting(sb, company, now, periodMonths) {
     '</tbody></table>';
 }
 
-// ═══ KPI-6 월별 용지 매입 추이 ═══
-async function loadPaperPurchases(sb, now) {
-  var canvas = document.getElementById('paperChart');
-  if (!canvas) return;
-
-  // 최근 13개월 (올해 + 전년 1개월)
-  var startDt = new Date(now.getFullYear(), now.getMonth() - 12, 1);
-  var startStr = startDt.toISOString().substring(0, 10);
-
-  var rows = await fetchAllPages(function() {
-    return sb.from('erp_paper_purchases')
-      .select('purchase_date, maker_name, supply_amount')
-      .gte('purchase_date', startStr)
-      .order('purchase_date', { ascending: true });
-  });
-
-  // 월별 × 제조사별 집계 (제조사는 무림/한솔/기타 3개 버킷)
-  var months = [];
-  var prevYear = null;
-  for (var i = 12; i >= 0; i--) {
-    var d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    var y = d.getFullYear();
-    var m = d.getMonth() + 1;
-    // 연도가 바뀌는 첫 달에만 "2026년 1월", 나머지는 "2월", "3월"
-    var label = (y !== prevYear) ? (y + '년 ' + m + '월') : (m + '월');
-    prevYear = y;
-    months.push({ ym: d.toISOString().substring(0, 7), label: label });
-  }
-  var buckets = { '무림': {}, '한솔': {}, '기타': {} };
-  months.forEach(function(m) {
-    buckets['무림'][m.ym] = 0; buckets['한솔'][m.ym] = 0; buckets['기타'][m.ym] = 0;
-  });
-  rows.forEach(function(r) {
-    var ym = String(r.purchase_date).substring(0, 7);
-    if (!(ym in buckets['무림'])) return;
-    var maker = r.maker_name || '기타';
-    var b = (maker === '무림' || maker === '한솔') ? maker : '기타';
-    buckets[b][ym] += Number(r.supply_amount) || 0;
-  });
-
-  destroyChart('paperChart');
-  chartInstances['paperChart'] = new Chart(canvas, {
-    type: 'bar',
-    data: {
-      labels: months.map(function(m) { return m.label; }),
-      datasets: [
-        { label: '무림', data: months.map(function(m) { return buckets['무림'][m.ym]; }), backgroundColor: 'rgba(59,130,246,0.75)', borderRadius: 4 },
-        { label: '한솔', data: months.map(function(m) { return buckets['한솔'][m.ym]; }), backgroundColor: 'rgba(34,197,94,0.75)', borderRadius: 4 },
-        { label: '기타', data: months.map(function(m) { return buckets['기타'][m.ym]; }), backgroundColor: 'rgba(148,163,184,0.6)', borderRadius: 4 }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: {
-        legend: { position: 'top', labels: { usePointStyle: true, font: { size: 11 } } },
-        tooltip: { callbacks: { label: function(ctx) { return ctx.dataset.label + ': ' + fmtAmt(ctx.raw); } } }
-      },
-      scales: {
-        x: { stacked: true, grid: { display: false } },
-        y: { stacked: true, beginAtZero: true, ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }
-      }
-    }
-  });
-}
-
 // ═══ KPI-7 품목(제품종류) 카테고리 매출 TOP 15 ═══
 async function loadItemMix(sb, company, now, periodMonths) {
   var canvas = document.getElementById('itemMixChart');
@@ -1774,140 +1669,104 @@ async function loadTop20Customers(sb, now) {
   }
 }
 
-// ═══ 용지원가 vs 판매단가 2년 추세 ═══
-// 데이터 소스: paper_vs_sales_monthly 테이블 (sync_paper_vs_sales.py로 동기화 예정)
-// 테이블이 아직 없거나 비어있으면 안내 메시지 표시
-var _paperSalesState = { data: null, currentTab: 'all', chart: null };
+// ═══ 용지 매입 단가 추이 (단일 꺾은선) ═══
+// 데이터 소스: paper_vs_sales_monthly 테이블의 paper_um_avg (company='all' = 그룹 공통)
+// 용지는 CD_CUST_OWN이 ERP에 없어서 3사 분리 불가 — 그룹 공통 한 라인만 표시.
+// 판매 단가 비교는 용지사급 거래처(교원·이투스·에듀윌) 때문에 왜곡되므로 제외.
+var _paperTrendChart = null;
 
-async function loadPaperVsSales(sb) {
-  var headline = document.getElementById('paperSalesHeadline');
-  var tabs = document.getElementById('paperSalesTabs');
-  if (!headline || !tabs) return;
+async function loadPaperTrend(sb) {
+  var headline = document.getElementById('paperTrendHeadline');
+  var sub = document.getElementById('paperTrendSubtitle');
+  var canvas = document.getElementById('paperTrendChart');
+  if (!headline || !canvas) return;
 
-  // 테이블 존재 확인
   var res = await sb.from('paper_vs_sales_monthly')
-    .select('ym, company, paper_um_avg, sales_um_avg')
+    .select('ym, paper_um_avg')
+    .eq('company', 'all')
+    .gt('paper_um_avg', 0)
     .order('ym', { ascending: true });
 
   if (res.error || !res.data || !res.data.length) {
-    headline.innerHTML = '<div class="paper-sales-placeholder">📊 데이터 준비 중 — <code>paper_vs_sales_monthly</code> 테이블 생성 및 Python 동기화 스크립트(<code>sync_paper_vs_sales.py</code>) 실행 후 표시됩니다.</div>';
-    var chartEl = document.getElementById('paperSalesChart');
-    if (chartEl) chartEl.style.display = 'none';
+    headline.innerHTML = '<div class="paper-sales-placeholder" style="padding:0;font-size:12px">데이터 없음</div>';
     return;
   }
 
-  _paperSalesState.data = res.data;
+  var rows = res.data.slice();
 
-  // 탭 바인딩
-  tabs.querySelectorAll('.paper-sales-tab').forEach(function(btn) {
-    btn.onclick = function() {
-      tabs.querySelectorAll('.paper-sales-tab').forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      _paperSalesState.currentTab = btn.getAttribute('data-pstab');
-      renderPaperVsSales();
-    };
+  // median ±2.5배 벗어난 월은 이상치로 제외
+  function median(arr) {
+    var a = arr.slice().sort(function(x, y) { return x - y; });
+    if (!a.length) return 0;
+    var m = Math.floor(a.length / 2);
+    return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
+  }
+  var med = median(rows.map(function(r) { return r.paper_um_avg; }));
+  rows = rows.filter(function(r) {
+    return r.paper_um_avg >= med * 0.4 && r.paper_um_avg <= med * 2.5;
   });
 
-  renderPaperVsSales();
-}
-
-function renderPaperVsSales() {
-  var headline = document.getElementById('paperSalesHeadline');
-  var canvas = document.getElementById('paperSalesChart');
-  if (!headline || !canvas || !_paperSalesState.data) return;
-
-  var tab = _paperSalesState.currentTab;
-  var filtered = _paperSalesState.data.filter(function(r) { return r.company === tab; });
-  filtered.sort(function(a, b) { return a.ym.localeCompare(b.ym); });
-
-  if (!filtered.length) {
-    headline.innerHTML = '<div class="paper-sales-placeholder">선택한 범위의 데이터가 없습니다</div>';
+  if (rows.length < 2) {
+    headline.innerHTML = '<div class="paper-sales-placeholder" style="padding:0;font-size:12px">비교 가능한 월이 부족합니다</div>';
     return;
   }
 
-  // 양쪽 단가 모두 > 0 인 첫 월 / 마지막 월을 기준으로 (빈 월 무시)
-  var baseRow = null, lastRow = null;
-  for (var i = 0; i < filtered.length; i++) {
-    if (filtered[i].paper_um_avg > 0 && filtered[i].sales_um_avg > 0) { baseRow = filtered[i]; break; }
-  }
-  for (var j = filtered.length - 1; j >= 0; j--) {
-    if (filtered[j].paper_um_avg > 0 && filtered[j].sales_um_avg > 0) { lastRow = filtered[j]; break; }
-  }
-  if (!baseRow || !lastRow || baseRow === lastRow) {
-    headline.innerHTML = '<div class="paper-sales-placeholder">비교 가능한 유효 월이 부족합니다</div>';
-    return;
-  }
-  var basePaper = baseRow.paper_um_avg;
-  var baseSales = baseRow.sales_um_avg;
-  var paperChange = (lastRow.paper_um_avg - basePaper) / basePaper * 100;
-  var salesChange = (lastRow.sales_um_avg - baseSales) / baseSales * 100;
-  var gap = salesChange - paperChange;
+  var first = rows[0];
+  var last = rows[rows.length - 1];
+  var change = (last.paper_um_avg - first.paper_um_avg) / first.paper_um_avg * 100;
+  var cls = change >= 0 ? 'up' : 'down';
 
-  // 부제목에 실제 비교 구간 + 탭 라벨
-  var tabLabels = { all: '3사 합산', '10000': '갑우', '20000': '비피', '30000': '더원' };
-  var sub = document.getElementById('paperSalesSubtitle');
-  if (sub) sub.textContent = baseRow.ym + ' → ' + lastRow.ym + ' 월별 가중평균 · ' + (tabLabels[tab] || tab) + ' 기준';
-
-  // 헤드라인
-  var paperCls = paperChange >= 0 ? 'up' : 'down';
-  var salesCls = salesChange >= 0 ? 'up' : 'down';
-  var gapCls = gap >= 0 ? 'ok' : 'risk';
-  var gapLabel = gap >= 0 ? '✅ 원가 상승 반영' : '⚠️ 원가 상승 미반영';
+  // 헤드라인 — 기간 + 변화율 + 최근 단가
   headline.innerHTML =
-    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">용지 매입 단가</div>' +
-    '<div class="paper-sales-headline-value paper-sales-headline-value--' + paperCls + '">' + (paperChange >= 0 ? '+' : '') + paperChange.toFixed(1) + '%</div></div>' +
-    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">평균 판매 단가</div>' +
-    '<div class="paper-sales-headline-value paper-sales-headline-value--' + salesCls + '">' + (salesChange >= 0 ? '+' : '') + salesChange.toFixed(1) + '%</div></div>' +
-    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">반영 격차</div>' +
-    '<div class="paper-sales-headline-value">' + (gap >= 0 ? '+' : '') + gap.toFixed(1) + '%p</div></div>' +
-    '<div class="paper-sales-headline-gap paper-sales-headline-gap--' + gapCls + '">' + gapLabel + '</div>';
+    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">' +
+      first.ym + ' → ' + last.ym + ' 변동</div>' +
+    '<div class="paper-sales-headline-value paper-sales-headline-value--' + cls + '">' +
+      (change >= 0 ? '+' : '') + change.toFixed(1) + '%</div></div>' +
+    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">' +
+      last.ym + ' 매입 단가</div>' +
+    '<div class="paper-sales-headline-value">' +
+      Math.round(last.paper_um_avg).toLocaleString() + '원/장</div></div>';
 
-  // 차트 — 빈 월은 null로 처리해서 라인이 끊어지도록
-  if (_paperSalesState.chart) _paperSalesState.chart.destroy();
-  _paperSalesState.chart = new Chart(canvas, {
+  if (sub) {
+    sub.textContent = first.ym + ' → ' + last.ym + ' 월별 가중평균 · 갑우그룹 공통 매입 (viewGabwoo_마감)';
+  }
+
+  // 라인 차트 — 단일 라인, 면 채움
+  if (_paperTrendChart) _paperTrendChart.destroy();
+  _paperTrendChart = new Chart(canvas, {
     type: 'line',
     data: {
-      labels: filtered.map(function(r) { return r.ym; }),
-      datasets: [
-        {
-          label: '용지 매입 단가 (' + baseRow.ym + ' = 100)',
-          data: filtered.map(function(r) { return (r.paper_um_avg > 0) ? (r.paper_um_avg / basePaper * 100) : null; }),
-          borderColor: 'rgba(59,130,246,1)',
-          backgroundColor: 'rgba(59,130,246,0.08)',
-          borderWidth: 2.5,
-          tension: 0.25,
-          spanGaps: true,
-          fill: false,
-        },
-        {
-          label: '판매 평균 단가 (' + baseRow.ym + ' = 100)',
-          data: filtered.map(function(r) { return (r.sales_um_avg > 0) ? (r.sales_um_avg / baseSales * 100) : null; }),
-          borderColor: 'rgba(34,197,94,1)',
-          backgroundColor: 'rgba(34,197,94,0.08)',
-          borderWidth: 2.5,
-          tension: 0.25,
-          spanGaps: true,
-          fill: false,
-        },
-      ],
+      labels: rows.map(function(r) { return r.ym; }),
+      datasets: [{
+        label: '용지 매입 단가 (원/장)',
+        data: rows.map(function(r) { return r.paper_um_avg; }),
+        borderColor: 'rgba(59,130,246,1)',
+        backgroundColor: 'rgba(59,130,246,0.08)',
+        borderWidth: 2.5,
+        tension: 0.25,
+        fill: true,
+        pointRadius: 3,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: 'rgba(59,130,246,1)',
+        pointBorderWidth: 2,
+      }],
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'top', labels: { usePointStyle: true, font: { size: 11 } } },
+        legend: { display: false },
         tooltip: {
           callbacks: {
-            label: function(ctx) { return ctx.dataset.label + ': ' + ctx.raw.toFixed(1); },
+            label: function(ctx) { return Math.round(ctx.raw).toLocaleString() + '원/장'; },
           },
         },
       },
       scales: {
         y: {
           beginAtZero: false,
-          ticks: { callback: function(v) { return v.toFixed(0); } },
-          title: { display: true, text: '지수 (시작 월 = 100)', font: { size: 11 } },
+          ticks: { callback: function(v) { return v.toLocaleString() + '원'; } },
+          grid: { color: 'rgba(0,0,0,0.04)' },
         },
         x: { grid: { display: false } },
       },

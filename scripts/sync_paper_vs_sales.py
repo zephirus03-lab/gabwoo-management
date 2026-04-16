@@ -39,6 +39,16 @@ YEAR_END = (datetime.now() + timedelta(days=45)).strftime("%Y%m%d")
 # viewGabwoo_마감 용 ISO 형식
 YEAR_END_ISO = (datetime.now() + timedelta(days=45)).strftime("%Y-%m-%d")
 
+# ── 이상치 필터 정책 ─────────────────────────────────────────────
+# 라인 단가(AM/QT)가 다음 범위 밖이면 극단 이상치로 보고 집계에서 제외합니다.
+# (용지 단가 수백원~수만원, 판매 단가도 수백~수만원 대가 정상)
+LINE_UM_MIN = 10        # 원 — 1원짜리 수량 보정 라인 제외
+LINE_UM_MAX = 100000    # 원 — 샘플/가공비 한 건만 끼어있는 이상 라인 제외
+
+# 월별 집계가 통계적으로 의미 있으려면 라인 수·수량이 이 이상이어야 합니다.
+MIN_LINES_PER_MONTH = 10       # 라인 미만 월은 판매·용지 집계에서 제외
+MIN_QTY_PER_MONTH = 1000       # 수량 미만 월도 제외 (월 초반/말 불완전 데이터)
+
 FIRM = "7000"
 COMPANIES = [
     ("all", None),        # 3사 합산
@@ -73,16 +83,22 @@ def get_service_key(access_token: str, project_ref: str) -> str:
 
 
 def fetch_paper(conn) -> dict:
-    """viewGabwoo_마감: 월별 (수량, 공급가액) → 가중평균 단가."""
+    """viewGabwoo_마감: 월별 (수량, 공급가액) → 가중평균 단가.
+    라인별 단가(공급가액/수량)가 극단 범위 밖이면 제외. 월별 라인/수량이 기준 미달이면 null."""
     cur = conn.cursor(as_dict=True)
     cur.execute(f"""
         SELECT
             CONVERT(varchar(7), [일자], 23) AS ym,
             SUM(CAST([수량] AS FLOAT))     AS qty,
-            SUM(CAST([공급가액] AS FLOAT)) AS amount
+            SUM(CAST([공급가액] AS FLOAT)) AS amount,
+            COUNT(*)                        AS line_cnt
         FROM [viewGabwoo_마감]
         WHERE [일자] >= '{YEAR_START[:4]}-{YEAR_START[4:6]}-{YEAR_START[6:]}'
           AND [일자] <= '{YEAR_END_ISO}'
+          AND CAST([수량] AS FLOAT) > 0
+          AND CAST([공급가액] AS FLOAT) > 0
+          AND (CAST([공급가액] AS FLOAT) / NULLIF(CAST([수량] AS FLOAT), 0))
+              BETWEEN {LINE_UM_MIN} AND {LINE_UM_MAX}
         GROUP BY CONVERT(varchar(7), [일자], 23)
         ORDER BY ym
     """)
@@ -91,6 +107,10 @@ def fetch_paper(conn) -> dict:
         ym = r["ym"]
         qty = float(r["qty"] or 0)
         amt = float(r["amount"] or 0)
+        cnt = int(r["line_cnt"] or 0)
+        # 월별 최소 샘플 기준 미달 → 집계 제외 (차트에서 끊김)
+        if cnt < MIN_LINES_PER_MONTH or qty < MIN_QTY_PER_MONTH:
+            continue
         out[ym] = {
             "paper_qty": qty,
             "paper_amount": amt,
@@ -100,20 +120,24 @@ def fetch_paper(conn) -> dict:
 
 
 def fetch_sales(conn, cust_own):
-    """SAL_SALESH × SAL_SALESL: 월별 × (소속사) 판매 가중평균 단가."""
+    """SAL_SALESH × SAL_SALESL: 월별 × (소속사) 판매 가중평균 단가.
+    라인별 단가(AM/QT) 극단 범위 제외. 월별 최소 샘플 기준 미달 시 null 처리."""
     where_own = f"AND h.CD_CUST_OWN='{cust_own}'" if cust_own else ""
     cur = conn.cursor(as_dict=True)
     cur.execute(f"""
         SELECT
             LEFT(h.DT_SALES, 6) AS ym_raw,
             SUM(CAST(l.QT AS FLOAT)) AS qty,
-            SUM(CAST(l.AM AS FLOAT)) AS amount
+            SUM(CAST(l.AM AS FLOAT)) AS amount,
+            COUNT(*)                  AS line_cnt
         FROM SAL_SALESH h
         JOIN SAL_SALESL l ON h.CD_FIRM=l.CD_FIRM AND h.NO_SALES=l.NO_SALES
         WHERE h.CD_FIRM='{FIRM}'
           AND h.DT_SALES BETWEEN '{YEAR_START}' AND '{YEAR_END}'
           AND (h.ST_SALES='Y' OR h.ST_SALES IS NULL)
           AND l.QT > 0 AND l.AM > 0
+          AND (CAST(l.AM AS FLOAT) / NULLIF(CAST(l.QT AS FLOAT), 0))
+              BETWEEN {LINE_UM_MIN} AND {LINE_UM_MAX}
           {where_own}
         GROUP BY LEFT(h.DT_SALES, 6)
         ORDER BY ym_raw
@@ -126,6 +150,9 @@ def fetch_sales(conn, cust_own):
         ym = f"{ym_raw[:4]}-{ym_raw[4:6]}"
         qty = float(r["qty"] or 0)
         amt = float(r["amount"] or 0)
+        cnt = int(r["line_cnt"] or 0)
+        if cnt < MIN_LINES_PER_MONTH or qty < MIN_QTY_PER_MONTH:
+            continue
         out[ym] = {
             "sales_qty": qty,
             "sales_amount": amt,
