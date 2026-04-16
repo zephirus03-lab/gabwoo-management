@@ -1435,17 +1435,20 @@ async function loadNewVsExisting(sb, company, now, periodMonths) {
     custMap[r.customer_name].count += 1;
   });
 
-  // 4) 신규/기존 분류
+  // 4) 신규/기존 분류 + 신규 거래처 명단 수집 (툴팁용)
   var newStat = { amount: 0, count: 0, customers: 0 };
   var existStat = { amount: 0, count: 0, customers: 0 };
+  var newList = [];  // {name, amount} — tooltip 표시용
   Object.keys(custMap).forEach(function(name) {
     var c = custMap[name];
     if (beforeSet[name]) {
       existStat.amount += c.amount; existStat.count += c.count; existStat.customers += 1;
     } else {
       newStat.amount += c.amount; newStat.count += c.count; newStat.customers += 1;
+      newList.push({ name: name, amount: c.amount });
     }
   });
+  newList.sort(function(a, b) { return b.amount - a.amount; });
 
   // 5) 도넛 차트
   destroyChart('newVsExistingChart');
@@ -1469,12 +1472,35 @@ async function loadNewVsExisting(sb, company, now, periodMonths) {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { position: 'bottom', labels: { usePointStyle: true, font: { size: 12 } } },
-        tooltip: { callbacks: {
-          label: function(ctx) {
-            var pct = (ctx.raw / totalAmt * 100).toFixed(1);
-            return ctx.label + ': ' + fmtAmt(ctx.raw) + ' (' + pct + '%)';
+        tooltip: {
+          backgroundColor: 'rgba(15,23,42,0.95)',
+          padding: 10,
+          titleFont: { size: 13, weight: '700' },
+          bodyFont: { size: 12 },
+          boxPadding: 4,
+          displayColors: false,
+          callbacks: {
+            title: function(items) { return items[0].label; },
+            label: function(ctx) {
+              var pct = (ctx.raw / totalAmt * 100).toFixed(1);
+              return fmtAmt(ctx.raw) + ' (' + pct + '%)';
+            },
+            afterLabel: function(ctx) {
+              if (ctx.dataIndex !== 0) return '';  // 신규 섹션에서만 명단 표시
+              if (!newList.length) return '';
+              var top = newList.slice(0, 10);
+              var lines = ['', '── 신규 거래처 (' + newList.length + '곳) ──'];
+              top.forEach(function(c) {
+                var nm = c.name.length > 18 ? c.name.substring(0, 18) + '…' : c.name;
+                lines.push(nm + '  ' + fmtAmt(c.amount));
+              });
+              if (newList.length > 10) {
+                lines.push('… 외 ' + (newList.length - 10) + '곳');
+              }
+              return lines;
+            }
           }
-        } }
+        }
       },
       cutout: '60%'
     }
