@@ -988,13 +988,14 @@ var Dashboard = (function(){
       var salesSubtitle = document.getElementById('salesChartSubtitle');
       if (salesSubtitle) salesSubtitle.textContent = '기간 내 거래 있는 영업자 ' + salesTop.length + '명';
 
-      document.getElementById('salesChartWrap').style.height = Math.max(400, salesTop.length * 50 + 60) + 'px';
+      // 행당 32px + 여백 — 바는 maxBarThickness로 상한만 두고 자동 조정
+      document.getElementById('salesChartWrap').style.height = Math.max(400, salesTop.length * 32 + 60) + 'px';
       destroyChart('salesChart');
       chartInstances['salesChart'] = new Chart(document.getElementById('salesChart'), {
         type: 'bar',
         data: {
           labels: salesTop.map(function(s) { return s[0]; }),
-          datasets: [{ data: salesTop.map(function(s) { return s[1]; }), backgroundColor: 'rgba(139,92,246,0.7)', borderRadius: 4, barThickness: 28 }]
+          datasets: [{ data: salesTop.map(function(s) { return s[1]; }), backgroundColor: 'rgba(139,92,246,0.7)', borderRadius: 4, maxBarThickness: 20, categoryPercentage: 0.7, barPercentage: 0.85 }]
         },
         options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(ctx) { return fmtAmt(ctx.raw); } } } }, scales: { x: { ticks: { callback: function(v) { return fmtAmt(v); } }, grid: { color: 'rgba(0,0,0,0.04)' } }, y: { ticks: { font: { size: 13 } }, grid: { display: false } } } }
       });
