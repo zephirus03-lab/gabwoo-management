@@ -39,6 +39,16 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .header-actions{display:flex;align-items:center;gap:8px}
 .header-filter{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:var(--gray-100);padding:4px 12px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;height:32px;outline:none;transition:background .15s}
 .header-filter:hover{background:rgba(255,255,255,0.12)} .header-filter option{color:var(--gray-900);background:#fff}
+/* 월 범위 선택 */
+.period-range{display:flex;align-items:center;gap:6px}
+.period-range input[type="month"]{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:var(--gray-100);padding:3px 8px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;height:32px;outline:none;font-family:inherit;transition:background .15s;color-scheme:dark}
+.period-range input[type="month"]:hover{background:rgba(255,255,255,0.12)}
+.period-range input[type="month"]:focus{background:rgba(255,255,255,0.15);border-color:rgba(59,130,246,0.5)}
+.period-range-sep{color:rgba(248,250,252,0.4);font-size:12px;font-weight:500}
+.period-presets{display:flex;gap:2px;margin-left:4px}
+.period-preset-btn{background:none;border:1px solid rgba(255,255,255,0.1);color:rgba(248,250,252,0.55);padding:2px 8px;border-radius:var(--radius-sm);font-size:11px;font-weight:600;height:26px;transition:all .15s;line-height:1}
+.period-preset-btn:hover{background:rgba(255,255,255,0.08);color:rgba(248,250,252,0.85)}
+.period-preset-btn.active{background:rgba(59,130,246,0.2);border-color:rgba(59,130,246,0.4);color:#93bbfc}
 .btn-logout{height:32px;padding:0 12px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(248,250,252,0.75);border-radius:var(--radius-sm);font-size:13px;font-weight:600;transition:background .15s,color .15s}
 .btn-logout:hover{background:rgba(255,255,255,0.14);color:var(--gray-100)}
 
@@ -342,13 +352,18 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
           <option value="PKG">PKG (패키지)</option>
           <option value="BPNP">(빈값·비피계열)</option>
         </select>
-        <select id="periodFilter" class="header-filter" onchange="Dashboard.load()">
-          <option value="all">전체 기간</option>
-          <option value="1">최근 1개월</option>
-          <option value="3" selected>최근 3개월</option>
-          <option value="6">최근 6개월</option>
-          <option value="12">최근 12개월</option>
-        </select>
+        <div class="period-range">
+          <input type="month" id="periodFrom" class="header-filter" style="width:130px">
+          <span class="period-range-sep">~</span>
+          <input type="month" id="periodTo" class="header-filter" style="width:130px">
+          <div class="period-presets">
+            <button class="period-preset-btn" data-months="1" onclick="PeriodRange.setPreset(1)">1M</button>
+            <button class="period-preset-btn active" data-months="3" onclick="PeriodRange.setPreset(3)">3M</button>
+            <button class="period-preset-btn" data-months="6" onclick="PeriodRange.setPreset(6)">6M</button>
+            <button class="period-preset-btn" data-months="12" onclick="PeriodRange.setPreset(12)">1Y</button>
+            <button class="period-preset-btn" data-months="0" onclick="PeriodRange.setPreset(0)">전체</button>
+          </div>
+        </div>
         <a href="sales-dashboard.html" style="text-decoration:none;display:inline-flex;align-items:center;height:32px;padding:0 14px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;border-radius:var(--radius-sm);font-size:13px;font-weight:600;transition:background .15s,color .15s;gap:6px;">📊 영업자 대시보드</a>
         <button class="btn-logout" onclick="Auth.handleLogout()">로그아웃</button>
       </div>
@@ -954,21 +969,24 @@ var Dashboard = (function(){
       setDelta('kpiNextDelta', m1Amt, m1PrevYr, new Date(m1.getFullYear() - 1, m1.getMonth(), 1));
 
       // 2) 기간 필터 적용 쿼리 — erp_sales(확정 매출) 기반, 페이징
-      var periodVal = document.getElementById('periodFilter').value;
+      var pFrom = document.getElementById('periodFrom').value;
+      var pTo = document.getElementById('periodTo').value;
       var allData = [];
       var pageFrom = 0;
       var pageSize = 1000;
       while (true) {
         var filter = sb.from('erp_sales_confirmed')
           .select('customer_name, sales_person, supply_amount, sales_date, sales_status')
-          
-          
+
+
           .order('sales_number', { ascending: true })
           .range(pageFrom, pageFrom + pageSize - 1);
         if (company) filter = filter.eq('company', company);
-        if (periodVal !== 'all') {
-          var monthsAgo = new Date(now.getFullYear(), now.getMonth() - parseInt(periodVal), 1);
-          filter = filter.gte('sales_date', monthsAgo.toISOString().substring(0, 10));
+        if (pFrom) filter = filter.gte('sales_date', pFrom + '-01');
+        if (pTo) {
+          var toParts = pTo.split('-');
+          var toEnd = new Date(parseInt(toParts[0]), parseInt(toParts[1]), 0);
+          filter = filter.lte('sales_date', toEnd.toISOString().substring(0, 10));
         }
         var allRes = await filter;
         var page = allRes.data || [];
@@ -1009,13 +1027,13 @@ var Dashboard = (function(){
         }
         var ym = String(r.sales_date || '').substring(0, 7);
         var sa = salesActivity[r.sales_person];
-        if (r.customer_name) sa.totalCusts.add(r.customer_name);
+        if (r.customer_name) sa.totalCusts.add(normalizeCustName(r.customer_name));
         var inRecent = recent3Months.some(function(m) { return m.ym === ym; });
         if (inRecent) {
           if (!sa.months[ym]) sa.months[ym] = { amt: 0, cnt: 0, custs: new Set() };
           sa.months[ym].amt += Number(r.supply_amount) || 0;
           sa.months[ym].cnt += 1;
-          if (r.customer_name) sa.months[ym].custs.add(r.customer_name);
+          if (r.customer_name) sa.months[ym].custs.add(normalizeCustName(r.customer_name));
         }
       });
 
@@ -1189,7 +1207,7 @@ var Dashboard = (function(){
       loadRiskCustomers(sb, company, now).catch(function(e){ console.warn('risk load error', e); });
 
       // 9) KPI-4 신규/기존 거래처
-      var periodMonths = periodVal === 'all' ? 12 : parseInt(periodVal);
+      var periodMonths = PeriodRange.getMonths();
       loadNewVsExisting(sb, company, now, periodMonths).catch(function(e){ console.warn('newVsExisting error', e); });
 
       // 10) Top 20 거래처 월별 변화 (최근 12개월, 관계사·지입 제외)
@@ -1285,7 +1303,7 @@ async function loadRiskCustomers(sb, company, now) {
     var agg = {};
     all.forEach(function(row) {
       if (!row.customer_name) return;
-      var k = row.customer_name;
+      var k = normalizeCustName(row.customer_name);
       if (!agg[k]) agg[k] = { total: 0, last: null, emp: null };
       agg[k].total += Number(row.supply_amount) || 0;
       if (!agg[k].last || row.sales_date > agg[k].last) {
@@ -1424,15 +1442,16 @@ async function loadNewVsExisting(sb, company, now, periodMonths) {
   });
 
   var beforeSet = {};
-  beforePeriod.forEach(function(r) { if (r.customer_name) beforeSet[r.customer_name] = true; });
+  beforePeriod.forEach(function(r) { if (r.customer_name) beforeSet[normalizeCustName(r.customer_name)] = true; });
 
-  // 3) 기간 내 거래처 집계
+  // 3) 기간 내 거래처 집계 (정규화된 이름으로 통합)
   var custMap = {};
   inPeriod.forEach(function(r) {
     if (!r.customer_name) return;
-    if (!custMap[r.customer_name]) custMap[r.customer_name] = { amount: 0, count: 0 };
-    custMap[r.customer_name].amount += Number(r.supply_amount) || 0;
-    custMap[r.customer_name].count += 1;
+    var nk = normalizeCustName(r.customer_name);
+    if (!custMap[nk]) custMap[nk] = { amount: 0, count: 0 };
+    custMap[nk].amount += Number(r.supply_amount) || 0;
+    custMap[nk].count += 1;
   });
 
   // 4) 신규/기존 분류 + 신규 거래처 명단 수집 (툴팁용)
@@ -1726,10 +1745,12 @@ async function loadTop20Customers(sb, now) {
       .gt('supply_amount', 0);
   });
 
-  // 거래처 × 월 피벗 (24개월 전체 저장, total은 최근 12개월 기준)
+  // 거래처 × 월 피벗 (24개월 전체 저장, total은 최근 12개월 기준, 정규화된 이름으로 통합)
   var byCustomer = {};
   (rows || []).forEach(function(r) {
-    var name = (r.customer_name || '').trim();
+    var rawName = (r.customer_name || '').trim();
+    if (!rawName) return;
+    var name = normalizeCustName(rawName);
     if (!name) return;
     if (EXCLUDE_KEYWORDS.some(function(k) { return name.indexOf(k) !== -1; })) return;
     var ym = String(r.sales_date).substring(0, 7);
@@ -2056,7 +2077,66 @@ async function openEmpModal(empName) {
   });
 })();
 
-document.addEventListener('DOMContentLoaded', App.init);
+// ═══ 거래처명 정규화 (동일 거래처 통합) ═══
+function normalizeCustName(name) {
+  if (!name) return '';
+  var s = String(name).trim();
+  // 법인 접두/접미 제거: (주), ㈜, 주식회사, (유), ㈲, 유한회사, (사), 사단법인, (재), 재단법인
+  s = s.replace(/^\s*(?:\(주\)|㈜|주식회사|株式會社|\(유\)|㈲|유한회사|\(사\)|사단법인|\(재\)|재단법인)\s*/g, '');
+  s = s.replace(/\s*(?:\(주\)|㈜|주식회사|株式會社|\(유\)|㈲|유한회사|\(사\)|사단법인|\(재\)|재단법인)\s*$/g, '');
+  return s.trim();
+}
+
+// ═══ 월 범위 선택 모듈 ═══
+var PeriodRange = (function() {
+  function fmt(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+  function init() {
+    setPreset(3);  // 기본값: 최근 3개월
+    document.getElementById('periodFrom').addEventListener('change', function() {
+      clearActivePreset();
+      Dashboard.load();
+    });
+    document.getElementById('periodTo').addEventListener('change', function() {
+      clearActivePreset();
+      Dashboard.load();
+    });
+  }
+  function clearActivePreset() {
+    document.querySelectorAll('.period-preset-btn').forEach(function(b) { b.classList.remove('active'); });
+  }
+  function setPreset(months) {
+    var now = new Date();
+    var toVal = fmt(now);
+    var fromVal;
+    if (months === 0) {
+      fromVal = '';  // 전체
+    } else {
+      var fromDate = new Date(now.getFullYear(), now.getMonth() - months + 1, 1);
+      fromVal = fmt(fromDate);
+    }
+    document.getElementById('periodFrom').value = fromVal;
+    document.getElementById('periodTo').value = toVal;
+    clearActivePreset();
+    var btn = document.querySelector('.period-preset-btn[data-months="' + months + '"]');
+    if (btn) btn.classList.add('active');
+    Dashboard.load();
+  }
+  function getMonths() {
+    var from = document.getElementById('periodFrom').value;
+    var to = document.getElementById('periodTo').value;
+    if (!from || !to) return 12;
+    var fp = from.split('-'), tp = to.split('-');
+    return (parseInt(tp[0]) - parseInt(fp[0])) * 12 + (parseInt(tp[1]) - parseInt(fp[1])) + 1;
+  }
+  return { init: init, setPreset: setPreset, getMonths: getMonths };
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+  PeriodRange.init();
+  App.init();
+});
 </script>
 </body>
 </html>

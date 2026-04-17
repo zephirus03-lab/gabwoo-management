@@ -58,6 +58,25 @@ header p { font-size: 13px; opacity: 0.6; margin-top: 4px; }
 }
 .period-picker select:hover { background-color: rgba(255,255,255,0.12); }
 .period-picker select option { background: #1a1a2e; color: white; }
+/* 월 범위 선택 */
+.period-range { display: inline-flex; align-items: center; gap: 6px; }
+.period-range input[type="month"] {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+  color: white; padding: 4px 8px; border-radius: 6px;
+  font-size: 12px; font-weight: 600; height: 32px;
+  font-family: inherit; outline: none; color-scheme: dark;
+}
+.period-range input[type="month"]:hover { background: rgba(255,255,255,0.12); }
+.period-range input[type="month"]:focus { background: rgba(255,255,255,0.15); border-color: rgba(74,108,247,0.5); }
+.period-range-sep { color: rgba(255,255,255,0.4); font-size: 12px; }
+.period-presets { display: flex; gap: 2px; margin-left: 4px; }
+.period-preset-btn {
+  background: none; border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.5); padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; height: 26px; cursor: pointer;
+}
+.period-preset-btn:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8); }
+.period-preset-btn.active { background: rgba(74,108,247,0.2); border-color: rgba(74,108,247,0.4); color: #93bbfc; }
 
 /* 탭 네비게이션 */
 .tabs {
@@ -267,15 +286,17 @@ footer { text-align: center; padding: 24px; font-size: 11px; color: #999; }
 
 <div class="topbar">
   <a href="index.html" class="back-link">📊 경영 대시보드로 돌아가기</a>
-  <label class="period-picker">
-    <span>기간</span>
-    <select id="periodSelect">
-      <option value="1m">1개월</option>
-      <option value="3m">3개월</option>
-      <option value="6m">6개월</option>
-      <option value="1y" selected>1년</option>
-    </select>
-  </label>
+  <div class="period-range">
+    <input type="month" id="periodFrom">
+    <span class="period-range-sep">~</span>
+    <input type="month" id="periodTo">
+    <div class="period-presets">
+      <button class="period-preset-btn" data-key="1m" onclick="SPeriod.set('1m',1)">1M</button>
+      <button class="period-preset-btn" data-key="3m" onclick="SPeriod.set('3m',3)">3M</button>
+      <button class="period-preset-btn" data-key="6m" onclick="SPeriod.set('6m',6)">6M</button>
+      <button class="period-preset-btn active" data-key="1y" onclick="SPeriod.set('1y',12)">1Y</button>
+    </div>
+  </div>
 </div>
 
 <div class="tabs">
@@ -505,7 +526,7 @@ function renderConcentration(d) {
   // Top 10 리스트
   const custList = document.getElementById('concCustList');
   custList.innerHTML = (d.customer_top10 || []).map((r, i) =>
-    `<li><span class="nm">${i+1}. ${escapeHtml(r.name)}</span>` +
+    `<li><span class="nm">${i+1}. ${escapeHtml(normalizeCustName(r.name))}</span>` +
     `<span class="pct"><strong>${fmtBillion(r.amount)}</strong>${r.pct.toFixed(1)}%</span></li>`
   ).join('');
 
@@ -696,7 +717,7 @@ function renderRanking() {
     const dPct = (c.discount_count / total * 100).toFixed(0);
     const nPct = (c.normal_count / total * 100).toFixed(0);
     const pPct = (c.premium_count / total * 100).toFixed(0);
-    const topClient = c.top_clients[0] ? c.top_clients[0].name : '-';
+    const topClient = c.top_clients[0] ? normalizeCustName(c.top_clients[0].name) : '-';
     const badge = c.anomaly_rate_pct > 30 ? 'badge-danger' : c.anomaly_rate_pct > 20 ? 'badge-warn' : 'badge-ok';
 
     html += `<tr>
@@ -753,7 +774,7 @@ function renderSalesCards() {
     c.top_clients.forEach(cl => {
       const clBadge = Math.abs(cl.avg_diff_pct) <= 5 ? 'badge-ok' : Math.abs(cl.avg_diff_pct) <= 30 ? 'badge-warn' : 'badge-danger';
       clientsHtml += `<div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px;">
-        <span>${cl.name}</span>
+        <span>${normalizeCustName(cl.name)}</span>
         <span><span class="badge ${clBadge}">${cl.avg_diff_pct > 0 ? '+' : ''}${cl.avg_diff_pct}%</span> (${cl.count}건)</span>
       </div>`;
     });
@@ -845,7 +866,7 @@ function renderFairness() {
       }
 
       dotsHtml += `<div class="dot-row" style="${isAnomaly ? 'background:#fff5f5;border-radius:4px;padding:4px 0;' : ''}">
-        <div class="dot-name" title="${c.client} (${c.salesperson})">${isAnomaly ? '⚠️ ' : ''}${c.client}</div>
+        <div class="dot-name" title="${normalizeCustName(c.client)} (${c.salesperson})">${isAnomaly ? '⚠️ ' : ''}${normalizeCustName(c.client)}</div>
         <div class="dot-bar-area">
           <div class="dot-std-line" style="left:${toX(std)}%"></div>
           <div class="dot-range" style="left:${minX}%;width:${w}%;background:${color};"></div>
@@ -879,7 +900,7 @@ function buildAnomalyTableHtml(list, borderColor) {
       <td style="font-size:11px;white-space:nowrap;">${a['견적번호']}</td>
       <td style="font-size:11px;white-space:nowrap;">${a['수주번호'] || '-'}</td>
       <td><strong>${a['영업담당']}</strong></td>
-      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a['거래처']}">${a['거래처']}</td>
+      <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${normalizeCustName(a['거래처'])}">${normalizeCustName(a['거래처'])}</td>
       <td style="max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${a['품명'] || ''}">${a['품명'] || '-'}</td>
       <td>${a['항목명']}</td>
       <td class="r">${Math.round(a['단가']).toLocaleString()}</td>
@@ -904,16 +925,58 @@ function renderAnomalies() {
   document.getElementById('discountTable').innerHTML = buildAnomalyTableHtml(anomalies.discount, '#991b1b');
 }
 
-// 기간 선택 드롭다운: 변경 시 해당 기간 JSON 다시 fetch
-document.getElementById('periodSelect').addEventListener('change', function(e) {
-  const periodKey = e.target.value;
-  // 로딩 표시
-  document.getElementById('headerSubtitle').textContent = '기간 변경 중...';
-  loadData(periodKey);
-});
+// ═══ 거래처명 정규화 ═══
+function normalizeCustName(name) {
+  if (!name) return '';
+  var s = String(name).trim();
+  s = s.replace(/^\s*(?:\(주\)|㈜|주식회사|株式會社|\(유\)|㈲|유한회사|\(사\)|사단법인|\(재\)|재단법인)\s*/g, '');
+  s = s.replace(/\s*(?:\(주\)|㈜|주식회사|株式會社|\(유\)|㈲|유한회사|\(사\)|사단법인|\(재\)|재단법인)\s*$/g, '');
+  return s.trim();
+}
 
-// 초기 로드: 드롭다운 기본값(1년) 기준
-loadData(document.getElementById('periodSelect').value);
+// ═══ 월 범위 선택 모듈 (pre-built JSON 매핑) ═══
+var SPeriod = (function() {
+  function fmt(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+  }
+  // 월수 → 가장 가까운 JSON 키로 매핑
+  function monthsToKey(m) {
+    if (m <= 1) return '1m';
+    if (m <= 3) return '3m';
+    if (m <= 6) return '6m';
+    return '1y';
+  }
+  function set(key, months) {
+    var now = new Date();
+    var fromDate = new Date(now.getFullYear(), now.getMonth() - months + 1, 1);
+    document.getElementById('periodFrom').value = fmt(fromDate);
+    document.getElementById('periodTo').value = fmt(now);
+    document.querySelectorAll('.period-preset-btn').forEach(function(b) { b.classList.remove('active'); });
+    var btn = document.querySelector('.period-preset-btn[data-key="' + key + '"]');
+    if (btn) btn.classList.add('active');
+    document.getElementById('headerSubtitle').textContent = '기간 변경 중...';
+    loadData(key);
+  }
+  function onCustomChange() {
+    var from = document.getElementById('periodFrom').value;
+    var to = document.getElementById('periodTo').value;
+    if (!from || !to) return;
+    var fp = from.split('-'), tp = to.split('-');
+    var months = (parseInt(tp[0]) - parseInt(fp[0])) * 12 + (parseInt(tp[1]) - parseInt(fp[1])) + 1;
+    var key = monthsToKey(months);
+    document.querySelectorAll('.period-preset-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('headerSubtitle').textContent = '기간 변경 중...';
+    loadData(key);
+  }
+  function init() {
+    set('1y', 12);
+    document.getElementById('periodFrom').addEventListener('change', onCustomChange);
+    document.getElementById('periodTo').addEventListener('change', onCustomChange);
+  }
+  return { set: set, init: init };
+})();
+
+SPeriod.init();
 </script>
 </body>
 </html>
