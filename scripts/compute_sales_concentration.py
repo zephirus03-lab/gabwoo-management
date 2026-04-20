@@ -39,6 +39,10 @@ CONCENTRATION_TOP1_WARN = 20.0     # Top 1 거래처 >= 20% → 주황
 CONCENTRATION_TOP5_WARN = 60.0     # Top 5 합계 >= 60% → 주황
 KEYMAN_TOP1_WARN = 25.0            # 1인 영업자 >= 25% → 주황
 
+# 집계 제외 거래처 — 프린트뱅크(비피앤피 자회사) 이관 등 특수 케이스
+# generate_insights.py·web/index.html과 규칙 일치
+EXCLUDE_NAME_KEYWORDS = ["지에스리테일"]
+
 
 def load_env(env_path: Path) -> dict:
     env = {}
@@ -99,8 +103,11 @@ def aggregate(rows: list) -> dict:
         amt = float(r.get("supply_amount") or 0)
         if amt <= 0:
             continue
-        total += amt
         cn = (r.get("customer_name") or "").strip()
+        # 제외 거래처 (프린트뱅크 이관 등 특수 케이스)
+        if cn and any(kw in cn for kw in EXCLUDE_NAME_KEYWORDS):
+            continue
+        total += amt
         if cn:
             cust_map[cn] = cust_map.get(cn, 0.0) + amt
         sp = (r.get("sales_person") or "").strip()

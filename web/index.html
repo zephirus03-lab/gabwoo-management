@@ -474,7 +474,7 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
           <div class="top20-subtitle" id="top20Subtitle">최근 12개월 · ERP 기준 · 단위: 백만 원</div>
         </div>
         <div class="top20-exclude">
-          <strong>제외:</strong> 관계사(갑우문화사·비피앤피·더원프린팅·프린트뱅크), 지입(교원·교원구몬·이투스·에듀윌)
+          <strong>제외:</strong> 관계사(갑우문화사·비피앤피·더원프린팅·프린트뱅크), 지입(교원·교원구몬·이투스·에듀윌), 이관(지에스리테일→프린트뱅크)
         </div>
       </div>
       <div class="top20-exclude" style="max-width:none;margin-bottom:12px;background:#fffbeb;border-color:#fcd34d;color:#854d0e">
@@ -1741,9 +1741,11 @@ async function loadTop20Customers(sb, now) {
     return (parseInt(parts[0], 10) - 1) + '-' + parts[1];
   });
 
-  // 관계사·지입 제외 키워드 (customer_name 부분일치)
+  // 관계사·지입·이관 제외 키워드 (customer_name 부분일치)
+  // 이관: 프린트뱅크(비피앤피 자회사)로 매출이 이관된 특수 케이스
   var EXCLUDE_KEYWORDS = ['갑우문화사', '비피앤피', '더원프린팅', '프린트뱅크',
-                          '교원', '이투스', '에듀윌'];
+                          '교원', '이투스', '에듀윌',
+                          '지에스리테일'];
 
   // fetch 24개월 (페이지네이션) — YoY 비교용 작년 3개월 포함
   var rows = await fetchAllPages(function() {
