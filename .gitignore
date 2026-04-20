@@ -8,3 +8,26 @@ __pycache__/
 *.tmp
 .~lock.*
 AX 전환 계획/.claude/
+
+# 환경 변수 (ERP 접속정보)
+.env
+.env.local
+.env.*
+
+# 회사 내부 데이터 — public repo 노출 금지
+# 거래처 매출·단가·인터뷰·진단 보고서 등
+*.xlsx
+*.xls
+*.csv
+*.pdf
+AX 전환 계획/
+견적 상세 현황/
+견적 및 단가표 예시/
+*할 일*.txt
+
+# 스크립트 실행 산출물 (거래처별 분석 결과)
+scripts/output/*.json
+scripts/output/*.txt
+scripts/output/*.xlsx
+scripts/output/*.csv
+scripts/output/*.log
