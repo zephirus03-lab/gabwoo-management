@@ -57,6 +57,42 @@ COMPANIES = [
     ("30000", "30000"),   # 더원
 ]
 
+# 용지 카테고리 — Top 4 + 기타 (PRT_ITEM.NM_ITEM 텍스트 기반)
+# 3년 매입 금액 기준 상위: 백상지(31.3%) / 특수지(18.1%) / SW(12.5%) / 아트지(8.2%)
+# 나머지는 "기타"로 묶음 (합지·뉴플러스·미색백상·캠퍼스·매트 등 30%)
+TOP_CATEGORIES = ["백상지", "특수지", "SW(스노우)", "아트지", "기타"]
+
+
+def classify_paper(nm_item: str) -> str:
+    """PRT_ITEM.NM_ITEM 텍스트로 용지 카테고리 분류.
+    예: '70 미색백상지 788*545' → '기타'(미색백상은 Top 4 외)
+        '100 SW 880*625' → 'SW(스노우)'
+        '80 백상지 788*545' → '백상지'
+        '90 하이큐매트미스틱 939*636' → '기타'
+        '350 네오뷰티팩 788*545' → '특수지'
+    """
+    n = str(nm_item or "")
+    # 미색백상지는 '백상지' 아님 (별도 분류) — Top 4에 없음
+    if "미색백상" in n or "미색 백상" in n:
+        return "기타"
+    if "하이큐" in n or "매트" in n:
+        return "기타"
+    if "SW" in n:
+        return "SW(스노우)"
+    if "아트지" in n or "전단아트" in n:
+        return "아트지"
+    if "백상" in n:
+        return "백상지"
+    # 특수지 — 고급 프리미엄 용지군
+    if any(k in n for k in [
+        "아르떼", "랑데뷰", "앙상블", "비브릴리언트", "스타드림",
+        "오로지", "매직", "몽블랑", "AB플러스", "AB라이트",
+        "네오뷰티", "화인코트", "Volume", "젠틀", "메탈릭", "CW",
+    ]):
+        return "특수지"
+    # 합지/뉴플러스/캠퍼스/모조 등은 "기타"로 흡수
+    return "기타"
+
 
 def load_env(env_path: Path) -> dict:
     env = {}
@@ -115,6 +151,57 @@ def fetch_paper(conn) -> dict:
             "paper_qty": qty,
             "paper_amount": amt,
             "paper_um_avg": (amt / qty) if qty > 0 else 0,
+        }
+    return out
+
+
+def fetch_paper_by_category(conn) -> dict:
+    """viewGabwoo_마감 ↔ PUR_POL ↔ PRT_ITEM: 월별 × 용지 카테고리별 가중평균 단가.
+    반환: {(ym, category): {qty, amount, um_avg}}
+    """
+    cur = conn.cursor(as_dict=True)
+    cur.execute(f"""
+        SELECT
+            CONVERT(varchar(7), v.[일자], 23) AS ym,
+            CAST(i.NM_ITEM AS VARCHAR(200))     AS nm_item,
+            SUM(CAST(v.[수량] AS FLOAT))        AS qty,
+            SUM(CAST(v.[공급가액] AS FLOAT))    AS amount,
+            COUNT(*)                             AS line_cnt
+        FROM [viewGabwoo_마감] v
+        JOIN PUR_POL l
+          ON l.NO_PO=v.CustKey AND l.NO_LINE=v.NO_LINE AND l.CD_FIRM='{FIRM}'
+        JOIN PRT_ITEM i
+          ON i.CD_ITEM=l.CD_ITEM AND i.CD_FIRM='{FIRM}'
+        WHERE v.[일자] >= '{YEAR_START[:4]}-{YEAR_START[4:6]}-{YEAR_START[6:]}'
+          AND v.[일자] <= '{YEAR_END_ISO}'
+          AND CAST(v.[수량] AS FLOAT) > 0
+          AND CAST(v.[공급가액] AS FLOAT) > 0
+          AND (CAST(v.[공급가액] AS FLOAT) / NULLIF(CAST(v.[수량] AS FLOAT), 0))
+              BETWEEN {LINE_UM_MIN} AND {LINE_UM_MAX}
+        GROUP BY CONVERT(varchar(7), v.[일자], 23), CAST(i.NM_ITEM AS VARCHAR(200))
+    """)
+    # (ym, cat) → (qty, amt) 누적
+    agg = {}
+    for r in cur.fetchall():
+        ym = r["ym"]
+        cat = classify_paper(r["nm_item"])
+        qty = float(r["qty"] or 0)
+        amt = float(r["amount"] or 0)
+        key = (ym, cat)
+        if key not in agg:
+            agg[key] = {"qty": 0.0, "amount": 0.0, "line_cnt": 0}
+        agg[key]["qty"] += qty
+        agg[key]["amount"] += amt
+        agg[key]["line_cnt"] += int(r["line_cnt"] or 0)
+    out = {}
+    for (ym, cat), d in agg.items():
+        # 카테고리별 월 기준: 라인 3개 이상 + 수량 100 이상
+        if d["line_cnt"] < 3 or d["qty"] < 100:
+            continue
+        out[(ym, cat)] = {
+            "paper_qty": d["qty"],
+            "paper_amount": d["amount"],
+            "paper_um_avg": (d["amount"] / d["qty"]) if d["qty"] > 0 else 0,
         }
     return out
 
@@ -206,6 +293,48 @@ def cleanup_out_of_range(supabase_url: str, service_key: str):
         print(f"   ⚠️ 청소 실패 (무시): {resp.status_code} {resp.text[:120]}")
 
 
+def build_category_records(paper_by_cat: dict) -> list:
+    """카테고리별 월별 레코드를 Supabase 업로드 형식으로."""
+    now_iso = datetime.utcnow().isoformat() + "Z"
+    records = []
+    for (ym, cat), d in paper_by_cat.items():
+        records.append({
+            "ym": ym,
+            "category": cat,
+            "paper_qty": round(d["paper_qty"], 2),
+            "paper_amount": round(d["paper_amount"], 2),
+            "paper_um_avg": round(d["paper_um_avg"], 2),
+            "updated_at": now_iso,
+        })
+    return records
+
+
+def upsert_categories(rows, supabase_url: str, service_key: str):
+    """paper_category_monthly 테이블에 upsert (ym+category 기준)."""
+    headers = {
+        "apikey": service_key,
+        "Authorization": f"Bearer {service_key}",
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates,return=minimal",
+    }
+    # 미래 데이터 청소
+    cut = YEAR_END_ISO[:7]
+    requests.delete(
+        f"{supabase_url}/rest/v1/paper_category_monthly?ym=gt.{cut}",
+        headers={"apikey": service_key, "Authorization": f"Bearer {service_key}"},
+        timeout=30,
+    )
+    CHUNK = 200
+    for i in range(0, len(rows), CHUNK):
+        batch = rows[i:i + CHUNK]
+        url = f"{supabase_url}/rest/v1/paper_category_monthly?on_conflict=ym,category"
+        resp = requests.post(url, json=batch, headers=headers, timeout=60)
+        if not resp.ok:
+            print(f"❌ 카테고리 배치 {i // CHUNK + 1} 실패: {resp.status_code} {resp.text[:200]}")
+            resp.raise_for_status()
+        print(f"   ✅ 카테고리 배치 {i // CHUNK + 1}: {len(batch)}건")
+
+
 def upsert(rows, supabase_url: str, service_key: str):
     """Supabase REST API upsert (ym+company 기준 on_conflict)."""
     headers = {
@@ -266,6 +395,15 @@ def main():
     paper = fetch_paper(conn)
     print(f"   → {len(paper)} 개월")
 
+    print("▶ 용지 카테고리별 월별 집계 (PRT_ITEM 조인)...")
+    paper_by_cat = fetch_paper_by_category(conn)
+    cat_counts = {}
+    for (ym, cat) in paper_by_cat.keys():
+        cat_counts[cat] = cat_counts.get(cat, 0) + 1
+    print(f"   → {len(paper_by_cat)} (ym, category) 조합")
+    for cat, n in sorted(cat_counts.items(), key=lambda x: -x[1]):
+        print(f"     {cat}: {n}개월")
+
     print("▶ 판매 단가 월별 × 소속사 집계 (SAL_SALESH/L)...")
     sales_by_company = {}
     for code, cust_own in COMPANIES:
@@ -288,7 +426,12 @@ def main():
     cleanup_out_of_range(supabase_url, service_key)
     upsert(records, supabase_url, service_key)
 
-    record_sync_log(JOB_NAME, "ok", len(records), supabase_url, service_key)
+    # 카테고리별 업서트 (Top 4 + 기타)
+    cat_records = build_category_records(paper_by_cat)
+    print(f"▶ 카테고리 레코드 {len(cat_records)}건 업서트")
+    upsert_categories(cat_records, supabase_url, service_key)
+
+    record_sync_log(JOB_NAME, "ok", len(records) + len(cat_records), supabase_url, service_key)
 
     elapsed = time.time() - t0
     print(f"✅ 완료 ({elapsed:.1f}s)")

@@ -1851,11 +1851,21 @@ async function loadTop20Customers(sb, now) {
   }
 }
 
-// ═══ 용지 매입 단가 추이 (단일 꺾은선) ═══
-// 데이터 소스: paper_vs_sales_monthly 테이블의 paper_um_avg (company='all' = 그룹 공통)
-// 용지는 CD_CUST_OWN이 ERP에 없어서 3사 분리 불가 — 그룹 공통 한 라인만 표시.
-// 판매 단가 비교는 용지사급 거래처(교원·이투스·에듀윌) 때문에 왜곡되므로 제외.
+// ═══ 용지 매입 단가 추이 (카테고리별 5개 라인) ═══
+// 데이터 소스: paper_category_monthly — PRT_ITEM.NM_ITEM을 기반으로 5개 카테고리 분리
+// 백상지 / 특수지 / SW(스노우) / 아트지 / 기타 (상위 4 + 나머지 통합)
+// sync_paper_vs_sales.py::classify_paper()가 분류 규칙 담당.
 var _paperTrendChart = null;
+
+// 카테고리별 고정 색상 (legend·라인 일관성)
+var PAPER_CAT_COLORS = {
+  '백상지':       'rgba(59,130,246,1)',   // 파랑
+  '특수지':       'rgba(168,85,247,1)',   // 보라
+  'SW(스노우)':   'rgba(236,72,153,1)',   // 마젠타
+  '아트지':       'rgba(34,197,94,1)',    // 초록
+  '기타':         'rgba(156,163,175,1)',  // 회색
+};
+var PAPER_CAT_ORDER = ['백상지', '특수지', 'SW(스노우)', '아트지', '기타'];
 
 async function loadPaperTrend(sb) {
   var headline = document.getElementById('paperTrendHeadline');
@@ -1863,9 +1873,8 @@ async function loadPaperTrend(sb) {
   var canvas = document.getElementById('paperTrendChart');
   if (!headline || !canvas) return;
 
-  var res = await sb.from('paper_vs_sales_monthly')
-    .select('ym, paper_um_avg')
-    .eq('company', 'all')
+  var res = await sb.from('paper_category_monthly')
+    .select('ym, category, paper_um_avg')
     .gt('paper_um_avg', 0)
     .order('ym', { ascending: true });
 
@@ -1874,73 +1883,100 @@ async function loadPaperTrend(sb) {
     return;
   }
 
-  var rows = res.data.slice();
+  // { category: [{ym, paper_um_avg}, ...] }
+  var byCat = {};
+  res.data.forEach(function(r) {
+    if (!byCat[r.category]) byCat[r.category] = [];
+    byCat[r.category].push({ ym: r.ym, um: Number(r.paper_um_avg) });
+  });
 
-  // median ±2.5배 벗어난 월은 이상치로 제외
+  // 카테고리별 이상치 제거 (카테고리 내부 median ±2.5배)
   function median(arr) {
     var a = arr.slice().sort(function(x, y) { return x - y; });
     if (!a.length) return 0;
     var m = Math.floor(a.length / 2);
     return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2;
   }
-  var med = median(rows.map(function(r) { return r.paper_um_avg; }));
-  rows = rows.filter(function(r) {
-    return r.paper_um_avg >= med * 0.4 && r.paper_um_avg <= med * 2.5;
+  Object.keys(byCat).forEach(function(c) {
+    var med = median(byCat[c].map(function(r) { return r.um; }));
+    byCat[c] = byCat[c].filter(function(r) {
+      return r.um >= med * 0.4 && r.um <= med * 2.5;
+    });
   });
 
-  if (rows.length < 2) {
+  // 전체 ym 축 (오름차순)
+  var allYms = Array.from(new Set(res.data.map(function(r) { return r.ym; }))).sort();
+  if (allYms.length < 2) {
     headline.innerHTML = '<div class="paper-sales-placeholder" style="padding:0;font-size:12px">비교 가능한 월이 부족합니다</div>';
     return;
   }
 
-  var first = rows[0];
-  var last = rows[rows.length - 1];
-  var change = (last.paper_um_avg - first.paper_um_avg) / first.paper_um_avg * 100;
-  var cls = change >= 0 ? 'up' : 'down';
+  // 헤드라인 — '백상지' (Top 1) 기준 첫↔마지막 변동률 + 최근 월 전체 평균 단가
+  var ref = byCat['백상지'] || [];
+  var firstRef = ref[0], lastRef = ref[ref.length - 1];
+  var refChange = (firstRef && lastRef && firstRef.um)
+    ? (lastRef.um - firstRef.um) / firstRef.um * 100 : 0;
+  var refCls = refChange >= 0 ? 'up' : 'down';
+  var refFirstYm = firstRef ? firstRef.ym : allYms[0];
+  var refLastYm = lastRef ? lastRef.ym : allYms[allYms.length - 1];
 
-  // 헤드라인 — 기간 + 변화율 + 최근 단가
   headline.innerHTML =
     '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">' +
-      first.ym + ' → ' + last.ym + ' 변동</div>' +
-    '<div class="paper-sales-headline-value paper-sales-headline-value--' + cls + '">' +
-      (change >= 0 ? '+' : '') + change.toFixed(1) + '%</div></div>' +
-    '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">' +
-      last.ym + ' 매입 단가</div>' +
+      '백상지 ' + refFirstYm + ' → ' + refLastYm + ' 변동</div>' +
+    '<div class="paper-sales-headline-value paper-sales-headline-value--' + refCls + '">' +
+      (refChange >= 0 ? '+' : '') + refChange.toFixed(1) + '%</div></div>' +
+    (lastRef ? '<div class="paper-sales-headline-item"><div class="paper-sales-headline-label">' +
+      refLastYm + ' 백상지 단가</div>' +
     '<div class="paper-sales-headline-value">' +
-      Math.round(last.paper_um_avg).toLocaleString() + '원/장</div></div>';
+      Math.round(lastRef.um).toLocaleString() + '원/장</div></div>' : '');
 
   if (sub) {
-    sub.textContent = first.ym + ' → ' + last.ym + ' 월별 가중평균 · 갑우그룹 공통 매입 (viewGabwoo_마감)';
+    sub.textContent = allYms[0] + ' → ' + allYms[allYms.length - 1] +
+      ' · 5개 카테고리 분리 (PRT_ITEM 품명 기반) · 갑우그룹 매입';
   }
 
-  // 라인 차트 — 단일 라인, 면 채움
+  // 카테고리별 dataset 생성 (ym 축에 맞춰 null 채움)
+  var datasets = PAPER_CAT_ORDER.filter(function(c) { return byCat[c]; }).map(function(cat) {
+    var map = {};
+    byCat[cat].forEach(function(r) { map[r.ym] = r.um; });
+    var color = PAPER_CAT_COLORS[cat] || 'rgba(107,114,128,1)';
+    return {
+      label: cat,
+      data: allYms.map(function(ym) { return map[ym] != null ? map[ym] : null; }),
+      borderColor: color,
+      backgroundColor: color.replace('1)', '0.08)'),
+      borderWidth: 2,
+      tension: 0.25,
+      fill: false,
+      spanGaps: true,
+      pointRadius: 2.5,
+      pointBackgroundColor: '#fff',
+      pointBorderColor: color,
+      pointBorderWidth: 2,
+    };
+  });
+
   if (_paperTrendChart) _paperTrendChart.destroy();
   _paperTrendChart = new Chart(canvas, {
     type: 'line',
-    data: {
-      labels: rows.map(function(r) { return r.ym; }),
-      datasets: [{
-        label: '용지 매입 단가 (원/장)',
-        data: rows.map(function(r) { return r.paper_um_avg; }),
-        borderColor: 'rgba(59,130,246,1)',
-        backgroundColor: 'rgba(59,130,246,0.08)',
-        borderWidth: 2.5,
-        tension: 0.25,
-        fill: true,
-        pointRadius: 3,
-        pointBackgroundColor: '#fff',
-        pointBorderColor: 'rgba(59,130,246,1)',
-        pointBorderWidth: 2,
-      }],
-    },
+    data: { labels: allYms, datasets: datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: true,
+          position: 'top',
+          align: 'end',
+          labels: { boxWidth: 10, boxHeight: 10, padding: 10, font: { size: 11 } },
+        },
         tooltip: {
           callbacks: {
-            label: function(ctx) { return Math.round(ctx.raw).toLocaleString() + '원/장'; },
+            label: function(ctx) {
+              if (ctx.raw == null) return ctx.dataset.label + ': -';
+              return ctx.dataset.label + ': ' + Math.round(ctx.raw).toLocaleString() + '원/장';
+            },
           },
         },
       },
