@@ -28,6 +28,17 @@ except ImportError:
 ENV_FILE = Path("/Users/jack/dev/gabwoo/견적계산기/.env.local")
 PROJECT_REF = "btbqzbrtsmwoolurpqgx"
 
+# AI 해석에서 제외할 특수 케이스 거래처
+# - 프린트뱅크(비피앤피 자회사)로 작업이 이관된 경우, 단순 이탈·축소로 해석하면 왜곡.
+#   2026-04-16 본부장 확인: V00749 1건뿐.
+# customer_code 기준 (SQL 필터) + customer_name 키워드 안전망 (2중 차단)
+EXCLUDE_CUSTOMER_CODES = {
+    "V00749",  # (주)지에스리테일 — 프린트뱅크로 이관
+}
+EXCLUDE_NAME_KEYWORDS = [
+    "지에스리테일",
+]
+
 
 def load_env(p: Path) -> dict:
     env = {}
@@ -110,20 +121,27 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
     # 회사 필터: company가 None이면 항상 true (1=1) → WHERE 절 구조 안전
     company_clause = f"company = '{company}'" if company else "1=1"
 
+    # 제외 거래처 필터 (코드 기준) — AI 해석에서 프린트뱅크 이관 등 특수 케이스 차단
+    if EXCLUDE_CUSTOMER_CODES:
+        excl_codes = ", ".join(f"'{c}'" for c in EXCLUDE_CUSTOMER_CODES)
+        exclude_clause = f"AND (customer_code IS NULL OR customer_code NOT IN ({excl_codes}))"
+    else:
+        exclude_clause = ""
+
     # 전체 요약
     summary_sql = f"""
         SELECT
             (SELECT COALESCE(SUM(supply_amount),0) FROM erp_sales_confirmed
-             WHERE {company_clause}
+             WHERE {company_clause} {exclude_clause}
              AND sales_date >= '{this_start}' AND sales_date < '{this_end}') AS this_total,
             (SELECT COALESCE(SUM(supply_amount),0) FROM erp_sales_confirmed
-             WHERE {company_clause}
+             WHERE {company_clause} {exclude_clause}
              AND sales_date >= '{last_start}' AND sales_date < '{last_end}') AS last_total,
             (SELECT COUNT(*) FROM erp_sales_confirmed
-             WHERE {company_clause}
+             WHERE {company_clause} {exclude_clause}
              AND sales_date >= '{this_start}' AND sales_date < '{this_end}') AS this_cnt,
             (SELECT COUNT(*) FROM erp_sales_confirmed
-             WHERE {company_clause}
+             WHERE {company_clause} {exclude_clause}
              AND sales_date >= '{last_start}' AND sales_date < '{last_end}') AS last_cnt
     """
     s = sb_query(summary_sql, access_token)[0]
@@ -140,14 +158,14 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
         WITH this_cust AS (
             SELECT customer_name, SUM(supply_amount) AS amt, COUNT(*) AS cnt
             FROM erp_sales_confirmed
-            WHERE {company_clause}
+            WHERE {company_clause} {exclude_clause}
               AND sales_date >= '{this_start}' AND sales_date < '{this_end}'
             GROUP BY customer_name
         ),
         last_cust AS (
             SELECT customer_name, SUM(supply_amount) AS amt, COUNT(*) AS cnt
             FROM erp_sales_confirmed
-            WHERE {company_clause}
+            WHERE {company_clause} {exclude_clause}
               AND sales_date >= '{last_start}' AND sales_date < '{last_end}'
             GROUP BY customer_name
         )
@@ -161,8 +179,11 @@ def analyze(access_token: str, base_date: date, company: str = None) -> dict:
         FULL OUTER JOIN last_cust l ON t.customer_name = l.customer_name
     """
     cust_rows = sb_query(cust_sql, access_token)
-    # 감소 금액 기준 정렬
-    cust_rows = [r for r in cust_rows if r.get("name")]
+    # 감소 금액 기준 정렬 + 이름 키워드 2차 필터 (customer_code NULL 대비)
+    def _excluded_by_name(nm: str) -> bool:
+        if not nm: return False
+        return any(kw in nm for kw in EXCLUDE_NAME_KEYWORDS)
+    cust_rows = [r for r in cust_rows if r.get("name") and not _excluded_by_name(r["name"])]
     for r in cust_rows:
         r["this_amt"] = float(r["this_amt"])
         r["last_amt"] = float(r["last_amt"])
