@@ -1302,11 +1302,16 @@ async function loadRiskCustomers(sb, company, now) {
       pageFrom += pageSize;
     }
 
+    // 이탈 분석 제외 키워드 — 프린트뱅크(비피앤피 자회사) 이관 등 단순 이탈로 보기 부적절한 특수 케이스
+    // generate_insights.py의 EXCLUDE_NAME_KEYWORDS와 맞춰 유지
+    var EXCLUDED_FROM_CHURN = ['지에스리테일'];
+
     // 거래처별 집계: 총매출 / 마지막 매출일 / 마지막 영업자
     var agg = {};
     all.forEach(function(row) {
       if (!row.customer_name) return;
       var k = normalizeCustName(row.customer_name);
+      if (EXCLUDED_FROM_CHURN.some(function(kw) { return k.indexOf(kw) !== -1; })) return;
       if (!agg[k]) agg[k] = { total: 0, last: null, emp: null };
       agg[k].total += Number(row.supply_amount) || 0;
       if (!agg[k].last || row.sales_date > agg[k].last) {
