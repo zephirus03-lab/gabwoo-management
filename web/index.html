@@ -234,6 +234,10 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
 .paper-sales-tab:hover:not(.active){background:var(--gray-50)}
 .paper-sales-placeholder{padding:24px;text-align:center;color:var(--gray-400);font-size:12px}
 
+/* ─── 네비게이션 햄버거 메뉴 ─── */
+.nav-menu-btn:hover{background:rgba(59,130,246,0.28)!important;}
+.nav-menu-dropdown a:hover{background:rgba(59,130,246,0.18);color:#fff!important;}
+
 /* ─── 영업자 상세 모달 (pricing_audit 기반 카드) ─── */
 .emp-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center}
 .emp-modal-backdrop{position:absolute;inset:0;background:rgba(15,23,42,0.55);backdrop-filter:blur(2px)}
@@ -364,7 +368,17 @@ button{font-family:inherit;cursor:pointer} select{font-family:inherit}
             <button class="period-preset-btn" data-months="0" onclick="PeriodRange.setPreset(0)">전체</button>
           </div>
         </div>
-        <a href="sales-dashboard.html" style="text-decoration:none;display:inline-flex;align-items:center;height:32px;padding:0 14px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;border-radius:var(--radius-sm);font-size:13px;font-weight:600;transition:background .15s,color .15s;gap:6px;">📊 영업자 대시보드</a>
+        <div class="nav-menu" id="navMenu" style="position:relative;display:inline-flex;">
+          <button type="button" class="nav-menu-btn" onclick="NavMenu.toggle(event)" aria-label="메뉴" title="메뉴" style="display:inline-flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;width:36px;height:32px;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);border-radius:var(--radius-sm);cursor:pointer;transition:background .15s;">
+            <span style="display:block;width:16px;height:2px;background:#60a5fa;border-radius:1px;"></span>
+            <span style="display:block;width:16px;height:2px;background:#60a5fa;border-radius:1px;"></span>
+            <span style="display:block;width:16px;height:2px;background:#60a5fa;border-radius:1px;"></span>
+          </button>
+          <div class="nav-menu-dropdown" id="navMenuDropdown" style="display:none;position:absolute;top:38px;right:0;min-width:230px;background:#1e293b;border:1px solid rgba(148,163,184,0.25);border-radius:var(--radius-sm);box-shadow:0 8px 24px rgba(0,0,0,0.4);padding:6px;z-index:1000;">
+            <a href="sales-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:8px;padding:10px 12px;color:#e2e8f0;border-radius:var(--radius-sm);font-size:13px;font-weight:600;">📊 영업자 대시보드</a>
+            <a href="pnl-dashboard.html" style="text-decoration:none;display:flex;align-items:center;gap:8px;padding:10px 12px;color:#e2e8f0;border-radius:var(--radius-sm);font-size:13px;font-weight:600;">📈 갑우그룹 부문별 영업손익</a>
+          </div>
+        </div>
         <button class="btn-logout" onclick="Auth.handleLogout()">로그아웃</button>
       </div>
     </div>
@@ -2177,6 +2191,24 @@ var PeriodRange = (function() {
     return (parseInt(tp[0]) - parseInt(fp[0])) * 12 + (parseInt(tp[1]) - parseInt(fp[1])) + 1;
   }
   return { init: init, setPreset: setPreset, getMonths: getMonths };
+})();
+
+var NavMenu = (function(){
+  function toggle(e){
+    if(e) e.stopPropagation();
+    var dd = document.getElementById('navMenuDropdown');
+    if(!dd) return;
+    dd.style.display = (dd.style.display === 'none' || !dd.style.display) ? 'block' : 'none';
+  }
+  function close(){
+    var dd = document.getElementById('navMenuDropdown');
+    if(dd) dd.style.display = 'none';
+  }
+  document.addEventListener('click', function(e){
+    var menu = document.getElementById('navMenu');
+    if(menu && !menu.contains(e.target)) close();
+  });
+  return { toggle: toggle, close: close };
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
