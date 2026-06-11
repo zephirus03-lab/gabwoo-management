@@ -141,6 +141,7 @@ var CONFIG = {
 // 수집 명세(요약) — config/sources.json과 동기화. 현황판 렌더용.
 var SOURCES = [
   {cat:'담당자수령', items:[
+    {id:'제품매출', owner:'회계(더존)', title:'제품매출(갑우·비피·더원)', unit:'quarter', required:true},
     {id:'급여집계_조진희', owner:'조진희', title:'급여집계표', unit:'month', required:true},
     {id:'외주정산_이휘영', owner:'이휘영', title:'외주 정산표·용지손익', unit:'month', required:true},
     {id:'패키지매입매출_양성재', owner:'양성재', title:'패키지 매입매출', unit:'month', required:false},
@@ -248,21 +249,25 @@ var App=(function(){
   }
   var staged=[]; // {file, sourceId, month}
 
-  // 파일명 → {sourceId, month} 자동 추정 (업로드 분류용 — 사용자가 검토·수정)
+  // 파일명+확장자 → {sourceId, month} 자동 추정 (업로드 분류용 — 사용자가 검토·수정)
   function classify(name){
-    var n=name.toLowerCase(), yymm=name.match(/(?:^|[^0-9])26(0[1-9]|1[0-2])(?:[^0-9]|$)/), kmon=name.match(/(\d{1,2})\s*월/);
+    var ext=(name.split('.').pop()||'').toLowerCase(), isPdf=ext==='pdf';
+    var yymm=name.match(/(?:^|[^0-9])(\d{2})(0[1-9]|1[0-2])(?:[^0-9]|$)/),     // 2601
+        kmon=name.match(/(\d{1,2})\s*월/),                                      // 1월
+        yr=(name.match(/(\d{2})\s*년/)||[])[1];
     var month='';
-    if(/1분기|q1/i.test(name)) month='';
-    else if(yymm) month='2026-'+yymm[1];
-    else if(kmon) month='2026-'+String(+kmon[1]).padStart(2,'0');
+    if(/[1-4]\s*분기|q[1-4]/i.test(name)) month='';                            // 분기 일괄
+    else if(yymm) month='20'+yymm[1]+'-'+yymm[2];
+    else if(kmon){var y=yr?('20'+yr):'2026';month=y+'-'+String(+kmon[1]).padStart(2,'0')}
     var sid='';
-    if(/갑우-26|비피-26|급여/.test(name)) sid='급여집계_조진희';
-    else if(/정산표지|외주인쇄|용지손익/.test(name)) sid='외주정산_이휘영';
-    else if(/원가보고서/.test(name)||/비피.*1분기.*매입/.test(name)) sid='원가보고서_김미성';
-    else if(/매입매출/.test(name)) sid='패키지매입매출_양성재';
-    else if(/매출현황/.test(name)) sid='정답지_매출현황';
-    else if(/손익계산서/.test(name)) sid='정답지_손익계산서';
-    else if(/제품매출/.test(name)) sid='erp_매출';
+    // 급여: 갑우/비피 + 4자리(2601) 또는 '급여' (PDF가 많음)
+    if(/급여/.test(name)||/(갑우|비피)[\s_\-]?\d{4}/.test(name)) sid='급여집계_조진희';
+    else if(/정산\s*표지|외주\s*인쇄|용지\s*손익|외주.*손익|손익.*대장/.test(name)) sid='외주정산_이휘영';
+    else if(/원가\s*보고서|비피.*분기.*매입/.test(name)) sid='원가보고서_김미성';
+    else if(/매입\s*매출/.test(name)) sid='패키지매입매출_양성재';
+    else if(/매출\s*현황/.test(name)) sid='정답지_매출현황';
+    else if(/손익\s*계산서|손익\s*현황/.test(name)) sid='정답지_손익계산서';
+    else if(/제품\s*매출/.test(name)) sid='제품매출';
     return {sid:sid, month:month};
   }
   function srcOf(sid){var r=null;SOURCES.forEach(function(c){c.items.forEach(function(s){if(s.id===sid)r=s})});return r}
