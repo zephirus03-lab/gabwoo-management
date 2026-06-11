@@ -70,6 +70,21 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
 .gap-item .cause{font-size:12px;color:var(--gray500);margin-top:3px}
 .empty{text-align:center;color:var(--gray500);padding:40px;font-size:14px}
 .muted{color:var(--gray500);font-size:12px}
+/* 자료 수령 안내 메뉴 */
+.guide{background:#fff;border:1px solid var(--gray200);border-radius:14px;margin-bottom:20px;overflow:hidden}
+.guide>summary{list-style:none;cursor:pointer;padding:16px 20px;font-size:15px;font-weight:600;color:var(--brand);display:flex;align-items:center;gap:8px}
+.guide>summary::-webkit-details-marker{display:none}
+.guide>summary::after{content:'▾';margin-left:auto;font-size:13px;color:var(--gray500);transition:transform .15s}
+.guide[open]>summary::after{transform:rotate(180deg)}
+.guide-body{padding:0 20px 18px}
+.guide-item{border-top:1px solid var(--gray100);padding:13px 0}
+.guide-item .gi-h{font-weight:600;font-size:13px;color:var(--gray700);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.guide-item .gi-owner{font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;background:#eff6ff;color:var(--brand600);border:1px solid #bfdbfe}
+.guide-item ul{margin:7px 0 0 4px;list-style:none}
+.guide-item li{font-size:12.5px;color:var(--gray700);padding:3px 0 3px 14px;position:relative}
+.guide-item li::before{content:'•';position:absolute;left:0;color:var(--gray500)}
+.guide-item code{font-family:ui-monospace,monospace;background:var(--gray100);padding:1px 5px;border-radius:4px;font-size:11.5px;color:var(--brand)}
+.guide-note{margin-top:14px;padding:11px 13px;background:#fffbeb;border:1px solid #fde68a;border-radius:9px;font-size:12.5px;color:var(--amber)}
 </style>
 </head>
 <body>
@@ -111,6 +126,58 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
     </div>
   </header>
   <div class="wrap">
+    <!-- 자료 수령 안내 메뉴 -->
+    <details class="guide" open>
+      <summary>📋 1분기 자료 — 누구에게 무슨 파일을 받아야 하나요?</summary>
+      <div class="guide-body">
+
+        <div class="guide-item">
+          <div class="gi-h">01. 세금계산서 실매출자료 <span class="gi-owner">조미숙 차장</span></div>
+          <ul>
+            <li><code>26년_1분기_갑우,비피,더원 제품매출.xlsx</code></li>
+          </ul>
+        </div>
+
+        <div class="guide-item">
+          <div class="gi-h">02. 급여집계 <span class="gi-owner">조진희</span></div>
+          <ul>
+            <li>1분기 = 1·2·3월 → <code>갑우-2601~2603</code>, <code>비피-2601~2603</code> (6개)</li>
+          </ul>
+        </div>
+
+        <div class="guide-item">
+          <div class="gi-h">03. 외주정산 <span class="gi-owner">이휘영 차장</span></div>
+          <ul>
+            <li>외주 정산: <code>26년정산표지-2월_최종</code> 형식</li>
+            <li>용지손익대장: 1월·2월·3월 (수정분)</li>
+          </ul>
+        </div>
+
+        <div class="guide-item">
+          <div class="gi-h">04. 패키지 매입매출 <span class="gi-owner">양성재 차장</span></div>
+          <ul>
+            <li>26년 1·2·3월 매입매출 (3개)</li>
+          </ul>
+        </div>
+
+        <div class="guide-item">
+          <div class="gi-h">05. 원가보고서 <span class="gi-owner">김미성</span></div>
+          <ul>
+            <li><code>비피 26년1분기 매입매출.xlsx</code></li>
+          </ul>
+        </div>
+
+        <div class="guide-item">
+          <div class="gi-h">06. 최종 사업보고서 <span class="gi-owner">경영지원</span></div>
+          <ul>
+            <li><code>26년1분기_매출현황_경영지원본부.pdf</code></li>
+            <li><code>26년1분기_월별손익계산서_경영지원본부.pdf</code> 형식</li>
+          </ul>
+        </div>
+
+        <div class="guide-note">📌 이경산 본부장 — 위 자료를 각각의 담당자에게 받아서 업로드하세요.</div>
+      </div>
+    </details>
     <!-- 수집 현황판 -->
     <div class="panel">
       <h2>📥 수집 현황판</h2>
