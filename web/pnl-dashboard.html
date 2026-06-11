@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<!-- pnl-dashboard.html — 갑우그룹 부문별 영업손익 대시보드 (module-5)
+     Design Ref: §5(프론트 화면)·§4.2(Supabase 직결)·§7(접근통제 P0)
+     인증·Supabase 패턴은 기존 gabwooceo index.html 재사용(approved_users RLS).
+     연산 없음 — 사내 엔진이 push한 pnl_results를 렌더만. 단방향. -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>갑우그룹 부문별 영업손익</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<style>
+:root{--brand:#1f4e79;--brand600:#2563eb;--gray50:#f8fafc;--gray100:#f1f5f9;--gray200:#e2e8f0;--gray500:#64748b;--gray700:#334155;--green:#16a34a;--red:#dc2626;--amber:#d97706}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--gray50);color:var(--gray700);font-size:14px}
+.hide{display:none!important}
+/* Auth */
+#authScreen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#1f4e79,#2563eb)}
+.auth-card{background:#fff;border-radius:16px;padding:36px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.auth-card h1{font-size:18px;margin-bottom:6px;color:var(--brand)}
+.auth-card p.sub{color:var(--gray500);font-size:13px;margin-bottom:20px}
+.auth-card input{width:100%;padding:11px 13px;border:1px solid var(--gray200);border-radius:8px;margin-bottom:10px;font-size:14px}
+.auth-card button{width:100%;padding:11px;background:var(--brand600);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+.auth-card .row{display:flex;align-items:center;gap:6px;margin-bottom:12px;font-size:13px;color:var(--gray500)}
+.auth-msg{font-size:13px;padding:9px;border-radius:7px;margin-bottom:10px;display:none}
+.auth-msg.err{background:#fef2f2;color:var(--red)}.auth-msg.ok{background:#f0fdf4;color:var(--green)}
+.auth-links{margin-top:14px;font-size:12px;color:var(--gray500);text-align:center}
+.auth-links a{color:var(--brand600);cursor:pointer;text-decoration:none}
+/* App */
+header{background:#fff;border-bottom:1px solid var(--gray200);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+header h1{font-size:17px;color:var(--brand)}
+header .ctrl{display:flex;align-items:center;gap:12px}
+header select,header button{padding:8px 12px;border:1px solid var(--gray200);border-radius:8px;font-size:13px;background:#fff;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:22px}
+.panel{background:#fff;border:1px solid var(--gray200);border-radius:14px;padding:20px;margin-bottom:20px}
+.panel h2{font-size:15px;margin-bottom:14px;color:var(--brand);display:flex;align-items:center;gap:8px}
+.cat{margin-bottom:12px}
+.cat .cat-t{font-weight:600;font-size:13px;color:var(--gray700);margin-bottom:6px}
+.cells{display:flex;flex-wrap:wrap;gap:6px}
+.cell{font-size:12px;padding:5px 9px;border-radius:6px;border:1px solid var(--gray200);background:var(--gray50)}
+.cell.ready{background:#f0fdf4;border-color:#bbf7d0;color:var(--green)}
+.cell.missing{background:#fef2f2;border-color:#fecaca;color:var(--red)}
+.cell.erp{background:#eff6ff;border-color:#bfdbfe;color:var(--brand600)}
+.gate{margin-top:14px;padding:12px;border-radius:9px;font-size:13px}
+.gate.ok{background:#f0fdf4;color:var(--green)}.gate.blocked{background:#fffbeb;color:var(--amber)}
+.upload-row{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.upload-row select,.upload-row input[type=file]{padding:7px;border:1px solid var(--gray200);border-radius:7px;font-size:13px}
+.btn{padding:9px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--brand600);color:#fff}
+.btn:disabled{background:var(--gray200);color:var(--gray500);cursor:not-allowed}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.kpi{background:#fff;border:1px solid var(--gray200);border-radius:12px;padding:16px}
+.kpi .l{font-size:12px;color:var(--gray500)}
+.kpi .v{font-size:22px;font-weight:700;margin-top:4px}
+.v.pos{color:var(--green)}.v.neg{color:var(--red)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--gray100)}
+th:first-child,td:first-child{text-align:left}
+th{background:var(--gray50);color:var(--gray500);font-weight:600;font-size:12px}
+td.neg{color:var(--red)}td.pos{color:var(--green)}
+.tag{font-size:11px;padding:2px 7px;border-radius:5px;background:var(--gray100);color:var(--gray500)}
+.gap-item{padding:8px 0;border-bottom:1px solid var(--gray100);font-size:13px}
+.gap-item .cause{font-size:12px;color:var(--gray500);margin-top:3px}
+.empty{text-align:center;color:var(--gray500);padding:40px;font-size:14px}
+.muted{color:var(--gray500);font-size:12px}
+</style>
+</head>
+<body>
+
+<!-- ═══ 인증 화면 ═══ -->
+<div id="authScreen">
+  <div class="auth-card">
+    <h1>갑우그룹 경영 대시보드</h1>
+    <p class="sub">부문별 영업손익 — 경영진 전용</p>
+    <div id="authMsg" class="auth-msg"></div>
+    <div id="loginForm">
+      <input id="loginEmail" type="email" placeholder="이메일" autocomplete="username">
+      <input id="loginPassword" type="password" placeholder="비밀번호" autocomplete="current-password">
+      <div class="row"><input type="checkbox" id="rememberMe" checked><label for="rememberMe">로그인 유지</label></div>
+      <button onclick="Auth.handleLogin()">로그인</button>
+      <div class="auth-links"><a onclick="Auth.showReset()">비밀번호 재설정</a> · <a onclick="Auth.showSignup()">가입 신청</a></div>
+    </div>
+    <div id="signupForm" class="hide">
+      <input id="signupEmail" type="email" placeholder="이메일">
+      <input id="signupPassword" type="password" placeholder="비밀번호(6자 이상)">
+      <button onclick="Auth.handleSignup()">가입 신청</button>
+      <div class="auth-links"><a onclick="Auth.showLogin()">로그인으로</a></div>
+    </div>
+    <div id="resetForm" class="hide">
+      <input id="resetEmail" type="email" placeholder="이메일">
+      <button onclick="Auth.handleReset()">재설정 메일 보내기</button>
+      <div class="auth-links"><a onclick="Auth.showLogin()">로그인으로</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 메인 앱 ═══ -->
+<div id="mainApp" class="hide">
+  <header>
+    <h1>갑우그룹 부문별 영업손익</h1>
+    <div class="ctrl">
+      <select id="periodSel" onchange="App.selectPeriod(this.value)"></select>
+      <button onclick="App.newPeriod()">+ 기간</button>
+      <button onclick="Auth.handleLogout()">로그아웃</button>
+    </div>
+  </header>
+  <div class="wrap">
+    <!-- 수집 현황판 -->
+    <div class="panel">
+      <h2>📥 수집 현황판</h2>
+      <div id="board"><div class="muted">기간을 선택하세요.</div></div>
+      <div class="upload-row">
+        <select id="upSource"></select>
+        <input type="month" id="upMonth">
+        <input type="file" id="upFile">
+        <button class="btn" onclick="App.upload()">자료 업로드 ⬆</button>
+      </div>
+      <div id="gate" class="gate"></div>
+    </div>
+    <!-- 결과 -->
+    <div class="panel">
+      <h2>📊 산출 결과</h2>
+      <div id="result"><div class="empty">산출 결과가 없습니다. 자료 도착 후 사내 엔진에서 <code>/분기손익산출 run</code> 실행 → 결과가 자동 표시됩니다.</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══ CONFIG (기존 gabwooceo 패턴 재사용) ═══
+var CONFIG = {
+  SUPABASE_URL: 'https://btbqzbrtsmwoolurpqgx.supabase.co',
+  SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0YnF6YnJ0c213b29sdXJwcWd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0NDM4MDUsImV4cCI6MjA5MTAxOTgwNX0.OPGiHDcCCWvHeOgjDhhwlPmDYg7jGwR0ZWLJrbycwi4',
+  AUTH_KEY: 'gabwoo-ceo-auth', BUCKET: 'pnl-uploads'
+};
+// 수집 명세(요약) — config/sources.json과 동기화. 현황판 렌더용.
+var SOURCES = [
+  {cat:'담당자수령', items:[
+    {id:'급여집계_조진희', owner:'조진희', title:'급여집계표', unit:'month', required:true},
+    {id:'외주정산_이휘영', owner:'이휘영', title:'외주 정산표·용지손익', unit:'month', required:true},
+    {id:'패키지매입매출_양성재', owner:'양성재', title:'패키지 매입매출', unit:'month', required:false},
+    {id:'원가보고서_김미성', owner:'김미성', title:'부문별 원가보고서', unit:'month', required:false}]},
+  {cat:'ERP추출', items:[
+    {id:'erp_작업실적', owner:'사내엔진', title:'작업실적(가동시간)', unit:'erp', required:true},
+    {id:'erp_매출', owner:'사내엔진', title:'거래처별 매출', unit:'erp', required:true}]},
+  {cat:'더존수동', items:[
+    {id:'더존수동_원가입력', owner:'경영지원', title:'더존 수치 입력시트', unit:'month', required:false}]},
+  {cat:'정답지', items:[
+    {id:'정답지_매출현황', owner:'경영지원', title:'매출현황(대조 기준)', unit:'month', required:true},
+    {id:'정답지_손익계산서', owner:'경영지원', title:'손익계산서', unit:'quarter', required:false}]}
+];
+function fmt(n){if(n==null||isNaN(n))return'-';n=Number(n);var s=n<0?'-':'';n=Math.abs(n);if(n>=1e8)return s+(n/1e8).toFixed(1)+'억';if(n>=1e4)return s+Math.round(n/1e4).toLocaleString()+'만';return s+n.toLocaleString()}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function monthsOf(p){if(!p)return[];if(p.kind==='month')return[p.id];
+  var ms=[],s=new Date(p.start_date),e=new Date(p.end_date);
+  while(s<=e){ms.push(s.getFullYear()+'-'+String(s.getMonth()+1).padStart(2,'0'));s.setMonth(s.getMonth()+1)}return ms}
+
+// ═══ DB / Auth (gabwooceo 패턴) ═══
+var sb = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY, {auth:{persistSession:true,autoRefreshToken:true,storageKey:CONFIG.AUTH_KEY,detectSessionInUrl:true}});
+function amsg(m,ok){var e=document.getElementById('authMsg');e.textContent=m;e.className='auth-msg '+(ok?'ok':'err');e.style.display='block'}
+var Auth=(function(){
+  function show(id){['loginForm','signupForm','resetForm'].forEach(function(f){document.getElementById(f).classList.toggle('hide',f!==id)});document.getElementById('authMsg').style.display='none'}
+  async function approved(email){var r=await sb.from('approved_users').select('email').eq('email',email).maybeSingle();return!r.error&&r.data}
+  return {
+    showLogin:function(){show('loginForm')},showSignup:function(){show('signupForm')},showReset:function(){show('resetForm')},
+    handleLogin:async function(){var e=document.getElementById('loginEmail').value.trim(),p=document.getElementById('loginPassword').value;
+      if(!e||!p)return amsg('이메일과 비밀번호를 입력하세요');
+      var r=await sb.auth.signInWithPassword({email:e,password:p});if(r.error)return amsg('이메일 또는 비밀번호가 올바르지 않습니다');
+      if(!(await approved(e))){await sb.auth.signOut();return amsg('관리자 승인 대기 중입니다')}App.enter()},
+    handleSignup:async function(){var e=document.getElementById('signupEmail').value.trim(),p=document.getElementById('signupPassword').value;
+      if(!e||p.length<6)return amsg('이메일·6자 이상 비밀번호를 입력하세요');
+      var r=await sb.auth.signUp({email:e,password:p});if(r.error)return amsg('가입 실패: '+r.error.message);
+      try{await sb.from('signup_requests').insert({email:e,status:'pending'})}catch(x){}await sb.auth.signOut();amsg('가입 신청 완료! 승인 후 로그인하세요.',true)},
+    handleReset:async function(){var e=document.getElementById('resetEmail').value.trim();if(!e)return amsg('이메일을 입력하세요');
+      var r=await sb.auth.resetPasswordForEmail(e,{redirectTo:location.href});if(r.error)return amsg('오류: '+r.error.message);amsg('재설정 메일을 보냈습니다.',true)},
+    handleLogout:async function(){await sb.auth.signOut();document.getElementById('mainApp').classList.add('hide');document.getElementById('authScreen').classList.remove('hide')}
+  };
+})();
+
+// ═══ App ═══
+var App=(function(){
+  var periods=[], current=null, sourceRows=[], resultSub=null;
+
+  async function loadPeriods(){
+    var r=await sb.from('pnl_periods').select('*').order('id',{ascending:false});
+    periods=r.data||[];
+    var sel=document.getElementById('periodSel');
+    sel.innerHTML=periods.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.id)+' ('+esc(p.status)+')</option>'}).join('')||'<option>기간 없음</option>';
+    if(periods.length){selectPeriod(current?current.id:periods[0].id)}
+  }
+  async function selectPeriod(id){
+    current=periods.find(function(p){return p.id===id});if(!current)return;
+    document.getElementById('periodSel').value=id;
+    fillUploadSources();
+    await refresh();
+    subscribeResult(id);
+  }
+  function fillUploadSources(){
+    var opts=[];SOURCES.forEach(function(c){if(c.cat==='ERP추출')return;c.items.forEach(function(s){opts.push('<option value="'+s.id+'">'+esc(s.owner)+' · '+esc(s.title)+'</option>')})});
+    document.getElementById('upSource').innerHTML=opts.join('');
+  }
+  async function refresh(){
+    var r=await sb.from('pnl_sources').select('*').eq('period_id',current.id);sourceRows=r.data||[];
+    renderBoard();await renderResult();
+  }
+  function arrived(sid,m){return sourceRows.some(function(r){return r.source_id===sid&&(r.month||'')===m&&(r.status==='uploaded'||r.status==='ready')})}
+  function renderBoard(){
+    var ms=monthsOf(current), missing=[], html='';
+    SOURCES.forEach(function(c){
+      html+='<div class="cat"><div class="cat-t">'+esc(c.cat)+'</div><div class="cells">';
+      c.items.forEach(function(s){
+        if(s.unit==='erp'){html+='<span class="cell erp">'+esc(s.title)+' (엔진 추출)</span>';return}
+        var monthsList=s.unit==='month'?ms:[''];
+        monthsList.forEach(function(m){
+          var ok=arrived(s.id,m), label=esc(s.title)+(m?' '+m.slice(5):'');
+          html+='<span class="cell '+(ok?'ready':'missing')+'">'+label+' '+(ok?'✓':'✗')+'</span>';
+          if(!ok&&s.required)missing.push((s.owner)+'·'+s.title+(m?'('+m+')':''));
+        });
+      });
+      html+='</div></div>';
+    });
+    document.getElementById('board').innerHTML=html;
+    var g=document.getElementById('gate'), can=missing.length===0;
+    g.className='gate '+(can?'ok':'blocked');
+    g.innerHTML=can?'✅ 필수 자료 모두 도착 — 사내 엔진에서 <code>/분기손익산출 run '+esc(current.id)+'</code> 실행 가능':
+      '⚠️ '+missing.length+'건 미충족 → '+esc(missing.slice(0,6).join(', '))+(missing.length>6?' 외':'');
+  }
+  async function upload(){
+    var sid=document.getElementById('upSource').value, m=document.getElementById('upMonth').value, f=document.getElementById('upFile').files[0];
+    if(!f)return alert('파일을 선택하세요');if(!current)return alert('기간을 먼저 선택하세요');
+    var src=null;SOURCES.forEach(function(c){c.items.forEach(function(s){if(s.id===sid)src=s})});
+    var mm=(src&&src.unit==='month')?(m?m:'')+'':'';
+    if(src&&src.unit==='month'&&!mm)return alert('월을 선택하세요');
+    var path=current.id+'/'+sid+'/'+(mm||'all')+'_'+f.name;
+    var up=await sb.storage.from(CONFIG.BUCKET).upload(path,f,{upsert:true});
+    if(up.error)return alert('업로드 실패: '+up.error.message);
+    var row={period_id:current.id,source_id:sid,month:mm,status:'uploaded',storage_path:path,owner:src&&src.owner,title:src&&src.title};
+    var w=await sb.from('pnl_sources').upsert(row,{onConflict:'period_id,source_id,month'});
+    if(w.error)return alert('상태 기록 실패: '+w.error.message);
+    document.getElementById('upFile').value='';await refresh();
+  }
+  function subscribeResult(id){
+    if(resultSub)sb.removeChannel(resultSub);
+    resultSub=sb.channel('pnl_'+id).on('postgres_changes',{event:'*',schema:'public',table:'pnl_results',filter:'period_id=eq.'+id},function(){renderResult()}).subscribe();
+  }
+  async function renderResult(){
+    var r=await sb.from('pnl_results').select('*').eq('period_id',current.id).maybeSingle();
+    var el=document.getElementById('result');
+    if(r.error||!r.data){el.innerHTML='<div class="empty">산출 결과 없음 — 사내 엔진 <code>/분기손익산출 run '+esc(current.id)+'</code> 실행 대기</div>';return}
+    var p=r.data.payload;el.innerHTML=renderPayload(p,r.data);
+  }
+  function renderPayload(p,row){
+    var k=p.kpi||{}, h='';
+    function vc(n){return n>=0?'pos':'neg'}
+    h+='<div class="kpis">'+
+      '<div class="kpi"><div class="l">매출</div><div class="v">'+fmt(k.revenue)+'</div></div>'+
+      '<div class="kpi"><div class="l">공헌이익</div><div class="v '+vc(k.op_profit_1)+'">'+fmt(k.op_profit_1)+'</div></div>'+
+      '<div class="kpi"><div class="l">제조이익</div><div class="v '+vc(k.op_profit_2)+'">'+fmt(k.op_profit_2)+'</div></div>'+
+      '<div class="kpi"><div class="l">영업이익</div><div class="v '+vc(k.op_profit_3)+'">'+fmt(k.op_profit_3)+'</div></div></div>';
+    // 부문별
+    h+='<h3 style="font-size:14px;margin:6px 0 8px;color:var(--brand)">부문별 손익</h3><table><thead><tr><th>부문</th><th>매출</th><th>변동비</th><th>제조원가</th><th>판관비</th><th>영업이익</th></tr></thead><tbody>';
+    (p.sectors||[]).forEach(function(s){h+='<tr><td>'+esc(s.div)+'</td><td>'+fmt(s.revenue)+'</td><td>'+fmt(s.variable_cost)+'</td><td>'+fmt(s.mfg_cost)+'</td><td>'+fmt(s.sga_cost)+'</td><td class="'+vc(s.op_profit_3)+'">'+fmt(s.op_profit_3)+'</td></tr>'});
+    h+='</tbody></table>';
+    // 거래처 상위
+    h+='<h3 style="font-size:14px;margin:18px 0 8px;color:var(--brand)">거래처별 손익 (상위 15)</h3><table><thead><tr><th>거래처</th><th>부문</th><th>매출</th><th>판관비</th><th>영업이익</th></tr></thead><tbody>';
+    (p.clients||[]).slice(0,15).forEach(function(c){h+='<tr><td>'+esc(c.client)+'</td><td><span class="tag">'+esc(c.div)+'</span></td><td>'+fmt(c.revenue)+'</td><td>'+fmt(c.sga_cost)+'</td><td class="'+vc(c.op_profit_3)+'">'+fmt(c.op_profit_3)+'</td></tr>'});
+    h+='</tbody></table>';
+    // 갭리포트
+    var g=p.gap_summary||row.gap_summary;
+    if(g&&g.items&&g.items.length){
+      h+='<h3 style="font-size:14px;margin:18px 0 8px;color:var(--brand)">정답지 대조</h3>';
+      g.items.forEach(function(it){
+        var mk=it.status==='match'?'✅':'⚠️';
+        h+='<div class="gap-item">'+mk+' <b>'+esc(it.div)+'</b> 산출 '+fmt(it.got)+' vs 정답 '+fmt(it.expected)+' (차이 '+fmt(it.diff)+')'+(it.cause?'<div class="cause">'+esc(it.cause)+'</div>':'')+'</div>';
+      });
+    }
+    // 출처/신뢰도
+    var meta=p.meta||{};
+    h+='<div class="muted" style="margin-top:16px">엔진 '+esc(row.engine_ver||meta.cost_params_version||'')+' · '+esc(meta.source||'')+(meta.unmapped_clients&&meta.unmapped_clients.length?(' · 미분류 거래처 '+meta.unmapped_clients.length+'개(근거매핑 보완 필요)'):'')+'</div>';
+    return h;
+  }
+  async function newPeriod(){
+    var id=prompt('기간 ID (예: 2026Q2, 2026-05):');if(!id)return;
+    var kind=/Q/.test(id)?'quarter':(/^\d{4}-\d{2}$/.test(id)?'month':'custom'), sd, ed;
+    if(kind==='quarter'){var y=id.slice(0,4),q=+id.slice(5);sd=y+'-'+String((q-1)*3+1).padStart(2,'0')+'-01';var em=q*3;ed=y+'-'+String(em).padStart(2,'0')+'-28'}
+    else if(kind==='month'){sd=id+'-01';ed=id+'-28'}
+    else{var d=prompt('시작일~종료일 (YYYY-MM-DD,YYYY-MM-DD):');if(!d)return;sd=d.split(',')[0].trim();ed=d.split(',')[1].trim()}
+    var r=await sb.from('pnl_periods').upsert({id:id,kind:kind,start_date:sd,end_date:ed,status:'collecting'},{onConflict:'id'});
+    if(r.error)return alert('생성 실패: '+r.error.message);current={id:id};await loadPeriods()}
+
+  return {
+    enter:async function(){document.getElementById('authScreen').classList.add('hide');document.getElementById('mainApp').classList.remove('hide');await loadPeriods()},
+    selectPeriod:selectPeriod, upload:upload, newPeriod:newPeriod
+  };
+})();
+
+// 세션 복원
+(async function(){var s=await sb.auth.getSession();if(s.data&&s.data.session){var em=s.data.session.user.email;var a=await sb.from('approved_users').select('email').eq('email',em).maybeSingle();if(!a.error&&a.data){App.enter();return}}})();
+</script>
+</body>
+</html>
