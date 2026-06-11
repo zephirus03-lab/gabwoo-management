@@ -48,6 +48,13 @@ header select,header button{padding:8px 12px;border:1px solid var(--gray200);bor
 .upload-row select,.upload-row input[type=file]{padding:7px;border:1px solid var(--gray200);border-radius:7px;font-size:13px}
 .btn{padding:9px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--brand600);color:#fff}
 .btn:disabled{background:var(--gray200);color:var(--gray500);cursor:not-allowed}
+#stage{margin-top:12px}
+#stage table{width:100%}
+#stage td,#stage th{padding:6px 8px;text-align:left;font-size:12px}
+#stage select,#stage input{padding:5px 7px;border:1px solid var(--gray200);border-radius:6px;font-size:12px}
+#stage .fn{font-family:ui-monospace,monospace;color:var(--gray700);max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st{font-size:11px;padding:2px 7px;border-radius:5px}
+.st.wait{background:var(--gray100);color:var(--gray500)}.st.done{background:#f0fdf4;color:var(--green)}.st.fail{background:#fef2f2;color:var(--red)}.st.guess{background:#fffbeb;color:var(--amber)}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
 .kpi{background:#fff;border:1px solid var(--gray200);border-radius:12px;padding:16px}
 .kpi .l{font-size:12px;color:var(--gray500)}
@@ -110,11 +117,11 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
       <h2>📥 수집 현황판</h2>
       <div id="board"><div class="muted">기간을 선택하세요.</div></div>
       <div class="upload-row">
-        <select id="upSource"></select>
-        <input type="month" id="upMonth">
-        <input type="file" id="upFile">
-        <button class="btn" onclick="App.upload()">자료 업로드 ⬆</button>
+        <input type="file" id="upFiles" multiple onchange="App.stageFiles()">
+        <button class="btn" onclick="App.uploadAll()">전체 업로드 ⬆</button>
+        <span class="muted">여러 파일을 한 번에 선택하세요. 파일명으로 담당자·월을 자동 분류합니다(수정 가능).</span>
       </div>
+      <div id="stage"></div>
       <div id="gate" class="gate"></div>
     </div>
     <!-- 결과 -->
@@ -190,13 +197,9 @@ var App=(function(){
   async function selectPeriod(id){
     current=periods.find(function(p){return p.id===id});if(!current)return;
     document.getElementById('periodSel').value=id;
-    fillUploadSources();
+    staged=[];renderStage();
     await refresh();
     subscribeResult(id);
-  }
-  function fillUploadSources(){
-    var opts=[];SOURCES.forEach(function(c){if(c.cat==='ERP추출')return;c.items.forEach(function(s){opts.push('<option value="'+s.id+'">'+esc(s.owner)+' · '+esc(s.title)+'</option>')})});
-    document.getElementById('upSource').innerHTML=opts.join('');
   }
   async function refresh(){
     var r=await sb.from('pnl_sources').select('*').eq('period_id',current.id);sourceRows=r.data||[];
@@ -224,19 +227,71 @@ var App=(function(){
     g.innerHTML=can?'✅ 필수 자료 모두 도착 — 사내 엔진에서 <code>/분기손익산출 run '+esc(current.id)+'</code> 실행 가능':
       '⚠️ '+missing.length+'건 미충족 → '+esc(missing.slice(0,6).join(', '))+(missing.length>6?' 외':'');
   }
-  async function upload(){
-    var sid=document.getElementById('upSource').value, m=document.getElementById('upMonth').value, f=document.getElementById('upFile').files[0];
-    if(!f)return alert('파일을 선택하세요');if(!current)return alert('기간을 먼저 선택하세요');
-    var src=null;SOURCES.forEach(function(c){c.items.forEach(function(s){if(s.id===sid)src=s})});
-    var mm=(src&&src.unit==='month')?(m?m:'')+'':'';
-    if(src&&src.unit==='month'&&!mm)return alert('월을 선택하세요');
-    var path=current.id+'/'+sid+'/'+(mm||'all')+'_'+f.name;
-    var up=await sb.storage.from(CONFIG.BUCKET).upload(path,f,{upsert:true});
-    if(up.error)return alert('업로드 실패: '+up.error.message);
-    var row={period_id:current.id,source_id:sid,month:mm,status:'uploaded',storage_path:path,owner:src&&src.owner,title:src&&src.title};
-    var w=await sb.from('pnl_sources').upsert(row,{onConflict:'period_id,source_id,month'});
-    if(w.error)return alert('상태 기록 실패: '+w.error.message);
-    document.getElementById('upFile').value='';await refresh();
+  var staged=[]; // {file, sourceId, month}
+
+  // 파일명 → {sourceId, month} 자동 추정 (업로드 분류용 — 사용자가 검토·수정)
+  function classify(name){
+    var n=name.toLowerCase(), yymm=name.match(/(?:^|[^0-9])26(0[1-9]|1[0-2])(?:[^0-9]|$)/), kmon=name.match(/(\d{1,2})\s*월/);
+    var month='';
+    if(/1분기|q1/i.test(name)) month='';
+    else if(yymm) month='2026-'+yymm[1];
+    else if(kmon) month='2026-'+String(+kmon[1]).padStart(2,'0');
+    var sid='';
+    if(/갑우-26|비피-26|급여/.test(name)) sid='급여집계_조진희';
+    else if(/정산표지|외주인쇄|용지손익/.test(name)) sid='외주정산_이휘영';
+    else if(/원가보고서/.test(name)||/비피.*1분기.*매입/.test(name)) sid='원가보고서_김미성';
+    else if(/매입매출/.test(name)) sid='패키지매입매출_양성재';
+    else if(/매출현황/.test(name)) sid='정답지_매출현황';
+    else if(/손익계산서/.test(name)) sid='정답지_손익계산서';
+    else if(/제품매출/.test(name)) sid='erp_매출';
+    return {sid:sid, month:month};
+  }
+  function srcOf(sid){var r=null;SOURCES.forEach(function(c){c.items.forEach(function(s){if(s.id===sid)r=s})});return r}
+  function allSrcOptions(sel){
+    var o='<option value="">— 소스 선택 —</option>';
+    SOURCES.forEach(function(c){if(c.cat==='ERP추출')return;c.items.forEach(function(s){o+='<option value="'+s.id+'"'+(s.id===sel?' selected':'')+'>'+esc(s.owner)+' · '+esc(s.title)+'</option>'})});
+    return o;
+  }
+  function stageFiles(){
+    if(!current){alert('기간을 먼저 선택하세요');document.getElementById('upFiles').value='';return}
+    var fl=document.getElementById('upFiles').files;
+    for(var i=0;i<fl.length;i++){var g=classify(fl[i].name);staged.push({file:fl[i],sourceId:g.sid,month:g.month,status:g.sid?'guess':'wait'})}
+    document.getElementById('upFiles').value='';renderStage();
+  }
+  function renderStage(){
+    var el=document.getElementById('stage');
+    if(!staged.length){el.innerHTML='';return}
+    var h='<table><thead><tr><th>파일 ('+staged.length+')</th><th>담당자·자료(소스)</th><th>월</th><th>상태</th><th></th></tr></thead><tbody>';
+    staged.forEach(function(s,i){
+      var src=srcOf(s.sourceId), isMonth=src&&src.unit==='month';
+      h+='<tr><td class="fn" title="'+esc(s.file.name)+'">'+esc(s.file.name)+'</td>'+
+        '<td><select onchange="App.setStage('+i+',\'sid\',this.value)">'+allSrcOptions(s.sourceId)+'</select></td>'+
+        '<td>'+(isMonth?'<input type="month" value="'+esc(s.month)+'" onchange="App.setStage('+i+',\'month\',this.value)">':'<span class="muted">분기일괄</span>')+'</td>'+
+        '<td><span class="st '+(s.status)+'">'+({wait:'소스 미정',guess:'자동분류✎',done:'완료✓',fail:'실패'}[s.status])+'</span></td>'+
+        '<td><a class="muted" style="cursor:pointer" onclick="App.delStage('+i+')">✕</a></td></tr>';
+    });
+    h+='</tbody></table>';el.innerHTML=h;
+  }
+  function setStage(i,k,v){if(k==='sid'){staged[i].sourceId=v;staged[i].status=v?'guess':'wait'}else staged[i].month=v;renderStage()}
+  function delStage(i){staged.splice(i,1);renderStage()}
+  async function uploadAll(){
+    if(!staged.length)return alert('파일을 먼저 선택하세요');
+    var bad=staged.filter(function(s){if(!s.sourceId)return true;var src=srcOf(s.sourceId);return src&&src.unit==='month'&&!s.month});
+    if(bad.length)return alert(bad.length+'개 파일의 소스 또는 월이 비어있습니다. 채운 뒤 다시 시도하세요.');
+    for(var i=0;i<staged.length;i++){
+      var s=staged[i];if(s.status==='done')continue;
+      var src=srcOf(s.sourceId), mm=(src&&src.unit==='month')?s.month:'';
+      var path=current.id+'/'+s.sourceId+'/'+(mm||'all')+'_'+s.file.name;
+      var up=await sb.storage.from(CONFIG.BUCKET).upload(path,s.file,{upsert:true});
+      if(up.error){s.status='fail';renderStage();alert(s.file.name+' 업로드 실패: '+up.error.message);continue}
+      var row={period_id:current.id,source_id:s.sourceId,month:mm,status:'uploaded',storage_path:path,owner:src&&src.owner,title:src&&src.title};
+      var w=await sb.from('pnl_sources').upsert(row,{onConflict:'period_id,source_id,month'});
+      s.status=w.error?'fail':'done';renderStage();
+    }
+    await refresh();
+    var done=staged.filter(function(s){return s.status==='done'}).length;
+    alert(done+'개 업로드 완료'+(done<staged.length?(' / '+(staged.length-done)+'개 실패'):''));
+    staged=staged.filter(function(s){return s.status!=='done'});renderStage();
   }
   function subscribeResult(id){
     if(resultSub)sb.removeChannel(resultSub);
@@ -289,7 +344,8 @@ var App=(function(){
 
   return {
     enter:async function(){document.getElementById('authScreen').classList.add('hide');document.getElementById('mainApp').classList.remove('hide');await loadPeriods()},
-    selectPeriod:selectPeriod, upload:upload, newPeriod:newPeriod
+    selectPeriod:selectPeriod, newPeriod:newPeriod,
+    stageFiles:stageFiles, uploadAll:uploadAll, setStage:setStage, delStage:delStage
   };
 })();
 
