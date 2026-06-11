@@ -316,6 +316,7 @@ var App=(function(){
 
   // 파일명+확장자 → {sourceId, month} 자동 추정 (업로드 분류용 — 사용자가 검토·수정)
   function classify(name){
+    name=(name||'').normalize('NFC');   // ⚠️ macOS 파일명은 NFD(자모분해) → NFC로 정규화해야 한글 매칭됨
     var ext=(name.split('.').pop()||'').toLowerCase(), isPdf=ext==='pdf';
     var yymm=name.match(/(?:^|[^0-9])(\d{2})(0[1-9]|1[0-2])(?:[^0-9]|$)/),     // 2601
         kmon=name.match(/(\d{1,2})\s*월/),                                      // 1월
@@ -369,7 +370,7 @@ var App=(function(){
     if(bad.length)return alert(bad.length+'개 파일의 소스 또는 월이 비어있습니다. 채운 뒤 다시 시도하세요.');
     // 파일들의 월/분기에서 기간 자동 도출 → pnl_periods upsert
     var months=staged.map(function(s){return s.month}), qhint=null;
-    staged.forEach(function(s){var m=s.file.name.match(/(\d{2})\s*년?\s*([1-4])\s*분기/)||s.file.name.match(/([1-4])\s*분기/);
+    staged.forEach(function(s){var nm=(s.file.name||'').normalize('NFC');var m=nm.match(/(\d{2})\s*년?\s*([1-4])\s*분기/)||nm.match(/([1-4])\s*분기/);
       if(m){var q=m[2]?+m[2]:+m[1];var y=m[2]?('20'+m[1]):'2026';qhint={y:y,q:q}}});
     var pd=derivePeriod(months,qhint);
     if(!pd)return alert('파일명에서 날짜(월·분기)를 찾지 못했습니다. 파일명에 "2601"·"1월"·"1분기" 등이 있어야 자동 판단됩니다.');
