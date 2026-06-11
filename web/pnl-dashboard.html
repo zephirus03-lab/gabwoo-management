@@ -272,7 +272,7 @@ var App=(function(){
     return o;
   }
   function stageFiles(){
-    if(!current){alert('기간을 먼저 선택하세요');document.getElementById('upFiles').value='';return}
+    // 기간은 [전체 업로드] 시 파일명에서 자동 도출 — 사전 선택 불필요
     var fl=document.getElementById('upFiles').files;
     for(var i=0;i<fl.length;i++){var g=classify(fl[i].name);staged.push({file:fl[i],sourceId:g.sid,month:g.month,status:g.sid?'guess':'wait'})}
     document.getElementById('upFiles').value='';renderStage();
