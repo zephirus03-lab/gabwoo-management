@@ -512,7 +512,8 @@ var App=(function(){
   function renderReport(p, found){
     var A=1e8, won=function(n){return (n<0?'−':'')+Math.abs(Math.round(n/A*10)/10)+'억';};
     var a=p.anchor, group=0; for(var c in a) group+=a[c];
-    var h='<div class="muted" style="margin-bottom:10px">📋 완전원가 보고서 (손익계산서 앵커 기준) · 인식된 자료: <b>'+esc((found||[]).join(' + '))+'</b> · 4사 본업 영업손익 <b>'+won(group)+'</b></div>';
+    var per=p.period?('<b>'+esc(p.period)+'</b> · '):'';
+    var h='<div class="muted" style="margin-bottom:10px">📋 완전원가 보고서 · '+per+'인식된 자료: <b>'+esc((found||[]).join(' + '))+'</b> · 4사 본업 영업손익 <b>'+won(group)+'</b></div>';
     h+='<table class="res"><thead><tr><th>부문</th><th>매출</th><th>영업손익</th><th>이익률</th></tr></thead><tbody>';
     ["인쇄","패키지","디지털","콘텐츠","중철","미분류"].forEach(function(d){ var s=p.segments[d]; if(!s||Math.abs(s.revenue)<1e6) return;
       var op=s.op_profit, neg=op<0, rate=s.revenue?(op/s.revenue*100):0;
@@ -523,7 +524,7 @@ var App=(function(){
     ["갑우","비피","더원","프린트뱅크"].forEach(function(c){ if(a[c]==null) return; var neg=a[c]<0;
       h+='<tr><td>'+esc(c)+'</td><td style="color:'+(neg?'#c0392b':'#1f7a3d')+';font-weight:600">'+won(a[c])+'</td></tr>'; });
     h+='<tr style="border-top:2px solid var(--gray300)"><td><b>4사 본업 합계</b></td><td style="font-weight:700;color:'+(group<0?'#c0392b':'#1f7a3d')+'">'+won(group)+'</td></tr></tbody></table></div>';
-    h+='<div class="muted" style="margin-top:12px">부문 영업손익 = 부문 매출 − 직접원가 − 판관비(12.12%) − 공통고정비(법인 확정손익에 닫음). ⚠️ 공통고정비를 매출비중으로 배분 — 패키지 가동시간 확보 시 인쇄/패키지 정밀화(현재 인쇄/패키지 ±1.4억). 디지털·콘텐츠·법인 합계는 정확.</div>';
+    h+='<div class="muted" style="margin-top:12px">부문 영업손익 = 부문 매출 − 직접원가 − 판관비(12.12%) − 공통고정비. 공통고정비는 <b>가동시간 비례</b> 배분(인쇄 10,418h 실측 · 패키지/디지털/콘텐츠는 1분기 수동보고서 보정값). 2사 합계는 손익계산서 확정손익(앵커)에 닫힙니다. 패키지 실측 가동시간 확보 시 보정값 교체.</div>';
     document.getElementById('result').innerHTML=h;
   }
 
@@ -629,6 +630,18 @@ window.PnlEngine=(function(){
     return null;
   }
   var CORP_LP={"갑우":"갑우_월별손익","비피":"비피_월별손익","더원":"더원_월별손익","프린트뱅크":"프린트뱅크_월별손익"};
+  // 공통고정비 배분 가동시간 — 인쇄=실측(10,418h), 나머지=2026 1분기 수동보고서 역산 보정값
+  // (패키지 실측 가동시간 확보 시 이 값만 교체). 출처: 2026년_1분기_부문별_영업손익_보고서
+  var COMMON_HOURS={"인쇄":10418,"패키지":3763,"디지털":1270,"콘텐츠":404};
+  function parsePeriod(wb){
+    for(var i=0;i<wb.SheetNames.length;i++){ var rs=rowsOf(wb.Sheets[wb.SheetNames[i]]);
+      for(var k=0;k<Math.min(3,rs.length);k++){ if(!rs[k]) continue;
+        var t=String(rs[k][0]||""); var m=t.match(/(\d{4})\.(\d{2})\.\d{2}\s*~\s*(?:\d{4}\.)?(\d{2})\.\d{2}/);
+        if(m){ var y=m[1],a=+m[2],b=+m[3]; if(a===1&&b===3) return y+' 1분기'; if(a===4&&b===6) return y+' 2분기';
+          if(a===7&&b===9) return y+' 3분기'; if(a===10&&b===12) return y+' 4분기'; return y+'.'+m[2]+'~'+m[3]; }
+      } }
+    return '';
+  }
   function parseStatement(wb){
     var anchor={};
     for(var corp in CORP_LP){ var sh=CORP_LP[corp]; if(wb.SheetNames.indexOf(sh)<0) continue;
@@ -637,7 +650,7 @@ window.PnlEngine=(function(){
       var rent=findVal(rs,"임대료수입")||0;
       anchor[corp]=op-rent;  // 본업 영업손익 = 영업손익 − 임대료수입
     }
-    return {anchor:anchor};
+    return {anchor:anchor, period:parsePeriod(wb)};
   }
   // 갑우 원가보고서: *인쇄매출/*인쇄매입/*패키지.../*콘텐츠... 섹션 → 부문 매출/매입(직접원가)
   function parseGabCost(wb){
@@ -674,15 +687,22 @@ window.PnlEngine=(function(){
   }
   function runReport(sources){
     // sources: {statementWb, gabCostWb, bpWb}
+    // 부문 직접손익(2사 합산) → 공통고정비 plug(2사 앵커에 닫음) → 가동시간 비례 배분
     var st=parseStatement(sources.statementWb);
     var gc=parseGabCost(sources.gabCostWb);
-    var gabSegs={}; for(var d in gc) gabSegs[d]=[gc[d].rev, gc[d].buy];
     var bp=parseBpPurchase(sources.bpWb);
-    var bmap={"출판":"인쇄","패키지":"패키지","디지털":"디지털"}, bpSegs={};
-    for(var s in bp.rev) bpSegs[bmap[s]]=[bp.rev[s], bp.buy[s]||0];
-    var ga=_allocCorp(st.anchor["갑우"]||0, gabSegs), ba=_allocCorp(st.anchor["비피"]||0, bpSegs);
-    var seg={}; [ga,ba].forEach(function(res){ for(var d in res){ var b=seg[d]||(seg[d]={revenue:0,op_profit:0}); b.revenue+=res[d].revenue; b.op_profit+=res[d].op_profit; } });
-    return {anchor:st.anchor, segments:seg};
+    var bmap={"출판":"인쇄","패키지":"패키지","디지털":"디지털"};
+    var seg={};  // {부문: {revenue, direct_cost}} — 갑우(원가보고서)+비피(매입매출)
+    for(var d in gc){ seg[d]=seg[d]||{revenue:0,direct_cost:0}; seg[d].revenue+=gc[d].rev; seg[d].direct_cost+=gc[d].buy; }
+    for(var s in bp.rev){ var dd=bmap[s]; seg[dd]=seg[dd]||{revenue:0,direct_cost:0}; seg[dd].revenue+=bp.rev[s]; seg[dd].direct_cost+=(bp.buy[s]||0); }
+    var di={}, sumdi=0;
+    for(var d in seg){ di[d]=seg[d].revenue - seg[d].direct_cost - seg[d].revenue*SGA_RATE; sumdi+=di[d]; }
+    var grpAnchor=(st.anchor["갑우"]||0)+(st.anchor["비피"]||0);
+    var plug=grpAnchor - sumdi;  // 2사 공통고정비(앵커에 닫힘)
+    var wtot=0; for(var d in seg) wtot+=(COMMON_HOURS[d]||0); wtot=wtot||1;
+    var out={};
+    for(var d in seg){ out[d]={revenue:seg[d].revenue, op_profit:di[d]+plug*((COMMON_HOURS[d]||0)/wtot)}; }
+    return {anchor:st.anchor, segments:out, period:st.period};
   }
 
   return {parseSales:parseSales,parseHours:parseHours,run:run,
