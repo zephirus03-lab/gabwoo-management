@@ -10,6 +10,7 @@
 <title>갑우그룹 부문별 영업손익</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root{--brand:#1f4e79;--brand600:#2563eb;--gray50:#f8fafc;--gray100:#f1f5f9;--gray200:#e2e8f0;--gray500:#64748b;--gray700:#334155;--green:#16a34a;--red:#dc2626;--amber:#d97706}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -191,8 +192,9 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
       <div id="board"><div class="muted">기간을 선택하세요.</div></div>
       <div class="upload-row">
         <input type="file" id="upFiles" multiple onchange="App.stageFiles()">
-        <button class="btn" onclick="App.uploadAll()">전체 업로드 ⬆</button>
-        <span class="muted">여러 파일을 한 번에 선택하세요. 파일명으로 담당자·월을 자동 분류합니다(수정 가능).</span>
+        <button class="btn" onclick="App.computeNow()">⚡ 즉시 계산</button>
+        <button class="btn" style="background:var(--gray200);color:var(--gray700)" onclick="App.uploadAll()">우편함 업로드 ⬆</button>
+        <span class="muted">파일 선택 후 <b>⚡ 즉시 계산</b> = 브라우저에서 바로 부문별 영업손익 산출(서버 불필요). 제품매출 + 가동시간 파일이 있으면 제조원가까지 반영됩니다.</span>
       </div>
       <div id="stage"></div>
       <div id="gate" class="gate"></div>
@@ -446,10 +448,130 @@ var App=(function(){
     return h;
   }
 
+  // ⚡ 즉시 계산 — 브라우저에서 업로드 파일을 바로 파싱·산출(서버 불필요)
+  async function computeNow(){
+    if(!staged.length) return alert('파일을 먼저 선택하세요');
+    if(typeof XLSX==='undefined') return alert('엑셀 파서 로딩 중입니다. 잠시 후 다시 시도하세요.');
+    var res=document.getElementById('result');
+    res.innerHTML='<div class="empty">브라우저에서 계산 중…</div>';
+    try{
+      var sources={sales:[], machine_hours:[], outsource:[]};
+      var used=[];
+      for(var i=0;i<staged.length;i++){
+        var s=staged[i];
+        var buf=await s.file.arrayBuffer();
+        var wb=XLSX.read(new Uint8Array(buf),{type:'array'});
+        if(s.sourceId==='제품매출'){ sources.sales=sources.sales.concat(PnlEngine.parseSales(wb)); used.push('제품매출'); }
+        else if(s.sourceId==='가동시간_생산관리부'){ sources.machine_hours=sources.machine_hours.concat(PnlEngine.parseHours(wb)); used.push('가동시간'); }
+      }
+      if(!sources.sales.length){ res.innerHTML='<div class="empty">제품매출 파일이 필요합니다. (자동분류에서 소스를 \'회계(더존)·제품매출\'로 지정하세요)</div>'; return; }
+      var payload=PnlEngine.run(sources);
+      renderClientResult(payload, used, sources);
+    }catch(e){ res.innerHTML='<div class="empty">계산 오류: '+esc(e&&e.message?e.message:e)+'</div>'; }
+  }
+  function renderClientResult(p, used, sources){
+    var hours=(sources.machine_hours||[]).reduce(function(a,r){return a+(r.machine_hours||0)},0);
+    var h='<div class="muted" style="margin-bottom:10px">⚡ 브라우저 즉시 산출 · 사용 자료: '+esc(used.join(' + '))+(hours?(' · 가동시간 '+Math.round(hours).toLocaleString()+'h'):' · 가동시간 없음(제조원가 0)')+'</div>';
+    h+='<table class="res"><thead><tr><th>부문</th><th>매출</th><th>변동비</th><th>제조원가</th><th>판관비</th><th>영업이익</th></tr></thead><tbody>';
+    p.sectors.forEach(function(s){
+      var neg=s.op_profit_3<0;
+      h+='<tr><td><b>'+esc(s.div)+'</b></td><td>'+fmt(s.revenue)+'</td><td>'+fmt(s.variable_cost)+'</td><td>'+fmt(s.mfg_cost)+'</td><td>'+fmt(s.sga_cost)+'</td><td style="font-weight:700;color:'+(neg?'#c0392b':'#1f7a3d')+'">'+fmt(s.op_profit_3)+'</td></tr>';
+    });
+    var k=p.kpi, kneg=k.op_profit_3<0;
+    h+='</tbody><tfoot><tr style="border-top:2px solid var(--gray300)"><td><b>그룹종합</b></td><td><b>'+fmt(k.revenue)+'</b></td><td colspan="3"></td><td style="font-weight:700;color:'+(kneg?'#c0392b':'#1f7a3d')+'">'+fmt(k.op_profit_3)+'</td></tr></tfoot></table>';
+    h+='<div class="muted" style="margin-top:12px">단위 원 · 영업이익 = 매출 − 변동비 − 제조원가(가동h×시간당원가 150,570) − 판관비(매출×12.12%). 외주 변동비 미반영 시 영업이익이 과대 추정될 수 있습니다.</div>';
+    document.getElementById('result').innerHTML=h;
+  }
+
   return {
     enter:async function(){document.getElementById('authScreen').classList.add('hide');document.getElementById('mainApp').classList.remove('hide');await loadLatest()},
-    stageFiles:stageFiles, uploadAll:uploadAll, setStage:setStage, delStage:delStage
+    stageFiles:stageFiles, uploadAll:uploadAll, setStage:setStage, delStage:delStage, computeNow:computeNow
   };
+})();
+
+// ═══ PnlEngine — 사내 Python 엔진(src/) 포팅. cost_engine·bridge·tagging 동일 규칙 ═══
+// 검증 기준(SC-1 재현): 인쇄 4,863,348,715 · 패키지 2,077,301,451 · 디지털 402,196,387 ·
+//   콘텐츠 26,000,000 · 중철 31,781,280 · 미분류 329,708,618 · 그룹 7,730,336,451.
+//   가동시간 10,418h 포함 시 인쇄 제조원가 1,568,638,260.
+window.PnlEngine=(function(){
+  var AVG_RATE=150570, SGA_RATE=0.1212;  // cost_params.json (2026Q1)
+  var DIVISION_MAP={"출판사업부":"인쇄","출판사업본부":"인쇄","인쇄사업부":"인쇄","패키지사업부":"패키지","패키지사업본부":"패키지","디지털사업":"디지털","디지털사업본부":"디지털","콘텐츠사업부":"콘텐츠","콘텐츠사업본부":"콘텐츠","프린트뱅크":"중철","CTP":"CTP"};
+  var CORP_MAP={"갑우":"갑우","(주)갑우문화사":"갑우","갑우문화사":"갑우","비피":"비피","(주)비피앤피":"비피","비피앤피":"비피","bp":"비피","더원":"더원","(주)더원프린팅":"더원","더원프린팅":"더원"};
+  var CLIENT_DIV={"교원":"인쇄","교원구몬":"인쇄","교원프라퍼티인천공장":"인쇄","교원프라퍼티":"인쇄","이투스에듀":"인쇄","동행복권":"인쇄","에듀윌":"인쇄","필통북스":"인쇄","HSAD":"인쇄","한국조폐공사":"디지털","코스맥스":"패키지","코스메카코리아":"패키지","정샘물뷰티":"패키지","에뛰드":"패키지","지담디앤피":"패키지","한국콜마":"패키지"};
+  var ALIAS={"갑우문화사":"갑우문화사","비피앤피":"비피앤피","더원프린팅":"더원프린팅","프린트뱅크":"프린트뱅크","이투스에듀":"이투스에듀","이투스":"이투스에듀","(주)이투스에듀":"이투스에듀","교원":"교원","교원구몬":"교원구몬","구몬":"교원구몬","(주)교원":"교원","동행복권":"동행복권","지비로터리":"동행복권","에듀윌":"에듀윌","필통북스":"필통북스","에이치에스애드":"HSAD","HSAD":"HSAD","한국조폐공사":"한국조폐공사","조폐공사":"한국조폐공사","코스맥스":"코스맥스","코스메카코리아":"코스메카코리아","정샘물뷰티":"정샘물뷰티","에뛰드":"에뛰드","지담디앤피":"지담디앤피"};
+  var UNCL="미분류", INK=["인쇄01","인쇄02","인쇄06","인쇄07","인쇄09","인쇄10","인쇄11","인쇄12"];
+  var DIV_ORDER=["인쇄","패키지","디지털","콘텐츠","CTP","중철",UNCL];
+  var DATE_RE=/^\s*(\d{4})-(\d{2})-(\d{2})\s*$/;
+
+  function mapCorp(t){ if(t==null) return UNCL; t=String(t).trim(); return CORP_MAP[t]||t; }
+  function mapDiv(p){ if(p==null) return UNCL; return DIVISION_MAP[String(p).trim()]||UNCL; }
+  function stripCorp(n){ var t=String(n).trim(); ["(주)","㈜","주식회사","(유)","(사)"].forEach(function(x){t=t.split(x).join("");}); return t.trim(); }
+  function normClient(n){ if(n==null) return ""; var raw=String(n).trim(); if(ALIAS[raw]) return ALIAS[raw]; var s=stripCorp(raw); return ALIAS[s]||s; }
+  function resolveDiv(client,div){ if(div&&div!==UNCL) return div; return CLIENT_DIV[client]||div; }
+  function rowsOf(ws){ return XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:null}); }
+  function headerIdx(row){ var ix={}; (row||[]).forEach(function(h,i){ if(h!=null) ix[String(h).trim()]=i; }); return ix; }
+  function keyMatch(ix,re){ var f=null; Object.keys(ix).forEach(function(k){ if(f==null&&re.test(k)) f=ix[k]; }); return f; }
+
+  function parseSales(wb){
+    var SHEETS=["갑우","비피","더원"], recs=[];
+    wb.SheetNames.forEach(function(name){
+      var corp=mapCorp(name); if(SHEETS.indexOf(corp)<0) return;
+      var rows=rowsOf(wb.Sheets[name]); if(!rows.length) return;
+      var ix=headerIdx(rows[0]);
+      if(!('날짜' in ix)||!('거래처명' in ix)||!('대변' in ix)) throw new Error(name+' 시트 컬럼(날짜/거래처명/대변) 누락');
+      var di=ix['날짜'],ai=ix['대변'],ci=ix['거래처명'],pi=('프로젝트명' in ix)?ix['프로젝트명']:null;
+      for(var k=1;k<rows.length;k++){ var r=rows[k]; if(!r) continue;
+        var dv=r[di]; if(typeof dv!=='string'||!DATE_RE.test(dv)) continue;   // 소계/누계행 배제
+        var amt=r[ai]; if(typeof amt!=='number') continue;
+        var proj=(pi!=null)?r[pi]:null;
+        recs.push({corp:corp,div:mapDiv(proj),client:normClient(r[ci]),revenue:Math.round(amt)});
+      }
+    });
+    return recs;
+  }
+  // 가동시간 컬럼 동의어 — Python machine_hours 어댑터와 동일(정확 일치, 제목행 오인 방지)
+  var HCOLS={machine:["호기","기계","설비","machine","기기"],hours:["가동시간","가동","hours","운영시간","시간","가동h"],corp:["법인","회사","corp","company"],div:["부문","division","div","사업부"]};
+  function hnorm(s){ return String(s==null?'':s).trim().toLowerCase().replace(/\s+/g,''); }
+  function colIdx(row,syns){ for(var i=0;i<(row||[]).length;i++){ if(row[i]!=null && syns.indexOf(hnorm(row[i]))>=0) return i; } return null; }
+  function parseHours(wb){
+    var recs=[];
+    for(var si=0; si<wb.SheetNames.length; si++){
+      var rows=rowsOf(wb.Sheets[wb.SheetNames[si]]);
+      for(var hh=0; hh<Math.min(15,rows.length); hh++){
+        var mi=colIdx(rows[hh],HCOLS.machine), hi=colIdx(rows[hh],HCOLS.hours);
+        if(mi==null||hi==null) continue;   // 호기·가동시간 둘 다 정확 일치해야 헤더
+        var ci=colIdx(rows[hh],HCOLS.corp), vi=colIdx(rows[hh],HCOLS.div);
+        for(var k=hh+1;k<rows.length;k++){ var r=rows[k]; if(!r) continue;
+          var mc=(r[mi]!=null)?String(r[mi]).trim():''; var hv=r[hi];
+          var mm=mc.match(/(인쇄\d{2})/); if(mm) mc=mm[1];
+          if(!mc||typeof hv!=='number'||hv===0) continue;
+          var div=(vi!=null&&r[vi])?String(r[vi]).trim():(INK.indexOf(mc)>=0?'인쇄':UNCL);
+          recs.push({corp:(ci!=null&&r[ci])?mapCorp(r[ci]):'',div:div,client:'',machine_hours:hv,revenue:0});
+        }
+        return recs;  // 헤더 찾은 첫 시트만
+      }
+    }
+    return recs;
+  }
+  function run(sources){
+    var recs=[].concat(sources.sales||[], sources.machine_hours||[], sources.outsource||[]);
+    var b={};
+    recs.forEach(function(r){
+      var div=resolveDiv(r.client||'', r.div||UNCL)||UNCL;
+      var x=b[div]||(b[div]={div:div,revenue:0,variable_cost:0,machine_hours:0});
+      x.revenue+=(r.revenue||0); x.variable_cost+=(r.variable_cost||0); x.machine_hours+=(r.machine_hours||0);
+    });
+    var sectors=Object.keys(b).map(function(div){ var x=b[div];
+      var mfg=Math.round(x.machine_hours*AVG_RATE), sga=Math.round(x.revenue*SGA_RATE);
+      var op1=x.revenue-x.variable_cost, op2=op1-mfg, op3=op2-sga;
+      return {div:div,revenue:Math.round(x.revenue),variable_cost:Math.round(x.variable_cost),machine_hours:Math.round(x.machine_hours*10)/10,mfg_cost:mfg,sga_cost:sga,op_profit_1:op1,op_profit_2:op2,op_profit_3:op3};
+    });
+    sectors.sort(function(a,c){ var ia=DIV_ORDER.indexOf(a.div), ic=DIV_ORDER.indexOf(c.div); return (ia<0?99:ia)-(ic<0?99:ic); });
+    var kpi={revenue:0,op_profit_3:0};
+    sectors.forEach(function(s){ kpi.revenue+=s.revenue; kpi.op_profit_3+=s.op_profit_3; });
+    return {sectors:sectors,kpi:kpi};
+  }
+  return {parseSales:parseSales,parseHours:parseHours,run:run};
 })();
 
 // 세션 복원
