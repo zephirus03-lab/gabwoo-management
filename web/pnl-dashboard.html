@@ -128,7 +128,7 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
   </header>
   <div class="wrap">
     <!-- 자료 수령 안내 메뉴 -->
-    <details class="guide" open>
+    <details class="guide">
       <summary>📋 어떤 자료를 누가 갖고 있나요? (자료별 담당자 안내)</summary>
       <div class="guide-body">
 
@@ -186,15 +186,14 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
         </div>
       </div>
     </details>
-    <!-- 수집 현황판 -->
+    <!-- 자료 업로드 · 산출 -->
     <div class="panel">
-      <h2>📥 수집 현황판</h2>
-      <div id="board"><div class="muted">기간을 선택하세요.</div></div>
+      <h2>📥 자료 업로드 · 산출</h2>
+      <div id="board"><div class="muted">아래에서 파일을 선택하고 <b>📋 완전원가 보고서</b>를 누르세요.</div></div>
       <div class="upload-row">
         <input type="file" id="upFiles" multiple onchange="App.stageFiles()">
         <button class="btn" onclick="App.computeReport()">📋 완전원가 보고서</button>
         <button class="btn" style="background:var(--gray200);color:var(--gray700)" onclick="App.computeNow()">⚡ 즉시 계산(간이)</button>
-        <button class="btn" style="background:var(--gray200);color:var(--gray700)" onclick="App.uploadAll()">우편함 업로드 ⬆</button>
         <span class="muted"><b>📋 완전원가 보고서</b> = 손익계산서(4사 수정본)+제품매출+비피 매입매출 업로드 → 부문 영업손익(법인 확정손익 앵커). <b>⚡ 즉시 계산</b>은 제품매출+가동시간만 쓰는 간이 추정.</span>
       </div>
       <div id="stage"></div>
@@ -302,7 +301,7 @@ var App=(function(){
   }
   function arrived(sid,m){return sourceRows.some(function(r){return r.source_id===sid&&(r.month||'')===m&&(r.status==='uploaded'||r.status==='ready')})}
   function renderBoard(){
-    if(!current){document.getElementById('board').innerHTML='<div class="muted">아직 업로드된 기간이 없습니다. 아래에서 파일을 올리면 파일명으로 기간(분기/월)을 자동 판단합니다.</div>';
+    if(!current){document.getElementById('board').innerHTML='<div class="muted">아래에서 파일을 선택하고 <b>📋 완전원가 보고서</b>를 누르세요. (손익계산서 4사 수정본 + 제품매출 + 비피 매입매출)</div>';
       document.getElementById('gate').className='gate';document.getElementById('gate').innerHTML='';return;}
     var ms=monthsOf(current), missing=[], html='';
     SOURCES.forEach(function(c){
