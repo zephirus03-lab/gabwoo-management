@@ -192,9 +192,10 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
       <div id="board"><div class="muted">기간을 선택하세요.</div></div>
       <div class="upload-row">
         <input type="file" id="upFiles" multiple onchange="App.stageFiles()">
-        <button class="btn" onclick="App.computeNow()">⚡ 즉시 계산</button>
+        <button class="btn" onclick="App.computeReport()">📋 완전원가 보고서</button>
+        <button class="btn" style="background:var(--gray200);color:var(--gray700)" onclick="App.computeNow()">⚡ 즉시 계산(간이)</button>
         <button class="btn" style="background:var(--gray200);color:var(--gray700)" onclick="App.uploadAll()">우편함 업로드 ⬆</button>
-        <span class="muted">파일 선택 후 <b>⚡ 즉시 계산</b> = 브라우저에서 바로 부문별 영업손익 산출(서버 불필요). 제품매출 + 가동시간 파일이 있으면 제조원가까지 반영됩니다.</span>
+        <span class="muted"><b>📋 완전원가 보고서</b> = 손익계산서(4사 수정본)+제품매출+비피 매입매출 업로드 → 부문 영업손익(법인 확정손익 앵커). <b>⚡ 즉시 계산</b>은 제품매출+가동시간만 쓰는 간이 추정.</span>
       </div>
       <div id="stage"></div>
       <div id="gate" class="gate"></div>
@@ -483,9 +484,51 @@ var App=(function(){
     document.getElementById('result').innerHTML=h;
   }
 
+  // 📋 완전원가 보고서 산출 — 손익계산서(앵커)+제품매출+비피 매입매출 → 부문 영업손익
+  async function computeReport(){
+    if(!staged.length) return alert('파일을 먼저 선택하세요');
+    if(typeof XLSX==='undefined') return alert('엑셀 파서 로딩 중입니다.');
+    var res=document.getElementById('result');
+    res.innerHTML='<div class="empty">완전원가 보고서 계산 중…</div>';
+    try{
+      var stWb=null, salesRecs=null, bpWb=null, found=[];
+      for(var i=0;i<staged.length;i++){
+        var s=staged[i], nm=(s.file.name||'');
+        var wb=XLSX.read(new Uint8Array(await s.file.arrayBuffer()),{type:'array'});
+        if(/손익계산서/.test(nm)){ stWb=wb; found.push('손익계산서'); }
+        else if(s.sourceId==='제품매출'||/제품매출/.test(nm)){ salesRecs=PnlEngine.parseSales(wb); found.push('제품매출'); }
+        else if(/매입매출/.test(nm)&&/비피/.test(nm)){ bpWb=wb; found.push('비피매입매출'); }
+      }
+      var miss=[];
+      if(!stWb) miss.push('손익계산서(4사 수정본)');
+      if(!salesRecs) miss.push('제품매출');
+      if(!bpWb) miss.push('비피 매입매출');
+      if(miss.length){ res.innerHTML='<div class="empty">완전원가 보고서엔 다음 파일이 필요합니다: <b>'+esc(miss.join(' · '))+'</b><br>('+esc(found.join('+')||'인식된 파일 없음')+' 인식됨)</div>'; return; }
+      var p=PnlEngine.runReport({statementWb:stWb, salesRecs:salesRecs, bpWb:bpWb});
+      renderReport(p);
+    }catch(e){ res.innerHTML='<div class="empty">계산 오류: '+esc(e&&e.message?e.message:e)+'</div>'; }
+  }
+  function renderReport(p){
+    var A=1e8, won=function(n){return (n<0?'−':'')+Math.abs(Math.round(n/A*10)/10)+'억';};
+    var a=p.anchor, group=0; for(var c in a) group+=a[c];
+    var h='<div class="muted" style="margin-bottom:10px">📋 완전원가 보고서 (손익계산서 앵커 기준) · 4사 본업 영업손익 <b>'+won(group)+'</b></div>';
+    h+='<table class="res"><thead><tr><th>부문</th><th>매출</th><th>영업손익</th><th>이익률</th></tr></thead><tbody>';
+    ["인쇄","패키지","디지털","콘텐츠","중철","미분류"].forEach(function(d){ var s=p.segments[d]; if(!s||Math.abs(s.revenue)<1e6) return;
+      var op=s.op_profit, neg=op<0, rate=s.revenue?(op/s.revenue*100):0;
+      h+='<tr><td><b>'+esc(d)+'</b></td><td>'+won(s.revenue)+'</td><td style="font-weight:700;color:'+(neg?'#c0392b':'#1f7a3d')+'">'+won(op)+'</td><td class="muted">'+(rate>0?'+':'')+rate.toFixed(1)+'%</td></tr>';
+    });
+    h+='</tbody></table>';
+    h+='<div style="margin-top:14px;font-size:13px"><b>법인 확정 영업손익(앵커)</b><table class="res" style="margin-top:6px"><tbody>';
+    ["갑우","비피","더원","프린트뱅크"].forEach(function(c){ if(a[c]==null) return; var neg=a[c]<0;
+      h+='<tr><td>'+esc(c)+'</td><td style="color:'+(neg?'#c0392b':'#1f7a3d')+';font-weight:600">'+won(a[c])+'</td></tr>'; });
+    h+='<tr style="border-top:2px solid var(--gray300)"><td><b>4사 본업 합계</b></td><td style="font-weight:700;color:'+(group<0?'#c0392b':'#1f7a3d')+'">'+won(group)+'</td></tr></tbody></table></div>';
+    h+='<div class="muted" style="margin-top:12px">부문 영업손익 = 부문 매출 − 직접원가 − 판관비(12.12%) − 공통고정비(법인 확정손익에 닫음). ⚠️ 공통고정비를 매출비중으로 배분 — 패키지 가동시간 확보 시 인쇄/패키지 정밀화(현재 인쇄/패키지 ±1.4억). 디지털·콘텐츠·법인 합계는 정확.</div>';
+    document.getElementById('result').innerHTML=h;
+  }
+
   return {
     enter:async function(){document.getElementById('authScreen').classList.add('hide');document.getElementById('mainApp').classList.remove('hide');await loadLatest()},
-    stageFiles:stageFiles, uploadAll:uploadAll, setStage:setStage, delStage:delStage, computeNow:computeNow
+    stageFiles:stageFiles, uploadAll:uploadAll, setStage:setStage, delStage:delStage, computeNow:computeNow, computeReport:computeReport
   };
 })();
 
@@ -571,7 +614,61 @@ window.PnlEngine=(function(){
     sectors.forEach(function(s){ kpi.revenue+=s.revenue; kpi.op_profit_3+=s.op_profit_3; });
     return {sectors:sectors,kpi:kpi};
   }
-  return {parseSales:parseSales,parseHours:parseHours,run:run};
+  // ═══ 완전원가 보고서 엔진 (src/report/{statement,allocate,build}.py 포팅) ═══
+  // 손익계산서 4사수정본(앵커) + 제품매출(갑우 부문) + 비피 매입매출(비피 부문) → 부문 영업손익
+  function nrm(s){ return String(s==null?'':s).replace(/\s+/g,'').trim(); }
+  function findVal(rws,label){ var L=nrm(label); for(var i=0;i<rws.length;i++){ if(rws[i]&&nrm(rws[i][0])===L){ var v=rws[i][1]; return typeof v==='number'?v:null; } } return null; }
+  var CORP_LP={"갑우":"갑우_월별손익","비피":"비피_월별손익","더원":"더원_월별손익","프린트뱅크":"프린트뱅크_월별손익"};
+  function parseStatement(wb){
+    var anchor={};
+    for(var corp in CORP_LP){ var sh=CORP_LP[corp]; if(wb.SheetNames.indexOf(sh)<0) continue;
+      var rs=rowsOf(wb.Sheets[sh]); var op=findVal(rs,"영업이익");
+      if(op==null){ var loss=findVal(rs,"영업손실"); op=-(loss||0); }
+      var rent=findVal(rs,"임대료수입")||0;
+      anchor[corp]=op-rent;  // 본업 영업손익 = 영업손익 − 임대료수입
+    }
+    var gmfg=wb.SheetNames.indexOf("갑우_월별제조원가")>=0 ? (findVal(rowsOf(wb.Sheets["갑우_월별제조원가"]),"당기총제조비용")||0) : 0;
+    return {anchor:anchor, gabMfgTotal:gmfg};
+  }
+  function parseBpPurchase(wb){
+    var sh=wb.SheetNames.filter(function(n){return n.indexOf("비피")>=0;})[0]||wb.SheetNames[0];
+    var rs=rowsOf(wb.Sheets[sh]); var rev={},buy={},sec=null;
+    rs.forEach(function(r){ if(!r) return;
+      var c0=r[0]==null?"":String(r[0]).trim(), c1=r[1]==null?"":String(r[1]).trim();
+      if(r[0]==null && ["출판","패키지","디지털"].indexOf(c1)>=0 && typeof r[2]==='number') rev[c1]=(r[2]||0)+(r[3]||0)+(r[4]||0);
+      if(["출판","패키지","디지털"].indexOf(c0)>=0 && c1==="") sec=c0;
+      if(c1==="매입 계" && sec){ buy[sec]=(r[2]||0)+(r[3]||0)+(r[4]||0); sec=null; }
+    });
+    return {rev:rev, buy:buy};
+  }
+  function gabRevByDiv(salesRecs){
+    var g={}; salesRecs.forEach(function(r){ if(r.corp!=='갑우') return;
+      var d=resolveDiv(r.client||'', r.div||UNCL)||UNCL; if(d===UNCL) d='인쇄';
+      g[d]=(g[d]||0)+(r.revenue||0); });
+    return g;
+  }
+  function _allocCorp(anchor,segs){
+    var di={},sumdi=0; for(var d in segs){ di[d]=segs[d][0]-segs[d][1]-segs[d][0]*SGA_RATE; sumdi+=di[d]; }
+    var resid=anchor-sumdi, wtot=0; for(var d in segs) wtot+=segs[d][0]||0; wtot=wtot||1;
+    var out={}; for(var d in segs){ out[d]={revenue:segs[d][0], op_profit:di[d]+resid*((segs[d][0]||0)/wtot)}; }
+    return out;
+  }
+  function runReport(sources){
+    // sources: {statementWb, salesRecs, bpWb}
+    var st=parseStatement(sources.statementWb);
+    var g=gabRevByDiv(sources.salesRecs||[]);
+    var gtot=0; for(var d in g) gtot+=g[d]; gtot=gtot||1;
+    var gabSegs={}; for(var d in g) gabSegs[d]=[g[d], st.gabMfgTotal*(g[d]/gtot)];
+    var bp=parseBpPurchase(sources.bpWb);
+    var bmap={"출판":"인쇄","패키지":"패키지","디지털":"디지털"}, bpSegs={};
+    for(var s in bp.rev) bpSegs[bmap[s]]=[bp.rev[s], bp.buy[s]||0];
+    var ga=_allocCorp(st.anchor["갑우"]||0, gabSegs), ba=_allocCorp(st.anchor["비피"]||0, bpSegs);
+    var seg={}; [ga,ba].forEach(function(res){ for(var d in res){ var b=seg[d]||(seg[d]={revenue:0,op_profit:0}); b.revenue+=res[d].revenue; b.op_profit+=res[d].op_profit; } });
+    return {anchor:st.anchor, segments:seg};
+  }
+
+  return {parseSales:parseSales,parseHours:parseHours,run:run,
+          parseStatement:parseStatement,parseBpPurchase:parseBpPurchase,runReport:runReport};
 })();
 
 // 세션 복원
