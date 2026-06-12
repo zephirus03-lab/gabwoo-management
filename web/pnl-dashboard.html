@@ -171,9 +171,10 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
         </div>
 
         <div class="guide-item">
-          <div class="gi-h">05. 원가보고서 <span class="gi-owner">김미성 대리</span></div>
+          <div class="gi-h">05. 원가보고서 (부문별 매입매출) <span class="gi-owner">비피=김미성 대리 · 갑우=조미숙 차장</span></div>
           <ul>
-            <li><code>비피 26년1분기 매입매출.xlsx</code></li>
+            <li>비피: <code>비피 26년1분기 매입매출.xlsx</code> (김미성 대리)</li>
+            <li>갑우: <code>갑우26년 1분기-최종.xlsx</code> (조미숙 차장)</li>
           </ul>
         </div>
 
@@ -202,7 +203,7 @@ td.neg{color:var(--red)}td.pos{color:var(--green)}
     <!-- 결과 -->
     <div class="panel">
       <h2>📊 산출 결과</h2>
-      <div id="result"><div class="empty">산출 결과가 없습니다. 자료 도착 후 사내 엔진에서 <code>/분기손익산출 run</code> 실행 → 결과가 자동 표시됩니다.</div></div>
+      <div id="result"><div class="empty">산출 결과가 없습니다. 위에서 자료를 업로드하면 결과가 표시됩니다.</div></div>
     </div>
   </div>
 </div>
@@ -320,7 +321,7 @@ var App=(function(){
     document.getElementById('board').innerHTML=html;
     var g=document.getElementById('gate'), can=missing.length===0;
     g.className='gate '+(can?'ok':'blocked');
-    g.innerHTML=can?'✅ 필수 자료 모두 도착 — 사내 엔진에서 <code>/분기손익산출 run '+esc(current.id)+'</code> 실행 가능':
+    g.innerHTML=can?'✅ 필수 자료 모두 도착 — 산출 결과가 아래에 표시됩니다':
       '⚠️ '+missing.length+'건 미충족 → '+esc(missing.slice(0,6).join(', '))+(missing.length>6?' 외':'');
   }
   var staged=[]; // {file, sourceId, month}
@@ -414,7 +415,7 @@ var App=(function(){
     if(!current)return;
     var r=await sb.from('pnl_results').select('*').eq('period_id',current.id).maybeSingle();
     var el=document.getElementById('result');
-    if(r.error||!r.data){el.innerHTML='<div class="empty">산출 결과 없음 — 사내 엔진 <code>/분기손익산출 run '+esc(current.id)+'</code> 실행 대기</div>';return}
+    if(r.error||!r.data){el.innerHTML='<div class="empty">산출 결과 없음 — 자료를 업로드하면 결과가 표시됩니다.</div>';return}
     var p=r.data.payload;el.innerHTML=renderPayload(p,r.data);
   }
   function renderPayload(p,row){
