@@ -145,6 +145,63 @@ h3{letter-spacing:-.01em}
 .rp-tbl tr.rp-total td{font-weight:800;border-top:1.5px solid var(--gray300);border-bottom:none}
 .rp-note{font-size:12px;color:var(--gray500);background:#f7f9fc;border-left:3px solid var(--brand600);padding:10px 12px;border-radius:0 8px 8px 0;margin-top:16px;line-height:1.6}
 @media(max-width:560px){.rp-kpis{grid-template-columns:1fr 1fr 1fr;gap:7px}.rp-kpi .v{font-size:15px}}
+/* ═══ 종합 분석 보고서(2026 1분기 확정) — #fullReport 스코프 격리 ═══ */
+#fullReport{--navy:#0f2540;--navy2:#1b3a5c;--rink:#1a2230;--rmuted:#5d6b7e;--rline:#e3e8ef;--rred:#d1453b;--rgreen:#1f9d6b;--ramber:#d99a18;--raccent:#2f6df6;--rredbg:#fdecea;--rgreenbg:#e7f6ef;color:var(--rink);margin-bottom:22px}
+#fullReport .hero{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:16px;padding:28px 22px 24px;margin-bottom:14px}
+#fullReport .hero .eyebrow{font-size:12px;letter-spacing:.14em;opacity:.78;font-weight:600}
+#fullReport .hero h1{font-size:23px;font-weight:800;margin:8px 0 4px;letter-spacing:-.01em;color:#fff}
+#fullReport .hero .sub{font-size:13px;opacity:.82}
+#fullReport .rkpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+#fullReport .rkpi{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);border-radius:13px;padding:13px 12px}
+#fullReport .rkpi .l{font-size:11.5px;opacity:.78;font-weight:600}
+#fullReport .rkpi .v{font-size:20px;font-weight:800;margin-top:3px;letter-spacing:-.02em;color:#fff;font-variant-numeric:tabular-nums}
+#fullReport .rkpi .d{font-size:11px;opacity:.7;margin-top:2px}
+#fullReport section{background:#fff;border:1px solid var(--rline);border-radius:16px;padding:20px;margin-top:14px}
+#fullReport .sec-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--raccent);background:#eaf1ff;border-radius:6px;padding:3px 8px;letter-spacing:.04em}
+#fullReport section h2{font-size:18px;font-weight:800;margin:9px 0 3px;letter-spacing:-.01em;color:var(--rink)}
+#fullReport section h3{letter-spacing:-.01em;color:var(--rink)}
+#fullReport section .lead{font-size:13px;color:var(--rmuted);margin-bottom:14px}
+#fullReport table{width:100%;border-collapse:collapse;font-size:13px;margin:6px 0}
+#fullReport th,#fullReport td{padding:8px 9px;text-align:right;border-bottom:1px solid var(--rline);font-variant-numeric:tabular-nums}
+#fullReport th:first-child,#fullReport td:first-child{text-align:left}
+#fullReport thead th{font-size:11px;color:var(--rmuted);font-weight:700;border-bottom:1.5px solid var(--rline);background:transparent;text-transform:none;letter-spacing:0}
+#fullReport tr.total td{font-weight:800;border-top:1.5px solid #c9d2de;border-bottom:none}
+#fullReport .neg{color:var(--rred);font-weight:700}#fullReport .pos{color:var(--rgreen);font-weight:700}
+#fullReport .dim{color:var(--rmuted)}
+#fullReport .bridge{display:flex;flex-direction:column;gap:7px;margin:10px 0 4px}
+#fullReport .brow{display:grid;grid-template-columns:120px 1fr 74px;align-items:center;gap:10px;font-size:13px}
+#fullReport .brow .bl{color:var(--rmuted);font-weight:600}
+#fullReport .bar{height:24px;border-radius:6px;display:flex;align-items:center;padding:0 8px;color:#fff;font-size:11.5px;font-weight:700;white-space:nowrap}
+#fullReport .bar.rev{background:#3a5a82}#fullReport .bar.cut{background:#c98a8a}#fullReport .bar.sub{background:#5b7da6}
+#fullReport .bar.profit{background:var(--rgreen)}#fullReport .bar.loss{background:var(--rred)}
+#fullReport .brow .bv{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+#fullReport .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+#fullReport .cards.c3{grid-template-columns:1fr 1fr 1fr}
+#fullReport .cl{border:1px solid var(--rline);border-radius:11px;padding:12px;font-size:12.5px;line-height:1.55}
+#fullReport .cl b{display:block;font-size:13px;margin-bottom:3px}
+#fullReport .cl.g{background:var(--rgreenbg);border-color:#bfe6d3}
+#fullReport .cl.r{background:var(--rredbg);border-color:#f3c9c4}
+#fullReport .note{font-size:12px;color:var(--rmuted);background:#f7f9fc;border-left:3px solid var(--raccent);padding:10px 12px;border-radius:0 8px 8px 0;margin-top:12px;line-height:1.6}
+#fullReport .warn{font-size:12px;color:#8a5a00;background:#fdf6e6;border-left:3px solid var(--ramber);padding:10px 12px;border-radius:0 8px 8px 0;margin-top:10px;line-height:1.6}
+#fullReport ul.clean{list-style:none;margin:6px 0}
+#fullReport ul.clean li{padding:5px 0 5px 18px;position:relative;font-size:13px;border-bottom:1px solid #f0f3f7}
+#fullReport ul.clean li:before{content:"•";position:absolute;left:3px;color:var(--raccent);font-weight:700}
+#fullReport ul.clean li:last-child{border-bottom:none}
+#fullReport .src{font-size:11px;color:#8a96a6;margin-top:10px;padding-top:8px;border-top:1px dashed var(--rline)}
+#fullReport .unit{font-size:11.5px;color:var(--rmuted);text-align:right;margin:2px 0 6px;font-weight:600}
+#fullReport .bd-title{font-size:14px;font-weight:800;margin:18px 0 4px;padding-top:14px;border-top:1px dashed var(--rline)}
+#fullReport .bd-title .s{font-size:11.5px;color:var(--rmuted);font-weight:600;margin-left:6px}
+#fullReport .bd{display:flex;flex-direction:column;gap:11px;margin-top:10px}
+#fullReport .bdg{border:1px solid var(--rline);border-radius:12px;overflow:hidden}
+#fullReport .bdh{display:flex;justify-content:space-between;align-items:center;background:#f1f4f9;padding:10px 13px;font-size:13.5px;font-weight:800}
+#fullReport .bdh .ht{display:flex;align-items:center;gap:7px}
+#fullReport .bdh .tag{font-size:10.5px;font-weight:700;color:#fff;background:var(--navy2);border-radius:5px;padding:2px 6px;text-transform:none}
+#fullReport .bdi{padding:10px 13px;border-top:1px solid var(--rline)}
+#fullReport .bdn{font-size:13px;font-weight:700;display:flex;justify-content:space-between;gap:8px}
+#fullReport .bdn .amt{color:var(--raccent);white-space:nowrap}
+#fullReport .bdd{font-size:12px;color:var(--rmuted);margin-top:3px;line-height:1.55}
+#fullReport .rfooter{text-align:center;font-size:11.5px;color:#8a96a6;margin-top:20px;line-height:1.7}
+@media(max-width:560px){#fullReport .rkpis{grid-template-columns:1fr 1fr 1fr;gap:7px}#fullReport .rkpi .v{font-size:15px}#fullReport .cards,#fullReport .cards.c3{grid-template-columns:1fr}#fullReport .brow{grid-template-columns:92px 1fr 64px;gap:7px;font-size:12px}#fullReport .hero h1{font-size:20px}}
 </style>
 </head>
 <body>
@@ -186,11 +243,8 @@ h3{letter-spacing:-.01em}
     </div>
   </header>
   <div class="wrap">
-    <!-- 결과 (최상단 배치 — 대표 보고용) -->
-    <div class="panel" id="resultPanel">
-      <h2>📊 산출 결과</h2>
-      <div id="result"><div class="empty">산출 결과가 없습니다. 아래에서 자료를 업로드하면 결과가 여기에 표시됩니다.</div></div>
-    </div>
+    <!-- 종합 분석 보고서 (최상단 — 2026 1분기 확정) -->
+    <div id="fullReport"></div>
     <!-- 자료 수령 안내 메뉴 -->
     <details class="guide">
       <summary>📋 어떤 자료를 누가 갖고 있나요? (자료별 담당자 안내)</summary>
@@ -263,6 +317,7 @@ h3{letter-spacing:-.01em}
       </div>
       <div id="stage"></div>
       <div id="gate" class="gate"></div>
+      <div id="result" style="margin-top:18px"></div>
     </div>
   </div>
 </div>
@@ -794,6 +849,179 @@ window.PnlEngine=(function(){
   return {parseSales:parseSales,parseHours:parseHours,run:run,
           detectType:detectType,parseStatement:parseStatement,parseGabCost:parseGabCost,parseBpPurchase:parseBpPurchase,runReport:runReport};
 })();
+
+// ═══ FullReport — 2026 1분기 부문별 종합 분석(확정). 최종 보고서 HTML 이식 ═══
+// 기준: 2026-06-10 수정 손익계산서. 수치 변경 시 이 DATA만 수정. #fullReport 스코프 격리.
+window.FullReport=(function(){
+  var DATA={
+    updated:"2026-06-10 기준",
+    kpis:[
+      {l:"2026 Q1 그룹매출", v:"123억", d:"123.5억 · 4사 본업"},
+      {l:"그룹 영업손실",   v:"−9.9억", d:"4사 합산"},
+      {l:"최대 적자부문",   v:"인쇄 −8.2억", d:"이익률 −17.7%"},
+    ],
+    segments:[
+      ["인쇄(출판)", 46.4, -8.2, -17.7],
+      ["패키지",     20.7, -3.5, -16.9],
+      ["디지털",      4.0,  0.9,  22.9],
+      ["콘텐츠",      1.2, -0.2, -12.5],
+      ["__소계 (2사)", 72.9, -11.0, null],
+      ["더원프린팅",  5.1, -0.45, -8.8],
+      ["프린트뱅크", 45.5,  1.49,  3.3],
+      ["__그룹 4사 합계", 123.5, -9.9, null],
+    ],
+    bridgePrint:[["매출",46.4,"rev"],["− 변동비",-28.2,"cut"],["= 공헌이익",18.2,"sub"],["− 직접비",-9.4,"cut"],["= 직접이익",8.8,"profit"],["− 판관·공통",-17.0,"cut"],["= 영업손익",-8.2,"loss"]],
+    bridgePkg:[["매출",20.7,"rev"],["− 변동비",-13.2,"cut"],["= 공헌이익",7.5,"sub"],["− 직접비",-5.6,"cut"],["= 직접이익",1.9,"profit"],["− 판관·공통",-5.4,"cut"],["= 영업손익",-3.5,"loss"]],
+    bridgeDig:[["매출",4.0,"rev"],["− 직접원가",-2.5,"cut"],["= 직접이익",1.5,"profit"],["− 감가·판관",-0.6,"cut"],["= 영업손익",0.9,"profit"]],
+    breakdownPrint:[
+      {title:"변동비", tag:"팔 때마다 직접 나가는 돈", total:-28.2, items:[
+        {name:"외주가공비", amt:15.7, desc:"우리 설비를 쓰지 않고 외부 인쇄소·후가공·제본 업체에 재발주한 비용(갑우+비피 합산). 매출이 늘면 같이 늘어나는 변동비. 사외 발주분이라 별도 정산 시 오히려 +마진(외주 흑자 +1.5억) — 적자의 원인이 아님."},
+        {name:"용지(재료비)", amt:8.6, desc:"인쇄용 종이값. 전사 용지는 신승지류 단일 창구로 매입. 인쇄 매출의 약 14.7% 수준(패키지 30.8%의 절반). 거래처가 종이를 지급(선방)하는 건은 용지 손익 0."},
+        {name:"계판·잉크", amt:3.9, desc:"계판비(CTP) = 인쇄판을 출력하는 판재 비용. 잉크 = 인쇄 부재료. 둘 다 찍는 만큼 소모되는 변동비. CTP는 실청구매출(3.72억) ≈ 계판 실원가(3.42억)로 거의 본전 — 흑자원이 아님."},
+      ]},
+      {title:"직접비", tag:"이 부문이 직접 쓴 고정비", total:-9.4, items:[
+        {name:"직접노무(현장)", amt:4.6, desc:"인쇄기를 직접 돌리는 작업자의 인건비. 급여집계표(부서=호기)의 지급합계에 완전노무계수 1.2를 곱해 산정 — 퇴직급여 적립률과 4대보험 회사부담(법정요율)까지 포함한 '완전' 인건비."},
+        {name:"수선·소모품·동력", amt:3.6, desc:"인쇄기 수선비, 작업 소모 자재, 전기(동력) 등 자체 인쇄기를 돌리는 데 직접 드는 운영비."},
+        {name:"기계 감가상각", amt:1.2, desc:"가동 인쇄기의 감가상각. 더원 고정자산명세서로 실측한 3대(06·11·07호기) 기준. 나머지 5대는 완전상각 가정(잔존가액 미확인 — 살아있으면 이 금액은 더 커짐)."},
+      ]},
+      {title:"판관·공통비", tag:"부문에 직접 안 갈리는 고정비", total:-17.0, items:[
+        {name:"판매관리비", amt:5.6, desc:"매출의 12.12% 배부. 영업·관리·임원 등 비생산직 인건비(급여·복리후생·퇴직급여)와 지급수수료·접대비·운반비·광고선전비 등 판매관리 활동비. ※임원급여는 이미 반납 상태(갑153→12·비226→12백만)."},
+        {name:"기타 공통고정비", amt:11.4, desc:"특정 부문에 직접 귀속되지 않는 공통 고정비 — 전기·임차료·보험·공통 소모품·수도광열 등. 전사 총액은 손익계산서·제조원가명세서의 실측치이고, 인쇄 부문에 얼마를 싣느냐(배분율)는 매출비중·가동시간으로 안분(추정)."},
+      ]},
+    ],
+    breakdownPkg:[
+      {title:"변동비", tag:"팔 때마다 직접 나가는 돈", total:-13.2, items:[
+        {name:"외주·계판·잉크", amt:6.8, desc:"외부 발주 가공비 + CTP 판재 + 잉크. 패키지는 거래처별 원가 추적 데이터가 없어 이 세 항목은 부문 단위로만 분리(잔여분으로 묶음)."},
+        {name:"용지(재료비)", amt:6.4, desc:"화장품 단상자·쇼핑백용 고급 판지. 매출의 30.8%로 출판(14.7%)의 약 2배 — 패키지 원가의 가장 큰 특징이자 박한 가공마진의 원인. 두꺼운 판지·후가공이 많아 재료 비중이 구조적으로 높음."},
+      ]},
+      {title:"직접비", tag:"이 부문이 직접 쓴 고정비", total:-5.6, items:[
+        {name:"제조노무·수선", amt:4.7, desc:"패키지 제조 인력의 인건비와 설비 수선비. 패키지 제조 인력은 전원 비피앤피 소속이라, 갑우 패키지 매출분의 제조원가도 실질적으로 비피에서 발생(손실이 비피 −3.4억에 집중되는 이유)."},
+        {name:"전용설비 감가(만로랜드 등)", amt:0.9, desc:"패키지 전용 설비의 감가상각 — 출판 8대와 별개로 보유한 만로랜드 인쇄기, 코팅·톰슨(타발)·접착 설비. 물량 대비 전용설비 부담이 커 직접·공통비를 키움."},
+      ]},
+      {title:"판관·공통비", tag:"부문에 직접 안 갈리는 고정비", total:-5.4, items:[
+        {name:"판매관리비", amt:2.5, desc:"매출의 12.12% 배부. 영업·관리·임원 등 비생산직 인건비와 지급수수료·접대비·운반비 등 판매관리 활동비."},
+        {name:"기타 공통고정비", amt:2.9, desc:"부문에 직접 귀속되지 않는 공통 고정비 — 전기·소모품·임차 등. 매출비중·가동시간으로 안분."},
+      ]},
+    ],
+    productivity:[
+      {l:"산출물(인쇄 매수)", v:"−19.5%", d:"8,083만 → 6,506만 장"},
+      {l:"순가동시간",        v:"−15.4%", d:"8,443 → 7,141 시간"},
+      {l:"기계 속도(시간당)", v:"−4.8%",  d:"9,574 → 9,110 · 거의 유지"},
+    ],
+    customers:[["교원구몬",11.82,-1.98],["이투스에듀",7.63,0.66],["다락원",2.46,0.63],["동행복권",2.39,-0.13],["교원",2.33,-0.85],["에듀윌",1.26,-0.04],["HS애드",1.17,0.17],["헬로프린텍",0.86,0.22],["필통북스",0.71,-0.07],["워터멜론컴퍼니",0.71,-0.01],["디자인크레파스",0.63,-0.03],["자유아카데미",0.5,-0.02],["한국산업기술진흥협회",0.5,-0.02],["농심",0.49,-0.07],["투엘미디어",0.47,-0.08],["지학사",0.45,-0.14],["헬스조선",0.41,-0.03],["기문당",0.39,-0.06],["케이랩",0.34,-0.04],["한국금융연수원",0.33,-0.04]],
+    mfg:[["재료비 (종이)",4.1,9.4,13.5],["노무비 (생산직)",3.5,9.3,12.8],["외주가공비",9.0,15.8,24.7],["계판비 (CTP)",2.0,1.4,3.4],["감가상각비",0.7,2.0,2.7],["전기·동력",1.4,2.3,3.7],["부재료 (잉크)",0.1,0.9,1.0],["기타 제조경비",3.5,6.5,10.0],["__당기총제조비용",24.2,47.7,71.9]],
+    sga:[["직원급여",2.3,1.2,3.5],["복리후생비",0.3,0.2,0.5],["퇴직급여",0.2,0.2,0.3],["임원급여",0.1,0.1,0.2],["감가상각비",1.0,0.1,1.1],["지급수수료",0.5,0.5,1.0],["운반비",0.0,0.0,0.0],["접대비",0.2,0.2,0.4],["기타(세금·통신 등)",0.9,0.9,1.8],["__판관비 계",5.5,3.4,8.8]],
+  };
+  var cls=function(n){return n<0?"neg":(n>0?"pos":"dim")};
+  var f1=function(n){return (n>0?"+":"")+n.toFixed(1)};
+  var f2=function(n){return (n>0?"+":"")+n.toFixed(2)};
+  var pct=function(n){return (n>0?"+":"")+n.toFixed(1)+"%"};
+  function kpis(arr){return '<div class="rkpis">'+arr.map(function(k){return '<div class="rkpi"><div class="l">'+k.l+'</div><div class="v">'+k.v+'</div><div class="d">'+k.d+'</div></div>'}).join("")+'</div>'}
+  function seg(){
+    var h='<table><thead><tr><th>부문 / 법인</th><th>매출<br><span style="font-weight:400">(억원)</span></th><th>영업손익<br><span style="font-weight:400">(억원)</span></th><th>이익률</th></tr></thead><tbody>';
+    DATA.segments.forEach(function(r){var name=r[0],rev=r[1],op=r[2],rate=r[3];var tot=name.indexOf("__")===0,nm=tot?name.slice(2):name;
+      h+='<tr class="'+(tot?'total':'')+'"><td>'+nm+'</td><td>'+rev.toFixed(1)+'</td><td class="'+cls(op)+'">'+f1(op)+'</td><td class="'+(rate==null?'dim':cls(rate))+'">'+(rate==null?'—':pct(rate))+'</td></tr>';});
+    return h+'</tbody></table>';
+  }
+  function bridge(rows){
+    var max=Math.max.apply(null,rows.map(function(r){return Math.abs(r[1])}));
+    return '<div class="bridge">'+rows.map(function(r){var l=r[0],v=r[1],t=r[2];var w=Math.max(8,Math.abs(v)/max*100);
+      return '<div class="brow"><div class="bl">'+l+'</div><div class="bar '+t+'" style="width:'+w+'%">'+v+'</div><div class="bv '+(t==='loss'?'neg':(t==='profit'?'pos':''))+'">'+f1(v)+'</div></div>';}).join("")+'</div>';
+  }
+  function cust(){
+    var h='<table><thead><tr><th>#</th><th>거래처</th><th>매출<br><span style="font-weight:400">(억원)</span></th><th>영업이익<br><span style="font-weight:400">(억원)</span></th></tr></thead><tbody>';
+    DATA.customers.forEach(function(c,i){h+='<tr><td class="dim">'+(i+1)+'</td><td>'+c[0]+'</td><td>'+c[1].toFixed(2)+'</td><td class="'+cls(c[2])+'">'+f2(c[2])+'</td></tr>'});
+    return h+'</tbody></table>';
+  }
+  function breakdown(groups){
+    return '<div class="bd">'+groups.map(function(g){
+      return '<div class="bdg"><div class="bdh"><div class="ht"><span>'+g.title+'</span><span class="tag">'+g.tag+'</span></div><span class="'+cls(g.total)+'">'+f1(g.total)+'억</span></div>'+
+        g.items.map(function(it){return '<div class="bdi"><div class="bdn"><span>'+it.name+'</span><span class="amt">'+it.amt.toFixed(1)+'억</span></div><div class="bdd">'+it.desc+'</div></div>'}).join("")+'</div>';}).join("")+'</div>';
+  }
+  function cost(rows){
+    var h='<table><thead><tr><th>항목</th><th>갑우<br><span style="font-weight:400">(억원)</span></th><th>비피<br><span style="font-weight:400">(억원)</span></th><th>합계<br><span style="font-weight:400">(억원)</span></th></tr></thead><tbody>';
+    rows.forEach(function(r){var nm=r[0],a=r[1],b=r[2],c=r[3];var tot=nm.indexOf("__")===0;
+      h+='<tr class="'+(tot?'total':'')+'"><td>'+(tot?nm.slice(2):nm)+'</td><td>'+a.toFixed(1)+'</td><td>'+b.toFixed(1)+'</td><td>'+c.toFixed(1)+'</td></tr>'});
+    return h+'</tbody></table>';
+  }
+  function render(){
+    var H=''
++'<header class="hero"><div class="eyebrow">갑우그룹 · GABWOO GROUP</div>'
++'<h1>2026년 1분기 사업부문별 영업손익</h1>'
++'<div class="sub">인쇄 · 패키지 · 디지털 부문별 손익 구조 (완전원가 기준) · 대표 보고용</div>'+kpis(DATA.kpis)+'</header>'
+
++'<section><span class="sec-tag">01 그룹 종합</span><h2>그룹 종합 — 영업손실 약 11억</h2>'
++'<p class="lead">네 부문 모두 직접이익은 흑자. 적자는 매출 대비 높은 고정비(판관·공통고정비)에서 발생.</p>'+seg()
++'<div class="cards"><div class="cl"><b>① 고정비 과부하 (물량 부족)</b>가동률 감소로 고정비를 분담할 물량이 부족. 공헌이익은 +26.4억(흑자)이라 "팔수록 손해"가 아니며, 매출·가동 회복 시 증분이 대부분 이익으로 전환됩니다.</div>'
++'<div class="cl"><b>② 자체인쇄 단가 &lt; 완전원가</b>자체기 청구단가가 변동비는 넘지만 고정비 배부분까지 못 채워 완전원가 기준 적자. 외주는 우리 고정비를 안 써 흑자(+1.5억).</div></div>'
++'<div class="warn">부문 split은 법인 확정손익(갑우 −6.3 / 비피 −4.6)에 닫힌 완전원가 추정. 그룹 총액(2사 −11.0억 · 4사 −9.9억)은 확정.</div>'
++'<div class="src">출처: 26년 1분기 손익계산서(2026-06-10 수정본) · ERP · 영업부 정산표 · 디지털 원가보고서 / 단위 억원</div></section>'
+
++'<section><span class="sec-tag">02 인쇄(출판)</span><h2>인쇄(출판) 부문 — 영업손익 −8.2억</h2>'
++'<p class="lead">매출 46.4억 · 이익률 −17.7% (갑우 −6.1 + 비피 −2.1)</p><div class="unit">단위: 억원</div>'+bridge(DATA.bridgePrint)
++'<div class="cards c3"><div class="cl g"><b>직접이익까지 흑자 (+8.8억)</b>변동비·직접노무·기계감가 차감 후에도 +8.8억. \'만드는 단계\'는 손해가 아님.</div>'
++'<div class="cl r"><b>적자는 판관비+공통고정비 (−17.0억)</b>부문 미귀속 고정비가 직접이익을 압도 → 영업손익 −8.2억.</div>'
++'<div class="cl"><b>외주는 흑자 (+1.5억)</b>외주 인쇄·후가공은 +마진. 적자는 자체 인쇄 가동에 집중.</div></div>'
++'<h3 class="bd-title">이 비용엔 무엇이 들어가나 <span class="s">항목별 상세 · 단위 억원</span></h3>'+breakdown(DATA.breakdownPrint)
++'<div class="note">적자 본질 = 자체 인쇄기 고정비 미충당(영업레버리지). 인쇄기 완전원가 15.69억 중 약 36%만 매출로 회수, ~10억 미회수.</div></section>'
+
++'<section><span class="sec-tag">02 패키지</span><h2>패키지 부문 — 영업손익 −3.5억</h2>'
++'<p class="lead">매출 20.7억 · 이익률 −16.9% (갑우 −0.1 + 비피 −3.4 · 제조 인력은 비피앤피 소속)</p><div class="unit">단위: 억원</div>'+bridge(DATA.bridgePkg)
++'<div class="cards c3"><div class="cl g"><b>공헌이익 +7.5억 (흑자)</b>용지·외주 차감 후에도 +7.5억. 변동비 이하 판매가 아님.</div>'
++'<div class="cl"><b>전용설비 부담 큼</b>만로랜드 등 패키지 전용설비 감가가 직접·공통비를 키움.</div>'
++'<div class="cl r"><b>손실 비피에 집중</b>제조 인력 전원 비피앤피 → 비피 −3.4. 매출비중 배분보다 적자 작음.</div></div>'
++'<h3 class="bd-title">이 비용엔 무엇이 들어가나 <span class="s">항목별 상세 · 단위 억원</span></h3>'+breakdown(DATA.breakdownPkg)+'</section>'
+
++'<section><span class="sec-tag">02 디지털(상품권)</span><h2>디지털 부문 — 영업이익 +0.9억 <span class="pos" style="font-size:14px">그룹 유일 흑자</span></h2>'
++'<p class="lead">매출 4.0억 · 이익률 +22.9% · 한국조폐공사 단일 거래처</p><div class="unit">단위: 억원</div>'+bridge(DATA.bridgeDig)
++'<div class="cards"><div class="cl g"><b>그룹 유일 흑자 (+0.9억)</b>완전원가 기준에서도 흑자. 원가보고서 영업이익은 +1.5억(감가·판관 전).</div>'
++'<div class="cl"><b>조폐공사 단일 거래처</b>매출은 안정적이나 거래 종료 시 부문 전체에 영향. 자체설비(2·9호기 일부) 생산.</div></div></section>'
+
++'<section><span class="sec-tag">03 구조 진단</span><h2>적자의 두 요소</h2>'
++'<p class="lead">공헌이익은 흑자(+26.4억)인데 영업손익은 −11.0억 — 그 사이를 무엇이 메우지 못하는가.</p>'
++'<div class="cards"><div class="cl"><b>요소 ① 고정비 과부하</b>공헌이익 +26.4억(공헌이익률 36%) — 파는 행위 자체는 이익. 그러나 고정비(설비 감가·공통운영비)를 매출총이익이 못 덮어 영업적자. <br><b style="color:var(--raccent);margin-top:6px">▶ 처방</b>가동률·수주 회복으로 손익분기 물량까지. 공헌이익이 (+)라 증분 대부분이 이익 전환.</div>'
++'<div class="cl"><b>요소 ② 자체인쇄 단가 &lt; 완전원가</b>자체기 완전원가 ≈ 시간당 15만원. 청구단가가 변동비는 넘지만 고정비 배부분 미달 → 완전원가 적자. <br><b style="color:var(--raccent);margin-top:6px">▶ 처방</b>청구단가 손익분기 재책정 + 채산 맞는 물량 중심 재구성.</div></div>'
++'<div class="note">적자 = ① 규모(매출·가동률 부족) + ② 단가(자체인쇄 단가가 완전원가 미달)의 결합. 공헌이익은 흑자(+)이고 영업이익만 적자 → "팔수록 손해"가 아니다.</div></section>'
+
++'<section><span class="sec-tag">04 생산성·가동률</span><h2>생산성·가동률 — 3년 비교 (왜 일이 줄었나)</h2>'
++'<p class="lead">기계 속도는 −4.8%로 거의 유지 — 줄어든 건 일감. \'기계가 느려서\'가 아니라 \'돌릴 일이 없어서\'.</p>'+kpis(DATA.productivity)
++'<div class="note">미회수 고정비 약 10억 — 인쇄기 8대 완전원가 15.69억 중 36%(5.71억)만 매출로 회수. 일감 −20%인데 생산 인건비 12.79억은 그대로.</div></section>'
+
++'<section><span class="sec-tag">05 거래처 손익</span><h2>주요 거래처 손익 — 인쇄(출판) 매출 TOP 20</h2>'
++'<p class="lead">매출 − 자체원가 − 외주매입 − 판관비(교원 −40% 고정 + 매출규모 곡선 재배분) = 영업이익 · 단위 억원</p>'+cust()
++'<div class="warn">판관비 배분(경영진 합의 2026-06): 매출 정비례가 아니라 교원(구몬) −40%, 나머지는 매출규모 곡선(매출^0.76)으로 재배분. 규모가 클수록 더 깎이고, 작을수록 일정 관리비 분담. 총 판관비·부문 영업손익은 불변. ※ 패키지는 거래처별 원가 추적 데이터가 없어 거래처 단위 분석 불가.</div></section>'
+
++'<section><span class="sec-tag">05 케이스</span><h2>교원은 적자, 이투스는 흑자 — 무엇이 갈랐나</h2>'
++'<p class="lead">매출 규모는 흑자를 보장하지 않는다 (둘 다 종이를 거래처가 지급 → 종이 손익 0).</p>'
++'<div class="cards"><div class="cl r"><b>교원구몬 −1.98억</b>(주)교원 별도 −0.85억. 대량일수록 단가가 깎여 자체인쇄 완전원가를 못 넘김 → 적자.</div>'
++'<div class="cl g"><b>이투스에듀 +0.66억</b>제조손익 +1.69억. 받은 가공단가가 완전원가를 넘김.</div></div>'
++'<div class="note">관건은 청구구조가 아니라 "받은 가공단가가 자체인쇄 완전원가를 넘느냐"가 흑·적자를 가른다.</div></section>'
+
++'<section><span class="sec-tag">06 결론</span><h2>결론 및 다음 단계</h2>'
++'<ul class="clean"><li>그룹 1분기 본업 영업손실 <b>−11.0억 (4사 −9.9억)</b> — 확정.</li>'
++'<li>네 부문 모두 공헌이익·직접이익 흑자. 적자는 공통고정비 미충당("고정비 과부하").</li>'
++'<li>부문별: 인쇄 −8.2억(최대) · 패키지 −3.5억 · 디지털 +0.9억(유일 흑자) · 콘텐츠 −0.2억.</li>'
++'<li>디지털은 회사 원가보고서 영업이익 +1.5억(감가·판관 전) → 완전원가 +0.9억.</li></ul>'
++'<div class="warn">부문 손익은 법인 확정손익(갑우 −6.3 / 비피 −4.6)에 정합된 완전원가 추정치. 그룹 총액(−11.0억)은 확정, 부문 split은 소폭 변동 가능.</div></section>'
+
++'<section><span class="sec-tag">07 처방</span><h2>처방과 매출 목표</h2>'
++'<p class="lead">데이터가 가리키는 처방은 하나 — 매출(가동률) 회복. 공헌이익이 (+)라 증분 대부분이 이익으로 전환된다.</p>'
++'<div class="cards"><div class="cl"><b>매출 목표 (BEP 조건)</b><ul class="clean" style="margin-top:4px"><li>인쇄(출판) — 분기 +20억 (정밀 +22.6억)</li><li>패키지 — 분기 +10억</li><li>연간 환산 — 인쇄 약 250억 · 패키지 약 120억</li><li>교원·이투스급 대형 거래처 1~2곳 확보 시 흑자 전환</li></ul></div>'
++'<div class="cl"><b>영업 확대 — 유일한 처방</b><ul class="clean" style="margin-top:4px"><li>대표·본부장이 직접 영업에 나선다</li><li>신규 대형 거래처 확보가 최우선 과제</li><li>채산 맞는 물량 중심으로 일감 재구성</li></ul></div></div>'
++'<div class="warn">임대료 착시 — 부문손익엔 임대료 제외. 실제론 인건비·판관비로 부담하므로 완전원가 적자는 더 명확하다.</div></section>'
+
++'<section><span class="sec-tag">부록 비용 구조</span><h2>그룹 비용 구조 상세</h2>'
++'<p class="lead">당기총제조비용 71.9억(생산직 인건비 포함) + 판관비 8.8억(비생산직 인건비 포함) · 갑우+비피 · 단위 억원</p>'
++'<h3 style="font-size:13.5px;margin:10px 0 2px">제조원가</h3>'+cost(DATA.mfg)
++'<h3 style="font-size:13.5px;margin:16px 0 2px">판관비 (매출의 12.12%)</h3>'+cost(DATA.sga)
++'<div class="note">인건비 총괄: 생산직(제조 노무) 12.8억 + 비생산직(판관) 4.5억 = 총 17.3억. 분리 회계처리로 이중계상 없음. 외주가공비는 별도 정산 시 흑자(+1.5억).</div></section>'
+
++'<div class="rfooter">갑우그룹(갑우문화사+비피앤피) · 단위 억원(백만원÷100)<br>출처: 26년 1분기 손익계산서 수정본(2026-06-10 경영지원) · ERP PRT_WORKPROC·견적 · 영업부 외주 정산표 · 디지털 원가보고서<br>최종 갱신: '+DATA.updated+'</div>';
+    var el=document.getElementById('fullReport'); if(el) el.innerHTML=H;
+  }
+  return {render:render, DATA:DATA};
+})();
+FullReport.render();
 
 // 세션 복원
 (async function(){var s=await sb.auth.getSession();if(s.data&&s.data.session){var em=s.data.session.user.email;var a=await sb.from('approved_users').select('email').eq('email',em).maybeSingle();if(!a.error&&a.data){App.enter();return}}})();
