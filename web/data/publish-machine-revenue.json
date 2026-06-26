@@ -1,0 +1,7555 @@
+{
+ "meta": {
+  "기간": "2026-01-01~2026-06-26",
+  "생성": "2026-06-26",
+  "기기목록": [
+   "인쇄01호기",
+   "인쇄02호기",
+   "인쇄06호기",
+   "인쇄07호기",
+   "인쇄09호기",
+   "인쇄10호기",
+   "인쇄11호기",
+   "인쇄12호기"
+  ],
+  "총매출": 2399232723,
+  "확정비율": 0.5871,
+  "견적커버율": 0.3479,
+  "비교원비중": 0.6115,
+  "교원비중": 0.3885
+ },
+ "daily": [
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄01호기",
+   "revenue": 439040,
+   "qt_good": 57100,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄02호기",
+   "revenue": 1835760,
+   "qt_good": 139390,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄06호기",
+   "revenue": 1475078,
+   "qt_good": 123664,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄07호기",
+   "revenue": 9810026,
+   "qt_good": 187142,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄09호기",
+   "revenue": 1649920,
+   "qt_good": 173723,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄10호기",
+   "revenue": 27050720,
+   "qt_good": 158938,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄11호기",
+   "revenue": 2768352,
+   "qt_good": 169581,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-02",
+   "machine": "인쇄12호기",
+   "revenue": 4960256,
+   "qt_good": 72348,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄01호기",
+   "revenue": 702634,
+   "qt_good": 85921,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄02호기",
+   "revenue": 1782290,
+   "qt_good": 89904,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄06호기",
+   "revenue": 11613542,
+   "qt_good": 96857,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄07호기",
+   "revenue": 4664280,
+   "qt_good": 197669,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄09호기",
+   "revenue": 1590360,
+   "qt_good": 176207,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄10호기",
+   "revenue": 2848702,
+   "qt_good": 152136,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄11호기",
+   "revenue": 3567309,
+   "qt_good": 145078,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-05",
+   "machine": "인쇄12호기",
+   "revenue": 10169983,
+   "qt_good": 99680,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄01호기",
+   "revenue": 702949,
+   "qt_good": 85798,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄02호기",
+   "revenue": 2649024,
+   "qt_good": 117981,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄06호기",
+   "revenue": 1811909,
+   "qt_good": 79741,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄07호기",
+   "revenue": 5827693,
+   "qt_good": 236905,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄09호기",
+   "revenue": 1158712,
+   "qt_good": 58352,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄10호기",
+   "revenue": 2363453,
+   "qt_good": 110081,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄11호기",
+   "revenue": 2924567,
+   "qt_good": 97754,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-06",
+   "machine": "인쇄12호기",
+   "revenue": 14172860,
+   "qt_good": 98309,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄01호기",
+   "revenue": 724092,
+   "qt_good": 88400,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄02호기",
+   "revenue": 3941569,
+   "qt_good": 178972,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄06호기",
+   "revenue": 2720407,
+   "qt_good": 119018,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄07호기",
+   "revenue": 4086190,
+   "qt_good": 197928,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄09호기",
+   "revenue": 1574588,
+   "qt_good": 95852,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄10호기",
+   "revenue": 4024785,
+   "qt_good": 183004,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄11호기",
+   "revenue": 2032522,
+   "qt_good": 189927,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-07",
+   "machine": "인쇄12호기",
+   "revenue": 4241684,
+   "qt_good": 81950,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄01호기",
+   "revenue": 789485,
+   "qt_good": 92319,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄02호기",
+   "revenue": 3237811,
+   "qt_good": 135922,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄06호기",
+   "revenue": 2067554,
+   "qt_good": 102182,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄07호기",
+   "revenue": 3475572,
+   "qt_good": 190982,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄09호기",
+   "revenue": 2026373,
+   "qt_good": 191745,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄10호기",
+   "revenue": 7877449,
+   "qt_good": 128688,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄11호기",
+   "revenue": 2234631,
+   "qt_good": 178678,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-08",
+   "machine": "인쇄12호기",
+   "revenue": 10408858,
+   "qt_good": 87931,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄01호기",
+   "revenue": 689920,
+   "qt_good": 85299,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄02호기",
+   "revenue": 1060251,
+   "qt_good": 37249,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄06호기",
+   "revenue": 1819605,
+   "qt_good": 112705,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄07호기",
+   "revenue": 3542649,
+   "qt_good": 195059,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄09호기",
+   "revenue": 2272720,
+   "qt_good": 192072,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄10호기",
+   "revenue": 6964916,
+   "qt_good": 109492,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄11호기",
+   "revenue": 2200120,
+   "qt_good": 111811,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-09",
+   "machine": "인쇄12호기",
+   "revenue": 8197635,
+   "qt_good": 92705,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄01호기",
+   "revenue": 691120,
+   "qt_good": 81383,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄02호기",
+   "revenue": 1974397,
+   "qt_good": 76305,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄06호기",
+   "revenue": 1580048,
+   "qt_good": 149676,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄07호기",
+   "revenue": 4455376,
+   "qt_good": 178089,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄09호기",
+   "revenue": 1487600,
+   "qt_good": 180331,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄10호기",
+   "revenue": 2172446,
+   "qt_good": 134781,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄11호기",
+   "revenue": 2762433,
+   "qt_good": 170179,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-12",
+   "machine": "인쇄12호기",
+   "revenue": 2973714,
+   "qt_good": 124186,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄01호기",
+   "revenue": 730680,
+   "qt_good": 85141,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄02호기",
+   "revenue": 2004191,
+   "qt_good": 97466,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄06호기",
+   "revenue": 1829570,
+   "qt_good": 166111,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄07호기",
+   "revenue": 4107003,
+   "qt_good": 205291,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄09호기",
+   "revenue": 1388679,
+   "qt_good": 69256,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄10호기",
+   "revenue": 2764903,
+   "qt_good": 172619,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄11호기",
+   "revenue": 3009947,
+   "qt_good": 175591,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-13",
+   "machine": "인쇄12호기",
+   "revenue": 18285008,
+   "qt_good": 99843,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄01호기",
+   "revenue": 704360,
+   "qt_good": 84525,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄02호기",
+   "revenue": 2865685,
+   "qt_good": 152134,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄06호기",
+   "revenue": 1687072,
+   "qt_good": 179083,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄07호기",
+   "revenue": 2700404,
+   "qt_good": 100045,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄09호기",
+   "revenue": 1332404,
+   "qt_good": 131868,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄10호기",
+   "revenue": 11419815,
+   "qt_good": 143561,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄11호기",
+   "revenue": 2666095,
+   "qt_good": 126561,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-14",
+   "machine": "인쇄12호기",
+   "revenue": 7382910,
+   "qt_good": 85104,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄01호기",
+   "revenue": 434378,
+   "qt_good": 28704,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄02호기",
+   "revenue": 1723348,
+   "qt_good": 78503,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄06호기",
+   "revenue": 1884989,
+   "qt_good": 206332,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄07호기",
+   "revenue": 4642596,
+   "qt_good": 140328,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄09호기",
+   "revenue": 1888409,
+   "qt_good": 215783,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄10호기",
+   "revenue": 2725140,
+   "qt_good": 152881,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄11호기",
+   "revenue": 2496093,
+   "qt_good": 150643,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-15",
+   "machine": "인쇄12호기",
+   "revenue": 8362532,
+   "qt_good": 86777,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄01호기",
+   "revenue": 756717,
+   "qt_good": 43698,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄02호기",
+   "revenue": 2499412,
+   "qt_good": 100552,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄06호기",
+   "revenue": 1186464,
+   "qt_good": 147552,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄07호기",
+   "revenue": 4253986,
+   "qt_good": 160633,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄09호기",
+   "revenue": 2216980,
+   "qt_good": 197397,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄10호기",
+   "revenue": 1355992,
+   "qt_good": 108067,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄11호기",
+   "revenue": 2170066,
+   "qt_good": 104769,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-16",
+   "machine": "인쇄12호기",
+   "revenue": 8046727,
+   "qt_good": 67242,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄01호기",
+   "revenue": 664450,
+   "qt_good": 55000,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄02호기",
+   "revenue": 1748680,
+   "qt_good": 83101,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄06호기",
+   "revenue": 2636992,
+   "qt_good": 135366,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄07호기",
+   "revenue": 1501237,
+   "qt_good": 179740,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄09호기",
+   "revenue": 5712656,
+   "qt_good": 166170,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄10호기",
+   "revenue": 2845052,
+   "qt_good": 86230,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄11호기",
+   "revenue": 2159461,
+   "qt_good": 129175,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-19",
+   "machine": "인쇄12호기",
+   "revenue": 13138645,
+   "qt_good": 137890,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄01호기",
+   "revenue": 747024,
+   "qt_good": 91200,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄02호기",
+   "revenue": 2560517,
+   "qt_good": 105278,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄06호기",
+   "revenue": 1136110,
+   "qt_good": 86757,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄07호기",
+   "revenue": 5055602,
+   "qt_good": 116875,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄09호기",
+   "revenue": 1944315,
+   "qt_good": 111541,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄10호기",
+   "revenue": 1630390,
+   "qt_good": 147194,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄11호기",
+   "revenue": 2849032,
+   "qt_good": 175418,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-20",
+   "machine": "인쇄12호기",
+   "revenue": 8352921,
+   "qt_good": 114191,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄01호기",
+   "revenue": 679856,
+   "qt_good": 82928,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄02호기",
+   "revenue": 1331796,
+   "qt_good": 75189,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄06호기",
+   "revenue": 1740312,
+   "qt_good": 128905,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄07호기",
+   "revenue": 1956340,
+   "qt_good": 159965,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄09호기",
+   "revenue": 405327,
+   "qt_good": 20412,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄10호기",
+   "revenue": 1498190,
+   "qt_good": 88055,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄11호기",
+   "revenue": 1533033,
+   "qt_good": 182321,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-21",
+   "machine": "인쇄12호기",
+   "revenue": 5620134,
+   "qt_good": 96228,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄01호기",
+   "revenue": 936471,
+   "qt_good": 32418,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄02호기",
+   "revenue": 2347018,
+   "qt_good": 116372,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄06호기",
+   "revenue": 2290426,
+   "qt_good": 130435,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄07호기",
+   "revenue": 3232351,
+   "qt_good": 117148,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄09호기",
+   "revenue": 1543840,
+   "qt_good": 66265,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄10호기",
+   "revenue": 3163180,
+   "qt_good": 67387,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄11호기",
+   "revenue": 1701633,
+   "qt_good": 195309,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-22",
+   "machine": "인쇄12호기",
+   "revenue": 1478355,
+   "qt_good": 73834,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄01호기",
+   "revenue": 973673,
+   "qt_good": 46228,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄02호기",
+   "revenue": 4060618,
+   "qt_good": 144287,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄06호기",
+   "revenue": 2419975,
+   "qt_good": 101928,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄07호기",
+   "revenue": 2471211,
+   "qt_good": 108573,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄09호기",
+   "revenue": 206680,
+   "qt_good": 10059,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄10호기",
+   "revenue": 1444456,
+   "qt_good": 136601,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄11호기",
+   "revenue": 1762289,
+   "qt_good": 188272,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-23",
+   "machine": "인쇄12호기",
+   "revenue": 5582402,
+   "qt_good": 52725,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄01호기",
+   "revenue": 650720,
+   "qt_good": 79501,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄02호기",
+   "revenue": 4357421,
+   "qt_good": 181092,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄06호기",
+   "revenue": 1574353,
+   "qt_good": 105337,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄07호기",
+   "revenue": 3290622,
+   "qt_good": 151470,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄09호기",
+   "revenue": 2041731,
+   "qt_good": 157670,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄10호기",
+   "revenue": 1860938,
+   "qt_good": 180663,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄11호기",
+   "revenue": 2883817,
+   "qt_good": 151560,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-26",
+   "machine": "인쇄12호기",
+   "revenue": 3511932,
+   "qt_good": 83395,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄01호기",
+   "revenue": 703764,
+   "qt_good": 85980,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄02호기",
+   "revenue": 2778842,
+   "qt_good": 142231,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄06호기",
+   "revenue": 1319306,
+   "qt_good": 74039,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄07호기",
+   "revenue": 3203834,
+   "qt_good": 163327,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄09호기",
+   "revenue": 1809418,
+   "qt_good": 181318,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄10호기",
+   "revenue": 2010606,
+   "qt_good": 195193,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄11호기",
+   "revenue": 2822033,
+   "qt_good": 140550,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-27",
+   "machine": "인쇄12호기",
+   "revenue": 4071500,
+   "qt_good": 74816,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄01호기",
+   "revenue": 663205,
+   "qt_good": 81228,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄02호기",
+   "revenue": 2077365,
+   "qt_good": 89912,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄06호기",
+   "revenue": 652955,
+   "qt_good": 59116,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄07호기",
+   "revenue": 1993896,
+   "qt_good": 172389,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄09호기",
+   "revenue": 1492724,
+   "qt_good": 177235,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄10호기",
+   "revenue": 5253325,
+   "qt_good": 140134,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄11호기",
+   "revenue": 3520173,
+   "qt_good": 160754,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-28",
+   "machine": "인쇄12호기",
+   "revenue": 6169184,
+   "qt_good": 87467,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄01호기",
+   "revenue": 687112,
+   "qt_good": 84183,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄02호기",
+   "revenue": 1863695,
+   "qt_good": 95502,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄06호기",
+   "revenue": 1092154,
+   "qt_good": 129007,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄07호기",
+   "revenue": 2135455,
+   "qt_good": 109175,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄09호기",
+   "revenue": 1333539,
+   "qt_good": 73603,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄10호기",
+   "revenue": 2188306,
+   "qt_good": 149488,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄11호기",
+   "revenue": 2371046,
+   "qt_good": 156496,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-29",
+   "machine": "인쇄12호기",
+   "revenue": 4666155,
+   "qt_good": 93530,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄01호기",
+   "revenue": 701973,
+   "qt_good": 85700,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄02호기",
+   "revenue": 1982678,
+   "qt_good": 145167,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄06호기",
+   "revenue": 1550121,
+   "qt_good": 188838,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄07호기",
+   "revenue": 1522665,
+   "qt_good": 175181,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄09호기",
+   "revenue": 1423112,
+   "qt_good": 162675,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄10호기",
+   "revenue": 2469084,
+   "qt_good": 156625,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄11호기",
+   "revenue": 3021408,
+   "qt_good": 171523,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-01-30",
+   "machine": "인쇄12호기",
+   "revenue": 3965968,
+   "qt_good": 104732,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄01호기",
+   "revenue": 703651,
+   "qt_good": 82080,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄02호기",
+   "revenue": 2041156,
+   "qt_good": 155997,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄06호기",
+   "revenue": 1711480,
+   "qt_good": 169352,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄07호기",
+   "revenue": 2484096,
+   "qt_good": 174936,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄09호기",
+   "revenue": 1658652,
+   "qt_good": 145793,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄10호기",
+   "revenue": 2080323,
+   "qt_good": 177191,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄11호기",
+   "revenue": 2773299,
+   "qt_good": 164451,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-02",
+   "machine": "인쇄12호기",
+   "revenue": 18265177,
+   "qt_good": 115456,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄01호기",
+   "revenue": 421745,
+   "qt_good": 52653,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄02호기",
+   "revenue": 2540924,
+   "qt_good": 123665,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄06호기",
+   "revenue": 1799311,
+   "qt_good": 204692,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄07호기",
+   "revenue": 3915973,
+   "qt_good": 205802,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄09호기",
+   "revenue": 1675403,
+   "qt_good": 180039,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄10호기",
+   "revenue": 2504491,
+   "qt_good": 108069,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄11호기",
+   "revenue": 3148864,
+   "qt_good": 163064,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-03",
+   "machine": "인쇄12호기",
+   "revenue": 6334552,
+   "qt_good": 87964,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄01호기",
+   "revenue": 702792,
+   "qt_good": 85799,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄02호기",
+   "revenue": 2220815,
+   "qt_good": 110516,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄06호기",
+   "revenue": 1248374,
+   "qt_good": 132227,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄07호기",
+   "revenue": 3915839,
+   "qt_good": 205795,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄09호기",
+   "revenue": 2017587,
+   "qt_good": 176056,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄10호기",
+   "revenue": 4148689,
+   "qt_good": 115784,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄11호기",
+   "revenue": 3549264,
+   "qt_good": 163053,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-04",
+   "machine": "인쇄12호기",
+   "revenue": 14115749,
+   "qt_good": 68164,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄01호기",
+   "revenue": 736654,
+   "qt_good": 83186,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄02호기",
+   "revenue": 1550931,
+   "qt_good": 72857,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄06호기",
+   "revenue": 1262658,
+   "qt_good": 127600,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄07호기",
+   "revenue": 1104319,
+   "qt_good": 56083,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄09호기",
+   "revenue": 653160,
+   "qt_good": 32639,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄10호기",
+   "revenue": 2355920,
+   "qt_good": 98561,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄11호기",
+   "revenue": 3677151,
+   "qt_good": 119365,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-05",
+   "machine": "인쇄12호기",
+   "revenue": 6986200,
+   "qt_good": 102379,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄01호기",
+   "revenue": 702490,
+   "qt_good": 85759,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄02호기",
+   "revenue": 2669412,
+   "qt_good": 117606,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄06호기",
+   "revenue": 1519848,
+   "qt_good": 86224,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄07호기",
+   "revenue": 807179,
+   "qt_good": 40419,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄09호기",
+   "revenue": 1375054,
+   "qt_good": 126785,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄10호기",
+   "revenue": 1807807,
+   "qt_good": 73052,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄11호기",
+   "revenue": 1869159,
+   "qt_good": 110299,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-06",
+   "machine": "인쇄12호기",
+   "revenue": 2381467,
+   "qt_good": 105587,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄01호기",
+   "revenue": 680676,
+   "qt_good": 83100,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄02호기",
+   "revenue": 2601435,
+   "qt_good": 151089,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄06호기",
+   "revenue": 1710780,
+   "qt_good": 106620,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄07호기",
+   "revenue": 2981091,
+   "qt_good": 167985,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄09호기",
+   "revenue": 2169432,
+   "qt_good": 182639,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄10호기",
+   "revenue": 1895810,
+   "qt_good": 96194,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄11호기",
+   "revenue": 2043060,
+   "qt_good": 145670,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-09",
+   "machine": "인쇄12호기",
+   "revenue": 5721562,
+   "qt_good": 88223,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄01호기",
+   "revenue": 717920,
+   "qt_good": 83843,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄02호기",
+   "revenue": 1988322,
+   "qt_good": 197000,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄06호기",
+   "revenue": 1691270,
+   "qt_good": 135074,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄07호기",
+   "revenue": 1869694,
+   "qt_good": 165510,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄09호기",
+   "revenue": 2087994,
+   "qt_good": 200709,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄10호기",
+   "revenue": 3091782,
+   "qt_good": 189943,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄11호기",
+   "revenue": 3232627,
+   "qt_good": 191116,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-10",
+   "machine": "인쇄12호기",
+   "revenue": 10754294,
+   "qt_good": 76454,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄01호기",
+   "revenue": 730890,
+   "qt_good": 90356,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄02호기",
+   "revenue": 2055976,
+   "qt_good": 107482,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄06호기",
+   "revenue": 1637524,
+   "qt_good": 192268,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄07호기",
+   "revenue": 1744981,
+   "qt_good": 154159,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄09호기",
+   "revenue": 1743494,
+   "qt_good": 144713,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄10호기",
+   "revenue": 10904994,
+   "qt_good": 170504,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄11호기",
+   "revenue": 2801627,
+   "qt_good": 139770,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-11",
+   "machine": "인쇄12호기",
+   "revenue": 7020965,
+   "qt_good": 88577,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄01호기",
+   "revenue": 735190,
+   "qt_good": 90925,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄02호기",
+   "revenue": 2189977,
+   "qt_good": 100873,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄06호기",
+   "revenue": 1401174,
+   "qt_good": 166633,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄07호기",
+   "revenue": 2449077,
+   "qt_good": 159127,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄09호기",
+   "revenue": 888228,
+   "qt_good": 69666,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄10호기",
+   "revenue": 12664224,
+   "qt_good": 115708,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄11호기",
+   "revenue": 3767568,
+   "qt_good": 146180,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-12",
+   "machine": "인쇄12호기",
+   "revenue": 10342279,
+   "qt_good": 84798,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄01호기",
+   "revenue": 714679,
+   "qt_good": 55255,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄02호기",
+   "revenue": 1920505,
+   "qt_good": 74759,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄06호기",
+   "revenue": 233952,
+   "qt_good": 28343,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄07호기",
+   "revenue": 1671850,
+   "qt_good": 168365,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄09호기",
+   "revenue": 1597495,
+   "qt_good": 197269,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄10호기",
+   "revenue": 3143776,
+   "qt_good": 190734,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄11호기",
+   "revenue": 2552430,
+   "qt_good": 134808,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-13",
+   "machine": "인쇄12호기",
+   "revenue": 3821862,
+   "qt_good": 78173,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄01호기",
+   "revenue": 689920,
+   "qt_good": 85763,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄02호기",
+   "revenue": 2233285,
+   "qt_good": 158979,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄06호기",
+   "revenue": 1449162,
+   "qt_good": 101008,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄07호기",
+   "revenue": 3401945,
+   "qt_good": 183887,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄10호기",
+   "revenue": 2298977,
+   "qt_good": 199263,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄11호기",
+   "revenue": 2772612,
+   "qt_good": 108464,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-19",
+   "machine": "인쇄12호기",
+   "revenue": 7536883,
+   "qt_good": 101180,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄01호기",
+   "revenue": 964400,
+   "qt_good": 70081,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄02호기",
+   "revenue": 2163353,
+   "qt_good": 184264,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄06호기",
+   "revenue": 1887233,
+   "qt_good": 81210,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄07호기",
+   "revenue": 4646177,
+   "qt_good": 212774,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄10호기",
+   "revenue": 2221449,
+   "qt_good": 187229,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄11호기",
+   "revenue": 2764721,
+   "qt_good": 158322,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-20",
+   "machine": "인쇄12호기",
+   "revenue": 6120718,
+   "qt_good": 112589,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-21",
+   "machine": "인쇄07호기",
+   "revenue": 3951820,
+   "qt_good": 182084,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄01호기",
+   "revenue": 631924,
+   "qt_good": 74700,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄02호기",
+   "revenue": 2304909,
+   "qt_good": 125549,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄06호기",
+   "revenue": 1951238,
+   "qt_good": 121113,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄07호기",
+   "revenue": 4391862,
+   "qt_good": 201995,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄10호기",
+   "revenue": 2606406,
+   "qt_good": 175766,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄11호기",
+   "revenue": 2399126,
+   "qt_good": 197340,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-23",
+   "machine": "인쇄12호기",
+   "revenue": 3102886,
+   "qt_good": 102280,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄01호기",
+   "revenue": 726365,
+   "qt_good": 86384,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄02호기",
+   "revenue": 1838053,
+   "qt_good": 133849,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄06호기",
+   "revenue": 1888704,
+   "qt_good": 162407,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄07호기",
+   "revenue": 3930267,
+   "qt_good": 185335,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄10호기",
+   "revenue": 1857648,
+   "qt_good": 179827,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄11호기",
+   "revenue": 2316593,
+   "qt_good": 193457,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-24",
+   "machine": "인쇄12호기",
+   "revenue": 6268370,
+   "qt_good": 45741,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄01호기",
+   "revenue": 706950,
+   "qt_good": 87404,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄02호기",
+   "revenue": 1892384,
+   "qt_good": 143111,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄06호기",
+   "revenue": 1991548,
+   "qt_good": 107414,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄07호기",
+   "revenue": 3042289,
+   "qt_good": 206589,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄10호기",
+   "revenue": 2134494,
+   "qt_good": 180445,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄11호기",
+   "revenue": 2897574,
+   "qt_good": 195531,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-25",
+   "machine": "인쇄12호기",
+   "revenue": 13376750,
+   "qt_good": 72201,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄01호기",
+   "revenue": 791840,
+   "qt_good": 97773,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄02호기",
+   "revenue": 1883433,
+   "qt_good": 159476,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄06호기",
+   "revenue": 1829090,
+   "qt_good": 148295,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄07호기",
+   "revenue": 2273987,
+   "qt_good": 180412,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄10호기",
+   "revenue": 2398435,
+   "qt_good": 169766,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄11호기",
+   "revenue": 2943721,
+   "qt_good": 177728,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-26",
+   "machine": "인쇄12호기",
+   "revenue": 8978913,
+   "qt_good": 58120,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄01호기",
+   "revenue": 653920,
+   "qt_good": 76067,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄02호기",
+   "revenue": 1838266,
+   "qt_good": 173950,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄06호기",
+   "revenue": 2623604,
+   "qt_good": 162088,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄07호기",
+   "revenue": 3354237,
+   "qt_good": 191579,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄10호기",
+   "revenue": 2633125,
+   "qt_good": 180376,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄11호기",
+   "revenue": 3423179,
+   "qt_good": 136416,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-02-27",
+   "machine": "인쇄12호기",
+   "revenue": 2244669,
+   "qt_good": 112854,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄01호기",
+   "revenue": 1187193,
+   "qt_good": 143283,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄02호기",
+   "revenue": 1703032,
+   "qt_good": 195399,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄06호기",
+   "revenue": 1613551,
+   "qt_good": 191711,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄07호기",
+   "revenue": 3914790,
+   "qt_good": 204710,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄09호기",
+   "revenue": 625240,
+   "qt_good": 54794,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄10호기",
+   "revenue": 12834474,
+   "qt_good": 148484,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄11호기",
+   "revenue": 3093004,
+   "qt_good": 148544,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-03",
+   "machine": "인쇄12호기",
+   "revenue": 6039052,
+   "qt_good": 120211,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄01호기",
+   "revenue": 1706080,
+   "qt_good": 161476,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄02호기",
+   "revenue": 2394917,
+   "qt_good": 86055,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄06호기",
+   "revenue": 1748953,
+   "qt_good": 205956,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄07호기",
+   "revenue": 4099543,
+   "qt_good": 214371,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄09호기",
+   "revenue": 1117846,
+   "qt_good": 56294,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄10호기",
+   "revenue": 1595433,
+   "qt_good": 195678,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄11호기",
+   "revenue": 2319280,
+   "qt_good": 108242,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-04",
+   "machine": "인쇄12호기",
+   "revenue": 1279548,
+   "qt_good": 77854,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄01호기",
+   "revenue": 1519401,
+   "qt_good": 111512,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄02호기",
+   "revenue": 1377786,
+   "qt_good": 109575,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄06호기",
+   "revenue": 1709462,
+   "qt_good": 159411,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄07호기",
+   "revenue": 3376328,
+   "qt_good": 201226,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄09호기",
+   "revenue": 1538057,
+   "qt_good": 109204,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄10호기",
+   "revenue": 2405266,
+   "qt_good": 177628,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄11호기",
+   "revenue": 1996145,
+   "qt_good": 160457,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-05",
+   "machine": "인쇄12호기",
+   "revenue": 9828078,
+   "qt_good": 68594,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄01호기",
+   "revenue": 1355540,
+   "qt_good": 60197,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄02호기",
+   "revenue": 2065888,
+   "qt_good": 140292,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄06호기",
+   "revenue": 1017046,
+   "qt_good": 111952,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄07호기",
+   "revenue": 1970303,
+   "qt_good": 169759,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄09호기",
+   "revenue": 1897378,
+   "qt_good": 175200,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄10호기",
+   "revenue": 2700893,
+   "qt_good": 122312,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄11호기",
+   "revenue": 1605634,
+   "qt_good": 112663,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-06",
+   "machine": "인쇄12호기",
+   "revenue": 4215442,
+   "qt_good": 94828,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄01호기",
+   "revenue": 1456462,
+   "qt_good": 115918,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄02호기",
+   "revenue": 2086418,
+   "qt_good": 173770,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄06호기",
+   "revenue": 984441,
+   "qt_good": 108530,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄07호기",
+   "revenue": 2067843,
+   "qt_good": 179149,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄09호기",
+   "revenue": 1955600,
+   "qt_good": 167827,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄10호기",
+   "revenue": 9910067,
+   "qt_good": 137092,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄11호기",
+   "revenue": 2486458,
+   "qt_good": 207077,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-09",
+   "machine": "인쇄12호기",
+   "revenue": 4243028,
+   "qt_good": 103174,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄01호기",
+   "revenue": 2781700,
+   "qt_good": 169534,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄02호기",
+   "revenue": 2226882,
+   "qt_good": 97133,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄06호기",
+   "revenue": 1969883,
+   "qt_good": 97394,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄07호기",
+   "revenue": 3469011,
+   "qt_good": 182793,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄09호기",
+   "revenue": 1876280,
+   "qt_good": 190569,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄10호기",
+   "revenue": 15354403,
+   "qt_good": 169742,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄11호기",
+   "revenue": 2839051,
+   "qt_good": 205868,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-10",
+   "machine": "인쇄12호기",
+   "revenue": 5609203,
+   "qt_good": 99697,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄01호기",
+   "revenue": 1574533,
+   "qt_good": 195810,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄02호기",
+   "revenue": 3356853,
+   "qt_good": 152174,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄06호기",
+   "revenue": 3153856,
+   "qt_good": 154669,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄07호기",
+   "revenue": 4237301,
+   "qt_good": 218750,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄09호기",
+   "revenue": 1613720,
+   "qt_good": 178873,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄10호기",
+   "revenue": 11380291,
+   "qt_good": 129229,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄11호기",
+   "revenue": 2990259,
+   "qt_good": 189448,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-11",
+   "machine": "인쇄12호기",
+   "revenue": 14081336,
+   "qt_good": 85573,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄01호기",
+   "revenue": 1408825,
+   "qt_good": 173784,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄02호기",
+   "revenue": 3091686,
+   "qt_good": 123126,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄06호기",
+   "revenue": 2816353,
+   "qt_good": 128500,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄07호기",
+   "revenue": 4561936,
+   "qt_good": 174125,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄09호기",
+   "revenue": 1182700,
+   "qt_good": 59521,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄10호기",
+   "revenue": 2708246,
+   "qt_good": 154526,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄11호기",
+   "revenue": 3693424,
+   "qt_good": 154097,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-12",
+   "machine": "인쇄12호기",
+   "revenue": 4795647,
+   "qt_good": 76748,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄01호기",
+   "revenue": 1806997,
+   "qt_good": 222815,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄02호기",
+   "revenue": 3764644,
+   "qt_good": 134774,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄06호기",
+   "revenue": 2455056,
+   "qt_good": 120082,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄07호기",
+   "revenue": 6175970,
+   "qt_good": 194905,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄09호기",
+   "revenue": 1882136,
+   "qt_good": 120159,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄10호기",
+   "revenue": 2160212,
+   "qt_good": 177635,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄11호기",
+   "revenue": 2834337,
+   "qt_good": 154795,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-13",
+   "machine": "인쇄12호기",
+   "revenue": 2436340,
+   "qt_good": 85874,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄01호기",
+   "revenue": 1572863,
+   "qt_good": 194143,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄02호기",
+   "revenue": 2453378,
+   "qt_good": 97807,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄06호기",
+   "revenue": 2160693,
+   "qt_good": 157329,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄07호기",
+   "revenue": 4369647,
+   "qt_good": 189713,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄09호기",
+   "revenue": 2461467,
+   "qt_good": 146911,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄10호기",
+   "revenue": 1505677,
+   "qt_good": 100640,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄11호기",
+   "revenue": 2180493,
+   "qt_good": 140130,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-16",
+   "machine": "인쇄12호기",
+   "revenue": 3340623,
+   "qt_good": 106360,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄01호기",
+   "revenue": 1812377,
+   "qt_good": 166031,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄02호기",
+   "revenue": 2243868,
+   "qt_good": 89265,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄06호기",
+   "revenue": 1556951,
+   "qt_good": 185884,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄07호기",
+   "revenue": 4221258,
+   "qt_good": 214396,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄09호기",
+   "revenue": 1300048,
+   "qt_good": 135232,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄10호기",
+   "revenue": 1823022,
+   "qt_good": 107519,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄11호기",
+   "revenue": 2970174,
+   "qt_good": 115912,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-17",
+   "machine": "인쇄12호기",
+   "revenue": 3197232,
+   "qt_good": 108297,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄01호기",
+   "revenue": 1592570,
+   "qt_good": 64026,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄02호기",
+   "revenue": 1444836,
+   "qt_good": 83445,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄06호기",
+   "revenue": 1002276,
+   "qt_good": 70963,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄07호기",
+   "revenue": 2698624,
+   "qt_good": 154909,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄09호기",
+   "revenue": 1778727,
+   "qt_good": 179132,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄10호기",
+   "revenue": 2453339,
+   "qt_good": 172430,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄11호기",
+   "revenue": 1892873,
+   "qt_good": 124140,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-18",
+   "machine": "인쇄12호기",
+   "revenue": 2189202,
+   "qt_good": 81075,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄01호기",
+   "revenue": 1930437,
+   "qt_good": 84230,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄02호기",
+   "revenue": 967560,
+   "qt_good": 58082,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄06호기",
+   "revenue": 1726913,
+   "qt_good": 107372,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄07호기",
+   "revenue": 1659307,
+   "qt_good": 123162,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄09호기",
+   "revenue": 999695,
+   "qt_good": 76303,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄10호기",
+   "revenue": 2389725,
+   "qt_good": 142749,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄11호기",
+   "revenue": 2629786,
+   "qt_good": 159848,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-19",
+   "machine": "인쇄12호기",
+   "revenue": 2173709,
+   "qt_good": 132172,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄01호기",
+   "revenue": 631019,
+   "qt_good": 43613,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄02호기",
+   "revenue": 617990,
+   "qt_good": 36264,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄06호기",
+   "revenue": 547235,
+   "qt_good": 63050,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄07호기",
+   "revenue": 418955,
+   "qt_good": 35849,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄09호기",
+   "revenue": 832200,
+   "qt_good": 83651,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄10호기",
+   "revenue": 970388,
+   "qt_good": 98453,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄11호기",
+   "revenue": 1385863,
+   "qt_good": 42947,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-20",
+   "machine": "인쇄12호기",
+   "revenue": 861309,
+   "qt_good": 61800,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄01호기",
+   "revenue": 1858832,
+   "qt_good": 119043,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄02호기",
+   "revenue": 1868439,
+   "qt_good": 90418,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄06호기",
+   "revenue": 1046112,
+   "qt_good": 84957,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄07호기",
+   "revenue": 1604040,
+   "qt_good": 186593,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄09호기",
+   "revenue": 2998833,
+   "qt_good": 186333,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄10호기",
+   "revenue": 2323286,
+   "qt_good": 98281,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄11호기",
+   "revenue": 2438567,
+   "qt_good": 98834,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-23",
+   "machine": "인쇄12호기",
+   "revenue": 1662894,
+   "qt_good": 53795,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄01호기",
+   "revenue": 3200644,
+   "qt_good": 47225,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄02호기",
+   "revenue": 1696570,
+   "qt_good": 134258,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄06호기",
+   "revenue": 3330998,
+   "qt_good": 99066,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄07호기",
+   "revenue": 1299320,
+   "qt_good": 144692,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄09호기",
+   "revenue": 2056687,
+   "qt_good": 176358,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄10호기",
+   "revenue": 2599268,
+   "qt_good": 143735,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄11호기",
+   "revenue": 2244674,
+   "qt_good": 109666,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-24",
+   "machine": "인쇄12호기",
+   "revenue": 1764816,
+   "qt_good": 87015,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄01호기",
+   "revenue": 5142913,
+   "qt_good": 97834,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄02호기",
+   "revenue": 1813955,
+   "qt_good": 119157,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄06호기",
+   "revenue": 2342605,
+   "qt_good": 105283,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄07호기",
+   "revenue": 2813552,
+   "qt_good": 165857,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄09호기",
+   "revenue": 1278285,
+   "qt_good": 66955,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄10호기",
+   "revenue": 2551690,
+   "qt_good": 105737,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄11호기",
+   "revenue": 3557101,
+   "qt_good": 118749,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-25",
+   "machine": "인쇄12호기",
+   "revenue": 2250722,
+   "qt_good": 92612,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄01호기",
+   "revenue": 901944,
+   "qt_good": 111599,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄02호기",
+   "revenue": 2281828,
+   "qt_good": 193260,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄06호기",
+   "revenue": 2370906,
+   "qt_good": 107190,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄07호기",
+   "revenue": 2352464,
+   "qt_good": 173546,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄09호기",
+   "revenue": 1907898,
+   "qt_good": 218526,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄10호기",
+   "revenue": 1666473,
+   "qt_good": 110536,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄11호기",
+   "revenue": 2565890,
+   "qt_good": 93655,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-26",
+   "machine": "인쇄12호기",
+   "revenue": 2420649,
+   "qt_good": 84278,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄01호기",
+   "revenue": 738686,
+   "qt_good": 91347,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄02호기",
+   "revenue": 1013218,
+   "qt_good": 39557,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄06호기",
+   "revenue": 978756,
+   "qt_good": 55914,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄07호기",
+   "revenue": 1044625,
+   "qt_good": 101095,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄09호기",
+   "revenue": 890760,
+   "qt_good": 101348,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄10호기",
+   "revenue": 971484,
+   "qt_good": 53416,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄11호기",
+   "revenue": 1441359,
+   "qt_good": 50331,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-27",
+   "machine": "인쇄12호기",
+   "revenue": 1173946,
+   "qt_good": 42509,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄01호기",
+   "revenue": 1297757,
+   "qt_good": 107068,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄02호기",
+   "revenue": 4784109,
+   "qt_good": 71125,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄06호기",
+   "revenue": 1550082,
+   "qt_good": 95675,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄07호기",
+   "revenue": 1656169,
+   "qt_good": 137175,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄09호기",
+   "revenue": 1883080,
+   "qt_good": 180704,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄10호기",
+   "revenue": 1042700,
+   "qt_good": 61007,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄11호기",
+   "revenue": 2162764,
+   "qt_good": 168273,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-30",
+   "machine": "인쇄12호기",
+   "revenue": 2337702,
+   "qt_good": 104088,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄01호기",
+   "revenue": 1501130,
+   "qt_good": 185060,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄02호기",
+   "revenue": 2244480,
+   "qt_good": 70347,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄06호기",
+   "revenue": 499096,
+   "qt_good": 63361,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄07호기",
+   "revenue": 1797375,
+   "qt_good": 192218,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄09호기",
+   "revenue": 1351063,
+   "qt_good": 87208,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄10호기",
+   "revenue": 1891854,
+   "qt_good": 83112,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄11호기",
+   "revenue": 2041798,
+   "qt_good": 129106,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-03-31",
+   "machine": "인쇄12호기",
+   "revenue": 2081996,
+   "qt_good": 85007,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄01호기",
+   "revenue": 1530011,
+   "qt_good": 108489,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄02호기",
+   "revenue": 2201450,
+   "qt_good": 111806,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄06호기",
+   "revenue": 1378938,
+   "qt_good": 56878,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄07호기",
+   "revenue": 3089860,
+   "qt_good": 122125,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄09호기",
+   "revenue": 2082195,
+   "qt_good": 104858,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄10호기",
+   "revenue": 15176492,
+   "qt_good": 107358,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄11호기",
+   "revenue": 1735739,
+   "qt_good": 119715,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-01",
+   "machine": "인쇄12호기",
+   "revenue": 1675895,
+   "qt_good": 54283,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄01호기",
+   "revenue": 1415389,
+   "qt_good": 170653,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄02호기",
+   "revenue": 4215478,
+   "qt_good": 117943,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄06호기",
+   "revenue": 2135612,
+   "qt_good": 64979,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄07호기",
+   "revenue": 3762391,
+   "qt_good": 139313,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄09호기",
+   "revenue": 1210223,
+   "qt_good": 74667,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄10호기",
+   "revenue": 1730219,
+   "qt_good": 119440,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄11호기",
+   "revenue": 1910708,
+   "qt_good": 105419,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-02",
+   "machine": "인쇄12호기",
+   "revenue": 2500015,
+   "qt_good": 90252,
+   "flag": "확정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄01호기",
+   "revenue": 604978,
+   "qt_good": 69091,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄02호기",
+   "revenue": 1080019,
+   "qt_good": 64304,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄06호기",
+   "revenue": 738622,
+   "qt_good": 24730,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄07호기",
+   "revenue": 2057382,
+   "qt_good": 82823,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄09호기",
+   "revenue": 1332365,
+   "qt_good": 81443,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄10호기",
+   "revenue": 7662531,
+   "qt_good": 44533,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄11호기",
+   "revenue": 1260559,
+   "qt_good": 72303,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-03",
+   "machine": "인쇄12호기",
+   "revenue": 1236349,
+   "qt_good": 51952,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄01호기",
+   "revenue": 1580339,
+   "qt_good": 56858,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄02호기",
+   "revenue": 2205406,
+   "qt_good": 121674,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄06호기",
+   "revenue": 1630236,
+   "qt_good": 70388,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄07호기",
+   "revenue": 4379755,
+   "qt_good": 159164,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄09호기",
+   "revenue": 2382923,
+   "qt_good": 163768,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄10호기",
+   "revenue": 2627950,
+   "qt_good": 148692,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄11호기",
+   "revenue": 2425517,
+   "qt_good": 127240,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-06",
+   "machine": "인쇄12호기",
+   "revenue": 2076794,
+   "qt_good": 79119,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄01호기",
+   "revenue": 1692233,
+   "qt_good": 123580,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄02호기",
+   "revenue": 2107864,
+   "qt_good": 78560,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄06호기",
+   "revenue": 1960275,
+   "qt_good": 82963,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄07호기",
+   "revenue": 3429520,
+   "qt_good": 204837,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄09호기",
+   "revenue": 850657,
+   "qt_good": 101810,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄10호기",
+   "revenue": 1849727,
+   "qt_good": 165506,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄11호기",
+   "revenue": 2291134,
+   "qt_good": 200486,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-07",
+   "machine": "인쇄12호기",
+   "revenue": 3193113,
+   "qt_good": 103718,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄01호기",
+   "revenue": 1973458,
+   "qt_good": 139443,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄02호기",
+   "revenue": 1753827,
+   "qt_good": 77482,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄06호기",
+   "revenue": 2161990,
+   "qt_good": 102285,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄07호기",
+   "revenue": 1779039,
+   "qt_good": 219567,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄09호기",
+   "revenue": 990819,
+   "qt_good": 49897,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄10호기",
+   "revenue": 3593849,
+   "qt_good": 138343,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄11호기",
+   "revenue": 2635519,
+   "qt_good": 152614,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-08",
+   "machine": "인쇄12호기",
+   "revenue": 2025211,
+   "qt_good": 132880,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄01호기",
+   "revenue": 2376740,
+   "qt_good": 162996,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄02호기",
+   "revenue": 2518013,
+   "qt_good": 89566,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄06호기",
+   "revenue": 2282281,
+   "qt_good": 84786,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄07호기",
+   "revenue": 1770009,
+   "qt_good": 185454,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄09호기",
+   "revenue": 1437153,
+   "qt_good": 170865,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄10호기",
+   "revenue": 2296375,
+   "qt_good": 103523,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄11호기",
+   "revenue": 2395487,
+   "qt_good": 123628,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-09",
+   "machine": "인쇄12호기",
+   "revenue": 2806855,
+   "qt_good": 85149,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄01호기",
+   "revenue": 804649,
+   "qt_good": 96690,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄02호기",
+   "revenue": 850914,
+   "qt_good": 33914,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄06호기",
+   "revenue": 1293803,
+   "qt_good": 46670,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄07호기",
+   "revenue": 1592960,
+   "qt_good": 70271,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄09호기",
+   "revenue": 856420,
+   "qt_good": 105552,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄10호기",
+   "revenue": 1188139,
+   "qt_good": 57067,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄11호기",
+   "revenue": 1612047,
+   "qt_good": 74584,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-10",
+   "machine": "인쇄12호기",
+   "revenue": 947822,
+   "qt_good": 57133,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄01호기",
+   "revenue": 1495441,
+   "qt_good": 101105,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄02호기",
+   "revenue": 1738481,
+   "qt_good": 62513,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄06호기",
+   "revenue": 629381,
+   "qt_good": 22703,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄07호기",
+   "revenue": 1536587,
+   "qt_good": 126809,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄09호기",
+   "revenue": 916280,
+   "qt_good": 113159,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄10호기",
+   "revenue": 1568569,
+   "qt_good": 71998,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄11호기",
+   "revenue": 2201399,
+   "qt_good": 105486,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-13",
+   "machine": "인쇄12호기",
+   "revenue": 1750506,
+   "qt_good": 60051,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄01호기",
+   "revenue": 1517065,
+   "qt_good": 187351,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄02호기",
+   "revenue": 1319484,
+   "qt_good": 66224,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄06호기",
+   "revenue": 466096,
+   "qt_good": 16813,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄07호기",
+   "revenue": 1531440,
+   "qt_good": 166289,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄09호기",
+   "revenue": 1267979,
+   "qt_good": 63586,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄10호기",
+   "revenue": 2059903,
+   "qt_good": 80543,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄11호기",
+   "revenue": 1703014,
+   "qt_good": 157749,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-14",
+   "machine": "인쇄12호기",
+   "revenue": 1755384,
+   "qt_good": 103672,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄01호기",
+   "revenue": 1609082,
+   "qt_good": 165070,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄02호기",
+   "revenue": 1913807,
+   "qt_good": 69968,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄06호기",
+   "revenue": 962586,
+   "qt_good": 79180,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄07호기",
+   "revenue": 2650257,
+   "qt_good": 116506,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄09호기",
+   "revenue": 1306480,
+   "qt_good": 97610,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄10호기",
+   "revenue": 2177990,
+   "qt_good": 88740,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄11호기",
+   "revenue": 1835867,
+   "qt_good": 190103,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-15",
+   "machine": "인쇄12호기",
+   "revenue": 2268732,
+   "qt_good": 106677,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄01호기",
+   "revenue": 1152060,
+   "qt_good": 49147,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄02호기",
+   "revenue": 1243970,
+   "qt_good": 51439,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄06호기",
+   "revenue": 1293947,
+   "qt_good": 145078,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄07호기",
+   "revenue": 1697291,
+   "qt_good": 108918,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄09호기",
+   "revenue": 932960,
+   "qt_good": 117502,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄10호기",
+   "revenue": 2615374,
+   "qt_good": 86588,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄11호기",
+   "revenue": 1707850,
+   "qt_good": 209998,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-16",
+   "machine": "인쇄12호기",
+   "revenue": 2062430,
+   "qt_good": 87111,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄01호기",
+   "revenue": 1419614,
+   "qt_good": 160989,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄02호기",
+   "revenue": 2384386,
+   "qt_good": 117666,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄07호기",
+   "revenue": 2295834,
+   "qt_good": 74677,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄09호기",
+   "revenue": 1321969,
+   "qt_good": 90584,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄10호기",
+   "revenue": 2602359,
+   "qt_good": 103082,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄11호기",
+   "revenue": 2005771,
+   "qt_good": 106093,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-17",
+   "machine": "인쇄12호기",
+   "revenue": 2355362,
+   "qt_good": 64293,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄01호기",
+   "revenue": 1857753,
+   "qt_good": 111700,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄02호기",
+   "revenue": 2016382,
+   "qt_good": 118179,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄06호기",
+   "revenue": 1132194,
+   "qt_good": 54941,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄07호기",
+   "revenue": 3340930,
+   "qt_good": 173097,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄09호기",
+   "revenue": 1634456,
+   "qt_good": 112539,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄10호기",
+   "revenue": 2360623,
+   "qt_good": 152677,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄11호기",
+   "revenue": 2748492,
+   "qt_good": 196436,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-20",
+   "machine": "인쇄12호기",
+   "revenue": 3205331,
+   "qt_good": 81660,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄01호기",
+   "revenue": 1555245,
+   "qt_good": 160728,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄02호기",
+   "revenue": 1879453,
+   "qt_good": 155394,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄06호기",
+   "revenue": 1817588,
+   "qt_good": 55714,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄07호기",
+   "revenue": 2425110,
+   "qt_good": 139647,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄09호기",
+   "revenue": 1230155,
+   "qt_good": 142345,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄10호기",
+   "revenue": 2428655,
+   "qt_good": 137761,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄11호기",
+   "revenue": 2663218,
+   "qt_good": 156738,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-21",
+   "machine": "인쇄12호기",
+   "revenue": 2667122,
+   "qt_good": 147582,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄01호기",
+   "revenue": 1680321,
+   "qt_good": 149059,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄02호기",
+   "revenue": 1033125,
+   "qt_good": 183978,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄06호기",
+   "revenue": 1760888,
+   "qt_good": 53976,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄07호기",
+   "revenue": 1183322,
+   "qt_good": 210725,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄09호기",
+   "revenue": 1022180,
+   "qt_good": 44533,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄10호기",
+   "revenue": 933102,
+   "qt_good": 166166,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄11호기",
+   "revenue": 2444997,
+   "qt_good": 175986,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-22",
+   "machine": "인쇄12호기",
+   "revenue": 1969434,
+   "qt_good": 92543,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄01호기",
+   "revenue": 1796255,
+   "qt_good": 151446,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄02호기",
+   "revenue": 1030025,
+   "qt_good": 183426,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄06호기",
+   "revenue": 1715571,
+   "qt_good": 84798,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄07호기",
+   "revenue": 1233042,
+   "qt_good": 219579,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄09호기",
+   "revenue": 1807350,
+   "qt_good": 91017,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄10호기",
+   "revenue": 1105542,
+   "qt_good": 196874,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄11호기",
+   "revenue": 2243111,
+   "qt_good": 192431,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-23",
+   "machine": "인쇄12호기",
+   "revenue": 1737716,
+   "qt_good": 72509,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄01호기",
+   "revenue": 1965312,
+   "qt_good": 120334,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄02호기",
+   "revenue": 889060,
+   "qt_good": 158323,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄06호기",
+   "revenue": 1489511,
+   "qt_good": 79075,
+   "flag": "확정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄07호기",
+   "revenue": 1286193,
+   "qt_good": 226694,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄09호기",
+   "revenue": 1764736,
+   "qt_good": 88277,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄10호기",
+   "revenue": 973944,
+   "qt_good": 153906,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄11호기",
+   "revenue": 2101062,
+   "qt_good": 163226,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-24",
+   "machine": "인쇄12호기",
+   "revenue": 1580868,
+   "qt_good": 96085,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-25",
+   "machine": "인쇄07호기",
+   "revenue": 498318,
+   "qt_good": 88740,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄01호기",
+   "revenue": 1879707,
+   "qt_good": 163007,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄02호기",
+   "revenue": 2238160,
+   "qt_good": 97589,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄06호기",
+   "revenue": 1000834,
+   "qt_good": 92297,
+   "flag": "확정",
+   "cust_type": "교원턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄07호기",
+   "revenue": 1378011,
+   "qt_good": 80721,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄09호기",
+   "revenue": 2013920,
+   "qt_good": 151734,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄10호기",
+   "revenue": 2203237,
+   "qt_good": 107957,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄11호기",
+   "revenue": 2740989,
+   "qt_good": 167440,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-27",
+   "machine": "인쇄12호기",
+   "revenue": 2541895,
+   "qt_good": 111048,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄01호기",
+   "revenue": 1667414,
+   "qt_good": 205171,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄02호기",
+   "revenue": 1709105,
+   "qt_good": 85131,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄07호기",
+   "revenue": 3346503,
+   "qt_good": 144251,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄09호기",
+   "revenue": 1123913,
+   "qt_good": 95213,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄10호기",
+   "revenue": 5163348,
+   "qt_good": 98747,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄11호기",
+   "revenue": 2844285,
+   "qt_good": 105113,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-28",
+   "machine": "인쇄12호기",
+   "revenue": 2530324,
+   "qt_good": 121841,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄01호기",
+   "revenue": 1081967,
+   "qt_good": 84872,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄02호기",
+   "revenue": 1452520,
+   "qt_good": 69037,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄07호기",
+   "revenue": 2660753,
+   "qt_good": 158534,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄09호기",
+   "revenue": 1135207,
+   "qt_good": 97545,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄10호기",
+   "revenue": 16039439,
+   "qt_good": 168795,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄11호기",
+   "revenue": 1890768,
+   "qt_good": 66507,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-29",
+   "machine": "인쇄12호기",
+   "revenue": 3302245,
+   "qt_good": 108218,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄01호기",
+   "revenue": 1435606,
+   "qt_good": 76497,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄02호기",
+   "revenue": 1908928,
+   "qt_good": 67997,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄07호기",
+   "revenue": 1723951,
+   "qt_good": 206068,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄09호기",
+   "revenue": 1444680,
+   "qt_good": 105615,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄10호기",
+   "revenue": 5740084,
+   "qt_good": 94969,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄11호기",
+   "revenue": 1496649,
+   "qt_good": 68717,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-04-30",
+   "machine": "인쇄12호기",
+   "revenue": 1668128,
+   "qt_good": 125959,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄01호기",
+   "revenue": 2156465,
+   "qt_good": 117520,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄02호기",
+   "revenue": 701329,
+   "qt_good": 26934,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄06호기",
+   "revenue": 954638,
+   "qt_good": 106607,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄07호기",
+   "revenue": 1781944,
+   "qt_good": 140644,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄09호기",
+   "revenue": 68400,
+   "qt_good": 5020,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄10호기",
+   "revenue": 2122373,
+   "qt_good": 180062,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄11호기",
+   "revenue": 2131042,
+   "qt_good": 206597,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-04",
+   "machine": "인쇄12호기",
+   "revenue": 4010636,
+   "qt_good": 131074,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄01호기",
+   "revenue": 1740376,
+   "qt_good": 117741,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄02호기",
+   "revenue": 2062953,
+   "qt_good": 87884,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄06호기",
+   "revenue": 792568,
+   "qt_good": 92059,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄07호기",
+   "revenue": 1738123,
+   "qt_good": 209470,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄09호기",
+   "revenue": 1703403,
+   "qt_good": 207838,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄10호기",
+   "revenue": 1895348,
+   "qt_good": 175177,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄11호기",
+   "revenue": 2089608,
+   "qt_good": 203346,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-06",
+   "machine": "인쇄12호기",
+   "revenue": 3291577,
+   "qt_good": 66468,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄01호기",
+   "revenue": 1592039,
+   "qt_good": 196744,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄02호기",
+   "revenue": 1837544,
+   "qt_good": 76618,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄06호기",
+   "revenue": 892382,
+   "qt_good": 79796,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄07호기",
+   "revenue": 1861749,
+   "qt_good": 213221,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄09호기",
+   "revenue": 1934055,
+   "qt_good": 217146,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄10호기",
+   "revenue": 2029203,
+   "qt_good": 193452,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄11호기",
+   "revenue": 3663404,
+   "qt_good": 119341,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-07",
+   "machine": "인쇄12호기",
+   "revenue": 3406037,
+   "qt_good": 103941,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄01호기",
+   "revenue": 1580467,
+   "qt_good": 195324,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄02호기",
+   "revenue": 2404738,
+   "qt_good": 123943,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄06호기",
+   "revenue": 1597128,
+   "qt_good": 156246,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄07호기",
+   "revenue": 4051082,
+   "qt_good": 172900,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄09호기",
+   "revenue": 1647381,
+   "qt_good": 193831,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄10호기",
+   "revenue": 2101845,
+   "qt_good": 129792,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄11호기",
+   "revenue": 2102109,
+   "qt_good": 184756,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-08",
+   "machine": "인쇄12호기",
+   "revenue": 2171278,
+   "qt_good": 65403,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-09",
+   "machine": "인쇄07호기",
+   "revenue": 2230051,
+   "qt_good": 111119,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄01호기",
+   "revenue": 2076006,
+   "qt_good": 101054,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄02호기",
+   "revenue": 2061380,
+   "qt_good": 107189,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄06호기",
+   "revenue": 1349269,
+   "qt_good": 147195,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄07호기",
+   "revenue": 7221133,
+   "qt_good": 217595,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄09호기",
+   "revenue": 1768788,
+   "qt_good": 207586,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄10호기",
+   "revenue": 1779498,
+   "qt_good": 134128,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄11호기",
+   "revenue": 2235453,
+   "qt_good": 185631,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-11",
+   "machine": "인쇄12호기",
+   "revenue": 9441570,
+   "qt_good": 42899,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄01호기",
+   "revenue": 2171131,
+   "qt_good": 129863,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄02호기",
+   "revenue": 2104917,
+   "qt_good": 193830,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄06호기",
+   "revenue": 895310,
+   "qt_good": 93411,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄07호기",
+   "revenue": 1605844,
+   "qt_good": 189034,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄09호기",
+   "revenue": 1560212,
+   "qt_good": 185898,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄10호기",
+   "revenue": 1775244,
+   "qt_good": 223499,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄11호기",
+   "revenue": 2421572,
+   "qt_good": 174180,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-12",
+   "machine": "인쇄12호기",
+   "revenue": 7722446,
+   "qt_good": 91727,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄01호기",
+   "revenue": 1720368,
+   "qt_good": 181071,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄02호기",
+   "revenue": 1840190,
+   "qt_good": 187528,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄06호기",
+   "revenue": 976289,
+   "qt_good": 100267,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄07호기",
+   "revenue": 3565630,
+   "qt_good": 232014,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄09호기",
+   "revenue": 1531354,
+   "qt_good": 128675,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄10호기",
+   "revenue": 10410640,
+   "qt_good": 154565,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄11호기",
+   "revenue": 2842863,
+   "qt_good": 157304,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-13",
+   "machine": "인쇄12호기",
+   "revenue": 1657309,
+   "qt_good": 114576,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄01호기",
+   "revenue": 2260855,
+   "qt_good": 187131,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄02호기",
+   "revenue": 2181143,
+   "qt_good": 151433,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄06호기",
+   "revenue": 872031,
+   "qt_good": 94091,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄07호기",
+   "revenue": 2718602,
+   "qt_good": 170403,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄09호기",
+   "revenue": 1916016,
+   "qt_good": 228375,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄10호기",
+   "revenue": 5186092,
+   "qt_good": 208479,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄11호기",
+   "revenue": 2341646,
+   "qt_good": 180828,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-14",
+   "machine": "인쇄12호기",
+   "revenue": 1775932,
+   "qt_good": 69919,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄01호기",
+   "revenue": 2181344,
+   "qt_good": 169012,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄02호기",
+   "revenue": 2398606,
+   "qt_good": 146619,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄06호기",
+   "revenue": 1563928,
+   "qt_good": 139164,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄07호기",
+   "revenue": 3950000,
+   "qt_good": 66042,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄09호기",
+   "revenue": 1578920,
+   "qt_good": 177485,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄10호기",
+   "revenue": 7184236,
+   "qt_good": 233576,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄11호기",
+   "revenue": 1468699,
+   "qt_good": 71537,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-15",
+   "machine": "인쇄12호기",
+   "revenue": 2100860,
+   "qt_good": 155747,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄01호기",
+   "revenue": 2100783,
+   "qt_good": 156719,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄02호기",
+   "revenue": 1996192,
+   "qt_good": 220128,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄06호기",
+   "revenue": 996536,
+   "qt_good": 93101,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄09호기",
+   "revenue": 1791360,
+   "qt_good": 216194,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄10호기",
+   "revenue": 10557084,
+   "qt_good": 122150,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄11호기",
+   "revenue": 1657126,
+   "qt_good": 101755,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-18",
+   "machine": "인쇄12호기",
+   "revenue": 2558575,
+   "qt_good": 114772,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄01호기",
+   "revenue": 1559334,
+   "qt_good": 177573,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄02호기",
+   "revenue": 1256457,
+   "qt_good": 133236,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄06호기",
+   "revenue": 1854352,
+   "qt_good": 88994,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄09호기",
+   "revenue": 1736040,
+   "qt_good": 164491,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄10호기",
+   "revenue": 1931934,
+   "qt_good": 108918,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄11호기",
+   "revenue": 2344486,
+   "qt_good": 147329,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-19",
+   "machine": "인쇄12호기",
+   "revenue": 2089550,
+   "qt_good": 87854,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄01호기",
+   "revenue": 1543040,
+   "qt_good": 181775,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄02호기",
+   "revenue": 1342591,
+   "qt_good": 130698,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄06호기",
+   "revenue": 1622760,
+   "qt_good": 173984,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄09호기",
+   "revenue": 1243111,
+   "qt_good": 101441,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄10호기",
+   "revenue": 2886214,
+   "qt_good": 126128,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄11호기",
+   "revenue": 2753628,
+   "qt_good": 154178,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-20",
+   "machine": "인쇄12호기",
+   "revenue": 2662475,
+   "qt_good": 108145,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄01호기",
+   "revenue": 1531670,
+   "qt_good": 176925,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄02호기",
+   "revenue": 1849946,
+   "qt_good": 115797,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄06호기",
+   "revenue": 1638205,
+   "qt_good": 183209,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄07호기",
+   "revenue": 1772658,
+   "qt_good": 161601,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄09호기",
+   "revenue": 1291338,
+   "qt_good": 118813,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄10호기",
+   "revenue": 3085275,
+   "qt_good": 154365,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄11호기",
+   "revenue": 2667320,
+   "qt_good": 158032,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-21",
+   "machine": "인쇄12호기",
+   "revenue": 933297,
+   "qt_good": 90704,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄01호기",
+   "revenue": 1513120,
+   "qt_good": 187558,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄02호기",
+   "revenue": 3452797,
+   "qt_good": 93202,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄06호기",
+   "revenue": 1153168,
+   "qt_good": 66049,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄07호기",
+   "revenue": 1539462,
+   "qt_good": 187599,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄09호기",
+   "revenue": 1709157,
+   "qt_good": 212175,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄10호기",
+   "revenue": 2205110,
+   "qt_good": 93232,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄11호기",
+   "revenue": 2215647,
+   "qt_good": 194501,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-22",
+   "machine": "인쇄12호기",
+   "revenue": 1247724,
+   "qt_good": 53971,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄01호기",
+   "revenue": 1664544,
+   "qt_good": 183623,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄02호기",
+   "revenue": 981545,
+   "qt_good": 51132,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄06호기",
+   "revenue": 345211,
+   "qt_good": 39931,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄07호기",
+   "revenue": 1176575,
+   "qt_good": 129099,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄09호기",
+   "revenue": 1558920,
+   "qt_good": 187775,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄10호기",
+   "revenue": 869317,
+   "qt_good": 59839,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄11호기",
+   "revenue": 3117089,
+   "qt_good": 117704,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-26",
+   "machine": "인쇄12호기",
+   "revenue": 5086031,
+   "qt_good": 105495,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄01호기",
+   "revenue": 1556056,
+   "qt_good": 189234,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄02호기",
+   "revenue": 1262820,
+   "qt_good": 63570,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄06호기",
+   "revenue": 848811,
+   "qt_good": 83210,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄07호기",
+   "revenue": 1212622,
+   "qt_good": 95668,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄09호기",
+   "revenue": 1847520,
+   "qt_good": 213815,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄10호기",
+   "revenue": 1626720,
+   "qt_good": 58396,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄11호기",
+   "revenue": 2104631,
+   "qt_good": 160004,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-27",
+   "machine": "인쇄12호기",
+   "revenue": 4916804,
+   "qt_good": 119061,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄01호기",
+   "revenue": 2012688,
+   "qt_good": 109128,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄02호기",
+   "revenue": 883882,
+   "qt_good": 62402,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄06호기",
+   "revenue": 995120,
+   "qt_good": 75355,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄07호기",
+   "revenue": 4274253,
+   "qt_good": 123360,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄09호기",
+   "revenue": 1718560,
+   "qt_good": 150953,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄10호기",
+   "revenue": 1567214,
+   "qt_good": 55667,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄11호기",
+   "revenue": 3218538,
+   "qt_good": 142740,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-28",
+   "machine": "인쇄12호기",
+   "revenue": 2377948,
+   "qt_good": 106959,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄01호기",
+   "revenue": 6185957,
+   "qt_good": 112911,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄06호기",
+   "revenue": 1154225,
+   "qt_good": 66496,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄07호기",
+   "revenue": 4756772,
+   "qt_good": 107605,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄09호기",
+   "revenue": 1304265,
+   "qt_good": 92308,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄10호기",
+   "revenue": 2187835,
+   "qt_good": 44594,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄11호기",
+   "revenue": 2434002,
+   "qt_good": 154793,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-05-29",
+   "machine": "인쇄12호기",
+   "revenue": 1678698,
+   "qt_good": 74024,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄01호기",
+   "revenue": 4323889,
+   "qt_good": 130884,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄02호기",
+   "revenue": 761478,
+   "qt_good": 48304,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄06호기",
+   "revenue": 1560286,
+   "qt_good": 96632,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄07호기",
+   "revenue": 4797337,
+   "qt_good": 82872,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄09호기",
+   "revenue": 1979832,
+   "qt_good": 196397,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄10호기",
+   "revenue": 9742034,
+   "qt_good": 119295,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄11호기",
+   "revenue": 2473325,
+   "qt_good": 148096,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-01",
+   "machine": "인쇄12호기",
+   "revenue": 2712004,
+   "qt_good": 97588,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄01호기",
+   "revenue": 1789328,
+   "qt_good": 95917,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄02호기",
+   "revenue": 2035979,
+   "qt_good": 41760,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄06호기",
+   "revenue": 1402907,
+   "qt_good": 140345,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄07호기",
+   "revenue": 4540285,
+   "qt_good": 90450,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄09호기",
+   "revenue": 1800928,
+   "qt_good": 211232,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄10호기",
+   "revenue": 2656053,
+   "qt_good": 175421,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄11호기",
+   "revenue": 2971083,
+   "qt_good": 178372,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-02",
+   "machine": "인쇄12호기",
+   "revenue": 3577264,
+   "qt_good": 96366,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄01호기",
+   "revenue": 1622330,
+   "qt_good": 200430,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄02호기",
+   "revenue": 939629,
+   "qt_good": 57136,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄06호기",
+   "revenue": 1415600,
+   "qt_good": 149996,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄07호기",
+   "revenue": 6578417,
+   "qt_good": 161948,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄09호기",
+   "revenue": 1936660,
+   "qt_good": 191955,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄10호기",
+   "revenue": 3176238,
+   "qt_good": 192965,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄11호기",
+   "revenue": 3033265,
+   "qt_good": 106964,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-04",
+   "machine": "인쇄12호기",
+   "revenue": 1416702,
+   "qt_good": 94120,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄01호기",
+   "revenue": 1631270,
+   "qt_good": 201540,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄02호기",
+   "revenue": 918566,
+   "qt_good": 55431,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄06호기",
+   "revenue": 909682,
+   "qt_good": 109600,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄07호기",
+   "revenue": 5256937,
+   "qt_good": 114904,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄09호기",
+   "revenue": 2196062,
+   "qt_good": 189353,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄10호기",
+   "revenue": 3165453,
+   "qt_good": 94104,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄11호기",
+   "revenue": 1780495,
+   "qt_good": 107560,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-05",
+   "machine": "인쇄12호기",
+   "revenue": 5587704,
+   "qt_good": 89397,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄01호기",
+   "revenue": 1536590,
+   "qt_good": 166907,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄02호기",
+   "revenue": 950606,
+   "qt_good": 61101,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄06호기",
+   "revenue": 1002293,
+   "qt_good": 91232,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄07호기",
+   "revenue": 1813565,
+   "qt_good": 78157,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄09호기",
+   "revenue": 2069981,
+   "qt_good": 183527,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄10호기",
+   "revenue": 8029671,
+   "qt_good": 156366,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄11호기",
+   "revenue": 2085505,
+   "qt_good": 154450,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-08",
+   "machine": "인쇄12호기",
+   "revenue": 16912030,
+   "qt_good": 107409,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄01호기",
+   "revenue": 1639062,
+   "qt_good": 202558,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄02호기",
+   "revenue": 880500,
+   "qt_good": 45333,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄06호기",
+   "revenue": 1220375,
+   "qt_good": 86129,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄07호기",
+   "revenue": 3191343,
+   "qt_good": 64869,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄09호기",
+   "revenue": 1507304,
+   "qt_good": 68102,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄10호기",
+   "revenue": 2188262,
+   "qt_good": 110154,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄11호기",
+   "revenue": 1772338,
+   "qt_good": 133434,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-09",
+   "machine": "인쇄12호기",
+   "revenue": 4377044,
+   "qt_good": 83201,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄01호기",
+   "revenue": 1639814,
+   "qt_good": 202516,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄02호기",
+   "revenue": 1089164,
+   "qt_good": 41707,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄06호기",
+   "revenue": 1753402,
+   "qt_good": 71005,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄07호기",
+   "revenue": 4748199,
+   "qt_good": 135852,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄09호기",
+   "revenue": 698571,
+   "qt_good": 61744,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄10호기",
+   "revenue": 1977597,
+   "qt_good": 136992,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄11호기",
+   "revenue": 2554115,
+   "qt_good": 166579,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-10",
+   "machine": "인쇄12호기",
+   "revenue": 1604182,
+   "qt_good": 89225,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄01호기",
+   "revenue": 1633217,
+   "qt_good": 201538,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄02호기",
+   "revenue": 1491077,
+   "qt_good": 74371,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄06호기",
+   "revenue": 1568273,
+   "qt_good": 61729,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄07호기",
+   "revenue": 3014864,
+   "qt_good": 129142,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄09호기",
+   "revenue": 2722274,
+   "qt_good": 137092,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄10호기",
+   "revenue": 8568121,
+   "qt_good": 156066,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄11호기",
+   "revenue": 3367880,
+   "qt_good": 145568,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-11",
+   "machine": "인쇄12호기",
+   "revenue": 2325843,
+   "qt_good": 129499,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄01호기",
+   "revenue": 1575717,
+   "qt_good": 193698,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄02호기",
+   "revenue": 1185643,
+   "qt_good": 64712,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄06호기",
+   "revenue": 1407936,
+   "qt_good": 94810,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄07호기",
+   "revenue": 2016429,
+   "qt_good": 101074,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄09호기",
+   "revenue": 3381881,
+   "qt_good": 258859,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄10호기",
+   "revenue": 13076728,
+   "qt_good": 155970,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄11호기",
+   "revenue": 2567815,
+   "qt_good": 134210,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-12",
+   "machine": "인쇄12호기",
+   "revenue": 4583484,
+   "qt_good": 108297,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄01호기",
+   "revenue": 1835039,
+   "qt_good": 105467,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄02호기",
+   "revenue": 593314,
+   "qt_good": 74582,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄06호기",
+   "revenue": 1301559,
+   "qt_good": 159564,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄07호기",
+   "revenue": 1769379,
+   "qt_good": 200741,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄09호기",
+   "revenue": 824306,
+   "qt_good": 29710,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄10호기",
+   "revenue": 17119221,
+   "qt_good": 186589,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄11호기",
+   "revenue": 2793927,
+   "qt_good": 167954,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-15",
+   "machine": "인쇄12호기",
+   "revenue": 8331256,
+   "qt_good": 69915,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄01호기",
+   "revenue": 2615558,
+   "qt_good": 94299,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄02호기",
+   "revenue": 1423221,
+   "qt_good": 54679,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄06호기",
+   "revenue": 1193469,
+   "qt_good": 101192,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄07호기",
+   "revenue": 1554688,
+   "qt_good": 165946,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄09호기",
+   "revenue": 1077828,
+   "qt_good": 38855,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄10호기",
+   "revenue": 2290932,
+   "qt_good": 95913,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄11호기",
+   "revenue": 2151318,
+   "qt_good": 131737,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-16",
+   "machine": "인쇄12호기",
+   "revenue": 4038724,
+   "qt_good": 123925,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄01호기",
+   "revenue": 3342180,
+   "qt_good": 120496,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄02호기",
+   "revenue": 1268703,
+   "qt_good": 59608,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄06호기",
+   "revenue": 2006431,
+   "qt_good": 87540,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄07호기",
+   "revenue": 2783318,
+   "qt_good": 172938,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄09호기",
+   "revenue": 1250737,
+   "qt_good": 99276,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄10호기",
+   "revenue": 3553765,
+   "qt_good": 127998,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄11호기",
+   "revenue": 2288463,
+   "qt_good": 78221,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-17",
+   "machine": "인쇄12호기",
+   "revenue": 2507521,
+   "qt_good": 80420,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄01호기",
+   "revenue": 3223272,
+   "qt_good": 116209,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄02호기",
+   "revenue": 1245869,
+   "qt_good": 81662,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄06호기",
+   "revenue": 1663572,
+   "qt_good": 130165,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄07호기",
+   "revenue": 2168629,
+   "qt_good": 153222,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄09호기",
+   "revenue": 1296501,
+   "qt_good": 83904,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄10호기",
+   "revenue": 1984276,
+   "qt_good": 154661,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄11호기",
+   "revenue": 2373046,
+   "qt_good": 85671,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-18",
+   "machine": "인쇄12호기",
+   "revenue": 1775739,
+   "qt_good": 73364,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄01호기",
+   "revenue": 3098956,
+   "qt_good": 111727,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄02호기",
+   "revenue": 1221789,
+   "qt_good": 46047,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄06호기",
+   "revenue": 547542,
+   "qt_good": 48111,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄07호기",
+   "revenue": 1417053,
+   "qt_good": 162448,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄09호기",
+   "revenue": 1863704,
+   "qt_good": 149649,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄10호기",
+   "revenue": 2322143,
+   "qt_good": 165635,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄11호기",
+   "revenue": 2303435,
+   "qt_good": 83024,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-19",
+   "machine": "인쇄12호기",
+   "revenue": 2216247,
+   "qt_good": 66759,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄01호기",
+   "revenue": 2328273,
+   "qt_good": 105355,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄02호기",
+   "revenue": 1557994,
+   "qt_good": 64113,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄06호기",
+   "revenue": 1434928,
+   "qt_good": 55500,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄07호기",
+   "revenue": 1680824,
+   "qt_good": 197070,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄09호기",
+   "revenue": 1712160,
+   "qt_good": 177653,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄10호기",
+   "revenue": 2524901,
+   "qt_good": 119657,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄11호기",
+   "revenue": 2475082,
+   "qt_good": 136235,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-22",
+   "machine": "인쇄12호기",
+   "revenue": 2217737,
+   "qt_good": 85346,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄01호기",
+   "revenue": 1585415,
+   "qt_good": 196210,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄02호기",
+   "revenue": 1518723,
+   "qt_good": 63608,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄06호기",
+   "revenue": 1362030,
+   "qt_good": 90685,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄07호기",
+   "revenue": 958090,
+   "qt_good": 150564,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄09호기",
+   "revenue": 1165245,
+   "qt_good": 58681,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄10호기",
+   "revenue": 2450817,
+   "qt_good": 105926,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄11호기",
+   "revenue": 1428880,
+   "qt_good": 111698,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-23",
+   "machine": "인쇄12호기",
+   "revenue": 1864855,
+   "qt_good": 78112,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄01호기",
+   "revenue": 2150625,
+   "qt_good": 89395,
+   "flag": "확정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄02호기",
+   "revenue": 1187146,
+   "qt_good": 44362,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄06호기",
+   "revenue": 1230532,
+   "qt_good": 50254,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄07호기",
+   "revenue": 1155152,
+   "qt_good": 209473,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄09호기",
+   "revenue": 2653608,
+   "qt_good": 133634,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄10호기",
+   "revenue": 2307703,
+   "qt_good": 136336,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄11호기",
+   "revenue": 1988301,
+   "qt_good": 164584,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-24",
+   "machine": "인쇄12호기",
+   "revenue": 1819533,
+   "qt_good": 121260,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄01호기",
+   "revenue": 1299785,
+   "qt_good": 151002,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄02호기",
+   "revenue": 1055818,
+   "qt_good": 37048,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄06호기",
+   "revenue": 1720502,
+   "qt_good": 128648,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄07호기",
+   "revenue": 1153917,
+   "qt_good": 209249,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄09호기",
+   "revenue": 681308,
+   "qt_good": 77131,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄10호기",
+   "revenue": 1988917,
+   "qt_good": 172857,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄11호기",
+   "revenue": 2500928,
+   "qt_good": 179093,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-25",
+   "machine": "인쇄12호기",
+   "revenue": 2325329,
+   "qt_good": 99550,
+   "flag": "추정",
+   "cust_type": "비교원"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄01호기",
+   "revenue": 668147,
+   "qt_good": 82805,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄06호기",
+   "revenue": 468167,
+   "qt_good": 53288,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄07호기",
+   "revenue": 592771,
+   "qt_good": 73216,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄09호기",
+   "revenue": 689252,
+   "qt_good": 83664,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄10호기",
+   "revenue": 1038448,
+   "qt_good": 83121,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄11호기",
+   "revenue": 684593,
+   "qt_good": 52513,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  },
+  {
+   "date": "2026-06-26",
+   "machine": "인쇄12호기",
+   "revenue": 743248,
+   "qt_good": 35074,
+   "flag": "추정",
+   "cust_type": "교원비턴키"
+  }
+ ],
+ "monthly": {
+  "인쇄01호기": {
+   "1": 14773623,
+   "2": 12012006,
+   "3": 36977903,
+   "4": 34090639,
+   "5": 37146243,
+   "6": 39538467
+  },
+  "인쇄02호기": {
+   "1": 50682368,
+   "2": 35933136,
+   "3": 45498337,
+   "4": 39689857,
+   "5": 30619030,
+   "6": 21325219
+  },
+  "인쇄06호기": {
+   "1": 46088942,
+   "2": 27836950,
+   "3": 36581224,
+   "4": 25850353,
+   "5": 20501931,
+   "6": 25169486
+  },
+  "인쇄07호기": {
+   "1": 77928988,
+   "2": 51936683,
+   "3": 59808361,
+   "4": 50648458,
+   "5": 45456500,
+   "6": 51191197
+  },
+  "인쇄09호기": {
+   "1": 36500087,
+   "2": 15866499,
+   "3": 33427700,
+   "4": 30065020,
+   "5": 27908800,
+   "6": 31508142
+  },
+  "인쇄10호기": {
+   "1": 95931848,
+   "2": 60748350,
+   "3": 83238191,
+   "4": 84097451,
+   "5": 61401182,
+   "6": 90161280
+  },
+  "인쇄11호기": {
+   "1": 53456060,
+   "2": 48932575,
+   "3": 51368934,
+   "4": 46894182,
+   "5": 43808863,
+   "6": 43593794
+  },
+  "인쇄12호기": {
+   "1": 153759363,
+   "2": 133373296,
+   "3": 77982474,
+   "4": 47857531,
+   "5": 59128747,
+   "6": 70936446
+  },
+  "합계": {
+   "1": 529121279,
+   "2": 386639495,
+   "3": 424883124,
+   "4": 359193491,
+   "5": 325971296,
+   "6": 373424031
+  }
+ },
+ "machine_total": {
+  "인쇄01호기": 174538881,
+  "인쇄02호기": 223747947,
+  "인쇄06호기": 182028886,
+  "인쇄07호기": 336970187,
+  "인쇄09호기": 175276248,
+  "인쇄10호기": 475578302,
+  "인쇄11호기": 288054408,
+  "인쇄12호기": 543037857
+ }
+}
