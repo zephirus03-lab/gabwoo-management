@@ -133,7 +133,6 @@ tfoot td{font-weight:700;color:var(--ink);border-top:2px solid var(--gray200)}
     <select id="monthSel" onchange="UI.selectMonth(this.value)"></select>
     <span class="muted" id="hdrTag">—</span>
     <a class="btn" href="index.html">← 메인</a>
-    <button onclick="Auth.handleLogout()">로그아웃</button>
   </div>
 </header>
 
@@ -533,11 +532,9 @@ var UI=(function(){
   return {tab:tab, selectMonth:selectMonth};
 })();
 
-// ═══ 세션 복원 부트스트랩 (로그인 세션 있으면 바로 진입) ═══
-(async function(){var s=await sb.auth.getSession();
-  if(s.data&&s.data.session){var em=s.data.session.user.email;
-    var a=await sb.from('approved_users').select('email').eq('email',em).maybeSingle();
-    if(!a.error&&a.data){App.enter();return}}})();
+// ═══ 공개 페이지: 로그인 없이 누구나 열람 (링크 공유용) ═══
+// 인증 게이트를 제거하고 메인 앱으로 바로 진입한다.
+(function(){App.enter();})();
 </script>
 </body>
 </html>
